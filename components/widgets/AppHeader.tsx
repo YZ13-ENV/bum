@@ -1,3 +1,4 @@
+'use client'
 import { Button, Input } from 'antd'
 import Image from 'next/image'
 import React from 'react'

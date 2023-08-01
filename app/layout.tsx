@@ -3,6 +3,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import AuthWatcher from '@/components/entities/authWatcher/watcher'
 import { Metadata } from 'next'
+import AppHeader from '@/components/widgets/AppHeader'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,8 +21,9 @@ export default function RootLayout({
   return (
     <LayoutWrapper>
       <html lang="en" className={inter.className}>
-        <body className='body_wrapper'>
+        <body className='flex flex-col body_wrapper'>
           <AuthWatcher />
+          <AppHeader />
           {children}
         </body>
       </html>
