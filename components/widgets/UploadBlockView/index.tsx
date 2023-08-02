@@ -1,10 +1,14 @@
 'use client'
+import { setTitle } from '@/components/entities/shotUploader/store';
+import { useAppDispatch, useAppSelector } from '@/components/entities/store/store';
 import { UploadProps, message, Input } from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
 import React from 'react'
 import { BiArchive } from 'react-icons/bi';
 
 const UploadBlockView = () => {
+    const title = useAppSelector(state => state.uploader.title)
+    const dispatch = useAppDispatch()
     const props: UploadProps = {
         name: 'file',
         multiple: true,
@@ -26,7 +30,8 @@ const UploadBlockView = () => {
     };
     return (
         <div className="flex flex-col w-full h-full max-w-6xl gap-4 mx-auto shrink-0">
-            <Input size='large' placeholder='Введите название для вашей работы' bordered={false} />
+            <Input size='large' value={title} onChange={e => dispatch(setTitle(e.target.value))}
+            placeholder='Введите название для вашей работы' bordered={false} />
             <Dragger className='!h-96' {...props}>
                 <div className="flex flex-col items-center justify-center w-full max-w-sm gap-6 mx-auto h-fit">
                     <div className="w-fit h-fit">

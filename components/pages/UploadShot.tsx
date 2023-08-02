@@ -1,11 +1,14 @@
-import { Button } from 'antd'
 import React from 'react'
 import PrevWorks from '../widgets/PrevWork'
 import UploadBlockView from '../widgets/UploadBlockView'
 import UploadBlocksMenu from '../widgets/UploadBlocksMenu'
 import UploadHeader from '../entities/uploadHeader'
+import { ShotData } from '@/types'
 
-const UploadShot = () => {
+type Props = {
+    prevShots: ShotData[]
+}
+const UploadShot = ({ prevShots }: Props) => {
     return (
         // 3 секции 
         /* 
@@ -16,7 +19,7 @@ const UploadShot = () => {
         <section className='flex flex-col w-full h-full'>
             <UploadHeader />
             <div className="flex w-full h-full">
-                <PrevWorks />
+                <PrevWorks prevShots={prevShots} />
                 <UploadBlockView />
                 <UploadBlocksMenu />
             </div>

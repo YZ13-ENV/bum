@@ -26,6 +26,12 @@ export type CommentBlock = {
     answers: CommentBlockNoAnswers[]
 }
 
+export type ShotForUpload = {
+    title: string
+    rootBlock: ImageBlock
+    blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
+}
+
 export type ShotData = {
     isDraft: boolean
     title: string
