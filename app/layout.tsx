@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Design',
-  description: 'App for designers and developers for inspireration',
+  description: 'App for designers and developers for inspiration',
   icons: ['icon?<generated>']
 };
 
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <LayoutWrapper>
       <html lang="en" className={inter.className}>
-        <body className='flex flex-col body_wrapper'>
+        <body className='flex flex-col overflow-x-hidden body_wrapper'>
           <AuthWatcher />
           <AppHeader />
           {children}

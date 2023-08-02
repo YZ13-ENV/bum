@@ -1,24 +1,32 @@
-'use client'
+import ShotPageLoader from '@/components/pages/ShotPageLoader'
+import ShotList from '@/components/widgets/ShotList'
+import { ShotData } from '@/types'
 import React from 'react'
-import ImageLoader from '@/components/shared/ImageLoader'
-import TextLoader from '@/components/shared/TextLoader'
 type Props = {
     params: {
         shotId: string
     }
 }
-const ShotPage = ({ params }: Props) => {
+const getShots = async() => {
+    try {
+        const res = await fetch(`/api/shots/shotsList?userId=GeCmAPxiDMaCeJt1EWOclUfULR83`)
+        const list: ShotData[] = await res.json()
+        return list
+    } catch(e) {
+        console.log(e)
+        return []
+    }
+}
+const ShotPage = async({ params }: Props) => {
+    const shots = await getShots()
     return (
-        <div className='flex w-full h-full p-4 overflow-hidden'>
-            <div className="w-full h-full"></div>
-            <div className="flex flex-col w-full h-full max-w-6xl gap-4 shrink-0">
-                <TextLoader width='50%' />
-                <ImageLoader />
-                <TextLoader width='75%' delay={500} />
-                <TextLoader width='60%' delay={750} />
-                <ImageLoader delay={900} />
+        <div className='relative w-full h-full'>
+            <ShotPageLoader />
+            <div className="flex flex-col w-full h-full max-w-6xl gap-4 mx-auto shrink-0">
+                <ShotList />
+                {params.shotId}
+                {JSON.stringify(shots, null, 2)}
             </div>
-            <div className="w-full h-full"></div>
         </div>
     )
 }
