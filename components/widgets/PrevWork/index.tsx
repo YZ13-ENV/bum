@@ -15,13 +15,20 @@ const PrevWorks = ({ prevShots }: Props) => {
             <hr className='border-neutral-700' />
             <div className="flex flex-col w-full h-full gap-2">
                 <span className='font-semibold text-neutral-200'>Ваши работы</span>
-                <div className="flex flex-col w-full h-full gap-4 overflow-y-auto">
-                    {
-                        prevShots.map((shot, index) => 
+                {
+                    prevShots.length === 0
+                    ? <div className='flex flex-col items-center justify-center w-full h-full'>
+                        <span className='text-xs text-center text-neutral-400'>Нет последних работ</span>
+                    </div>
+                    :
+                    <div className="flex flex-col w-full h-full gap-4 overflow-y-auto">
+                        {
+                            prevShots.map((shot, index) => 
                             <PrevShotCard key={index} />
-                        )
-                    }
-                </div>
+                            )
+                        }
+                    </div>
+                }
             </div>
         </div>
     )
