@@ -22,7 +22,7 @@ const ShotPage = async({ params }: Props) => {
     return (
         <div className='relative w-full h-full'>
             <ShotPageLoader />
-            <div className="flex flex-col w-full h-full max-w-6xl gap-4 mx-auto shrink-0">
+            <div className="flex flex-col w-full h-full max-w-4xl gap-4 mx-auto shrink-0">
                 <ShotList />
                 {params.shotId}
                 {JSON.stringify(shots, null, 2)}
