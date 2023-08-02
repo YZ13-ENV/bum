@@ -4,11 +4,11 @@ from fastapi import APIRouter
 
 
 router = APIRouter(
-    prefix='/shots',
+    prefix='/api/shots',
     tags=['Работы'],
 )
 
-@router.get('/api/user/shots')
+@router.get('/shotsList')
 async def getUserShots(userId: str):
     shotsRef = db.collection('users').document(userId).collection('shots')
     shots = await shotsRef.get()

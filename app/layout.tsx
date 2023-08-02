@@ -1,7 +1,6 @@
 import LayoutWrapper from '@/components/LayoutWrapper'
 import './globals.css'
 import { Inter } from 'next/font/google'
-import AuthWatcher from '@/components/entities/authWatcher/watcher'
 import { Metadata } from 'next'
 import AppHeader from '@/components/widgets/AppHeader'
 
@@ -9,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Design',
-  description: 'App for designers and developers for inspireration',
+  description: 'App for designers and developers for inspiration',
   icons: ['icon?<generated>']
 };
 
@@ -21,10 +20,11 @@ export default function RootLayout({
   return (
     <LayoutWrapper>
       <html lang="en" className={inter.className}>
-        <body className='flex flex-col body_wrapper'>
-          <AuthWatcher />
+        <body className='flex flex-col overflow-x-hidden body_wrapper'>
           <AppHeader />
-          {children}
+          <div className="flex flex-col w-full shrink-0 content_wrapper">
+            {children}
+          </div>
         </body>
       </html>
     </LayoutWrapper>

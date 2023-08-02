@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import AuthWatcherReducer from '../authWatcher/store'
+import ShotUploaderReducer from '@/components/entities/shotUploader/store'
 export const store = configureStore({
     reducer: {
-        user: AuthWatcherReducer
+        uploader: ShotUploaderReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

@@ -28,4 +28,12 @@ body {
 .body_wrapper {
   width: 100dvw;
   height: 100dvh;
+  max-width: 100dvw;
+  max-height: 100dvh;
+}
+.content_wrapper {
+  height: calc(100% - 64px);
+}
+.root_grid_wrapper {
+  height: calc(100% - 56px);
 }

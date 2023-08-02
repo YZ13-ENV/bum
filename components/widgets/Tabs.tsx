@@ -1,5 +1,4 @@
 import React from 'react'
-import { BiX } from 'react-icons/bi'
 const Tabs = () => {
     return (
         <div className='flex items-center justify-start w-full gap-2 p-3 h-14'>
