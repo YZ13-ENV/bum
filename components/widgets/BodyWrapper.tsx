@@ -1,12 +1,10 @@
 import React from 'react'
-import { useAppSelector } from '../entities/store/store'
 import dynamic from 'next/dynamic'
 const ShotCard = dynamic(() => import('../entities/shot'), {
     loading: () => <div className='w-full h-full rounded-xl bg-neutral-900 animate-pulse' />
 })
 
 const BodyWrapper = () => {
-    const userObserver = useAppSelector(state => state.user)
     return (
         <div 
         className="flex flex-col w-full h-full gap-6 px-4 pb-4 root_grid_wrapper shrink-0">

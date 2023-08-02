@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: [
+      'darkmaterial.space'
+    ]
+  },
   rewrites: async () => {
     return [
       {

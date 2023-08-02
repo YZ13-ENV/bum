@@ -1,9 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import AuthWatcherReducer from '../authWatcher/store'
 export const store = configureStore({
     reducer: {
-        user: AuthWatcherReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

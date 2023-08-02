@@ -1,7 +1,6 @@
 import LayoutWrapper from '@/components/LayoutWrapper'
 import './globals.css'
 import { Inter } from 'next/font/google'
-import AuthWatcher from '@/components/entities/authWatcher/watcher'
 import { Metadata } from 'next'
 import AppHeader from '@/components/widgets/AppHeader'
 
@@ -22,7 +21,6 @@ export default function RootLayout({
     <LayoutWrapper>
       <html lang="en" className={inter.className}>
         <body className='flex flex-col overflow-x-hidden body_wrapper'>
-          <AuthWatcher />
           <AppHeader />
           {children}
         </body>

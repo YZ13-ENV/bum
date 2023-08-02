@@ -27,6 +27,7 @@ export type CommentBlock = {
 }
 
 export type ShotData = {
+    isDraft: boolean
     title: string
     rootBlock: ImageBlock
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
