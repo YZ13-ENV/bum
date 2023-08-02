@@ -29,7 +29,7 @@ const UploadBlockView = () => {
         },
     };
     return (
-        <div className="flex flex-col w-full h-full max-w-6xl gap-4 mx-auto shrink-0">
+        <div className="flex flex-col w-full h-full max-w-4xl gap-4 mx-auto shrink-0">
             <Input size='large' value={title} onChange={e => dispatch(setTitle(e.target.value))}
             placeholder='Введите название для вашей работы' bordered={false} />
             <Dragger className='!h-96' {...props}>
