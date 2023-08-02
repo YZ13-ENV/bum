@@ -22,7 +22,9 @@ export default function RootLayout({
       <html lang="en" className={inter.className}>
         <body className='flex flex-col overflow-x-hidden body_wrapper'>
           <AppHeader />
-          {children}
+          <div className="flex flex-col w-full shrink-0 content_wrapper">
+            {children}
+          </div>
         </body>
       </html>
     </LayoutWrapper>

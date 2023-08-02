@@ -31,7 +31,9 @@ body {
   max-width: 100dvw;
   max-height: 100dvh;
 }
-
+.content_wrapper {
+  height: calc(100% - 64px);
+}
 .root_grid_wrapper {
   height: calc(100% - 56px);
 }
