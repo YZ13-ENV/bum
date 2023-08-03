@@ -1,32 +1,53 @@
 import { ShotForUpload } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 
-
-type InitState = ShotForUpload
+type InitState = {
+    draftId: string | null
+    shot: ShotForUpload
+    prevWorkSidebar: boolean
+    blocksSidebar: boolean
+}
 
 const initialState: InitState = {
-    blocks: [],
-    rootBlock: {
-        type: 'image',
-        link: ''
+    draftId: null,
+    shot: {
+        blocks: [],
+        rootBlock: {
+            type: 'image',
+            link: ''
+        },
+        title: ''
     },
-    title: ''
+    blocksSidebar: false,
+    prevWorkSidebar: false
 }
 
 const ShotUploaderSlice = createSlice({
     name: 'shot-uploader',
     initialState,
     reducers: {
-        setBlocks(state, { payload, type }: { payload: InitState['blocks'], type: string }) {
-            state.blocks = payload
+        setDraftId(state, { payload, type }: { payload: InitState['draftId'], type: string }) {
+            state.draftId = payload
         },
-        setRootBlock(state, { payload, type }: { payload: InitState['rootBlock'], type: string }) {
-            state.rootBlock = payload
+        setShot(state, { payload, type }: { payload: InitState['shot'], type: string }) {
+            state.shot = payload
         },
-        setTitle(state, { payload, type }: { payload: InitState['title'], type: string }) {
-            state.title = payload
+        setBlocks(state, { payload, type }: { payload: ShotForUpload['blocks'], type: string }) {
+            state.shot.blocks = payload
+        },
+        setRootBlock(state, { payload, type }: { payload: ShotForUpload['rootBlock'], type: string }) {
+            state.shot.rootBlock = payload
+        },
+        setTitle(state, { payload, type }: { payload: ShotForUpload['title'], type: string }) {
+            state.shot.title = payload
+        },
+        setBlockSidebar(state, { payload, type }: { payload: InitState['blocksSidebar'], type: string }) {
+            state.blocksSidebar = payload
+        },
+        setPrevWorkSidebar(state, { payload, type }: { payload: InitState['prevWorkSidebar'], type: string }) {
+            state.prevWorkSidebar = payload
         },
     }
 })
-export const { setBlocks, setRootBlock, setTitle } = ShotUploaderSlice.actions
+export const { setDraftId, setBlocks, setRootBlock, setShot, setTitle, setBlockSidebar, setPrevWorkSidebar } = ShotUploaderSlice.actions
 export default ShotUploaderSlice.reducer

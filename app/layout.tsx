@@ -7,7 +7,7 @@ import AppHeader from '@/components/widgets/AppHeader'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Design',
+  title: 'Dey',
   description: 'App for designers and developers for inspiration',
   icons: ['icon?<generated>']
 };

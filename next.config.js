@@ -2,7 +2,8 @@
 const nextConfig = {
   images: {
     domains: [
-      'darkmaterial.space'
+      'darkmaterial.space',
+      'firebasestorage.googleapis.com'
     ]
   },
   rewrites: async () => {

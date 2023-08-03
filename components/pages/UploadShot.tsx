@@ -3,10 +3,10 @@ import PrevWorks from '../widgets/PrevWork'
 import UploadBlockView from '../widgets/UploadBlockView'
 import UploadBlocksMenu from '../widgets/UploadBlocksMenu'
 import UploadHeader from '../entities/uploadHeader'
-import { ShotData } from '@/types'
+import { DocShotData } from '@/types'
 
 type Props = {
-    prevShots: ShotData[]
+    prevShots: DocShotData[]
 }
 const UploadShot = ({ prevShots }: Props) => {
     return (
@@ -16,7 +16,7 @@ const UploadShot = ({ prevShots }: Props) => {
             [x] - 2 - Отображение добавленных блоков
             [x] - 3 - Меню с блоками для добавление 
         */
-        <section className='flex flex-col w-full h-full'>
+        <section className='flex flex-col w-full h-full overflow-y-hidden shrink-0'>
             <UploadHeader />
             <div className="flex w-full h-full">
                 <PrevWorks prevShots={prevShots} />
