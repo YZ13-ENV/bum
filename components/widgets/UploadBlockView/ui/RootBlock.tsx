@@ -4,29 +4,41 @@ import { randomString } from '@/helpers/randomString'
 import { auth, storage } from '@/utils/app'
 import { Button, Upload, UploadProps, message } from 'antd'
 import { ref, uploadBytes, deleteObject } from 'firebase/storage'
-import Image from 'next/image'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiArchive, BiTrashAlt } from 'react-icons/bi'
 import BlockImage from './BlockImage'
+import { checkFile } from '@/helpers/checkFile'
 
 const { Dragger } = Upload
 const RootBlock = () => {
     const [user] = useAuthState(auth)
     const dispatch = useAppDispatch()
+    const uploader = useAppSelector(state => state.uploader)
     const rootBlock = useAppSelector(state => state.uploader.shot.rootBlock)
     const props: UploadProps = {
         name: 'file',
         multiple: false,
         action: async(file) => {
             if (user) {
-                const generatedDraftId = randomString(20)
-                const refTo = ref(storage, `/users/${user.uid}/${generatedDraftId}/${file.name}`)
-                const arrBuffer = await file.arrayBuffer()
-                const uploaded =  await uploadBytes(refTo, arrBuffer)
-                dispatch(setDraftId(generatedDraftId))
-                dispatch(setRootBlock({ type: 'image', link: uploaded.ref.fullPath }))
-                return uploaded.ref.fullPath
+                const generatedId = randomString(20)
+                const checkedFile = checkFile(user.uid, generatedId, file)
+                if (checkedFile && !uploader.draftId) {
+                    const refTo = ref(storage, checkedFile)
+                    const arrBuffer = await file.arrayBuffer()
+                    const uploaded =  await uploadBytes(refTo, arrBuffer)
+                    dispatch(setDraftId(generatedId))
+                    dispatch(setRootBlock({ type: 'image', link: uploaded.ref.fullPath }))
+                    return refTo.fullPath
+                } 
+                if (checkedFile && uploader.draftId) {
+                    const refTo = ref(storage, checkedFile)
+                    const arrBuffer = await file.arrayBuffer()
+                    const uploaded =  await uploadBytes(refTo, arrBuffer)
+                    dispatch(setRootBlock({ type: 'image', link: uploaded.ref.fullPath }))
+                    return refTo.fullPath
+                } 
+                return ''
             } else return ''
         },
         onChange(info) {
@@ -46,9 +58,9 @@ const RootBlock = () => {
     };
     const deleteImageFromRootBlock = async() => {
         if (user && rootBlock.link !== '') {
+            dispatch(setRootBlock({ type: 'image', link: '' }))
             const imageRef = ref(storage, rootBlock.link)
             await deleteObject(imageRef)
-            dispatch(setRootBlock({ type: 'image', link: '' }))
         }
     }
     if (rootBlock.link !== '') {
