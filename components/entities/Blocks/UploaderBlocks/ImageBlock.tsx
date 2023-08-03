@@ -6,10 +6,10 @@ import { auth, storage } from '@/utils/app'
 import { Button, UploadProps, message } from 'antd'
 import { deleteObject, ref, uploadBytes } from 'firebase/storage'
 import { setBlocks } from '../../shotUploader/store'
-import { v4 } from 'uuid'
 import { BiArchive, BiTrashAlt } from 'react-icons/bi'
 import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
 import Dragger from 'antd/es/upload/Dragger'
+import { checkFile } from '@/helpers/checkFile'
 type Props = {
     block: ImageBlock
     index: number
@@ -23,21 +23,25 @@ const ImageBlock = ({ block, index }: Props) => {
         name: 'file',
         multiple: false,
         action: async(file) => {
-            if (user) {
-                const refTo = ref(storage, `/users/${user.uid}/${uploader.draftId}/${file.name}`)
-                const arrBuffer = await file.arrayBuffer()
-                const uploaded =  await uploadBytes(refTo, arrBuffer)
-                const updatedBlocks = blocks.map((_, blockIndex) => {
-                    if (blockIndex === index) {
-                        const updatedBlock: ImageBlock = {
-                            link: uploaded.ref.fullPath,
-                            type: 'image'
-                        }
-                        return updatedBlock
-                    } else return _
-                })
-                dispatch(setBlocks(updatedBlocks))
-                return uploaded.ref.fullPath
+            if (user && uploader.draftId) {
+                const checkedFile = checkFile(user.uid, uploader.draftId, file)
+                if (checkedFile) {
+                    const refTo = ref(storage, checkedFile)
+                    const arrBuffer = await file.arrayBuffer()
+                    const uploaded =  await uploadBytes(refTo, arrBuffer)
+                    const updatedBlocks = blocks.map((_, blockIndex) => {
+                        if (blockIndex === index) {
+                            const updatedBlock: ImageBlock = {
+                                link: uploaded.ref.fullPath,
+                                type: 'image'
+                            }
+                            return updatedBlock
+                        } else return _
+                    })
+                    dispatch(setBlocks(updatedBlocks))
+                    return uploaded.ref.fullPath
+                }
+                return ''
             } else return ''
         },
         onChange(info) {

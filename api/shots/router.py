@@ -35,7 +35,7 @@ async def isShotExist(userId: str, shotId: str):
 async def uploadShotById(userId: str, shotId: str, shot: ShotDataForUpload, asDraft: bool=False):
     print(shot)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
-    shotSnap = await shotRef.get() 
+    shotSnap = await shotRef.get()
     dictShot = shot.dict()
     filledShot = {
         'isDraft': asDraft,
@@ -52,6 +52,8 @@ async def uploadShotById(userId: str, shotId: str, shot: ShotDataForUpload, asDr
         await shotRef.set(filledShot)
         return True
     else:
+        snapDict = shotSnap.to_dict()
+        filledShot['createdAt'] = snapDict['createdAt']
         await shotRef.update(filledShot)
         return True
 
