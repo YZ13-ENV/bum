@@ -37,6 +37,9 @@ body {
 .content_wrapper {
   height: calc(100% - 64px);
 }
+.uploader_view_wrapper {
+  height: calc(100% - 37px);
+}
 .root_grid_wrapper {
   height: calc(100% - 56px);
 }

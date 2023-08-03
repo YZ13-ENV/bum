@@ -1,31 +1,42 @@
-import { setDraftId, setRootBlock } from '@/components/entities/shotUploader/store'
-import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
-import { randomString } from '@/helpers/randomString'
-import { auth, storage } from '@/utils/app'
-import { Button, Upload, UploadProps, message } from 'antd'
-import { ref, uploadBytes, deleteObject } from 'firebase/storage'
-import Image from 'next/image'
+import { ImageBlock } from '@/types'
 import React from 'react'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth, storage } from '@/utils/app'
+import { Button, UploadProps, message } from 'antd'
+import { deleteObject, ref, uploadBytes } from 'firebase/storage'
+import { setBlocks } from '../../shotUploader/store'
+import { v4 } from 'uuid'
 import { BiArchive, BiTrashAlt } from 'react-icons/bi'
-import BlockImage from './BlockImage'
-
-const { Dragger } = Upload
-const RootBlock = () => {
+import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
+import Dragger from 'antd/es/upload/Dragger'
+type Props = {
+    block: ImageBlock
+    index: number
+}
+const ImageBlock = ({ block, index }: Props) => {
     const [user] = useAuthState(auth)
     const dispatch = useAppDispatch()
-    const rootBlock = useAppSelector(state => state.uploader.shot.rootBlock)
+    const uploader = useAppSelector(state => state.uploader)
+    const blocks = useAppSelector(state => state.uploader.shot.blocks)
     const props: UploadProps = {
         name: 'file',
         multiple: false,
         action: async(file) => {
             if (user) {
-                const generatedDraftId = randomString(20)
-                const refTo = ref(storage, `/users/${user.uid}/${generatedDraftId}/${file.name}`)
+                const refTo = ref(storage, `/users/${user.uid}/${uploader.draftId}/${file.name}`)
                 const arrBuffer = await file.arrayBuffer()
                 const uploaded =  await uploadBytes(refTo, arrBuffer)
-                dispatch(setDraftId(generatedDraftId))
-                dispatch(setRootBlock({ type: 'image', link: uploaded.ref.fullPath }))
+                const updatedBlocks = blocks.map((_, blockIndex) => {
+                    if (blockIndex === index) {
+                        const updatedBlock: ImageBlock = {
+                            link: uploaded.ref.fullPath,
+                            type: 'image'
+                        }
+                        return updatedBlock
+                    } else return _
+                })
+                dispatch(setBlocks(updatedBlocks))
                 return uploaded.ref.fullPath
             } else return ''
         },
@@ -45,19 +56,28 @@ const RootBlock = () => {
         },
     };
     const deleteImageFromRootBlock = async() => {
-        if (user && rootBlock.link !== '') {
-            const imageRef = ref(storage, rootBlock.link)
+        if (user && block.link !== '') {
+            const imageRef = ref(storage, block.link)
             await deleteObject(imageRef)
-            dispatch(setRootBlock({ type: 'image', link: '' }))
+            const updatedBlocks = blocks.map((_, blockIndex) => {
+                if (blockIndex === index) {
+                    const updatedBlock: ImageBlock = {
+                        link: '',
+                        type: 'image'
+                    }
+                    return updatedBlock
+                } else return _
+            })
+            dispatch(setBlocks(updatedBlocks))
         }
     }
-    if (rootBlock.link !== '') {
+    if (block.link !== '') {
         return (
             <div className="relative w-full h-[32rem] !shrink-0">
                 <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                     <Button className='!px-2' onClick={deleteImageFromRootBlock}><BiTrashAlt size={17} /></Button>
                 </div>
-                <BlockImage imageLink={rootBlock.link} />
+                <BlockImage imageLink={block.link} />
             </div>
         )
     }
@@ -65,7 +85,7 @@ const RootBlock = () => {
         <Dragger className='!h-[32rem] !shrink-0' {...props}>
             <div className="flex flex-col items-center justify-center w-full max-w-sm gap-6 mx-auto h-fit">
                 <div className="w-fit h-fit">
-                    <BiArchive size={48} />
+                    <BiArchive size={48} className='text-neutral-400' />
                 </div>
                 <div className="flex flex-col w-full gap-2 h-fit">
                     <p className="text-sm text-center text-neutral-300">Нажмите, или перетащите файл для внесение в работу</p>
@@ -87,4 +107,4 @@ const RootBlock = () => {
     )
 }
 
-export default RootBlock
+export default ImageBlock

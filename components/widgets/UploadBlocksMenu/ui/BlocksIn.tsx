@@ -19,6 +19,13 @@ const BlocksIn = () => {
             }
             dispatch(setBlocks([...blocks, templateTextBlock]))
         }
+        if (type === 'image') {
+            const templateImageBlock: ImageBlock = {
+                type: 'image',
+                link: ''
+            }
+            dispatch(setBlocks([...blocks, templateImageBlock]))
+        }
     }
     return (
         <div className='grid w-full h-full grid-cols-2 grid-rows-5 gap-4'>
@@ -27,7 +34,8 @@ const BlocksIn = () => {
                 <BiText size={27} />
                 <span className='text-xs'>Текст</span>
             </div>
-            <div className="flex flex-col items-center justify-center w-full h-full gap-2 border rounded-xl border-neutral-700 bg-neutral-900">
+            <div onClick={() => addBlock('image')} 
+            className="flex flex-col items-center justify-center w-full h-full gap-2 border rounded-xl border-neutral-700 bg-neutral-900 hover:bg-neutral-800">
                 <BiImage size={27} />
                 <span className='text-xs'>Картинка</span>
             </div>

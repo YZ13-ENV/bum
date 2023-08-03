@@ -2,9 +2,9 @@ import { TextBlock } from '@/types'
 import { Button, Input, Space } from 'antd'
 import React, { useEffect } from 'react'
 import { BiAlignLeft, BiAlignMiddle, BiAlignRight, BiBold, BiItalic } from 'react-icons/bi'
-import { useAppDispatch, useAppSelector } from '../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { MdTextDecrease, MdTextIncrease } from 'react-icons/md'
-import { setBlocks } from '../shotUploader/store'
+import { setBlocks } from '../../shotUploader/store'
 type Props = {
     block: TextBlock
     index: number

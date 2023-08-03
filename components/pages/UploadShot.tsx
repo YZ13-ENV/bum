@@ -16,7 +16,7 @@ const UploadShot = ({ prevShots }: Props) => {
             [x] - 2 - Отображение добавленных блоков
             [x] - 3 - Меню с блоками для добавление 
         */
-        <section className='flex flex-col w-full h-full'>
+        <section className='flex flex-col w-full h-full overflow-y-hidden shrink-0'>
             <UploadHeader />
             <div className="flex w-full h-full">
                 <PrevWorks prevShots={prevShots} />
