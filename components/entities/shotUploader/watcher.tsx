@@ -11,9 +11,8 @@ const UploaderWatcher = () => {
     const uploader = useAppSelector(state => state.uploader)
     const [debouncedShot, setDebouncedShot] = React.useState<ShotData | null>(null)
     const uploadShot = async(userId: string, shotId: string, shot: ShotForUpload) => {
-        const uploadedData = await uploadShot_POST(userId, shotId, shot)
-        console.log(uploadedData);
-        
+        await uploadShot_POST(userId, shotId, shot)
+        // console.log(uploadedData);
     }
     useDebounceEffect(() => {
         if (uploader.draftId && user) {

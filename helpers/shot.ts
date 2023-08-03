@@ -20,7 +20,7 @@ export const uploadShot_POST = async(userId: string, shotId: string, shot: ShotF
 
 const uploadShotWithCheck = async(userId: string, shotId: string, shot: ShotForUpload) => {
     const isExist = await isShotExist(userId, shotId)
-    console.log(isExist);
+    // console.log(isExist);
     if (!isExist) {
         const uploadedShot = await uploadShot_POST(userId, shotId, shot)
         console.log(uploadedShot)
