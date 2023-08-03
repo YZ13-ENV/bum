@@ -43,3 +43,5 @@ export type ShotData = {
     views: string[]
     comments: CommentBlock[]
 }
+
+export type DocShotData = { doc_id: string } & ShotData

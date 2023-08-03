@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
@@ -14,11 +15,11 @@ const BlockImage = ({ imageLink }: Props) => {
         .then(res => setLink(res))
     },[])
     if (!link) return (
-        <div className="relative w-full h-full  rounded-xl bg-neutral-900 animate-pulse"/>
+        <div className="relative w-full h-full rounded-xl bg-neutral-900 animate-pulse"/>
     )
     return (
-        <div className="relative w-full h-full rounded-xl border border-neutral-700">
-            <Image src={link} fill className='rounded-xl' alt='root-block-image' />
+        <div className="relative w-full h-full border rounded-xl border-neutral-700">
+            <Image src={link} fill className='object-cover rounded-xl' alt='root-block-image' />
         </div>
     )
 }
