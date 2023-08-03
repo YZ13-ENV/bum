@@ -1,7 +1,7 @@
 import BodyWrapper from "@/components/widgets/BodyWrapper";
 import Tabs from "@/components/widgets/Tabs";
 import { DocShotData } from "@/types";
-import { chunk, flatten } from "lodash";
+import { chunk } from "lodash";
 
 const getAllShots = async() => {
   try {
@@ -10,7 +10,7 @@ const getAllShots = async() => {
     })
     const allShots: DocShotData[] = await res.json()
     console.log(allShots);
-    return chunk(flatten(allShots), 4)
+    return chunk(allShots, 4)
   } catch(e) {
     console.log(e);
     return []

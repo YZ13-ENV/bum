@@ -3,10 +3,10 @@ import PrevWorks from '../widgets/PrevWork'
 import UploadBlockView from '../widgets/UploadBlockView'
 import UploadBlocksMenu from '../widgets/UploadBlocksMenu'
 import UploadHeader from '../entities/uploadHeader'
-import { ShotData } from '@/types'
+import { DocShotData } from '@/types'
 
 type Props = {
-    prevShots: ShotData[]
+    prevShots: DocShotData[]
 }
 const UploadShot = ({ prevShots }: Props) => {
     return (

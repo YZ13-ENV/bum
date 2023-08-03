@@ -26,9 +26,10 @@ const UploadHeader = () => {
                 <Button href='/'>Вернуться</Button>
             </div>
             <div className="flex items-center gap-2 w-fit h-fit">
-                <Button>{isTabletOrMobile ? <BiSave size={17} /> : 'Сохранить в черновик'}</Button>
+                {/* <Button>{isTabletOrMobile ? <BiSave size={17} /> : 'Сохранить в черновик'}</Button> */}
                 <Button type='primary'>Продолжить</Button>
-                <Button onClick={() => dispatch(setBlockSidebar(!shotUploader.blocksSidebar))}>
+                <Button disabled={shotUploader.shot.rootBlock.link === ''} 
+                onClick={() => dispatch(setBlockSidebar(!shotUploader.blocksSidebar))}>
                     {
                         shotUploader.blocksSidebar
                         ? <TbLayoutSidebarRightCollapse size={17} />

@@ -32,14 +32,14 @@ class CommentBlock(BaseModel):
 class ShotDataForUpload(BaseModel):
     title: str
     rootBlock: ImageBlock
-    blocks: list[TextBlock or ShotGridBlock or ImageBlock]
+    blocks: list[TextBlock | ShotGridBlock | ImageBlock]
 
 class ShotData(BaseModel):
     isDraft: bool
     authorId: str
     title: str
     rootBlock: ImageBlock
-    blocks: list[TextBlock or ShotGridBlock or ImageBlock]
+    blocks: list[TextBlock | ShotGridBlock | ImageBlock]
     createdAt: int
     likes: list[str]
     views: list[str]

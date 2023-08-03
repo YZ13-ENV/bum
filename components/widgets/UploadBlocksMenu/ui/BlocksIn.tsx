@@ -7,6 +7,7 @@ import { BiImage, BiText } from 'react-icons/bi'
 const BlocksIn = () => {
     const dispatch = useAppDispatch()
     const blocks = useAppSelector(state => state.uploader.shot.blocks)
+    const imageBlocks = blocks.filter(block => block.type === 'image')
     const addBlock = (type: TextBlock['type'] | ImageBlock['type'] | ShotGridBlock['type']) => {
         if (type === 'text') {
             const templateTextBlock: TextBlock = {
@@ -34,10 +35,11 @@ const BlocksIn = () => {
                 <BiText size={27} />
                 <span className='text-xs'>Текст</span>
             </div>
-            <div onClick={() => addBlock('image')} 
+            <div onClick={() => imageBlocks.length + 1 < 5 ? addBlock('image') : null} 
             className="flex flex-col items-center justify-center w-full h-full gap-2 border rounded-xl border-neutral-700 bg-neutral-900 hover:bg-neutral-800">
                 <BiImage size={27} />
                 <span className='text-xs'>Картинка</span>
+                <span className='text-xs text-neutral-500'>{imageBlocks.length + 1}/5</span>
             </div>
         </div>
     )

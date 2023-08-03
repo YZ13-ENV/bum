@@ -1,14 +1,15 @@
 import UploadShot from '@/components/pages/UploadShot';
 import React from 'react'
 import { cookies } from 'next/headers'
-import { ShotData } from '@/types';
+import { DocShotData } from '@/types';
 const getPrevShots = async() => {
     const cookie = cookies()
     const uid = cookie.get("uid")
     if (uid) {
         try {
-            const res = await fetch(`/api/shots/shotsList?userId=${uid.value}`)
-            const shots: ShotData[] = await res.json()
+            const res = await fetch(`http://localhost:3000/api/shots/draftsList?userId=${uid.value}`)
+            const shots: DocShotData[] = await res.json()
+            console.log(shots);
             return shots
         } catch(e) {
             console.log(e);

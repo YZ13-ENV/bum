@@ -2,7 +2,7 @@ import datetime
 from api.firebaseApp import db
 from typing import Any, Dict
 from fastapi import APIRouter, Body
-from api.shots.helpers import getUserShotsWithDocId, getUsersIdList, getUserShots
+from api.shots.helpers import getUserDrafts, getUserShotsWithDocId, getUsersIdList, getUserShots
 from api.shots.shotSchema import ShotData, ShotDataForUpload
 
 
@@ -48,7 +48,6 @@ async def uploadShotById(userId: str, shotId: str, shot: ShotDataForUpload, asDr
         'views': [],
         'comments': []
     }
-    # print(shotSnap.exists)
     if (not shotSnap.exists):
         await shotRef.set(filledShot)
         return True
@@ -62,9 +61,15 @@ async def getShotsBy(userId: str):
     shots = await getUserShots(userId)
     return shots
 
+@router.get('/draftsList')
+async def getDrafts(userId: str):
+    shots = await getUserDrafts(userId)
+    return shots
+
+
 @router.get('/shotsDocList')
-async def getShotsBy(userId: str):
-    shots = await getUserShotsWithDocId(userId)
+async def getShotsBy(userId: str, noDrafts: bool=False):
+    shots = await getUserShotsWithDocId(userId, noDrafts)
     return shots
 
 @router.get('/allShots')
@@ -74,6 +79,8 @@ async def getAllUsersShots():
 
     for user in usersIds:
         shots = await getUserShotsWithDocId(user, True)
-        shotsList.append(shots)
+        for shot in shots:
+            shotsList.append(shot)
+            
     
     return shotsList

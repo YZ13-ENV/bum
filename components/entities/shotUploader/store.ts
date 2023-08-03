@@ -29,6 +29,9 @@ const ShotUploaderSlice = createSlice({
         setDraftId(state, { payload, type }: { payload: InitState['draftId'], type: string }) {
             state.draftId = payload
         },
+        setShot(state, { payload, type }: { payload: InitState['shot'], type: string }) {
+            state.shot = payload
+        },
         setBlocks(state, { payload, type }: { payload: ShotForUpload['blocks'], type: string }) {
             state.shot.blocks = payload
         },
@@ -46,5 +49,5 @@ const ShotUploaderSlice = createSlice({
         },
     }
 })
-export const { setDraftId, setBlocks, setRootBlock, setTitle, setBlockSidebar, setPrevWorkSidebar } = ShotUploaderSlice.actions
+export const { setDraftId, setBlocks, setRootBlock, setShot, setTitle, setBlockSidebar, setPrevWorkSidebar } = ShotUploaderSlice.actions
 export default ShotUploaderSlice.reducer
