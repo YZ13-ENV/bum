@@ -34,6 +34,7 @@ export type ShotForUpload = {
 
 export type ShotData = {
     isDraft: boolean
+    authorId: string
     title: string
     rootBlock: ImageBlock
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]

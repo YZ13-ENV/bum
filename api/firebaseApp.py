@@ -1,5 +1,5 @@
 import firebase_admin
-from firebase_admin import firestore_async
+from firebase_admin import firestore_async, storage
 from firebase_admin import credentials
 
 
