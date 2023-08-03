@@ -2,12 +2,12 @@ import { setDraftId, setRootBlock } from '@/components/entities/shotUploader/sto
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { randomString } from '@/helpers/randomString'
 import { auth, storage } from '@/utils/app'
-import { Upload, UploadProps, message } from 'antd'
-import { ref, uploadBytes } from 'firebase/storage'
+import { Button, Upload, UploadProps, message } from 'antd'
+import { ref, uploadBytes, deleteObject } from 'firebase/storage'
 import Image from 'next/image'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiArchive } from 'react-icons/bi'
+import { BiArchive, BiTrashAlt } from 'react-icons/bi'
 import BlockImage from './BlockImage'
 
 const { Dragger } = Upload
@@ -20,7 +20,7 @@ const RootBlock = () => {
         multiple: false,
         action: async(file) => {
             if (user) {
-                const generatedDraftId = randomString(10)
+                const generatedDraftId = randomString(20)
                 const refTo = ref(storage, `/users/${user.uid}/${generatedDraftId}/${file.name}`)
                 const arrBuffer = await file.arrayBuffer()
                 const uploaded =  await uploadBytes(refTo, arrBuffer)
@@ -44,9 +44,19 @@ const RootBlock = () => {
           console.log('Dropped files', e.dataTransfer.files);
         },
     };
+    const deleteImageFromRootBlock = async() => {
+        if (user && rootBlock.link !== '') {
+            const imageRef = ref(storage, rootBlock.link)
+            await deleteObject(imageRef)
+            dispatch(setRootBlock({ type: 'image', link: '' }))
+        }
+    }
     if (rootBlock.link !== '') {
         return (
-            <div className="w-full h-[32rem]">
+            <div className="relative w-full h-[32rem]">
+                <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
+                    <Button className='!px-2' onClick={deleteImageFromRootBlock}><BiTrashAlt size={17} /></Button>
+                </div>
                 <BlockImage imageLink={rootBlock.link} />
             </div>
         )

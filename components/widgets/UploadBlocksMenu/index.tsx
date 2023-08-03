@@ -3,7 +3,7 @@ import { useAppSelector } from '@/components/entities/store/store'
 import { Button, Segmented } from 'antd'
 import { SegmentedLabeledOption } from 'antd/es/segmented'
 import React from 'react'
-import { BiPlus, BiLock } from 'react-icons/bi'
+import { BiPlus, BiListUl, BiGridAlt } from 'react-icons/bi'
 import BlocksIn from './ui/BlocksIn'
 import BlocksOut from './ui/BlocksOut'
 
@@ -12,13 +12,13 @@ const UploadBlocksMenu = () => {
     const blockExpanded = useAppSelector(state => state.uploader.blocksSidebar)
     const options: SegmentedLabeledOption[] = [
         {
-            icon: 1,
-            label: 'Добавленные',
+            icon: <BiGridAlt size={15} className='inline' />,
+            label: 'Блоки',
             value: 'in'
         },
         {
-            icon: 2,
-            label: 'Блоки',
+            icon: <BiListUl size={15} className='inline' />,
+            label: 'Добавленные',
             value: 'out'
         }
     ]

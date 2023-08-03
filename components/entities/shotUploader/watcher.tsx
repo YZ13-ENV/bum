@@ -17,7 +17,9 @@ const UploaderWatcher = () => {
     }
     useDebounceEffect(() => {
         if (uploader.draftId && user) {
-            uploadShot(user.uid, uploader.draftId, uploader.shot)
+            if (uploader.shot.rootBlock.link !== '') {
+                uploadShot(user.uid, uploader.draftId, uploader.shot)
+            }
         }
     }, [uploader, user], { maxWait: 2000, wait: 1000 })
     return (

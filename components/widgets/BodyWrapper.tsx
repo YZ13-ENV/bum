@@ -15,7 +15,7 @@ const BodyWrapper = ({ shots }: Props) => {
     )
     return (
         <div 
-        className="flex flex-col w-full h-full gap-6 px-4 pb-4 root_grid_wrapper shrink-0">
+        className="flex flex-col w-full h-full gap-6 px-12 pb-4 root_grid_wrapper shrink-0">
             {
                 shots.map((shotChunk, index) => 
                     <div key={`shotChunk#${index}`}

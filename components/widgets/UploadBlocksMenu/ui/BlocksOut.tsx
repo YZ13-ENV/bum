@@ -13,7 +13,12 @@ const BlocksOut = () => {
                 <div className="flex flex-col items-center justify-center w-full h-56 border rounded-xl border-neutral-800 bg-neutral-950">
                     <BiLock size={24} className='text-neutral-400' />
                 </div>
-                : <div className="w-full h-56"><BlockImage imageLink={uploader.shot.rootBlock.link} /></div>
+                : <div className="relative flex items-center justify-center w-full h-56">
+                    <div className="absolute z-10 p-3 border rounded-lg bg-neutral-900 border-neutral-800">
+                        <BiLock size={24} className=' text-neutral-400' />
+                    </div>
+                    <BlockImage imageLink={uploader.shot.rootBlock.link} />
+                </div>
             }
             {
                 uploader.shot.blocks.map((block, index) => 

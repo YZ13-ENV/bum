@@ -11,6 +11,7 @@ class TextBlock(BaseModel):
     align: str
     isBold: bool
     isItalic: bool
+    text: str
 
 class ShotGridBlock(BaseModel):
     type: str

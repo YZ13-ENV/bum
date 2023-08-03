@@ -5,6 +5,7 @@ import { Input } from 'antd';
 import React from 'react'
 import RootBlock from './ui/RootBlock';
 import UploaderWatcher from '@/components/entities/shotUploader/watcher';
+import TextBlock from '@/components/entities/Blocks/TextBlock';
 
 /*
     В момент когда мы закидываем картинку в root block
@@ -18,15 +19,25 @@ import UploaderWatcher from '@/components/entities/shotUploader/watcher';
 
 const UploadBlockView = () => {
     const title = useAppSelector(state => state.uploader.shot.title)
+    const blocks = useAppSelector(state => state.uploader.shot.blocks)
+    const rootBlock = useAppSelector(state => state.uploader.shot.rootBlock)
     const dispatch = useAppDispatch()
     return (
         <>
         <UploaderWatcher />
         <div className="flex flex-col w-full h-full max-w-4xl gap-4 px-4 py-4 mx-auto md:px-0 md:py-4">
-            <Input size='large' className='!text-xl !font-semibold'
+            <Input size='large' disabled={rootBlock.link === ''} className='!rounded-none !p-0 !text-2xl !font-semibold'
             value={title} onChange={e => dispatch(setTitle(e.target.value))}
-            placeholder='Введите название для вашей работы' bordered={false} />
+            placeholder={rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
             <RootBlock />
+            {
+                blocks.map((block, index) => {
+                    if (block.type === 'text') {
+                        return <TextBlock block={block} index={index} key={`block#${index}`} />
+                    }
+                    return null
+                })
+            }
         </div>
         </>
     )

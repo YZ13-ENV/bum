@@ -1,10 +1,11 @@
 
 export type TextBlock = {
-    type: 'text',
+    type: 'text'
+    text: string
     size: 1 | 2 | 3 // 1: text-base, 2: text-lg, 3: text-xl
     align: 'left' | 'center' | 'right',
     isBold: boolean
-    IsItalic: boolean
+    isItalic: boolean
 }
 
 export type ImageBlock = {
