@@ -1,11 +1,18 @@
-import datetime
 from fastapi import FastAPI
-from api.firebaseApp import db
-from api.shots.helpers import getUserDrafts, getUserShotWithDocId, getUserShots, getUserShotsWithDocId, getUsersIdList
-from api.shots.shotSchema import DraftShotData, ShotData
-from api.user.helpers import checkShortData, getShortData
+from firebase_admin import firestore_async, auth, credentials, initialize_app
+from datetime import datetime
+from fastapi import FastAPI
+from api.schemas import DraftShotData, ShotData
+from api.helpers import checkShortData, getShortData, getUserDrafts, getUserShotWithDocId, getUserShots, getUserShotsWithDocId, getUsersIdList
 
 app = FastAPI()
+
+
+cred = credentials.Certificate(cert='api/service.json')
+firebase_app = initialize_app.initialize_app(cred)
+db = firestore_async.client(app=firebase_app)
+auth = auth.Client(app=firebase_app)
+
 
 @app.get('/api/check')
 async def checkAPI():
@@ -65,7 +72,7 @@ async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
         'title': dictDraft['title'],
         'rootBlock': dictDraft['rootBlock'],
         'blocks': dictDraft['blocks'],
-        'createdAt': datetime.datetime.today().timestamp()
+        'createdAt': datetime.today().timestamp()
     }
     if (not draftSnap.exists):
         await draftRef.set(filledDraft)
