@@ -1,6 +1,6 @@
 from api.index import db
 from api.index import db, auth
-from api.schemas import UserShortData
+from data.schemas import UserShortData
 
 async def getShortData(userId: str):
     userRef = db.collection('users').document(userId)

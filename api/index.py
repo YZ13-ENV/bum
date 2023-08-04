@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from firebase_admin import firestore_async, auth, credentials, initialize_app
 from datetime import datetime
 from fastapi import FastAPI
-from api.schemas import DraftShotData, ShotData
-from api.helpers import checkShortData, getShortData, getUserDrafts, getUserShotWithDocId, getUserShots, getUserShotsWithDocId, getUsersIdList
+from data.schemas import DraftShotData, ShotData
+from data.helpers import checkShortData, getShortData, getUserDrafts, getUserShotWithDocId, getUserShots, getUserShotsWithDocId, getUsersIdList
 
 app = FastAPI()
 
