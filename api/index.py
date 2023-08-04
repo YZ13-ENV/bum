@@ -11,7 +11,6 @@ app = FastAPI()
 async def checkAPI():
     return 'ok'
 
-
 @app.get('/api/short')
 async def updateShortData(userId: str):
     shortData = await getShortData(userId)

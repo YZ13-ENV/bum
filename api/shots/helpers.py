@@ -1,8 +1,4 @@
-from typing import Any, Dict
 from api.firebaseApp import db
-
-
-
 
 async def getUsersIdList():
     usersRef = db.collection('users')

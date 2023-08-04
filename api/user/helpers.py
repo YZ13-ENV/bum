@@ -1,16 +1,6 @@
 from api.firebaseApp import db, auth
 from api.user.userSchema import UserShortData
 
-
-async def isShortDataEmpty(userId: str):
-    userRef = db.collection('users').document(userId)
-    userSnap = await userRef.get()
-    userDict = userSnap.to_dict()
-    if not userDict:
-        return True
-    else:
-        return not 'short' in userDict
-
 async def getShortData(userId: str):
     userRef = db.collection('users').document(userId)
     userSnap = await userRef.get()
