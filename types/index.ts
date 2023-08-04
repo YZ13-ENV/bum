@@ -59,3 +59,10 @@ export type ShotData = {
 
 export type DocShotData = { doc_id: string } & ShotData
 export type DocDraftShotData = { doc_id: string } & DraftShotData
+
+
+export type ShortUserData = {
+    photoUrl: string
+    displayName: string
+    userName: string
+}

@@ -1,12 +1,14 @@
 from typing import Any, Dict
 from fastapi import FastAPI
 from api.shots.router import router as ShotsRouter
+from api.user.router import router as UserRouter
 from api.firebaseApp import db
 
 app = FastAPI()
 
 
 app.include_router(ShotsRouter)
+app.include_router(UserRouter)
 
 # @app.get('/api/user')
 # async def getUser(userId: str):

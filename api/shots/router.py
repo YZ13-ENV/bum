@@ -4,6 +4,7 @@ from typing import Any, Dict
 from fastapi import APIRouter, Body
 from api.shots.helpers import getUserDrafts, getUserShotsWithDocId, getUsersIdList, getUserShots
 from api.shots.shotSchema import DraftShotData, ShotData, ShotDataForUpload
+from api.user.helpers import checkShortData
 
 
 router = APIRouter(
@@ -13,18 +14,21 @@ router = APIRouter(
 
 @router.get('/shot')
 async def getShotById(userId: str, shotId: str):
+    await checkShortData(userId)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
     shotSnap = await shotRef.get()
     return shotSnap.to_dict()
 
 @router.patch('/shot')
 async def updateShotById(userId: str, shotId: str, shot: ShotData):
+    await checkShortData(userId)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
     updatedSnap = shotRef.update(shot)
     return updatedSnap
 
 @router.get('/shotExisting')
 async def isShotExist(userId: str, shotId: str):
+    await checkShortData(userId)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
     shotSnap = await shotRef.get()
 
@@ -32,6 +36,7 @@ async def isShotExist(userId: str, shotId: str):
 
 @router.get('/draft')
 async def getDraft(userId: str, draftId: str):
+    await checkShortData(userId)
     draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
     draftSnap = await draftRef.get()
     if (draftSnap.exists):
@@ -41,6 +46,7 @@ async def getDraft(userId: str, draftId: str):
 
 @router.post('/publish')
 async def publishDraft(userId: str, draftId: str, draftToPublish: ShotData):
+    await checkShortData(userId)
     draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
     await draftRef.set(draftToPublish.dict())
     return True
@@ -48,6 +54,7 @@ async def publishDraft(userId: str, draftId: str, draftToPublish: ShotData):
 
 @router.post('/draft')
 async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
+    await checkShortData(userId)
     draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
     draftSnap = await draftRef.get()
     dictDraft = draft.dict()
@@ -71,6 +78,7 @@ async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
 @router.post('/shot')
 async def uploadShotById(userId: str, shotId: str, shot: ShotDataForUpload, asDraft: bool=False):
     # print(shot)
+    await checkShortData(userId)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
     shotSnap = await shotRef.get()
     dictShot = shot.dict()
@@ -97,17 +105,20 @@ async def uploadShotById(userId: str, shotId: str, shot: ShotDataForUpload, asDr
 
 @router.get('/shotsList')
 async def getShotsBy(userId: str):
+    await checkShortData(userId)
     shots = await getUserShots(userId)
     return shots
 
 @router.get('/draftsList')
 async def getDrafts(userId: str):
+    await checkShortData(userId)
     shots = await getUserDrafts(userId)
     return shots
 
 
 @router.get('/shotsDocList')
 async def getShotsBy(userId: str, noDrafts: bool=False):
+    await checkShortData(userId)
     shots = await getUserShotsWithDocId(userId, noDrafts)
     return shots
 

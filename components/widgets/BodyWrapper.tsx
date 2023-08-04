@@ -28,43 +28,6 @@ const BodyWrapper = ({ shots }: Props) => {
                     </div>
                 )
             }
-            {/* 
-            <div className="grid w-full shrink-0 md:h-64 sm:h-[32rem] h-[64rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-4 sm:grid-cols-2">
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-            </div>
-            <div className="grid w-full shrink-0 md:h-64 sm:h-[32rem] h-[64rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-4 sm:grid-cols-2">
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-            </div>
-            <div className="grid w-full shrink-0 md:h-64 sm:h-[32rem] h-[64rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-4 sm:grid-cols-2">
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-            </div>
-            <div className="grid w-full shrink-0 md:h-64 sm:h-[32rem] h-[64rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-4 sm:grid-cols-2">
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-            </div>
-            <div className="grid w-full shrink-0 md:h-64 sm:h-[32rem] h-[64rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-4 sm:grid-cols-2">
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-            </div>
-            <div className="grid w-full shrink-0 md:h-64 sm:h-[32rem] h-[64rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-4 sm:grid-cols-2">
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-                <ShotCard />
-            </div> */}
         </div>
     )
 }
