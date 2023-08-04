@@ -39,6 +39,13 @@ async def getDraft(userId: str, draftId: str):
     else:
         return None
 
+@router.post('/publish')
+async def publishDraft(userId: str, draftId: str, draftToPublish: ShotData):
+    draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
+    await draftRef.set(draftToPublish.dict())
+    return True
+
+
 @router.post('/draft')
 async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
     draftRef = db.collection('users').document(userId).collection('shots').document(draftId)

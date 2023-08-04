@@ -1,4 +1,4 @@
-import { DraftShotData, ShotForUpload } from "@/types"
+import { DraftShotData, ShotData, ShotForUpload } from "@/types"
 import { DateTime } from "luxon"
 
 export const isShotExist = async(userId: string, shotId: string): Promise<boolean> => {
@@ -25,13 +25,28 @@ export const uploadShot_POST = async(userId: string, shotId: string, shot: ShotF
     return uploadedShot
 }
 
+export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData) => {
+    const headers = new Headers()
+    headers.set("Content-Type", "application/json")
+    const res = await fetch(`/api/shots/publish?userId=${userId}&draftId=${draftId}`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(draft)
+    })
+    const uploadedShot = await res.json()
+    return uploadedShot
+}
+
 const uploadShotWithCheck = async(userId: string, shotId: string, shot: ShotForUpload) => {
     const isExist = await isShotExist(userId, shotId)
     // console.log(isExist);
     if (!isExist) {
         const uploadedShot = await uploadShot_POST(userId, shotId, shot)
-        console.log(uploadedShot)
         return uploadedShot
     }
     return null
+}
+
+const uploadDraft = async(userId: string, draftId: string, draft: ShotData) => {
+
 }

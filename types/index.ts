@@ -52,8 +52,9 @@ export type ShotData = {
     likes: string[]
     views: string[]
     comments: CommentBlock[]
-    tags: string[]
     needFeedback: boolean
+    tags: string[]
+    thumbnail?: ImageBlock
 }
 
 export type DocShotData = { doc_id: string } & ShotData

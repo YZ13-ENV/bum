@@ -6,11 +6,10 @@ import {
     TbLayoutSidebarRightCollapse, TbLayoutSidebarRightExpand
  } from 'react-icons/tb'
 import { useAppDispatch, useAppSelector } from '../store/store'
-import { setBlockSidebar, setPrevWorkSidebar } from '../shotUploader/store'
+import { setBlockSidebar, setFinalTouchModal, setPrevWorkSidebar } from '../shotUploader/store'
 import { useMediaQuery } from 'react-responsive'
-import { BiSave } from 'react-icons/bi'
 const UploadHeader = () => {
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    // const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const shotUploader = useAppSelector(state => state.uploader)
     const dispatch = useAppDispatch()
     return (
@@ -27,7 +26,7 @@ const UploadHeader = () => {
             </div>
             <div className="flex items-center gap-2 w-fit h-fit">
                 {/* <Button>{isTabletOrMobile ? <BiSave size={17} /> : 'Сохранить в черновик'}</Button> */}
-                <Button type='primary'>Продолжить</Button>
+                <Button onClick={() => dispatch(setFinalTouchModal(true))} type='primary'>Продолжить</Button>
                 <Button disabled={shotUploader.shot.rootBlock.link === ''} 
                 onClick={() => dispatch(setBlockSidebar(!shotUploader.blocksSidebar))}>
                     {
