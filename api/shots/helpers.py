@@ -38,7 +38,6 @@ async def getUserDrafts(userId: str):
             shotData = shot.to_dict()
             shotData['doc_id'] = shot.id
             if shotData['isDraft'] == True:
-                shotData = shot.to_dict()
                 shotsList.append(shotData)
 
     return shotsList

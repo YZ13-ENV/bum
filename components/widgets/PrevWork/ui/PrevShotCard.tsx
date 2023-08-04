@@ -1,15 +1,16 @@
 import React from 'react'
 import BlockImage from '../../UploadBlockView/ui/BlockImage'
-import { DocShotData } from '@/types'
+import { DocDraftShotData, DocShotData } from '@/types'
 import { useAppDispatch } from '@/components/entities/store/store'
 import { setDraftId, setShot } from '@/components/entities/shotUploader/store'
 import { BiRightArrowAlt } from 'react-icons/bi'
 import { Button } from 'antd'
 
 type Props = {
-    block: DocShotData
+    block: DocDraftShotData
 }
 const PrevShotCard = ({ block }: Props) => {
+    console.log(block);
     const dispatch = useAppDispatch()
     const setDraft = () => {
         dispatch(setDraftId(block.doc_id))

@@ -3,11 +3,11 @@ import PrevWorks from '../widgets/PrevWork'
 import UploadBlockView from '../widgets/UploadBlockView'
 import UploadBlocksMenu from '../widgets/UploadBlocksMenu'
 import UploadHeader from '../entities/uploadHeader'
-import { DocShotData } from '@/types'
+import { DocDraftShotData } from '@/types'
 import FinalTouchModal from '../widgets/FinalTouchModal'
 
 type Props = {
-    prevShots: DocShotData[]
+    prevShots: DocDraftShotData[]
 }
 const UploadShot = ({ prevShots }: Props) => {
     return (

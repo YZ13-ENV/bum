@@ -34,6 +34,14 @@ class ShotDataForUpload(BaseModel):
     rootBlock: ImageBlock
     blocks: list[TextBlock | ShotGridBlock | ImageBlock]
 
+class DraftShotData(BaseModel):
+    isDraft: bool
+    authorId: str
+    title: str
+    rootBlock: ImageBlock
+    blocks: list[TextBlock | ShotGridBlock | ImageBlock]
+    createdAt: int
+
 class ShotData(BaseModel):
     isDraft: bool
     authorId: str

@@ -2,11 +2,11 @@
 import Tip from '@/components/shared/Tip'
 import React, { useState } from 'react'
 import PrevShotCard from './ui/PrevShotCard'
-import { DocShotData } from '@/types'
+import { DocDraftShotData, DocShotData } from '@/types'
 import { useAppSelector } from '@/components/entities/store/store'
 
 type Props = {
-    prevShots: DocShotData[]
+    prevShots: DocDraftShotData[]
 }
 const PrevWorks = ({ prevShots }: Props) => {
     const prevWorksExpanded = useAppSelector(state => state.uploader.prevWorkSidebar)

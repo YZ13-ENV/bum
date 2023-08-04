@@ -3,7 +3,7 @@ from api.firebaseApp import db
 from typing import Any, Dict
 from fastapi import APIRouter, Body
 from api.shots.helpers import getUserDrafts, getUserShotsWithDocId, getUsersIdList, getUserShots
-from api.shots.shotSchema import ShotData, ShotDataForUpload
+from api.shots.shotSchema import DraftShotData, ShotData, ShotDataForUpload
 
 
 router = APIRouter(
@@ -30,10 +30,40 @@ async def isShotExist(userId: str, shotId: str):
 
     return shotSnap.exists
 
+@router.get('/draft')
+async def getDraft(userId: str, draftId: str):
+    draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
+    draftSnap = await draftRef.get()
+    if (draftSnap.exists):
+        return draftSnap.to_dict()
+    else:
+        return None
+
+@router.post('/draft')
+async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
+    draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
+    draftSnap = await draftRef.get()
+    dictDraft = draft.dict()
+    filledDraft = {
+        'isDraft': True,
+        'authorId': userId,
+        'title': dictDraft['title'],
+        'rootBlock': dictDraft['rootBlock'],
+        'blocks': dictDraft['blocks'],
+        'createdAt': datetime.datetime.today().timestamp()
+    }
+    if (not draftSnap.exists):
+        await draftRef.set(filledDraft)
+        return True
+    else:
+        snapDict = draftSnap.to_dict()
+        filledDraft['createdAt'] = snapDict['createdAt']
+        await draftRef.update(filledDraft)
+        return True
 
 @router.post('/shot')
 async def uploadShotById(userId: str, shotId: str, shot: ShotDataForUpload, asDraft: bool=False):
-    print(shot)
+    # print(shot)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
     shotSnap = await shotRef.get()
     dictShot = shot.dict()
