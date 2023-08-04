@@ -2,7 +2,7 @@ import datetime
 from api.firebaseApp import db
 from typing import Any, Dict
 from fastapi import APIRouter, Body
-from api.shots.helpers import getUserDrafts, getUserShotsWithDocId, getUsersIdList, getUserShots
+from api.shots.helpers import getUserDrafts, getUserShotWithDocId, getUserShotsWithDocId, getUsersIdList, getUserShots
 from api.shots.shotSchema import DraftShotData, ShotData, ShotDataForUpload
 from api.user.helpers import checkShortData
 
@@ -15,9 +15,8 @@ router = APIRouter(
 @router.get('/shot')
 async def getShotById(userId: str, shotId: str):
     await checkShortData(userId)
-    shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
-    shotSnap = await shotRef.get()
-    return shotSnap.to_dict()
+    shot = await getUserShotWithDocId(userId=userId, shotId=shotId)
+    return shot
 
 @router.patch('/shot')
 async def updateShotById(userId: str, shotId: str, shot: ShotData):

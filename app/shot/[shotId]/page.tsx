@@ -2,10 +2,12 @@ import ImageBlock from '@/components/entities/Blocks/ViewBlocks/ImageBlock'
 import ShotPageLoader from '@/components/pages/ShotPageLoader'
 import ShotPageToolBar from '@/components/widgets/ShotPageToolBar'
 import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
-import { ShotData } from '@/types'
+import { getHost } from '@/helpers/getHost'
+import { DocShotData, ShortUserData } from '@/types'
 import { Button } from 'antd'
+import Image from 'next/image'
 import React from 'react'
-import { BiBookmark, BiHeart, BiSolidHeart } from 'react-icons/bi'
+import { BiBookmark, BiHeart, BiSolidHeart, BiUser } from 'react-icons/bi'
 type Props = {
     params: {
         shotId: string
@@ -14,27 +16,37 @@ type Props = {
 const getShot = async(param: string) => {
     const parsedParam = param.split('-')
     try {
-        const res = await fetch(`http://localhost:3000/api/shots/shot?userId=${parsedParam[0]}&shotId=${parsedParam[1]}`)
-        const shot: ShotData = await res.json()
-        return shot
+        const shotRes = await fetch(`${getHost()}/api/shots/shot?userId=${parsedParam[0]}&shotId=${parsedParam[1]}`)
+        const userRes = await fetch(`${getHost()}/api/user/short?userId=${parsedParam[0]}`, { method: 'GET' })
+        const shot: DocShotData = await shotRes.json()
+        const user: ShortUserData | null = await userRes.json()
+        return { shot: shot, user: user }
     } catch(e) {
         console.log(e)
         return null
     }
 }
 const ShotPage = async({ params }: Props) => {
-    const shot: ShotData | null = await getShot(params.shotId)
-    if (!shot) return null
+    const data = await getShot(params.shotId)
+    if (!data) return null
     return (
-        <div className='relative w-full h-full'>
+        <div className='relative flex flex-col w-full h-full gap-6'>
             <ShotPageLoader />
-            <div className="flex flex-col w-full h-full max-w-4xl gap-4 mx-auto shrink-0">
+            <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <div className="flex items-center justify-between w-full max-w-2xl gap-1 mx-auto h-fit">
-                    <div className="flex items-center w-full gap-2 h-fit">
-                        <div className="border rounded-full w-14 h-14 shrink-0 bg-neutral-800 border-neutral-700" />
+                    <div className="flex items-center w-full gap-4 h-fit">
+                        {
+                            data.user 
+                            ? data.user.photoUrl
+                            ? <Image className='rounded-full shrink-0' src={data.user.photoUrl} width={56} height={56} alt='user-photo' />
+                            : <div className="flex items-center justify-center border rounded-full w-14 h-14 shrink-0 bg-neutral-800 border-neutral-700">
+                                <BiUser size={17} />
+                            </div>
+                            : <div className="border rounded-full w-14 h-14 shrink-0 bg-neutral-800 border-neutral-700" />
+                        }
                         <div className="flex flex-col w-full h-full gap-1">
-                            <span className='text-2xl font-semibold text-neutral-200'>{shot.title}</span>
-                            <span className='w-1/2 h-4 rounded-xl bg-neutral-800'></span>
+                            <span className='text-2xl font-semibold text-neutral-200'>{data.shot.title}</span>
+                            <span className='text-xs text-neutral-400'>{data.user?.displayName || 'Пользователь'}</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-2 w-fit h-fit">
@@ -43,10 +55,10 @@ const ShotPage = async({ params }: Props) => {
                     </div>
                 </div>
                 <div className="w-full h-[32rem] shrink-0">
-                    <BlockImage imageLink={shot.rootBlock.link} />
+                    <BlockImage imageLink={data.shot.rootBlock.link} />
                 </div>
                 {
-                    shot.blocks.map((block, index) => {
+                    data.shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
                             return <ImageBlock key={`block#${index}`} block={block} />
                         }
@@ -54,7 +66,15 @@ const ShotPage = async({ params }: Props) => {
                     })
                 }
             </div>
-            <ShotPageToolBar />
+            <div className="flex flex-col w-full h-64 max-w-6xl gap-4 mx-auto mt-auto shrink-0 bg-neutral-800">
+
+            </div>
+            <div className="flex w-full p-16 h-96 shrink-0 bg-neutral-800">
+                <div className="w-full h-full max-w-sm bg-neutral-700"></div>
+            </div>
+            {
+                <ShotPageToolBar shot={data.shot} user={data.user} />
+            }
         </div>
     )
 }

@@ -1,11 +1,12 @@
 import BodyWrapper from "@/components/widgets/BodyWrapper";
 import Tabs from "@/components/widgets/Tabs";
+import { getHost } from "@/helpers/getHost";
 import { DocShotData } from "@/types";
 import { chunk } from "lodash";
 
 const getAllShots = async() => {
   try {
-    const res = await fetch('http://localhost:3000/api/shots/allShots', {
+    const res = await fetch(`${getHost()}/api/shots/allShots`, {
       method: "GET",
     })
     const allShots: DocShotData[] = await res.json()

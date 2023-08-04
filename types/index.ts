@@ -64,5 +64,5 @@ export type DocDraftShotData = { doc_id: string } & DraftShotData
 export type ShortUserData = {
     photoUrl: string
     displayName: string
-    userName: string
+    email: string
 }

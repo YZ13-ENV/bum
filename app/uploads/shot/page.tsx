@@ -3,14 +3,14 @@ import React from 'react'
 import { cookies } from 'next/headers'
 import { DocDraftShotData, DocShotData } from '@/types';
 import { Button } from 'antd';
+import { getHost } from '@/helpers/getHost';
 const getPrevShots = async() => {
     const cookie = cookies()
     const uid = cookie.get("uid")
     if (uid) {
         try {
-            const res = await fetch(`http://localhost:3000/api/shots/draftsList?userId=${uid.value}`)
+            const res = await fetch(`${getHost()}/api/shots/draftsList?userId=${uid.value}`)
             const shots: DocDraftShotData[] = await res.json()
-            // console.log(shots);
             return shots
         } catch(e) {
             console.log(e);
