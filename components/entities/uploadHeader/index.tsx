@@ -26,7 +26,8 @@ const UploadHeader = () => {
             </div>
             <div className="flex items-center gap-2 w-fit h-fit">
                 {/* <Button>{isTabletOrMobile ? <BiSave size={17} /> : 'Сохранить в черновик'}</Button> */}
-                <Button onClick={() => dispatch(setFinalTouchModal(true))} type='primary'>Продолжить</Button>
+                <Button disabled={shotUploader.shot.rootBlock.link === '' || shotUploader.shot.title === ''} 
+                onClick={() => dispatch(setFinalTouchModal(true))} type='primary'>Продолжить</Button>
                 <Button disabled={shotUploader.shot.rootBlock.link === ''} 
                 onClick={() => dispatch(setBlockSidebar(!shotUploader.blocksSidebar))}>
                     {

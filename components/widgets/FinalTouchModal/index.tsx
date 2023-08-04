@@ -24,8 +24,21 @@ const FinalTouchModal = () => {
     const [loading, setLoading] = React.useState<boolean>(false)
     const uploadDraft = async() => {
         if (user && uploaderDraft.draftId) {
+            setLoading(true)
+            const preparedBlocks = uploaderDraft.shot.blocks.filter((block => {
+                if (block.type === 'image') {
+                    if (block.link === '') return false
+                    return true
+                }
+                if (block.type === 'text') {
+                    if (block.text === '') return false
+                    return true
+                }
+                return false
+            }))
             const preparedDraft: ShotData = {
                 ...uploaderDraft.shot,
+                blocks: preparedBlocks,
                 authorId: user.uid,
                 isDraft: false,
                 needFeedback: needFeedback,
@@ -36,6 +49,7 @@ const FinalTouchModal = () => {
                 views: [],
             }
             await uploadDraft_POST(user.uid, uploaderDraft.draftId, preparedDraft)
+            setLoading(false)
             setTags([])
             setNeedFeedback(true)
             dispatch(setFinalTouchModal(false))
@@ -50,7 +64,7 @@ const FinalTouchModal = () => {
             className="flex flex-col w-full max-w-4xl gap-3 p-3 border h-3/4 rounded-xl shrink-0 border-neutral-800 bg-neutral-950">
                 <div className="flex items-center justify-between w-full h-fit">
                     <span className='text-xl font-bold text-neutral-200'>Финальные штрихи</span>
-                    <Button type='text'><BiX size={21} /></Button>
+                    <Button onClick={() => dispatch(setFinalTouchModal(false))}  type='text'><BiX size={21} /></Button>
                 </div>
                 <div className="flex items-start w-full h-full gap-4">
                     <PreviewSide />
