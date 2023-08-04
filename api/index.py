@@ -23,20 +23,20 @@ async def updateShortData(userId: str):
     return shortData
 
 
-@app.get('/shot')
+@app.get('/api/shot')
 async def getShotById(userId: str, shotId: str):
     await checkShortData(userId)
     shot = await getUserShotWithDocId(userId=userId, shotId=shotId)
     return shot
 
-@app.patch('/shot')
+@app.patch('/api/shot')
 async def updateShotById(userId: str, shotId: str, shot: ShotData):
     await checkShortData(userId)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
     updatedSnap = shotRef.update(shot)
     return updatedSnap
 
-@app.get('/draft')
+@app.get('/api/draft')
 async def getDraft(userId: str, draftId: str):
     await checkShortData(userId)
     draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
@@ -46,7 +46,7 @@ async def getDraft(userId: str, draftId: str):
     else:
         return None
 
-@app.post('/publish')
+@app.post('/api/publish')
 async def publishDraft(userId: str, draftId: str, draftToPublish: ShotData):
     await checkShortData(userId)
     draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
@@ -54,7 +54,7 @@ async def publishDraft(userId: str, draftId: str, draftToPublish: ShotData):
     return True
 
 
-@app.post('/draft')
+@app.post('/api/draft')
 async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
     await checkShortData(userId)
     draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
@@ -77,7 +77,7 @@ async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
         await draftRef.update(filledDraft)
         return True
 
-@app.get('/list')
+@app.get('/api/list')
 async def getShotsBy(userId: str, drafts: bool):
     await checkShortData(userId)
     if (drafts):
@@ -88,13 +88,13 @@ async def getShotsBy(userId: str, drafts: bool):
         return shots
 
 
-@app.get('/shotsDocList')
+@app.get('/api/shotsDocList')
 async def getShotsBy(userId: str, noDrafts: bool=False):
     await checkShortData(userId)
     shots = await getUserShotsWithDocId(userId, noDrafts)
     return shots
 
-@app.get('/allShots')
+@app.get('/api/allShots')
 async def getAllUsersShots():
     usersIds = await getUsersIdList()
     shotsList = []
