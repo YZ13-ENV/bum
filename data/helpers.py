@@ -1,5 +1,4 @@
-from api.index import db
-from api.index import db, auth
+from data.firebase import db, auth
 from data.schemas import UserShortData
 
 async def getShortData(userId: str):
