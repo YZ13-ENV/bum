@@ -11,3 +11,8 @@ router = APIRouter(
 async def updateShortData(userId: str):
     shortData = await getShortData(userId)
     return shortData
+
+@router.get('/short')
+async def updateShortData(userId: str):
+    shortData = await getShortData(userId)
+    return shortData

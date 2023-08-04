@@ -11,7 +11,7 @@ type Props = {
 }
 const ShotPageToolBar = ({ shot, user }: Props) => {
     return (
-        <div className="absolute top-0 right-0 flex flex-col h-full gap-2 p-4 w-fit">
+        <div className="absolute top-0 right-0 flex flex-col min-h-full gap-2 p-4 w-fit">
             <div className="sticky flex flex-col items-center w-full gap-4 h-fit top-12">
                 {
                             user 

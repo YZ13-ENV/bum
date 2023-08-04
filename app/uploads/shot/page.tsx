@@ -9,7 +9,7 @@ const getPrevShots = async() => {
     const uid = cookie.get("uid")
     if (uid) {
         try {
-            const res = await fetch(`${getHost()}/api/shots/draftsList?userId=${uid.value}`)
+            const res = await fetch(`${getHost()}/api/shots/list?userId=${uid.value}&drafts=true`)
             const shots: DocDraftShotData[] = await res.json()
             return shots
         } catch(e) {

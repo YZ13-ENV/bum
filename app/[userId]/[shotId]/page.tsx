@@ -1,4 +1,5 @@
 import ImageBlock from '@/components/entities/Blocks/ViewBlocks/ImageBlock'
+import TextBlock from '@/components/entities/Blocks/ViewBlocks/TextBlock'
 import ShotPageLoader from '@/components/pages/ShotPageLoader'
 import ShotPageToolBar from '@/components/widgets/ShotPageToolBar'
 import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
@@ -6,18 +7,19 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Button } from 'antd'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
-import { BiBookmark, BiHeart, BiSolidHeart, BiUser } from 'react-icons/bi'
+import { BiBookmark, BiChevronRight, BiHeart, BiSolidHeart, BiUser } from 'react-icons/bi'
 type Props = {
     params: {
         shotId: string
+        userId: string
     }
 }
-const getShot = async(param: string) => {
-    const parsedParam = param.split('-')
+const getShot = async(userId: string, shotId: string) => {
     try {
-        const shotRes = await fetch(`${getHost()}/api/shots/shot?userId=${parsedParam[0]}&shotId=${parsedParam[1]}`)
-        const userRes = await fetch(`${getHost()}/api/user/short?userId=${parsedParam[0]}`, { method: 'GET' })
+        const shotRes = await fetch(`${getHost()}/api/shots/shot?userId=${userId}&shotId=${shotId}`)
+        const userRes = await fetch(`${getHost()}/api/user/short?userId=${userId}`, { method: 'GET' })
         const shot: DocShotData = await shotRes.json()
         const user: ShortUserData | null = await userRes.json()
         return { shot: shot, user: user }
@@ -27,11 +29,11 @@ const getShot = async(param: string) => {
     }
 }
 const ShotPage = async({ params }: Props) => {
-    const data = await getShot(params.shotId)
+    const data = await getShot(params.userId, params.shotId)
     if (!data) return null
     return (
-        <div className='relative flex flex-col w-full h-full gap-6'>
-            <ShotPageLoader />
+        <div className='relative flex flex-col w-full min-h-full gap-6 h-fit'>
+            {/* <ShotPageLoader /> */}
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <div className="flex items-center justify-between w-full max-w-2xl gap-1 mx-auto h-fit">
                     <div className="flex items-center w-full gap-4 h-fit">
@@ -62,15 +64,42 @@ const ShotPage = async({ params }: Props) => {
                         if (block.type === 'image') {
                             return <ImageBlock key={`block#${index}`} block={block} />
                         }
+                        if (block.type === 'text') {
+                            return <TextBlock key={`block#${index}`} block={block} />
+                        }
                         return null
                     })
                 }
             </div>
-            <div className="flex flex-col w-full h-64 max-w-6xl gap-4 mx-auto mt-auto shrink-0 bg-neutral-800">
-
+            <div className="flex flex-col w-full h-64 max-w-6xl gap-4 p-3 mx-auto mt-auto shrink-0 rounded-xl bg-neutral-800">
+                <div className="flex items-center justify-between w-full h-fit">
+                    <span className='font-semibold text-neutral-200'>Больше от {data.user?.displayName || 'Пользователь'}</span>
+                    <Link className='inline-flex items-center gap-1 text-sm text-neutral-300' href={`/${params.userId}`}>Посмотреть все <BiChevronRight size={15} /></Link>
+                </div>
+                <div className="grid w-full h-full grid-cols-4 grid-rows-1 gap-2">
+                    <div className="w-full h-full rounded-xl bg-neutral-700"></div>
+                    <div className="w-full h-full rounded-xl bg-neutral-700"></div>
+                    <div className="w-full h-full rounded-xl bg-neutral-700"></div>
+                    <div className="w-full h-full rounded-xl bg-neutral-700"></div>
+                </div>
             </div>
-            <div className="flex w-full p-16 h-96 shrink-0 bg-neutral-800">
-                <div className="w-full h-full max-w-sm bg-neutral-700"></div>
+            <div className="flex w-full p-16 h-fit shrink-0 rounded-t-xl bg-neutral-800">
+                <div className="flex flex-col w-full h-full max-w-sm gap-2">
+                    <div className="flex items-center w-full gap-2 h-fit">
+                        <div className="flex items-center gap-2 w-fit h-fit">
+                            <Image src='/DarkMaterial.svg' width={36} height={36} alt='root-logo' />
+                            <span className='text-2xl font-bold text-neutral-200'>Dark Material</span>
+                        </div>
+                        <div className="w-0.5 h-full bg-neutral-700" />
+                        <div className="flex items-center gap-2 w-fit h-fit">
+                            <Image src='/DM_DesignV2.svg' width={36} height={36} alt='root-logo' />
+                            <span className='text-2xl font-bold text-neutral-200'>Dey</span>
+                        </div>
+                    </div>
+                    <div className="w-full h-fit">
+                        <span className='text-sm text-neutral-300'>Dey - приложение для объединения и вдохновения людей</span>
+                    </div>
+                </div>
             </div>
             {
                 <ShotPageToolBar shot={data.shot} user={data.user} />

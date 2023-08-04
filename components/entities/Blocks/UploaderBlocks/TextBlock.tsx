@@ -38,9 +38,9 @@ const TextBlock = ({ block, index }: Props) => {
         }
     }
     const getSize = (size: TextBlock['size'], isImportant?: boolean) => {
-        return size === 1 ? isImportant ? '!text-xs' : 'text-xs' : 
+        return size === 1 ? isImportant ? '!text-sm' : 'text-sm' : 
         size === 2 ? isImportant ? '!text-base' : 'text-base' : 
-        size === 3 ? isImportant ? '!text-lg' : 'text-lg' : 'text-base'
+        size === 3 ? isImportant ? '!text-xl' : 'text-xl' : 'text-base'
     }
     const getDecorators = (isBold: boolean, isItalic: boolean, isImportant?: boolean) => {
         return `${isBold ? isImportant ? '!font-bold' : 'font-bold' : ''} ${isItalic ? isImportant ? '!italic' : 'italic' : ''}`

@@ -32,7 +32,7 @@ const ShotInfo = ({ shot }: Props) => {
                 </div>
                 <div className="flex flex-col w-1/3 h-full gap-1">
                     <div className="flex items-center justify-end w-full h-1/2">
-                        <Button href={`/shot/${shot.authorId}-${shot.doc_id}`} shape='circle'><BiRightArrowAlt size={17} className='inline'/></Button>
+                        <Button href={`/${shot.authorId}/${shot.doc_id}`} shape='circle'><BiRightArrowAlt size={17} className='inline'/></Button>
                     </div>
                 </div>
             </div>
