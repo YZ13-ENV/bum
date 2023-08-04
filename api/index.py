@@ -9,3 +9,7 @@ app = FastAPI()
 
 app.include_router(ShotsRouter)
 app.include_router(UserRouter)
+
+@app.get('/api/check')
+async def checkAPI():
+    return 'ok'
