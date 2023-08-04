@@ -2,8 +2,9 @@ import datetime
 from api.firebaseApp import db
 from typing import Any, Dict
 from fastapi import APIRouter, Body
-from api.shots.helpers import getUserDrafts, getUserShotsWithDocId, getUsersIdList, getUserShots
-from api.shots.shotSchema import ShotData, ShotDataForUpload
+from api.shots.helpers import getUserDrafts, getUserShotWithDocId, getUserShotsWithDocId, getUsersIdList, getUserShots
+from api.shots.shotSchema import DraftShotData, ShotData, ShotDataForUpload
+from api.user.helpers import checkShortData
 
 
 router = APIRouter(
@@ -13,64 +14,72 @@ router = APIRouter(
 
 @router.get('/shot')
 async def getShotById(userId: str, shotId: str):
-    shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
-    shotSnap = await shotRef.get()
-    return shotSnap.to_dict()
+    await checkShortData(userId)
+    shot = await getUserShotWithDocId(userId=userId, shotId=shotId)
+    return shot
 
 @router.patch('/shot')
 async def updateShotById(userId: str, shotId: str, shot: ShotData):
+    await checkShortData(userId)
     shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
     updatedSnap = shotRef.update(shot)
     return updatedSnap
 
-@router.get('/shotExisting')
-async def isShotExist(userId: str, shotId: str):
-    shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
-    shotSnap = await shotRef.get()
+@router.get('/draft')
+async def getDraft(userId: str, draftId: str):
+    await checkShortData(userId)
+    draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
+    draftSnap = await draftRef.get()
+    if (draftSnap.exists):
+        return draftSnap.to_dict()
+    else:
+        return None
 
-    return shotSnap.exists
+@router.post('/publish')
+async def publishDraft(userId: str, draftId: str, draftToPublish: ShotData):
+    await checkShortData(userId)
+    draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
+    await draftRef.set(draftToPublish.dict())
+    return True
 
 
-@router.post('/shot')
-async def uploadShotById(userId: str, shotId: str, shot: ShotDataForUpload, asDraft: bool=False):
-    print(shot)
-    shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
-    shotSnap = await shotRef.get()
-    dictShot = shot.dict()
-    filledShot = {
-        'isDraft': asDraft,
+@router.post('/draft')
+async def uploadDraft(userId: str, draftId: str, draft: DraftShotData):
+    await checkShortData(userId)
+    draftRef = db.collection('users').document(userId).collection('shots').document(draftId)
+    draftSnap = await draftRef.get()
+    dictDraft = draft.dict()
+    filledDraft = {
+        'isDraft': True,
         'authorId': userId,
-        'title': dictShot['title'],
-        'rootBlock': dictShot['rootBlock'],
-        'blocks': dictShot['blocks'],
-        'createdAt': datetime.datetime.today().timestamp(),
-        'likes': [],
-        'views': [],
-        'comments': []
+        'title': dictDraft['title'],
+        'rootBlock': dictDraft['rootBlock'],
+        'blocks': dictDraft['blocks'],
+        'createdAt': datetime.datetime.today().timestamp()
     }
-    if (not shotSnap.exists):
-        await shotRef.set(filledShot)
+    if (not draftSnap.exists):
+        await draftRef.set(filledDraft)
         return True
     else:
-        snapDict = shotSnap.to_dict()
-        filledShot['createdAt'] = snapDict['createdAt']
-        await shotRef.update(filledShot)
+        snapDict = draftSnap.to_dict()
+        filledDraft['createdAt'] = snapDict['createdAt']
+        await draftRef.update(filledDraft)
         return True
 
-
-@router.get('/shotsList')
-async def getShotsBy(userId: str):
-    shots = await getUserShots(userId)
-    return shots
-
-@router.get('/draftsList')
-async def getDrafts(userId: str):
-    shots = await getUserDrafts(userId)
-    return shots
+@router.get('/list')
+async def getShotsBy(userId: str, drafts: bool):
+    await checkShortData(userId)
+    if (drafts):
+        drafts = await getUserDrafts(userId)
+        return drafts
+    else :
+        shots = await getUserShots(userId)
+        return shots
 
 
 @router.get('/shotsDocList')
 async def getShotsBy(userId: str, noDrafts: bool=False):
+    await checkShortData(userId)
     shots = await getUserShotsWithDocId(userId, noDrafts)
     return shots
 

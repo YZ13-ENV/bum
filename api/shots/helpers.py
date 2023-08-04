@@ -13,6 +13,15 @@ async def getUsersIdList():
         idsList.append(userId)
     return idsList
 
+async def getUserShotWithDocId(userId: str, shotId: str):
+    shotRef = db.collection('users').document(userId).collection('shots').document(shotId)
+    shotSnap = await shotRef.get()
+    if (shotSnap.exists):
+        shotData = shotSnap.to_dict()
+        shotData['doc_id'] = shotSnap.id
+        return shotData
+    return None
+
 async def getUserShotsWithDocId(userId: str, noDraft: bool=False):
     shotsRef = db.collection('users').document(userId).collection('shots')
     shots = await shotsRef.get()
@@ -38,7 +47,6 @@ async def getUserDrafts(userId: str):
             shotData = shot.to_dict()
             shotData['doc_id'] = shot.id
             if shotData['isDraft'] == True:
-                shotData = shot.to_dict()
                 shotsList.append(shotData)
 
     return shotsList

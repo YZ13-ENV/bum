@@ -1,4 +1,5 @@
-import { ShotForUpload } from "@/types"
+import { DraftShotData, ShotData, ShotForUpload } from "@/types"
+import { DateTime } from "luxon"
 
 export const isShotExist = async(userId: string, shotId: string): Promise<boolean> => {
     const res = await fetch(`/api/shots/shotExisting?userId=${userId}&shotId=${shotId}`)
@@ -9,10 +10,28 @@ export const isShotExist = async(userId: string, shotId: string): Promise<boolea
 export const uploadShot_POST = async(userId: string, shotId: string, shot: ShotForUpload) => {
     const headers = new Headers()
     headers.set("Content-Type", "application/json")
-    const res = await fetch(`/api/shots/shot?userId=${userId}&shotId=${shotId}&asDraft=True`, {
+    const preparedDraft: DraftShotData = {
+        ...shot,
+        createdAt: DateTime.now().toSeconds(),
+        authorId: userId,
+        isDraft: true
+    }
+    const res = await fetch(`/api/shots/draft?userId=${userId}&draftId=${shotId}`, {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify(shot)
+        body: JSON.stringify(preparedDraft)
+    })
+    const uploadedShot = await res.json()
+    return uploadedShot
+}
+
+export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData) => {
+    const headers = new Headers()
+    headers.set("Content-Type", "application/json")
+    const res = await fetch(`/api/shots/publish?userId=${userId}&draftId=${draftId}`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(draft)
     })
     const uploadedShot = await res.json()
     return uploadedShot
@@ -23,8 +42,11 @@ const uploadShotWithCheck = async(userId: string, shotId: string, shot: ShotForU
     // console.log(isExist);
     if (!isExist) {
         const uploadedShot = await uploadShot_POST(userId, shotId, shot)
-        console.log(uploadedShot)
         return uploadedShot
     }
     return null
+}
+
+const uploadDraft = async(userId: string, draftId: string, draft: ShotData) => {
+
 }

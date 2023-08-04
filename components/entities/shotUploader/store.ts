@@ -6,6 +6,7 @@ type InitState = {
     shot: ShotForUpload
     prevWorkSidebar: boolean
     blocksSidebar: boolean
+    finalTouchModal: boolean
 }
 
 const initialState: InitState = {
@@ -19,7 +20,8 @@ const initialState: InitState = {
         title: ''
     },
     blocksSidebar: false,
-    prevWorkSidebar: false
+    prevWorkSidebar: false,
+    finalTouchModal: false
 }
 
 const ShotUploaderSlice = createSlice({
@@ -47,7 +49,10 @@ const ShotUploaderSlice = createSlice({
         setPrevWorkSidebar(state, { payload, type }: { payload: InitState['prevWorkSidebar'], type: string }) {
             state.prevWorkSidebar = payload
         },
+        setFinalTouchModal(state, { payload, type }: { payload: InitState['finalTouchModal'], type: string }) {
+            state.finalTouchModal = payload
+        },
     }
 })
-export const { setDraftId, setBlocks, setRootBlock, setShot, setTitle, setBlockSidebar, setPrevWorkSidebar } = ShotUploaderSlice.actions
+export const { setDraftId, setBlocks, setRootBlock, setShot, setTitle, setBlockSidebar, setPrevWorkSidebar, setFinalTouchModal } = ShotUploaderSlice.actions
 export default ShotUploaderSlice.reducer

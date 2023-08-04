@@ -24,11 +24,11 @@ const UploadBlocksMenu = () => {
     ]
     return (
         <div className={`flex flex-col w-full h-full absolute border-l border-neutral-800 bg-black upload_sidebar
-        ${blockExpanded ? 'right-0' : '-right-[100%]'} max-w-sm gap-2 p-4`}>
+        ${blockExpanded ? 'right-0 z-20' : '-right-[100%]'} max-w-sm gap-2 p-4 overflow-y-auto`}>
             <div className="flex flex-col w-full h-full gap-2">
-                <div className="flex items-center justify-between w-full gap-2 h-fit">
+                <div className="flex items-center justify-start w-full gap-2 h-fit">
                     <span className='font-semibold text-neutral-200'>Блоки</span>
-                    <Button className='!px-2'><BiPlus size={17} /></Button>
+                    {/* <Button className='!px-2'><BiPlus size={17} /></Button> */}
                 </div>
                 <div className="flex w-full h-fit">
                     <Segmented className='!w-full' options={options} block value={blockSegment} onChange={e => setBlockSegment(e.toString())} />
@@ -38,7 +38,6 @@ const UploadBlocksMenu = () => {
                     ? <BlocksIn />
                     : <BlocksOut />
                 }
-
             </div>
         </div>
     )

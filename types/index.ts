@@ -33,6 +33,15 @@ export type ShotForUpload = {
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
 }
 
+export type DraftShotData = {
+    isDraft: boolean
+    authorId: string
+    title: string
+    rootBlock: ImageBlock
+    blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
+    createdAt: number
+}
+
 export type ShotData = {
     isDraft: boolean
     authorId: string
@@ -43,6 +52,17 @@ export type ShotData = {
     likes: string[]
     views: string[]
     comments: CommentBlock[]
+    needFeedback: boolean
+    tags: string[]
+    thumbnail?: ImageBlock
 }
 
 export type DocShotData = { doc_id: string } & ShotData
+export type DocDraftShotData = { doc_id: string } & DraftShotData
+
+
+export type ShortUserData = {
+    photoUrl: string
+    displayName: string
+    email: string
+}
