@@ -37,15 +37,17 @@ const ShotPage = async({ params }: Props) => {
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <div className="flex items-center justify-between w-full max-w-2xl gap-1 mx-auto h-fit">
                     <div className="flex items-center w-full gap-4 h-fit">
-                        {
-                            data.user 
-                            ? data.user.photoUrl
-                            ? <Image className='rounded-full shrink-0' src={data.user.photoUrl} width={56} height={56} alt='user-photo' />
-                            : <div className="flex items-center justify-center border rounded-full w-14 h-14 shrink-0 bg-neutral-800 border-neutral-700">
-                                <BiUser size={17} />
-                            </div>
-                            : <div className="border rounded-full w-14 h-14 shrink-0 bg-neutral-800 border-neutral-700" />
-                        }
+                        <Link href={`/${params.userId}`}>
+                            {
+                                data.user 
+                                ? data.user.photoUrl
+                                ? <Image className='rounded-full shrink-0' src={data.user.photoUrl} width={56} height={56} alt='user-photo' />
+                                : <div className="flex items-center justify-center border rounded-full w-14 h-14 shrink-0 bg-neutral-800 border-neutral-700">
+                                    <BiUser size={17} />
+                                </div>
+                                : <div className="border rounded-full w-14 h-14 shrink-0 bg-neutral-800 border-neutral-700" />
+                            }
+                        </Link>
                         <div className="flex flex-col w-full h-full gap-1">
                             <span className='text-2xl font-semibold text-neutral-200'>{data.shot.title}</span>
                             <span className='text-xs text-neutral-400'>{data.user?.displayName || 'Пользователь'}</span>
@@ -102,7 +104,7 @@ const ShotPage = async({ params }: Props) => {
                 </div>
             </div>
             {
-                <ShotPageToolBar shot={data.shot} user={data.user} />
+                <ShotPageToolBar userId={params.userId} shot={data.shot} user={data.user} />
             }
         </div>
     )
