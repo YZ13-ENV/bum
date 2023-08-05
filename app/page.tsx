@@ -10,7 +10,6 @@ const getAllShots = async() => {
       method: "GET",
     })
     const allShots: DocShotData[] = await res.json()
-    // console.log(allShots);
     return chunk(allShots, 4)
   } catch(e) {
     console.log(e);
@@ -21,6 +20,7 @@ export default async function Home() {
   const shots = await getAllShots()
   return (
     <main className="flex flex-col justify-between w-full h-full">
+      {getHost()}
       <Tabs />
       <BodyWrapper shots={shots} />
     </main>
