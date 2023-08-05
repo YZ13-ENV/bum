@@ -10,7 +10,6 @@ const getAllShots = async() => {
       method: "GET",
     })
     const allShots: DocShotData[] = await res.json()
-    // console.log(allShots);
     return chunk(allShots, 4)
   } catch(e) {
     console.log(e);
