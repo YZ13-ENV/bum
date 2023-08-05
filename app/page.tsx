@@ -20,7 +20,6 @@ export default async function Home() {
   const shots = await getAllShots()
   return (
     <main className="flex flex-col justify-between w-full h-full">
-      {getHost()}
       <Tabs />
       <BodyWrapper shots={shots} />
     </main>
