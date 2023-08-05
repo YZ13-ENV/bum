@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from firebase_admin import firestore_async, auth, credentials, initialize_app
 from datetime import datetime
 from fastapi import FastAPI
 from data.schemas import DraftShotData, ShotData
@@ -8,10 +7,6 @@ from data.helpers import checkShortData, getShortData, getUserDrafts, getUserSho
 app = FastAPI()
 
 
-cred = credentials.Certificate(cert='api/service.json')
-firebase_app = initialize_app.initialize_app(cred)
-db = firestore_async.client(app=firebase_app)
-auth = auth.Client(app=firebase_app)
 
 
 @app.get('/api/check')
