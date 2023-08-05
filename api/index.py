@@ -1,12 +1,9 @@
 from fastapi import FastAPI
-from datetime import datetime
-from fastapi import FastAPI
+from data.firebase import db
 from data.schemas import DraftShotData, ShotData
 from data.helpers import checkShortData, getShortData, getUserDrafts, getUserShotWithDocId, getUserShots, getUserShotsWithDocId, getUsersIdList
 
 app = FastAPI()
-
-
 
 
 @app.get('/api/check')
