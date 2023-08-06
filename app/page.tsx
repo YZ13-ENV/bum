@@ -6,11 +6,10 @@ import { chunk } from "lodash";
 
 const getAllShots = async() => {
   try {
-    const res = await fetch(`${getHost()}/api/shots/allShots`, {
+    const res = await fetch(`${getHost()}/api/allShots`, {
       method: "GET",
     })
     const allShots: DocShotData[] = await res.json()
-    // console.log(allShots);
     return chunk(allShots, 4)
   } catch(e) {
     console.log(e);

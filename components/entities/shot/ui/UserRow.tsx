@@ -11,9 +11,13 @@ type Props = {
 const UserRow = ({ userId }: Props) => {
     const [shortData, setShortData] = React.useState<ShortUserData | null>(null)
     const getShortData = async() => {
-        const userRes = await fetch(`${getHost()}/api/user/short?userId=${userId}`, { method: 'GET' })
-        const user: ShortUserData | null = await userRes.json()
-        setShortData(user)
+        try {
+            const userRes = await fetch(`${getHost()}/api/user/short?userId=${userId}`, { method: 'GET' })
+            const user: ShortUserData | null = await userRes.json()
+            setShortData(user)
+        } catch(e) {
+            console.log(e)
+        }
     }
     React.useEffect(() => {
         getShortData()
