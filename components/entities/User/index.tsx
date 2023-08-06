@@ -14,7 +14,7 @@ const UserStatus = () => {
         } else return <div className="flex items-center justify-center border rounded-full w-9 h-9 border-neutral-700 bg-neutral-900">
             <BiUser size={15} />
         </div>
-    } else return <Button loading={loading} type='primary'>Войти</Button>
+    } else return <Button size='large' loading={loading} type='primary'>Войти</Button>
 }
 
 export default UserStatus

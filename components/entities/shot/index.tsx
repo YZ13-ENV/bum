@@ -8,7 +8,7 @@ type Props = {
 }
 const ShotCard = ({ shot }: Props) => {
     return (
-        <div className="relative w-full h-full overflow-hidden border rounded-2xl border-neutral-700 group bg-neutral-900">
+        <div className="relative w-full h-full overflow-hidden border border-neutral-800 rounded-2xl group">
             <BlockImage imageLink={shot.rootBlock.link} />
             <ShotInfo shot={shot} />
         </div>
