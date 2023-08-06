@@ -14,7 +14,7 @@ type Props = {
 }
 const getShortData = async(userId: string) => {
     try {
-        const shotsRes = await fetch(`${getHost()}/api/shots/shotsDocList?userId=${userId}&noDrafts=true`)
+        const shotsRes = await fetch(`${getHost()}/shots/only?userId=${userId}&noDrafts=true`)
         const userRes = await fetch(`${getHost()}/api/user/short?userId=${userId}`, { method: 'GET' })
         const shots: DocShotData[] = await shotsRes.json()
         const user: ShortUserData | null = await userRes.json()
