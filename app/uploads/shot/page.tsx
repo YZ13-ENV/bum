@@ -10,8 +10,11 @@ const getPrevShots = async() => {
     const uid = cookie.get("uid")
     if (uid) {
         try {
-            const decodedUID = verify(uid.value, process.env?.JWT_SECRET || '') as { [key: string]: string }
-            const res = await fetch(`${getHost()}/shots/onlyDrafts?userId=${decodedUID.uid}&asDoc=true`)
+            const res = await fetch(`${getHost()}/shots/onlyDrafts?userId=${uid.value}&asDoc=true`, {
+                next: {
+                    revalidate: 5000
+                }
+            })
             const shots: DocDraftShotData[] = await res.json()
             return shots
         } catch(e) {

@@ -1,11 +1,28 @@
+import { ImageBlock, VideoBlock } from "@/types";
 import { RcFile } from "antd/es/upload";
 import { v4 } from "uuid";
-// "image/jpeg" || "image/png"
-export const checkFile = (userId: string, draftId: string, file: RcFile) => {
+// "image/jpeg" || "image/png" || "video/mp4"
+export const checkFile = (userId: string, draftId: string, file: RcFile): ImageBlock | VideoBlock | null => {
+    const checkedSize = checkSize(file.size)
+    if (file.type === 'video/mp4' && 
+    (checkedSize.size <= 20 && checkedSize.scale === 'MiB' || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+        return { type: 'video', link: `/users/${userId}/${draftId}/${v4()}.mp4`}
+    }
     if (file.type === 'image/jpg') {
-        return `/users/${userId}/${draftId}/${v4()}.jpg`
+        return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.jpg`}
     } else if (file.type === 'image/png') {
-        return `/users/${userId}/${draftId}/${v4()}.png`
+        return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.png`}
     }
     return null
+}
+
+const checkSize = (bytes: number, decimals: number = 2) => {
+    if (!+bytes) return { size: 0, scale: 'Bytes'}
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return { size: parseFloat((bytes / Math.pow(k, i)).toFixed(dm)), scale: sizes[i]}
 }

@@ -9,6 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiArchive, BiTrashAlt } from 'react-icons/bi'
 import BlockImage from './BlockImage'
 import { checkFile } from '@/helpers/checkFile'
+import BlockVideo from './BlockVideo'
 
 const { Dragger } = Upload
 const RootBlock = () => {
@@ -22,39 +23,27 @@ const RootBlock = () => {
         action: async(file) => {
             if (user) {
                 const generatedId = randomString(20)
-                const checkedFile = checkFile(user.uid, generatedId, file)
+                const checkedFile = checkFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
                 if (checkedFile && !uploader.draftId) {
-                    const refTo = ref(storage, checkedFile)
+                    const refTo = ref(storage, checkedFile.link)
                     const arrBuffer = await file.arrayBuffer()
-                    const uploaded =  await uploadBytes(refTo, arrBuffer)
+                    const uploaded = await uploadBytes(refTo, arrBuffer)
+                    console.log(uploaded)
                     dispatch(setDraftId(generatedId))
-                    dispatch(setRootBlock({ type: 'image', link: uploaded.ref.fullPath }))
+                    dispatch(setRootBlock({ type: checkedFile.type, link: checkedFile.link }))
                     return refTo.fullPath
                 } 
                 if (checkedFile && uploader.draftId) {
-                    const refTo = ref(storage, checkedFile)
+                    const refTo = ref(storage, checkedFile.link)
                     const arrBuffer = await file.arrayBuffer()
-                    const uploaded =  await uploadBytes(refTo, arrBuffer)
-                    dispatch(setRootBlock({ type: 'image', link: uploaded.ref.fullPath }))
+                    const uploaded = await uploadBytes(refTo, arrBuffer)
+                    console.log(uploaded)
+                    dispatch(setRootBlock({ type: checkedFile.type, link: checkedFile.link }))
                     return refTo.fullPath
                 } 
                 return ''
             } else return ''
-        },
-        onChange(info) {
-          const { status } = info.file;
-          if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-          }
-          if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-          } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-          }
-        },
-        onDrop(e) {
-          console.log('Dropped files', e.dataTransfer.files);
-        },
+        }
     };
     const deleteImageFromRootBlock = async() => {
         if (user && rootBlock.link !== '') {
@@ -64,14 +53,27 @@ const RootBlock = () => {
         }
     }
     if (rootBlock.link !== '') {
-        return (
-            <div className="relative w-full h-[32rem] !shrink-0">
-                <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
-                    <Button className='!px-2' onClick={deleteImageFromRootBlock}><BiTrashAlt size={17} /></Button>
+        if (rootBlock.type === 'image' ) {
+            return (
+                <div className="relative w-full h-[32rem] !shrink-0">
+                    <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
+                        <Button className='!px-2' onClick={deleteImageFromRootBlock}><BiTrashAlt size={17} /></Button>
+                    </div>
+                    <BlockImage imageLink={rootBlock.link} />
                 </div>
-                <BlockImage imageLink={rootBlock.link} />
-            </div>
-        )
+            )
+        }
+        if (rootBlock.type === 'video') {
+            return (
+                <div className="relative w-full h-[32rem] !shrink-0">
+                    <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
+                        <Button className='!px-2' onClick={deleteImageFromRootBlock}><BiTrashAlt size={17} /></Button>
+                    </div>
+                    <BlockVideo block={rootBlock} />
+                    {/* <BlockImage imageLink={rootBlock.link} /> */}
+                </div>
+            )
+        }
     }
     return (
         <Dragger className='!h-[32rem] !shrink-0' {...props}>

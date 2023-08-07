@@ -13,6 +13,11 @@ export type ImageBlock = {
     link: string
 }
 
+export type VideoBlock = {
+    type: 'video',
+    link: string
+}
+
 export type ShotGridBlock = {
     type: 'shotGrid',
     ids: string[]
@@ -29,7 +34,7 @@ export type CommentBlock = {
 
 export type ShotForUpload = {
     title: string
-    rootBlock: ImageBlock
+    rootBlock: ImageBlock | VideoBlock
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
 }
 
@@ -37,7 +42,7 @@ export type DraftShotData = {
     isDraft: boolean
     authorId: string
     title: string
-    rootBlock: ImageBlock
+    rootBlock: ImageBlock | VideoBlock
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
     createdAt: number
 }
@@ -46,7 +51,7 @@ export type ShotData = {
     isDraft: boolean
     authorId: string
     title: string
-    rootBlock: ImageBlock
+    rootBlock: ImageBlock | VideoBlock
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
     createdAt: number
     likes: string[]
@@ -54,7 +59,7 @@ export type ShotData = {
     comments: CommentBlock[]
     needFeedback: boolean
     tags: string[]
-    thumbnail?: ImageBlock
+    thumbnail?: ImageBlock | VideoBlock
 }
 
 export type DocShotData = { doc_id: string } & ShotData

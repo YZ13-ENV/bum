@@ -5,6 +5,7 @@ import { useAppDispatch } from '@/components/entities/store/store'
 import { setDraftId, setShot } from '@/components/entities/shotUploader/store'
 import { BiRightArrowAlt } from 'react-icons/bi'
 import { Button } from 'antd'
+import BlockVideo from '../../UploadBlockView/ui/BlockVideo'
 
 type Props = {
     block: DocDraftShotData
@@ -28,7 +29,9 @@ const PrevShotCard = ({ block }: Props) => {
             {
                 block.rootBlock.link === ''
                 ? <span className='text-xs text-neutral-300'>Нет обложки</span>
-                : <BlockImage imageLink={block.rootBlock.link} />
+                : block.rootBlock.type === 'image' 
+                ? <BlockImage imageLink={block.rootBlock.link} />
+                : <BlockVideo block={block.rootBlock} />
             }
         </div>
     )
