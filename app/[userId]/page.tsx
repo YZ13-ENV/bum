@@ -14,11 +14,11 @@ type Props = {
 }
 const getShortData = async(userId: string) => {
     try {
-        const shotsRes = await fetch(`${getHost()}/shots/only?userId=${userId}&noDrafts=true`)
-        const userRes = await fetch(`${getHost()}/api/user/short?userId=${userId}`, { method: 'GET' })
+        const shotsRes = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&asDoc=true`)
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET' })
         const shots: DocShotData[] = await shotsRes.json()
-        const user: ShortUserData | null = await userRes.json()
-        return { user: user, shots: shots }
+        const user: { short: ShortUserData } | null = await userRes.json()
+        return { user: user ? user.short : null, shots: shots }
     } catch(e) {
         console.log(e)
         return null
