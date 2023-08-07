@@ -4,12 +4,14 @@ import { cookies } from 'next/headers'
 import { DocDraftShotData, DocShotData } from '@/types';
 import { Button } from 'antd';
 import { getHost } from '@/helpers/getHost';
+import { verify } from 'jsonwebtoken'
 const getPrevShots = async() => {
     const cookie = cookies()
     const uid = cookie.get("uid")
     if (uid) {
         try {
-            const res = await fetch(`${getHost()}/api/shots/list?userId=${uid.value}&drafts=true`)
+            const decodedUID = verify(uid.value, process.env?.JWT_SECRET || '') as { [key: string]: string }
+            const res = await fetch(`${getHost()}/shots/onlyDrafts?userId=${decodedUID.uid}&asDoc=true`)
             const shots: DocDraftShotData[] = await res.json()
             return shots
         } catch(e) {

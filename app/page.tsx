@@ -11,6 +11,9 @@ const getAllShots = async() => {
   try {
     const res = await fetch(`${getHost()}/shots/allShots`, {
       method: "GET",
+      next: {
+        revalidate: 3600
+      }
     })
     const allShots: DocShotData[] = await res.json()
     return chunk(allShots, 4)

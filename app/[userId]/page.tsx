@@ -1,6 +1,7 @@
 import ShotCard from '@/components/entities/shot'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
+import { auth } from '@/utils/app'
 import { Button, Segmented } from 'antd'
 import { chunk } from 'lodash'
 import Image from 'next/image'
@@ -14,11 +15,11 @@ type Props = {
 }
 const getShortData = async(userId: string) => {
     try {
-        const shotsRes = await fetch(`${getHost()}/shots/only?userId=${userId}&noDrafts=true`)
-        const userRes = await fetch(`${getHost()}/api/user/short?userId=${userId}`, { method: 'GET' })
+        const shotsRes = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&asDoc=true`)
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET' })
         const shots: DocShotData[] = await shotsRes.json()
-        const user: ShortUserData | null = await userRes.json()
-        return { user: user, shots: shots }
+        const user: { short: ShortUserData } | null = await userRes.json()
+        return { user: user ? user.short : null, shots: shots }
     } catch(e) {
         console.log(e)
         return null
