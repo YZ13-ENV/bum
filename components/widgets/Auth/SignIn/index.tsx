@@ -11,8 +11,9 @@ import { setStep, setUserInProcess } from '@/components/entities/authProcess/sto
 import { ShortUserData } from '@/types'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
-
+import { useCookieState } from 'ahooks'
 const SignIn = () => {
+    const [cookie, setCookie] = useCookieState('uid')
     const authSignIn = useAppSelector(state => state.auth)
     const authText = authSignIn.step === 'email' 
     ? 'Введите почту прикрепленную к аккаунту' : authSignIn.step === 'password' 
@@ -22,13 +23,16 @@ const SignIn = () => {
         if (authSignIn.email.length >= 10 && authSignIn.email.includes('@')) {
             const res = await fetch(`${getHost()}/users/shortByEmail?email=${authSignIn.email}`)
             const resData: { short: ShortUserData } = await res.json()
-            console.log(resData);
+            // console.log(resData);
             
             if (resData) {
                 dispatch(setUserInProcess(resData.short))
                 dispatch(setStep('password'))
             }
         }
+    }
+    const authCheck = async(uid: string) => {
+        setCookie(uid)
     }
     const [
         signInWithEmailAndPassword,
@@ -41,7 +45,7 @@ const SignIn = () => {
             signInWithEmailAndPassword(authSignIn.email, authSignIn.password)
             .then(creds => {
                 if (creds && creds.user) {
-                    fetch(`${getHost()}/auth/authComplete?email=${creds.user.email}`)
+                    authCheck(creds.user.uid)
                 }
             })
         }
