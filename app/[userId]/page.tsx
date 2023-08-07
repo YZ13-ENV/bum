@@ -1,6 +1,7 @@
 import ShotCard from '@/components/entities/shot'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
+import { auth } from '@/utils/app'
 import { Button, Segmented } from 'antd'
 import { chunk } from 'lodash'
 import Image from 'next/image'

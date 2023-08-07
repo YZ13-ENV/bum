@@ -18,11 +18,11 @@ type Props = {
 }
 const getShot = async(userId: string, shotId: string) => {
     try {
-        const shotRes = await fetch(`${getHost()}/api/shots/shot?userId=${userId}&shotId=${shotId}`)
-        const userRes = await fetch(`${getHost()}/api/user/short?userId=${userId}`, { method: 'GET' })
+        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`)
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET' })
         const shot: DocShotData = await shotRes.json()
-        const user: ShortUserData | null = await userRes.json()
-        return { shot: shot, user: user }
+        const user: { short: ShortUserData } | null = await userRes.json()
+        return { shot: shot, user: user ? user.short : null }
     } catch(e) {
         console.log(e)
         return null
@@ -94,7 +94,7 @@ const ShotPage = async({ params }: Props) => {
                         </div>
                         <div className="w-0.5 h-full bg-neutral-700" />
                         <div className="flex items-center gap-2 w-fit h-fit">
-                            <Image src='/DM_DesignV2.svg' width={36} height={36} alt='root-logo' />
+                            <Image src='/Dey.svg' width={36} height={36} alt='root-logo' />
                             <span className='text-2xl font-bold text-neutral-200'>Dey</span>
                         </div>
                     </div>

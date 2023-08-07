@@ -1,3 +1,4 @@
+'use client'
 import { auth } from '@/utils/app'
 import { Button } from 'antd'
 import Image from 'next/image'

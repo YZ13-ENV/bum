@@ -1,5 +1,6 @@
-import { DraftShotData, ShotData, ShotForUpload } from "@/types"
+import { DraftShotData, ImageBlock, ShotData, ShotForUpload } from "@/types"
 import { DateTime } from "luxon"
+import { getHost } from "./getHost"
 
 export const isShotExist = async(userId: string, shotId: string): Promise<boolean> => {
     const res = await fetch(`/api/shots/shotExisting?userId=${userId}&shotId=${shotId}`)
@@ -10,31 +11,36 @@ export const isShotExist = async(userId: string, shotId: string): Promise<boolea
 export const uploadShot_POST = async(userId: string, shotId: string, shot: ShotForUpload) => {
     const headers = new Headers()
     headers.set("Content-Type", "application/json")
-    const preparedDraft: DraftShotData = {
-        ...shot,
-        createdAt: DateTime.now().toSeconds(),
-        authorId: userId,
-        isDraft: true
-    }
-    const res = await fetch(`/api/shots/draft?userId=${userId}&draftId=${shotId}`, {
+    const res = await fetch(`${getHost()}/shots/updateDraft?userId=${userId}&draftId=${shotId}`, {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify(preparedDraft)
+        body: JSON.stringify(shot)
     })
     const uploadedShot = await res.json()
     return uploadedShot
 }
 
-export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData) => {
-    const headers = new Headers()
-    headers.set("Content-Type", "application/json")
-    const res = await fetch(`/api/shots/publish?userId=${userId}&draftId=${draftId}`, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(draft)
-    })
-    const uploadedShot = await res.json()
-    return uploadedShot
+export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData, needFeedBack: boolean, tags: string[], thumbnail: ImageBlock | null=null) => {
+    try {
+        const headers = new Headers()
+        headers.set("Content-Type", "application/json")
+        const preparedDraft = {
+            ...draft,
+            tags: tags,
+            thumbnail: thumbnail,
+            needFeedBack: needFeedBack
+        }
+        const res = await fetch(`${getHost()}/shots/publishDraft?userId=${userId}&draftId=${draftId}`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(preparedDraft)
+        })
+        const uploadedShot = await res.json()
+        return uploadedShot
+    } catch(e) {
+        console.log(e)
+        return null
+    }
 }
 
 const uploadShotWithCheck = async(userId: string, shotId: string, shot: ShotForUpload) => {

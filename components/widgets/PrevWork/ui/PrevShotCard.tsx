@@ -10,7 +10,6 @@ type Props = {
     block: DocDraftShotData
 }
 const PrevShotCard = ({ block }: Props) => {
-    console.log(block);
     const dispatch = useAppDispatch()
     const setDraft = () => {
         dispatch(setDraftId(block.doc_id))

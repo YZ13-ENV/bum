@@ -40,7 +40,9 @@ const SignIn = () => {
         if (authSignIn.password.length >= 6 && authSignIn.email.length >= 10 && authSignIn.email.includes('@')) {
             signInWithEmailAndPassword(authSignIn.email, authSignIn.password)
             .then(creds => {
-                
+                if (creds && creds.user) {
+                    fetch(`${getHost()}/auth/authComplete?email=${creds.user.email}`)
+                }
             })
         }
     }
