@@ -24,7 +24,7 @@ const LastWorks = async({ displayName, userId }: Props) => {
     const shots = await getLastWorks(userId)
     if (shots.length === 0) return null
     return (
-        <div className="flex flex-col justify-between w-full h-64 max-w-6xl gap-4 p-3 mx-auto mt-auto shrink-0 rounded-xl bg-neutral-800">
+        <div className="flex flex-col justify-between w-full h-64 max-w-6xl gap-4 p-3 mx-auto mt-auto border shrink-0 rounded-xl border-neutral-700">
             <div className="flex items-center justify-between w-full h-fit">
                 <span className='font-semibold text-neutral-200'>Больше от {displayName || 'Пользователь'}</span>
                 <Link className='inline-flex items-center gap-1 text-sm text-neutral-300' href={`/${userId}`}>Посмотреть все <BiChevronRight size={15} /></Link>

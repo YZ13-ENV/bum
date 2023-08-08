@@ -1,9 +1,8 @@
 import ShotCard from '@/components/entities/shot'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
-import { auth } from '@/utils/app'
 import { Button, Segmented } from 'antd'
-import { chunk } from 'lodash'
+import { Metadata, ResolvingMetadata } from 'next'
 import Image from 'next/image'
 import React from 'react'
 import { BiLogOut, BiPencil, BiUser } from 'react-icons/bi'
@@ -12,6 +11,20 @@ type Props = {
     params: {
         userId: string
     }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent?: ResolvingMetadata
+): Promise<Metadata> {
+ 
+
+    const userRes = await fetch(`${getHost()}/users/shortData?userId=${params.userId}`, { method: 'GET' })
+    const user: { short: ShortUserData } | null = await userRes.json()
+ 
+  return {
+    title: user?.short.displayName || 'Пользователь',
+  }
 }
 const getShortData = async(userId: string) => {
     try {
@@ -29,7 +42,7 @@ const UserPage = async({ params }: Props) => {
     const data = await getShortData(params.userId)
     return (
         <section className='flex items-start w-full h-full gap-4 p-20'>
-            <div className="relative flex flex-col items-center h-full gap-4 px-4 pt-20 pb-4 w-80 shrink-0 rounded-xl bg-neutral-800">
+            <div className="relative flex flex-col items-center h-full gap-4 px-4 pt-20 pb-4 border w-80 shrink-0 rounded-xl border-neutral-700">
                 {
                     data && data.user
                     ? data.user.photoUrl
@@ -52,18 +65,15 @@ const UserPage = async({ params }: Props) => {
                 <div className="w-full h-fit">
                     <Segmented options={['Публикации', 'Черновики']} size='large' />
                 </div>
-                <div className="flex flex-col w-full h-full gap-2 p-4 rounded-xl bg-neutral-800">
+                <div className="flex flex-col w-full h-full gap-2 p-4 overflow-y-auto border rounded-xl border-neutral-700">
                 {
-                    data && chunk(data.shots, 4).map((shotChunk, index) => 
-                        <div key={`shotChunk#${index}`}
-                        className="grid w-full shrink-0 md:h-72 sm:h-[36rem] h-[72rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-3 sm:grid-cols-2">
+                    <div className="grid w-full grid-cols-1 grid-rows-3 gap-9 shrink-0 xl:grid-cols-3 xl:grid-rows-1 home_grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 lg:grid-rows-2 md:grid-rows-2 sm:grid-rows-2">
                             {
-                                shotChunk.map((shot, shotIndex) => 
-                                    <ShotCard key={`shotChunk#${index}#shot#${shotIndex}`} shot={shot} />
+                                data && data.shots.map((shotChunk, index) => 
+                                    <ShotCard key={`shotChunk#${index}#shot#${index + 1}`} shot={shotChunk} />
                                 )
                             }
                         </div>
-                    )
                 }
                 </div>
             </div>
