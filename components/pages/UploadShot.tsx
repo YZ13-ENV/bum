@@ -1,15 +1,11 @@
 import React from 'react'
 import PrevWorks from '../widgets/PrevWork'
 import UploadBlocksMenu from '../widgets/Uploader/ui/BlockSideMenu'
-import { DocDraftShotData } from '@/types'
 import FinalTouchModal from '../widgets/FinalTouchModal'
 import UploadHeader from '../entities/uploader/ui/uploadHeader'
 import UploadBlockView from '@/components/widgets/Uploader'
 
-type Props = {
-    prevShots: DocDraftShotData[]
-}
-const UploadShot = ({ prevShots }: Props) => {
+const UploadShot = () => {
     return (
         // 3 секции 
         /* 
@@ -21,7 +17,7 @@ const UploadShot = ({ prevShots }: Props) => {
             <FinalTouchModal />
             <UploadHeader />
             <div className="flex w-full h-full">
-                <PrevWorks prevShots={prevShots} />
+                <PrevWorks />
                 <UploadBlockView />
                 <UploadBlocksMenu />
             </div>

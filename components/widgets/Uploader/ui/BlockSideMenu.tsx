@@ -1,9 +1,9 @@
 'use client'
 import { useAppSelector } from '@/components/entities/store/store'
-import { Button, Segmented } from 'antd'
+import { Segmented } from 'antd'
 import { SegmentedLabeledOption } from 'antd/es/segmented'
 import React from 'react'
-import { BiPlus, BiListUl, BiGridAlt } from 'react-icons/bi'
+import { BiListUl, BiGridAlt } from 'react-icons/bi'
 import BlocksIn from './BlocksIn'
 import BlocksOut from './BlocksOut'
 

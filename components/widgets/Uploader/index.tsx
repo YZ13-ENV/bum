@@ -18,20 +18,19 @@ import MediaUploader from '@/components/entities/Blocks/MediaBlock/MediaUploader
 */
 
 const UploadBlockView = () => {
-    const title = useAppSelector(state => state.uploader.shot.title)
-    const blocks = useAppSelector(state => state.uploader.shot.blocks)
-    const rootBlock = useAppSelector(state => state.uploader.shot.rootBlock)
+    const uploader = useAppSelector(state => state.uploader)
     const dispatch = useAppDispatch()
+    console.log(uploader.shot.blocks)
     return (
         <>
             <UploaderWatcher />
             <div className="flex flex-col w-full h-full max-w-4xl max-h-full gap-4 px-4 py-4 mx-auto overflow-y-auto uploader_view_wrapper md:px-0 md:py-4">
-                <Input size='large' disabled={rootBlock.link === ''} className='!rounded-none !p-0 !text-2xl !font-semibold'
-                value={title} onChange={e => dispatch(setTitle(e.target.value))}
-                placeholder={rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
-                <MediaUploader isRootBlock uploadOnlyImages={false} block={rootBlock} />
+                <Input size='large' disabled={uploader.shot.rootBlock.link === ''} className='!rounded-none !p-0 !text-2xl !font-semibold'
+                value={uploader.shot.title} onChange={e => dispatch(setTitle(e.target.value))}
+                placeholder={uploader.shot.rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
+                <MediaUploader isRootBlock uploadOnlyImages={false} block={uploader.shot.rootBlock}  />
                 {
-                    blocks.map((block, index) => {
+                    uploader.shot.blocks.map((block, index) => {
                         if (block.type === 'text') {
                             return <TextBlock block={block} index={index} key={`block#${index}`} />
                         }

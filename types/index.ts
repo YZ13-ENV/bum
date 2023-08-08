@@ -2,7 +2,7 @@
 export type TextBlock = {
     type: 'text'
     text: string
-    size: 1 | 2 | 3 // 1: text-base, 2: text-lg, 3: text-xl
+    size: 0 | 1 | 2 | 3
     align: 'left' | 'center' | 'right',
     isBold: boolean
     isItalic: boolean

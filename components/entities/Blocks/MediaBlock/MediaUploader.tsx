@@ -98,7 +98,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                 <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                     <Button className='!px-2' onClick={deleteImage}><BiTrashAlt size={17} /></Button>
                 </div>
-                <MediaBlock {...block} />
+                <MediaBlock {...block} autoPlay />
             </div>
         )
     }

@@ -43,11 +43,11 @@ const ShotPage = async({ params }: Props) => {
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <ShotUserSection title={data.shot.title} userId={params.userId}
                 displayName={data.user?.displayName as string | null} photoUrl={data.user?.photoUrl as string | null} />
-                <MediaBlock {...data.shot.rootBlock} />
+                <MediaBlock {...data.shot.rootBlock} server />
                 {
                     data.shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
-                            return <MediaBlock key={`block#${index}`} {...data.shot.rootBlock} />
+                            return <MediaBlock key={`block#${index}`} {...block} server />
                         }
                         if (block.type === 'text') {
                             return <TextBlock key={`block#${index}`} block={block} />

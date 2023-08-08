@@ -10,8 +10,9 @@ const LoadedVideo = dynamic(() => import('@/components/shared/ui/LoadedVideo'), 
 }) 
 type Props = {
     block: VideoBlock
+    autoPlay?: boolean
 }
-const BlockVideo = ({ block }: Props) => {
+const BlockVideo = ({ block, autoPlay }: Props) => {
     const [loading, setLoading] = React.useState(false)
     const [link, setLink] = React.useState<string | null>(null)
     const spring = useSpring({
@@ -40,7 +41,7 @@ const BlockVideo = ({ block }: Props) => {
     )
     return (
         <div className="relative w-full h-full border rounded-xl border-neutral-700">
-            <LoadedVideo link={link} />
+            <LoadedVideo link={link} autoPlay={autoPlay} />
         </div>
     )
 }
