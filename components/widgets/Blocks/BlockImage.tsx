@@ -37,7 +37,7 @@ const BlockImage = ({ imageLink }: Props) => {
     )
     return (
         <div className="relative w-full border h-fit rounded-xl border-neutral-700">
-            <LoadedImage link={link} unOptimized={imageLink.includes('.gif') ? false : true} />
+            <LoadedImage link={link} unOptimized={imageLink.includes('.gif')} />
         </div>
     )
 }
