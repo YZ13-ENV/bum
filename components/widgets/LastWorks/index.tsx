@@ -33,7 +33,7 @@ const LastWorks = async({ displayName, userId }: Props) => {
                 <div className="grid w-full grid-cols-1 grid-rows-4 gap-2 md:h-48 sm:h-[24rem] h-[48rem] md:grid-cols-4 sm:grid-cols-2 md:grid-rows-1 sm:grid-rows-2 shrink-0">
                     {
                         shots.map((shot, index) => 
-                            <Link href={`${userId}/${shot.doc_id}`} 
+                            <Link href={`/${userId}/${shot.doc_id}`} 
                             key={shot.doc_id + index} className="w-full h-full snap-center rounded-xl bg-neutral-700">
                                 { shot.rootBlock.link !== '' && <MediaBlock {...shot.rootBlock} object='cover' server quality={25} /> }
                             </Link>
