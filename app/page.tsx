@@ -7,13 +7,12 @@ import { DocShotData } from "@/types";
 import { chunk } from "lodash";
 import dynamic from "next/dynamic";
 
+
 const getAllShots = async() => {
   try {
+    await fetch (`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : getHost()}/api/revalidate?path=/`)
     const res = await fetch(`${getHost()}/shots/allShots`, {
       method: "GET",
-      next: {
-        revalidate: 3600
-      }
     })
     const allShots: DocShotData[] = await res.json()
     return chunk(allShots, 4)

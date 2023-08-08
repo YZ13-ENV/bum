@@ -11,7 +11,7 @@ type Props = {
 }
 const ShotInfo = ({ shot }: Props) => {
     return (
-        <div className="absolute left-0 flex flex-col w-full transition-all duration-700 delay-250 -bottom-[100px] group-hover:bottom-0 h-fit">
+        <div className="absolute bottom-0 left-0 flex flex-col w-full transition-all duration-700 delay-250 group-hover:bottom-0 h-fit">
             <div className="flex items-center justify-end w-full gap-2 p-1 h-fit">
                 <div className="flex items-center gap-2 px-3 py-2 w-fit h-fit rounded-xl bg-neutral-900">
                     <div className='flex items-center gap-2 w-fit h-fit'>
@@ -24,7 +24,7 @@ const ShotInfo = ({ shot }: Props) => {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-center w-full h-full gap-2 p-4 border-t rounded-b-xl border-neutral-700 bg-neutral-900">
+            {/* <div className="flex items-center justify-center w-full h-full gap-2 p-4 border-t rounded-b-xl border-neutral-700 bg-neutral-900">
                 <Link href={`/${shot.authorId}`} className="flex flex-col w-2/3 h-full gap-2">
                     <span className='text-lg font-semibold line-clamp-1 text-neutral-200'>{shot.title}</span>
                     <UserRow userId={shot.authorId} />
@@ -34,7 +34,7 @@ const ShotInfo = ({ shot }: Props) => {
                         <Button size='large'  href={`/${shot.authorId}/${shot.doc_id}`} shape='circle'><BiRightArrowAlt size={17} className='inline'/></Button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
