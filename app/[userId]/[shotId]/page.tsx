@@ -5,6 +5,7 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
 import React from 'react'
+import { Metadata, ResolvingMetadata } from 'next'
 const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
@@ -21,6 +22,22 @@ type Props = {
         userId: string
     }
 }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+ 
+    try {
+        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${params.userId}&shotId=${params.shotId}`)
+        const shot: DocShotData = await shotRes.json()
+
+        return {
+            title: shot.title
+        }
+    } catch(e) {
+        return {
+            title: 'Ошибка'
+        }
+    }
+}
+
 const getShot = async(userId: string, shotId: string) => {
     try {
         const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`)
@@ -42,7 +59,7 @@ const ShotPage = async({ params }: Props) => {
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <ShotUserSection title={data.shot.title} userId={params.userId}
                 displayName={data.user?.displayName as string | null} photoUrl={data.user?.photoUrl as string | null} />
-                <MediaBlock {...data.shot.rootBlock} server />
+                <MediaBlock {...data.shot.rootBlock} server autoPlay />
                 {
                     data.shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
