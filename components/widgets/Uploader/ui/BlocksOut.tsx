@@ -1,3 +1,4 @@
+'use client'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import React from 'react'
 import { BiLock } from 'react-icons/bi'
@@ -12,7 +13,7 @@ const BlocksOut = () => {
     const uploader = useAppSelector(state => state.uploader)
     const dispatch = useAppDispatch()
     const onDragEnd = (event: DragEndEvent) => {
-        // console.log(event);
+        console.log(event);
         if (event.over && event.over.id !== event.active.id) {
             const blockFrom = uploader.shot.blocks[parseInt(event.active.id.toString())]
             const blockTo = uploader.shot.blocks[parseInt(event.over.id.toString())]
@@ -53,7 +54,10 @@ const BlocksOut = () => {
 
             {
                 uploader.shot.rootBlock.link !== '' &&
-                <MediaBlock {...uploader.shot.rootBlock} />
+                <div className="relative flex items-center justify-center w-full h-fit">
+                    <div className="absolute z-10 p-2 rounded-xl bg-neutral-900"><BiLock size={27} /></div>
+                    <MediaBlock {...uploader.shot.rootBlock} autoPlay />
+                </div>
             }
             <div className="flex flex-col w-full h-full gap-2">
             {
@@ -76,7 +80,7 @@ const BlocksOut = () => {
                 })
                 :
                 <DndContext onDragEnd={onDragEnd} sensors={sensors}
-                autoScroll={{ layoutShiftCompensation: { x: false, y: false }, acceleration: .1, threshold: { x: 0, y: .25 } }}>
+                autoScroll={{ acceleration: .1 }}>
                     <SortableContext strategy={verticalListSortingStrategy} items={uploader.shot.blocks.map((_, index) => ({ id: index }))}>
                         {
                             uploader.shot.blocks.map((block, index) => {

@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { DocDraftShotData, DocShotData } from '@/types'
 import { useAppDispatch } from '@/components/entities/store/store'
@@ -28,7 +29,7 @@ const PrevShotCard = ({ block }: Props) => {
             {
                 block.rootBlock.link === ''
                 ? <span className='text-xs text-neutral-300'>Нет обложки</span>
-                : <MediaBlock {...block.rootBlock} />
+                : <MediaBlock {...block.rootBlock} autoPlay />
             }
         </div>
     )

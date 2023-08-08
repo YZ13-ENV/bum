@@ -5,7 +5,7 @@ const ShotCard = dynamic(() => import('../entities/shot'), {
     loading: () => <div className='w-full h-full rounded-xl bg-neutral-900 animate-pulse' />
 })
 type Props = {
-    shots: DocShotData[][]
+    shots: DocShotData[]
 }
 const BodyWrapper = ({ shots }: Props) => {
     if (shots.length === 0) return (
@@ -14,18 +14,15 @@ const BodyWrapper = ({ shots }: Props) => {
         </div>
     )
     return (
-        <div className="flex flex-col w-full h-full gap-6 px-4 pb-4 md:px-12 root_grid_wrapper shrink-0">
+        <div className="flex flex-col w-full h-full p-4 md:p-12 root_grid_wrapper shrink-0">
             {
-                shots.map((shotChunk, index) => 
-                    <div key={`shotChunk#${index}`}
-                    className="grid w-full shrink-0 md:h-72 sm:h-[36rem] h-[72rem] grid-cols-1 md:grid-rows-1 sm:grid-rows-2 grid-rows-4 gap-6 md:grid-cols-4 sm:grid-cols-2">
+                <div className="grid w-full grid-cols-1 grid-rows-4 gap-9 shrink-0 xl:grid-cols-4 xl:grid-rows-1 home_grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 lg:grid-rows-2 md:grid-rows-2 sm:grid-rows-2">
                         {
-                            shotChunk.map((shot, shotIndex) => 
-                                <ShotCard key={`shotChunk#${index}#shot#${shotIndex}`} shot={shot} />
+                            shots.map((shotChunk, index) => 
+                                <ShotCard key={`shotChunk#${index}#shot#${index + 1}`} shot={shotChunk} />
                             )
                         }
                     </div>
-                )
             }
         </div>
     )

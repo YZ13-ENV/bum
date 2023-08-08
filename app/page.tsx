@@ -16,7 +16,7 @@ const getAllShots = async() => {
       cache: 'force-cache'
     })
     const allShots: DocShotData[] = await res.json()
-    return chunk(allShots, 4)
+    return (allShots)
   } catch(e) {
     console.log(e);
     return []
@@ -26,7 +26,7 @@ export default async function Home() {
   const shots = await getAllShots()
   return (
     <main className="flex flex-col justify-between w-full h-full">
-      <Tabs />
+      {/* <Tabs /> */}
       <BodyWrapper shots={shots} />
     </main>
   );

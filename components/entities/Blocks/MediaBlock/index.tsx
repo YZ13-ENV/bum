@@ -19,13 +19,16 @@ type Props = {
     server?: boolean
     quality?: number
     object?: 'cover' | 'contain' 
+    autoPlay?: boolean
 }
-const MediaBlock = ({ type, link, server=false, quality, object='contain' }: Props) => {
+const MediaBlock = ({ type, link, server=false, quality, object='contain', autoPlay=false }: Props) => {
     if (link !== '') {
         if (type === "image") {
             return server ? <ServerBlockImage link={link} quality={quality} object={object} /> 
             : <BlockImage imageLink={link} quality={quality} object={object} />
-        } else return server ? <ServerBlockVideo block={{ link: link, type: type }} /> : <BlockVideo block={{ link: link, type: type }} />
+        } else return server 
+        ? <ServerBlockVideo block={{ link: link, type: type }} autoPlay={autoPlay} /> 
+        : <BlockVideo block={{ link: link, type: type }} autoPlay={autoPlay} />
     }
     return null
 }
