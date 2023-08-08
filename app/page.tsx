@@ -10,9 +10,10 @@ import dynamic from "next/dynamic";
 
 const getAllShots = async() => {
   try {
-    await fetch (`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : getHost()}/api/revalidate?path=/`)
+    await fetch (`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : getHost()}/api/revalidate?path=/}`)
     const res = await fetch(`${getHost()}/shots/allShots`, {
       method: "GET",
+      cache: 'force-cache'
     })
     const allShots: DocShotData[] = await res.json()
     return chunk(allShots, 4)
