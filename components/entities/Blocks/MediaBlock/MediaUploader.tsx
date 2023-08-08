@@ -11,8 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks, setDraftId, setRootBlock } from '../../uploader/store'
 import { ImageBlock, VideoBlock } from '@/types'
 import { BiTrashAlt } from 'react-icons/bi'
-import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
-import BlockVideo from '@/components/widgets/UploadBlockView/ui/BlockVideo'
+import BlockImage from '@/components/widgets/Blocks/BlockImage'
+import BlockVideo from '@/components/widgets/Blocks/BlockVideo'
 import MediaBlock from '.'
 
 type Props = {

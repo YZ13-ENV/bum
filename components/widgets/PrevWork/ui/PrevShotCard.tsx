@@ -21,7 +21,7 @@ const PrevShotCard = ({ block }: Props) => {
     }
     return (
         <div 
-        className="relative flex items-center justify-center w-full border h-fit rounded-xl shrink-0 border-neutral-800 bg-neutral-950">
+        className={`relative flex items-center justify-center w-full border ${block.rootBlock.link === '' ? 'h-52' : 'h-fit'} rounded-xl shrink-0 border-neutral-800 bg-neutral-950`}>
             <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-2 h-fit">
                 <Button className='!px-2' onClick={setDraft}><BiRightArrowAlt size={17} /></Button>
             </div>

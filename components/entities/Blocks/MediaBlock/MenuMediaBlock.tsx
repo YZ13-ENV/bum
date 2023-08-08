@@ -1,4 +1,4 @@
-import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
+import BlockImage from '@/components/widgets/Blocks/BlockImage'
 import { ImageBlock } from '@/types'
 import { storage } from '@/utils/app'
 import { Button } from 'antd'

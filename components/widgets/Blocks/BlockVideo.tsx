@@ -5,7 +5,6 @@ import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import { VideoBlock } from '@/types'
 
-
 type Props = {
     block: VideoBlock
 }
@@ -22,7 +21,7 @@ const BlockVideo = ({ block }: Props) => {
             scale: 1
         }
     })
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if (block.link !== '' && !link) {
             setLoading(true)
             const imageRef = ref(storage, block.link)
@@ -38,10 +37,7 @@ const BlockVideo = ({ block }: Props) => {
     )
     return (
         <div className="relative w-full h-full border rounded-xl border-neutral-700">
-            <video src={link} className='object-cover w-full h-full rounded-xl' loop autoPlay />
-            {/* <source className='w-full h-full' src={link} type="video/mp4"/> */}
-            {/* <Image placeholder="blur" blurDataURL={link} loading="lazy"
-            src={link} fill className='object-cover rounded-xl' alt='root-block-image' /> */}
+            <video src={link} className='object-cover w-full h-full rounded-xl' loop autoPlay controls={false} />
         </div>
     )
 }
