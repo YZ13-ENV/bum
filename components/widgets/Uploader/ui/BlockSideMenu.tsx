@@ -4,8 +4,8 @@ import { Button, Segmented } from 'antd'
 import { SegmentedLabeledOption } from 'antd/es/segmented'
 import React from 'react'
 import { BiPlus, BiListUl, BiGridAlt } from 'react-icons/bi'
-import BlocksIn from './ui/BlocksIn'
-import BlocksOut from './ui/BlocksOut'
+import BlocksIn from './BlocksIn'
+import BlocksOut from './BlocksOut'
 
 const UploadBlocksMenu = () => {
     const [blockSegment, setBlockSegment] = React.useState<string>('')

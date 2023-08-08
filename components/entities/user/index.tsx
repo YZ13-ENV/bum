@@ -3,12 +3,19 @@ import { auth } from '@/utils/app'
 import { Button } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiUser } from 'react-icons/bi'
+import { useCookieState } from 'ahooks'
 
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
+    const [cookie, setCookie] = useCookieState('uid')
+    useLayoutEffect(() => {
+        if (!cookie) {
+            auth.signOut()
+        }
+    },[cookie])
     if (user) {
         if (user.photoURL) {
             return <Link href={`/${user.uid}`}><Image src={user.photoURL} className='rounded-full' width={36} height={36} alt='photo-url' /></Link>

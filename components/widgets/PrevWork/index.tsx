@@ -1,9 +1,9 @@
 'use client'
-import Tip from '@/components/shared/Tip'
-import React, { useState } from 'react'
+import React from 'react'
 import PrevShotCard from './ui/PrevShotCard'
-import { DocDraftShotData, DocShotData } from '@/types'
+import { DocDraftShotData } from '@/types'
 import { useAppSelector } from '@/components/entities/store/store'
+import Tip from '@/components/shared/ui/Tip'
 
 type Props = {
     prevShots: DocDraftShotData[]

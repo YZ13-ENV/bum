@@ -1,4 +1,4 @@
-import { setBlocks } from '@/components/entities/shotUploader/store'
+import { setBlocks } from '@/components/entities/uploader/store'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { ImageBlock, ShotGridBlock, TextBlock } from '@/types'
 import React from 'react'

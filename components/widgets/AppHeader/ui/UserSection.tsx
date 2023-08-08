@@ -2,7 +2,7 @@ import { Button } from 'antd'
 import React from 'react'
 import { BiShare } from 'react-icons/bi'
 import { useMediaQuery } from 'react-responsive'
-import UserStatus from '@/components/entities/User'
+import UserStatus from '@/components/entities/user'
 import { auth } from '@/utils/app'
 import { useAuthState } from 'react-firebase-hooks/auth'
 const UserSection = () => {

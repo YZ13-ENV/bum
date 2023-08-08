@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import ShotUploaderReducer from '@/components/entities/shotUploader/store'
+import ShotUploaderReducer from '@/components/entities/uploader/store'
 import AuthReducer from '@/components/entities/authProcess/store'
 export const store = configureStore({
     reducer: {

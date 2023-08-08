@@ -2,8 +2,8 @@
 import React, { memo } from 'react'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
-import Image from 'next/image'
-import { animated, useSpring, easings } from '@react-spring/web'
+import { animated, useSpring } from '@react-spring/web'
+import LoadedImage from '@/components/shared/ui/LoadedImage'
 
 type Props = {
     imageLink: string
@@ -33,12 +33,11 @@ const BlockImage = ({ imageLink }: Props) => {
         }
     },[])
     if (!link || loading) return (
-        <animated.div style={{...spring}} className="relative w-full h-full rounded-xl bg-neutral-800 animate-pulse"/>
+        <animated.div style={{...spring}} className="relative w-full h-[32rem] rounded-xl bg-neutral-800 animate-pulse"/>
     )
     return (
-        <div className="relative w-full h-full border rounded-xl border-neutral-700">
-            <Image placeholder="blur" blurDataURL={link} loading="lazy"
-            src={link} fill className='object-cover rounded-xl' alt='root-block-image' />
+        <div className="relative w-full border h-fit rounded-xl border-neutral-700">
+            <LoadedImage link={link} />
         </div>
     )
 }

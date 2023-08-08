@@ -1,18 +1,18 @@
-import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
+import BlockImage from '@/components/widgets/Blocks/BlockImage'
 import { ImageBlock } from '@/types'
-import { Button } from 'antd'
-import React, { memo } from 'react'
-import { BiImage, BiTrashAlt } from 'react-icons/bi'
-import { useAppDispatch, useAppSelector } from '../../store/store'
-import { setBlocks } from '../../shotUploader/store'
-import { deleteObject, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
+import { Button } from 'antd'
+import { ref, deleteObject } from 'firebase/storage'
+import React from 'react'
+import { BiTrashAlt, BiImage } from 'react-icons/bi'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { setBlocks } from '../../uploader/store'
 
 type Props = {
     block: ImageBlock
     index: number
 }
-const ImageBlock = ({ block, index }: Props) => {
+const MenuMediaBlock = ({ block, index }: Props) => {
     const dispatch = useAppDispatch()
     const blocks = useAppSelector(state => state.uploader.shot.blocks)
     const deleteBlock = async() => {
@@ -34,4 +34,4 @@ const ImageBlock = ({ block, index }: Props) => {
     )
 }
 
-export default memo(ImageBlock)
+export default MenuMediaBlock
