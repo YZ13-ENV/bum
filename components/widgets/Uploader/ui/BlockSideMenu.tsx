@@ -1,15 +1,14 @@
 'use client'
-import { useAppSelector } from '@/components/entities/store/store'
 import { Segmented } from 'antd'
 import { SegmentedLabeledOption } from 'antd/es/segmented'
 import React from 'react'
 import { BiListUl, BiGridAlt } from 'react-icons/bi'
 import BlocksIn from './BlocksIn'
 import BlocksOut from './BlocksOut'
+import Wrapper from './Wrapper'
 
 const UploadBlocksMenu = () => {
     const [blockSegment, setBlockSegment] = React.useState<string>('')
-    const blockExpanded = useAppSelector(state => state.uploader.blocksSidebar)
     const options: SegmentedLabeledOption[] = [
         {
             icon: <BiGridAlt size={15} className='inline' />,
@@ -23,8 +22,7 @@ const UploadBlocksMenu = () => {
         }
     ]
     return (
-        <div className={`flex flex-col w-full h-full absolute border-l border-neutral-800 bg-black upload_sidebar
-        ${blockExpanded ? 'right-0 z-20' : '-right-[100%]'} max-w-sm gap-2 p-4 overflow-y-auto`}>
+        <Wrapper>
             <div className="flex flex-col w-full h-full gap-2">
                 <div className="flex items-center justify-start w-full gap-2 h-fit">
                     <span className='font-semibold text-neutral-200'>Блоки</span>
@@ -39,7 +37,7 @@ const UploadBlocksMenu = () => {
                     : <BlocksOut />
                 }
             </div>
-        </div>
+        </Wrapper>
     )
 }
 

@@ -4,9 +4,8 @@ import UserSectionLoader from '@/components/shared/ui/Loaders/ShotPage/UserSecti
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
 import React from 'react'
-import { BiChevronRight } from 'react-icons/bi'
+const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
 })
@@ -56,20 +55,7 @@ const ShotPage = async({ params }: Props) => {
                     })
                 }
             </div>
-            <div className="flex flex-col justify-between w-full h-64 max-w-6xl gap-4 p-3 mx-auto mt-auto shrink-0 rounded-xl bg-neutral-800">
-                <div className="flex items-center justify-between w-full h-fit">
-                    <span className='font-semibold text-neutral-200'>Больше от {data.user?.displayName || 'Пользователь'}</span>
-                    <Link className='inline-flex items-center gap-1 text-sm text-neutral-300' href={`/${params.userId}`}>Посмотреть все <BiChevronRight size={15} /></Link>
-                </div>
-                <div className="w-full h-full overflow-y-auto snap-y snap-mandatory snap-always">
-                    <div className="grid w-full grid-cols-1 grid-rows-4 gap-2 md:h-48 sm:h-[24rem] h-[48rem] md:grid-cols-4 sm:grid-cols-2 md:grid-rows-1 sm:grid-rows-2 shrink-0">
-                        <div className="w-full h-full snap-center rounded-xl bg-neutral-700"></div>
-                        <div className="w-full h-full snap-center rounded-xl bg-neutral-700"></div>
-                        <div className="w-full h-full snap-center rounded-xl bg-neutral-700"></div>
-                        <div className="w-full h-full snap-center rounded-xl bg-neutral-700"></div>
-                    </div>
-                </div>
-            </div>
+            <LastWorks displayName={data.user?.displayName as string | null} userId={params.userId} />
         </div>
     )
 }

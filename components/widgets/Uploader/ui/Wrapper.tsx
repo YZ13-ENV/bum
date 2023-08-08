@@ -6,13 +6,13 @@ type Props = {
     children: React.ReactNode
 }
 const Wrapper = ({ children }: Props) => {
-    const prevWorksExpanded = useAppSelector(state => state.uploader.prevWorkSidebar)
+    const blockExpanded = useAppSelector(state => state.uploader.blocksSidebar)
     const spring = useSpring({
         from: {
-            left: !prevWorksExpanded ? '0%' : '-100%'
+            right: !blockExpanded ? '0%' : '-100%'
         },
         to: {
-            left: !prevWorksExpanded ? '-100%' : '0%'
+            right: !blockExpanded ? '-100%' : '0%'
         }
     })
     return (
