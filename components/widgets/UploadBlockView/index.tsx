@@ -3,11 +3,9 @@ import { setTitle } from '@/components/entities/uploader/store';
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store';
 import { Input } from 'antd';
 import React from 'react'
-import RootBlock from './ui/RootBlock';
 import UploaderWatcher from '@/components/entities/uploader/watcher';
-import TextBlock from '@/components/entities/Blocks/UploaderBlocks/TextBlock';
+import TextBlock from '@/components/entities/Blocks/TextBlock';
 import MediaUploader from '@/components/entities/Blocks/MediaBlock/MediaUploader';
-import BlockImage from './ui/BlockImage';
 
 /*
     В момент когда мы закидываем картинку в root block
@@ -26,24 +24,24 @@ const UploadBlockView = () => {
     const dispatch = useAppDispatch()
     return (
         <>
-        <UploaderWatcher />
-        <div className="flex flex-col w-full h-full max-w-4xl max-h-full gap-4 px-4 py-4 mx-auto overflow-y-auto uploader_view_wrapper md:px-0 md:py-4">
-            <Input size='large' disabled={rootBlock.link === ''} className='!rounded-none !p-0 !text-2xl !font-semibold'
-            value={title} onChange={e => dispatch(setTitle(e.target.value))}
-            placeholder={rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
-            <MediaUploader isRootBlock uploadOnlyImages={false} link={rootBlock.link} />
-            {
-                blocks.map((block, index) => {
-                    if (block.type === 'text') {
-                        return <TextBlock block={block} index={index} key={`block#${index}`} />
-                    }
-                    if (block.type === 'image') {
-                        return <MediaUploader key={`block#${index}`} uploadOnlyImages={true} index={index} link={block.link} />
-                    }
-                    return null
-                })
-            }
-        </div>
+            <UploaderWatcher />
+            <div className="flex flex-col w-full h-full max-w-4xl max-h-full gap-4 px-4 py-4 mx-auto overflow-y-auto uploader_view_wrapper md:px-0 md:py-4">
+                <Input size='large' disabled={rootBlock.link === ''} className='!rounded-none !p-0 !text-2xl !font-semibold'
+                value={title} onChange={e => dispatch(setTitle(e.target.value))}
+                placeholder={rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
+                <MediaUploader isRootBlock uploadOnlyImages={false} block={rootBlock} />
+                {
+                    blocks.map((block, index) => {
+                        if (block.type === 'text') {
+                            return <TextBlock block={block} index={index} key={`block#${index}`} />
+                        }
+                        if (block.type === 'image') {
+                            return <MediaUploader key={`block#${index}`} uploadOnlyImages={true} index={index} block={block} />
+                        }
+                        return null
+                    })
+                }
+            </div>
         </>
     )
 }

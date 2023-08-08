@@ -3,11 +3,11 @@ import React from 'react'
 import { BiLock } from 'react-icons/bi'
 import BlockImage from '../../UploadBlockView/ui/BlockImage'
 import TextBlock from '@/components/entities/Blocks/MenuBlocks/TextBlock'
-import ImageBlock from '@/components/entities/Blocks/MenuBlocks/ImageBlock'
-import SortableWrapper from '@/components/entities/Blocks/MenuBlocks/SortableWrapper'
+import SortableWrapper from '@/components/shared/ui/SortableWrapper'
 import { DndContext, DragEndEvent, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { setBlocks } from '@/components/entities/uploader/store'
+import MenuMediaBlock from '@/components/entities/Blocks/MediaBlock/MenuMediaBlock'
 const BlocksOut = () => {
     const uploader = useAppSelector(state => state.uploader)
     const dispatch = useAppDispatch()
@@ -75,7 +75,7 @@ const BlocksOut = () => {
                     } 
                     if (block.type === 'image') {
                         return (
-                            <ImageBlock key={`block#${index}`} index={index} block={block} />
+                            <MenuMediaBlock key={`block#${index}`} index={index} block={block} />
                         ) 
                     }
                     return (
@@ -98,7 +98,7 @@ const BlocksOut = () => {
                                 if (block.type === 'image') {
                                     return (
                                         <SortableWrapper key={`block#${index}`} index={index}>
-                                            <ImageBlock key={`block#${index}`} index={index} block={block} />
+                                            <MenuMediaBlock key={`block#${index}`} index={index} block={block} />
                                         </SortableWrapper>
                                     ) 
                                 }

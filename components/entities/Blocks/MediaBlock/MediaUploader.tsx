@@ -9,17 +9,19 @@ import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks, setDraftId, setRootBlock } from '../../uploader/store'
-import { ImageBlock } from '@/types'
+import { ImageBlock, VideoBlock } from '@/types'
 import { BiTrashAlt } from 'react-icons/bi'
 import BlockImage from '@/components/widgets/UploadBlockView/ui/BlockImage'
+import BlockVideo from '@/components/widgets/UploadBlockView/ui/BlockVideo'
+import MediaBlock from '.'
 
 type Props = {
-    link: string
+    block: ImageBlock | VideoBlock
     isRootBlock?: boolean
     uploadOnlyImages?: boolean
     index?: number
 }
-const MediaUploader = ({ link, uploadOnlyImages=true, index, isRootBlock=false }: Props) => {
+const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false }: Props) => {
     const [user] = useAuthState(auth)
     const dispatch = useAppDispatch()
     const uploader = useAppSelector(state => state.uploader)
@@ -71,8 +73,8 @@ const MediaUploader = ({ link, uploadOnlyImages=true, index, isRootBlock=false }
         }
     };
     const deleteImage = async() => {
-        if (user && link !== '') {
-            const imageRef = ref(storage, link)
+        if (user && block.link !== '') {
+            const imageRef = ref(storage, block.link)
             await deleteObject(imageRef)
             if (isRootBlock) {
                 dispatch(setRootBlock({ type: 'image', link: '' }))
@@ -90,13 +92,13 @@ const MediaUploader = ({ link, uploadOnlyImages=true, index, isRootBlock=false }
             }
         }
     }
-    if (link && link !== '') {
+    if (block.link && block.link !== '') {
         return (
-            <div className="relative w-full h-[32rem] !shrink-0">
+            <div className="relative w-full h-fit !shrink-0">
                 <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                     <Button className='!px-2' onClick={deleteImage}><BiTrashAlt size={17} /></Button>
                 </div>
-                <BlockImage imageLink={link} />
+                <MediaBlock {...block} />
             </div>
         )
     }
