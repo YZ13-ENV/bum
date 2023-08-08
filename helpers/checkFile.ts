@@ -6,12 +6,13 @@ export const checkFile = (
     userId: string, draftId: string, file: RcFile
     ): ImageBlock | VideoBlock | null => {
     const checkedSize = checkSize(file.size)
+    // console.log(checkedSize, file.type)
     if (file.type === 'video/mp4' && 
-    (checkedSize.size <= 20 && checkedSize.scale === 'MiB' || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+    ((checkedSize.size <= 20 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
         return { type: 'video', link: `/users/${userId}/${draftId}/${v4()}.mp4`}
     }
-    if (file.type.includes('image') && (checkedSize.size <= 10 && checkedSize.scale === 'MiB' || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
-        if (file.type === 'image/jpg') {
+    if (file.type.includes('image') && ((checkedSize.size <= 10 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+        if (file.type === 'image/jpg' || file.type === 'image/jpeg') {
             return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.jpg`}
         } else if (file.type === 'image/png') {
             return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.png`}
@@ -26,8 +27,9 @@ export const checkOnlyImageFile = (
     userId: string, draftId: string, file: RcFile
     ): ImageBlock | null => {
     const checkedSize = checkSize(file.size)
-    if (file.type.includes('image') && (checkedSize.size <= 10 && checkedSize.scale === 'MiB' || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
-        if (file.type === 'image/jpg') {
+    // console.log(checkedSize, file.type)
+    if (file.type.includes('image') && ((checkedSize.size <= 10 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+        if (file.type === 'image/jpg' || file.type === 'image/jpeg') {
             return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.jpg`}
         } else if (file.type === 'image/png') {
             return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.png`}
