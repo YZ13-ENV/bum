@@ -13,18 +13,21 @@ type Props = {
     }
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent?: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+ 
+    try {
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${params.userId}`, { method: 'GET' })
+        const user: { short: ShortUserData } | null = await userRes.json()
+        return {
+            title: user?.short.displayName || 'Пользователь',
+          }
+    } catch(e) {
+        return {
+            title: 'Ошибка'
+        }
+    }
  
 
-    const userRes = await fetch(`${getHost()}/users/shortData?userId=${params.userId}`, { method: 'GET' })
-    const user: { short: ShortUserData } | null = await userRes.json()
- 
-  return {
-    title: user?.short.displayName || 'Пользователь',
-  }
 }
 const getShortData = async(userId: string) => {
     try {

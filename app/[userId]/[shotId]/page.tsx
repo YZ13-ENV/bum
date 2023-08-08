@@ -22,18 +22,20 @@ type Props = {
         userId: string
     }
 }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+ 
+    try {
+        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${params.userId}&shotId=${params.shotId}`)
+        const shot: DocShotData = await shotRes.json()
 
-export async function generateMetadata(
-  { params }: Props,
-  parent?: ResolvingMetadata
-): Promise<Metadata> {
- 
-    const shotRes = await fetch(`${getHost()}/shots/shot?userId=${params.userId}&shotId=${params.shotId}`)
-    const shot: DocShotData = await shotRes.json()
- 
-  return {
-    title: shot.title,
-  }
+        return {
+            title: shot.title
+        }
+    } catch(e) {
+        return {
+            title: 'Ошибка'
+        }
+    }
 }
 
 const getShot = async(userId: string, shotId: string) => {
