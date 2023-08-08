@@ -1,5 +1,5 @@
 'use client'
-import { setFinalTouchModal } from '@/components/entities/shotUploader/store'
+import { setFinalTouchModal } from '@/components/entities/uploader/store'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { Button } from 'antd'
 import React from 'react'

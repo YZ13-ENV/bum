@@ -7,12 +7,12 @@ import ImageBlock from '@/components/entities/Blocks/MenuBlocks/ImageBlock'
 import SortableWrapper from '@/components/entities/Blocks/MenuBlocks/SortableWrapper'
 import { DndContext, DragEndEvent, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { setBlocks } from '@/components/entities/shotUploader/store'
+import { setBlocks } from '@/components/entities/uploader/store'
 const BlocksOut = () => {
     const uploader = useAppSelector(state => state.uploader)
     const dispatch = useAppDispatch()
     const onDragEnd = (event: DragEndEvent) => {
-        console.log(event);
+        // console.log(event);
         if (event.over && event.over.id !== event.active.id) {
             const blockFrom = uploader.shot.blocks[parseInt(event.active.id.toString())]
             const blockTo = uploader.shot.blocks[parseInt(event.over.id.toString())]
@@ -56,7 +56,7 @@ const BlocksOut = () => {
                 <div className="flex flex-col items-center justify-center w-full h-56 border shrink-0 rounded-xl border-neutral-800 bg-neutral-950">
                     <BiLock size={24} className='text-neutral-400' />
                 </div>
-                : <div className="relative flex items-center justify-center w-full h-56 shrink-0">
+                : <div className="relative flex items-center justify-center w-full h-fit shrink-0">
                     <div className="absolute z-10 p-3 border rounded-lg bg-neutral-900 border-neutral-800">
                         <BiLock size={24} className=' text-neutral-400' />
                     </div>

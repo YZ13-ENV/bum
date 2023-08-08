@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react'
-import TextLoader from '../shared/TextLoader'
-import ImageLoader from '../shared/ImageLoader'
+import ImageLoader from '../shared/ui/Loaders/ImageLoader'
 import { useTimeout } from 'ahooks'
+import TextLoader from '../shared/ui/Loaders/TextLoader'
 
 const ShotPageLoader = () => {
     const [loading, setLoading] = useState(true)

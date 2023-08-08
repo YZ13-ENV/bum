@@ -7,7 +7,7 @@ type Props = {
 }
 const ImageBlock = ({ block }: Props) => {
     return (
-        <div className="w-full h-[32rem] shrink-0">
+        <div className="w-full h-fit shrink-0">
             <BlockImage imageLink={block.link} />
         </div>
     )

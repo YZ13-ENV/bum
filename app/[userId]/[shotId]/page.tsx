@@ -58,7 +58,7 @@ const ShotPage = async({ params }: Props) => {
                         <Button className='!p-2 !h-fit'><BiBookmark size={23} /></Button>
                     </div>
                 </div>
-                <div className="w-full h-[32rem] shrink-0">
+                <div className="relative w-full h-fit shrink-0">
                     <BlockImage imageLink={data.shot.rootBlock.link} />
                 </div>
                 {

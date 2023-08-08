@@ -2,16 +2,38 @@ import { ImageBlock, VideoBlock } from "@/types";
 import { RcFile } from "antd/es/upload";
 import { v4 } from "uuid";
 // "image/jpeg" || "image/png" || "video/mp4"
-export const checkFile = (userId: string, draftId: string, file: RcFile): ImageBlock | VideoBlock | null => {
+export const checkFile = (
+    userId: string, draftId: string, file: RcFile
+    ): ImageBlock | VideoBlock | null => {
     const checkedSize = checkSize(file.size)
     if (file.type === 'video/mp4' && 
     (checkedSize.size <= 20 && checkedSize.scale === 'MiB' || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
         return { type: 'video', link: `/users/${userId}/${draftId}/${v4()}.mp4`}
     }
-    if (file.type === 'image/jpg') {
-        return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.jpg`}
-    } else if (file.type === 'image/png') {
-        return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.png`}
+    if (file.type.includes('image') && (checkedSize.size <= 10 && checkedSize.scale === 'MiB' || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+        if (file.type === 'image/jpg') {
+            return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.jpg`}
+        } else if (file.type === 'image/png') {
+            return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.png`}
+        } else if (file.type === 'image/gif') {
+            return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.gif`}
+        } else return null
+    }
+    return null
+}
+
+export const checkOnlyImageFile = (
+    userId: string, draftId: string, file: RcFile
+    ): ImageBlock | null => {
+    const checkedSize = checkSize(file.size)
+    if (file.type.includes('image') && (checkedSize.size <= 10 && checkedSize.scale === 'MiB' || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+        if (file.type === 'image/jpg') {
+            return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.jpg`}
+        } else if (file.type === 'image/png') {
+            return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.png`}
+        } else if (file.type === 'image/gif') {
+            return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.gif`}
+        } else return null
     }
     return null
 }

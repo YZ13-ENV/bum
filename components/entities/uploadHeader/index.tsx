@@ -6,7 +6,7 @@ import {
     TbLayoutSidebarRightCollapse, TbLayoutSidebarRightExpand
  } from 'react-icons/tb'
 import { useAppDispatch, useAppSelector } from '../store/store'
-import { setBlockSidebar, setFinalTouchModal, setPrevWorkSidebar } from '../shotUploader/store'
+import { setBlockSidebar, setFinalTouchModal, setPrevWorkSidebar } from '../uploader/store'
 import { useMediaQuery } from 'react-responsive'
 const UploadHeader = () => {
     // const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })

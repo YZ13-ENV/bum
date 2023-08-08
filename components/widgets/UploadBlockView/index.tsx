@@ -1,12 +1,13 @@
 'use client'
-import { setTitle } from '@/components/entities/shotUploader/store';
+import { setTitle } from '@/components/entities/uploader/store';
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store';
 import { Input } from 'antd';
 import React from 'react'
 import RootBlock from './ui/RootBlock';
-import UploaderWatcher from '@/components/entities/shotUploader/watcher';
+import UploaderWatcher from '@/components/entities/uploader/watcher';
 import TextBlock from '@/components/entities/Blocks/UploaderBlocks/TextBlock';
-import ImageBlock from '@/components/entities/Blocks/UploaderBlocks/ImageBlock';
+import MediaUploader from '@/components/entities/Blocks/MediaBlock/MediaUploader';
+import BlockImage from './ui/BlockImage';
 
 /*
     В момент когда мы закидываем картинку в root block
@@ -30,14 +31,14 @@ const UploadBlockView = () => {
             <Input size='large' disabled={rootBlock.link === ''} className='!rounded-none !p-0 !text-2xl !font-semibold'
             value={title} onChange={e => dispatch(setTitle(e.target.value))}
             placeholder={rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
-            <RootBlock />
+            <MediaUploader isRootBlock uploadOnlyImages={false} link={rootBlock.link} />
             {
                 blocks.map((block, index) => {
                     if (block.type === 'text') {
                         return <TextBlock block={block} index={index} key={`block#${index}`} />
                     }
                     if (block.type === 'image') {
-                        return <ImageBlock block={block} index={index} key={`block#${index}`} />
+                        return <MediaUploader key={`block#${index}`} uploadOnlyImages={true} index={index} link={block.link} />
                     }
                     return null
                 })

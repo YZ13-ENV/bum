@@ -4,7 +4,7 @@ import { Button } from 'antd'
 import React, { memo } from 'react'
 import { BiImage, BiTrashAlt } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { setBlocks } from '../../shotUploader/store'
+import { setBlocks } from '../../uploader/store'
 import { deleteObject, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
 
