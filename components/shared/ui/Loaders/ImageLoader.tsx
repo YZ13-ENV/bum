@@ -1,5 +1,5 @@
+'use client'
 import { animated, useSpring } from '@react-spring/web'
-import { BiImage } from 'react-icons/bi'
 import React from 'react'
 import { easings } from '@react-spring/web'
 

@@ -2,9 +2,9 @@ import React from 'react'
 import PrevWorks from '../widgets/PrevWork'
 import UploadBlockView from '../widgets/UploadBlockView'
 import UploadBlocksMenu from '../widgets/UploadBlocksMenu'
-import UploadHeader from '../entities/uploadHeader'
 import { DocDraftShotData } from '@/types'
 import FinalTouchModal from '../widgets/FinalTouchModal'
+import UploadHeader from '../entities/uploader/ui/uploadHeader'
 
 type Props = {
     prevShots: DocDraftShotData[]

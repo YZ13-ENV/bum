@@ -5,9 +5,9 @@ import {
     TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand,
     TbLayoutSidebarRightCollapse, TbLayoutSidebarRightExpand
  } from 'react-icons/tb'
-import { useAppDispatch, useAppSelector } from '../store/store'
-import { setBlockSidebar, setFinalTouchModal, setPrevWorkSidebar } from '../uploader/store'
 import { useMediaQuery } from 'react-responsive'
+import { useAppSelector, useAppDispatch } from '../../store/store'
+import { setPrevWorkSidebar, setFinalTouchModal, setBlockSidebar } from '../store'
 const UploadHeader = () => {
     // const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const shotUploader = useAppSelector(state => state.uploader)

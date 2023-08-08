@@ -33,10 +33,10 @@ const BlockImage = ({ imageLink }: Props) => {
         }
     },[])
     if (!link || loading) return (
-        <animated.div style={{...spring}} className="relative w-full h-full rounded-xl bg-neutral-800 animate-pulse"/>
+        <animated.div style={{...spring}} className="relative w-full h-[32rem] rounded-xl bg-neutral-800 animate-pulse"/>
     )
     return (
-        <div className="relative w-full min-h-full border h-fit rounded-xl border-neutral-700">
+        <div className="relative w-full border h-fit rounded-xl border-neutral-700">
             <LoadedImage link={link} />
         </div>
     )

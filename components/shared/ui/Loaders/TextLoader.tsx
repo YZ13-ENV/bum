@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { animated, useSpring } from '@react-spring/web'
 import { easings } from '@react-spring/web'
