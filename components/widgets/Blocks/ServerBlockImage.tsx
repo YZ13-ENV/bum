@@ -11,12 +11,15 @@ const getUrl = async(link: string) => {
 }
 type Props = {
     link: string
+    quality?: number
+    object?: 'cover' | 'contain' 
+
 }
-const ServerBlockImage = async({ link }: Props) => {
+const ServerBlockImage = async({ link, object='contain', quality=100 }: Props) => {
     const url = await getUrl(link)
     return (
-        <div className="relative w-full border h-fit rounded-xl border-neutral-700">
-            <LoadedImage link={url} unOptimized={link.includes('.gif')} />
+        <div className={`relative w-full border ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl border-neutral-700`}>
+            <LoadedImage link={url} unOptimized={link.includes('.gif')} object={object} quality={quality} />
         </div>
     )
 }

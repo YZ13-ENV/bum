@@ -12,7 +12,7 @@ type Props = {
 const ShotCard = ({ shot }: Props) => {
     return (
         <div className="relative w-full h-full overflow-hidden border border-neutral-800 rounded-2xl group">
-            <MediaBlock {...shot.rootBlock} server />
+            <MediaBlock {...shot.rootBlock} server quality={85} object='cover' />
             <ShotInfo shot={shot} />
         </div>
     )

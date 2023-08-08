@@ -4,7 +4,10 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import { VideoBlock } from '@/types'
-
+import dynamic from 'next/dynamic'
+const LoadedVideo = dynamic(() => import('@/components/shared/ui/LoadedVideo'), {
+    loading: () => <div className='w-full h-full rounded-xl bg-neutral-900' />
+}) 
 type Props = {
     block: VideoBlock
 }
@@ -37,7 +40,7 @@ const BlockVideo = ({ block }: Props) => {
     )
     return (
         <div className="relative w-full h-full border rounded-xl border-neutral-700">
-            <video src={link} className='object-cover w-full h-full rounded-xl' loop autoPlay controls={false} />
+            <LoadedVideo link={link} />
         </div>
     )
 }

@@ -7,8 +7,10 @@ import LoadedImage from '@/components/shared/ui/LoadedImage'
 
 type Props = {
     imageLink: string
+    object?: 'cover' | 'contain' 
+    quality?: number
 }
-const BlockImage = ({ imageLink }: Props) => {
+const BlockImage = ({ imageLink, object='contain', quality=100 }: Props) => {
     const [loading, setLoading] = React.useState(false)
     const [link, setLink] = React.useState<string | null>(null)
     const spring = useSpring({
@@ -36,8 +38,8 @@ const BlockImage = ({ imageLink }: Props) => {
         <animated.div style={{...spring}} className="relative w-full h-[32rem] rounded-xl bg-neutral-800 animate-pulse"/>
     )
     return (
-        <div className="relative w-full border h-fit rounded-xl border-neutral-700">
-            <LoadedImage link={link} unOptimized={imageLink.includes('.gif')} />
+        <div className={`relative w-full border ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl border-neutral-700`}>
+            <LoadedImage link={link} unOptimized={imageLink.includes('.gif')} object={object} quality={quality} />
         </div>
     )
 }
