@@ -3,10 +3,11 @@ import React from 'react'
 
 type Props = {
     link: string
+    unOptimized?: boolean
 }
-const LoadedImage = ({ link }: Props) => {
+const LoadedImage = ({ link, unOptimized=false }: Props) => {
     return (
-        <Image placeholder="blur" blurDataURL={link} loading="lazy" fill
+        <Image placeholder="blur" unoptimized={unOptimized} blurDataURL={link} loading="lazy" fill
         src={link} className='!h-fit !relative object-contain rounded-xl' alt='block-image' />
     )
 }
