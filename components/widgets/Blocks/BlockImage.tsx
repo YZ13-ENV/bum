@@ -38,7 +38,7 @@ const BlockImage = ({ imageLink, object='contain', quality=100 }: Props) => {
         <animated.div style={{...spring}} className="relative w-full h-[32rem] rounded-xl bg-neutral-800 animate-pulse"/>
     )
     return (
-        <div className={`relative w-full border ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl border-neutral-700`}>
+        <div className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl`}>
             <LoadedImage link={link} unOptimized={imageLink.includes('.gif')} object={object} quality={quality} />
         </div>
     )

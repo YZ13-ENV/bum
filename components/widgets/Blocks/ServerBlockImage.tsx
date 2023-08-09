@@ -18,7 +18,7 @@ type Props = {
 const ServerBlockImage = async({ link, object='contain', quality=100 }: Props) => {
     const url = await getUrl(link)
     return (
-        <div className={`relative w-full border ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl border-neutral-700`}>
+        <div className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl`}>
             <LoadedImage link={url} unOptimized={link.includes('.gif')} object={object} quality={quality} />
         </div>
     )
