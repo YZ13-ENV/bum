@@ -14,6 +14,9 @@ const BodyWrapper = ({ shots }: Props) => {
         </div>
     )
     return (
+        /* 
+            Когда будет уже много работ загруженно, тогда нужно будет реализовать пагинацию
+        */
         <div className="flex flex-col w-full h-full p-4 md:p-12 root_grid_wrapper shrink-0">
             {
                 <div className="grid w-full grid-cols-1 grid-rows-4 gap-9 shrink-0 xl:grid-cols-4 xl:grid-rows-1 home_grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 lg:grid-rows-2 md:grid-rows-2 sm:grid-rows-2">

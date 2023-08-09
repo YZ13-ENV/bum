@@ -3,6 +3,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
 import AppHeader from '@/components/widgets/AppHeader'
+import StateProvider from '@/components/StateProvider'
 export const dynamic = 'force-dynamic'
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,15 +19,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <LayoutWrapper>
-      <html lang="en" className={inter.className}>
-        <body className='flex flex-col overflow-x-hidden body_wrapper'>
-          <AppHeader />
-          <div className="flex flex-col w-full shrink-0 content_wrapper">
-            {children}
-          </div>
-        </body>
-      </html>
-    </LayoutWrapper>
+    <StateProvider>
+      <LayoutWrapper>
+        <html lang="en" className={inter.className}>
+          <body id='root' className='flex flex-col overflow-x-hidden body_wrapper'>
+            <AppHeader />
+            <div className="flex flex-col w-full shrink-0 content_wrapper">
+              {children}
+            </div>
+          </body>
+        </html>
+      </LayoutWrapper>
+    </StateProvider>
   )
 }

@@ -7,15 +7,19 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiChevronRight, BiLogOut, BiSun, BiUser, BiUserCircle } from 'react-icons/bi'
 import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
+import { useAppDispatch, useAppSelector } from '../store/store'
+import { setDarkMode } from '../settings/store'
 
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
+    const dispatch = useAppDispatch()
+    const darkMode = useAppSelector(state => state.settings.darkMode)
     const router = useRouter()
     const items: MenuProps['items'] = [
         {
             key: 1,
-            label: <div className="flex items-center w-full gap-2 h-9">
+            label: <div className="flex items-center gap-2 w-52 h-9">
                 {
                     user ?
                     user.photoURL ? <Image src={user.photoURL} className='rounded-full' width={36} height={36} alt='photo-url' />
@@ -42,7 +46,7 @@ const UserStatus = () => {
             key: 3,
             label: 'Темная тема',
             icon: <BiSun size={17} />,
-            itemIcon: <Switch defaultChecked />
+            itemIcon: <Switch checked={darkMode} onChange={e => dispatch(setDarkMode(e))}  />
         },
         {
             type: 'divider'
@@ -55,6 +59,7 @@ const UserStatus = () => {
             onClick: () => auth.signOut()
         },
     ]
+
     useLayoutEffect(() => {
         if (!cookie) {
             auth.signOut()

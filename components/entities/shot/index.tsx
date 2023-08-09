@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { DocShotData } from '@/types'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -13,11 +13,11 @@ type Props = {
 const ShotCard = ({ shot }: Props) => {
     return (
         <Link href={`${shot.authorId}/${shot.doc_id}`} 
-        className="relative w-full h-full overflow-hidden border border-neutral-900 rounded-2xl group">
+        className="relative w-full h-full overflow-hidden transition-transform border border-neutral-900 hover:scale-105 rounded-2xl group">
             <MediaBlock {...shot.rootBlock} server quality={85} object='cover' autoPlay={false} />
             <ShotInfo shot={shot} />
         </Link>
     )
 }
 
-export default ShotCard
+export default memo(ShotCard)
