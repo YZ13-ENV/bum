@@ -1,11 +1,10 @@
-const BodyWrapper = dynamic(() => import("@/components/widgets/BodyWrapper"), {
-  loading: () => <div className="w-full h-full rounded-xl bg-neutral-900 animate-pulse" />
-});
 import Tabs from "@/components/widgets/Tabs";
 import { getHost } from "@/helpers/getHost";
 import { DocShotData } from "@/types";
-import { chunk } from "lodash";
 import dynamic from "next/dynamic";
+const BodyWrapper = dynamic(() => import("@/components/widgets/BodyWrapper"), {
+  loading: () => <div className="w-full h-full rounded-xl bg-neutral-900 animate-pulse" />
+});
 
 
 const getAllShots = async() => {
@@ -26,7 +25,7 @@ export default async function Home() {
   const shots = await getAllShots()
   return (
     <main className="flex flex-col justify-between w-full h-full">
-      {/* <Tabs /> */}
+      <Tabs />
       <BodyWrapper shots={shots} />
     </main>
   );
