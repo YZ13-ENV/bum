@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 
 type InitState = {
+    authType: 'signIn' | 'signUp'
     step: 'email' | 'password' | 'success' | 'failed'
     email: string
     password: string
@@ -13,6 +14,7 @@ type InitState = {
 }
 
 const initialState: InitState = {
+    authType: 'signIn',
     email: '',
     password: '',
     focused: false,
@@ -25,6 +27,9 @@ const authSlice = createSlice({
     name: 'auth-control',
     initialState,
     reducers: {
+        setAuthType(state, { payload, type }: { payload: InitState['authType'], type: string }) {
+            state.authType = payload
+        },
         setEmail(state, { payload, type }: { payload: InitState['email'], type: string }) {
             state.email = payload
         },
@@ -45,5 +50,5 @@ const authSlice = createSlice({
         },
     }
 })
-export const { setEmail, setFocused, setLoading, setPassword, setStep, setUserInProcess } = authSlice.actions
+export const { setEmail, setFocused, setAuthType, setLoading, setPassword, setStep, setUserInProcess } = authSlice.actions
 export default authSlice.reducer

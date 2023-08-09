@@ -3,26 +3,37 @@
 @tailwind utilities;
 
 :root {
-  --color-rgb: 255, 255, 255;
-  --background-bg: 0, 0, 0;
+  --color-rgb: 0, 0, 0;
+  --background-bg: 245, 245, 245;
+  --scroll-rgb: 200, 200, 200
 }
-body {
+/* body {
+  color: rgb(var(--color-rgb));
+  background-color: rgb(var(--background-bg));
+} */
+#root {
   color: rgb(var(--color-rgb));
   background-color: rgb(var(--background-bg));
 }
-::-webkit-scrollbar {
+:root .dark {
+  --color-rgb: 255, 255, 255;
+  --background-bg: 0, 0, 0;
+  --scroll-rgb: 34, 34, 34;
+}
+
+::-webkit-scrollbar, .dark {
   width: .5rem;
   height: .5rem;
   cursor: pointer;
 }
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-track, .dark {
   background-color: transparent;
 }
-::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb, .dark {
   width: .5rem;
   height: .5rem;
   border-radius: 9999px;
-  background-color: #222222;
+  background-color: rgb(var(--scroll-rgb));
 }
 
 .body_wrapper {

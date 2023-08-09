@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import ShotInfo from './ui/ShotInfo'
 import { DocShotData } from '@/types'
 import dynamic from 'next/dynamic'
@@ -20,4 +20,4 @@ const ShotCard = ({ shot }: Props) => {
     )
 }
 
-export default ShotCard
+export default memo(ShotCard)

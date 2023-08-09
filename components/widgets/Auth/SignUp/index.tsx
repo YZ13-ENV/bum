@@ -1,48 +1,51 @@
-'use client'
+import { setAuthType, setStep } from '@/components/entities/authProcess/store'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
+import { getHost } from '@/helpers/getHost'
+import { ShortUserData } from '@/types'
+import { auth } from '@/utils/app'
+import { useCookieState } from 'ahooks'
 import { Button } from 'antd'
 import Image from 'next/image'
 import React from 'react'
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { BiLeftArrowAlt, BiUser } from 'react-icons/bi'
 import Email from '../Email'
 import PasswordField from '../PasswordField'
-import { getHost } from '@/helpers/getHost'
-import { setAuthType, setStep, setUserInProcess } from '@/components/entities/authProcess/store'
-import { ShortUserData } from '@/types'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { auth } from '@/utils/app'
-import { useCookieState } from 'ahooks'
-const SignIn = () => {
+
+const SignUp = () => {
     const [cookie, setCookie] = useCookieState('uid')
-    const authSignIn = useAppSelector(state => state.auth)
-    const authText = authSignIn.step === 'email' 
-    ? 'Введите почту прикрепленную к аккаунту' : authSignIn.step === 'password' 
-    ? `Введите пароль от аккаунта с почтой ${authSignIn.userInProcess?.email}`: null
     const dispatch = useAppDispatch()
-    const checkEmailStep = async() => {
-        if (authSignIn.email.length >= 10 && authSignIn.email.includes('@')) {
-            const res = await fetch(`${getHost()}/users/shortByEmail?email=${authSignIn.email}`)
-            const resData: { short: ShortUserData } = await res.json()
-            // console.log(resData);
-            
-            if (resData) {
-                dispatch(setUserInProcess(resData.short))
-                dispatch(setStep('password'))
-            }
-        }
-    }
-    const authCheck = async(uid: string) => {
-        setCookie(uid)
-    }
+    const authSignUp = useAppSelector(state => state.auth)
     const [
-        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
         user,
         loading,
         error,
-    ] = useSignInWithEmailAndPassword(auth);
-    const signIn = () => {
-        if (authSignIn.password.length >= 6 && authSignIn.email.length >= 10 && authSignIn.email.includes('@')) {
-            signInWithEmailAndPassword(authSignIn.email, authSignIn.password)
+    ] = useCreateUserWithEmailAndPassword(auth);
+    const authText = authSignUp.step === 'email' 
+    ? 'Введите почту которую прикрепите к аккаунту' : authSignUp.step === 'password' 
+    ? `Придумайте пароль для аккаунта ${authSignUp.userInProcess?.email || authSignUp.email}`: null
+    const authCheck = async(uid: string) => {
+        setCookie(uid)
+    }
+    const checkEmailStep = async() => {
+        if (authSignUp.email.length >= 10 && authSignUp.email.includes('@')) {
+            try {
+                const res = await fetch(`${getHost()}/users/shortByEmail?email=${authSignUp.email}`)
+                const resData: { short: ShortUserData } = await res.json()
+                if (!resData) {
+                    dispatch(setStep('password'))
+                }
+            } catch(e) {
+                console.log(e)
+            }
+
+        }
+    }
+    const signUp = () => {
+        if (authSignUp.password.length >= 6 && authSignUp.email.length >= 10 && authSignUp.email.includes('@')) {
+            console.log(user, loading, error)
+            createUserWithEmailAndPassword(authSignUp.email, authSignUp.password)
             .then(creds => {
                 if (creds && creds.user) {
                     authCheck(creds.user.uid)
@@ -60,7 +63,7 @@ const SignIn = () => {
                         <BiUser size={27} />
                     </div>
                 }
-                <span className='text-2xl font-semibold text-neutral-200'>Привет, {user.user.displayName}</span>
+                <span className='text-2xl font-semibold text-neutral-200'>Привет, {user.user.displayName || 'Пользователь'}</span>
                 <div className="w-full mt-auto h-fit">
                     <Button type='primary' size='large' block href='/'>Вернуться</Button>
                 </div>
@@ -76,27 +79,27 @@ const SignIn = () => {
                 <Image src='/DarkMaterial.svg' width={48} height={48} alt='id-service-logo' />
             </div>
             <div className="flex flex-col items-center justify-center w-full gap-2 h-fit">
-                <span className='text-xl font-semibold text-center text-neutral-200'>Вход в аккаунт</span>
+                <span className='text-xl font-semibold text-center text-neutral-200'>Регистрация аккаунта</span>
                 <span className='text-sm font-medium text-center text-neutral-400'>{authText}</span>
             </div>
             {
-                authSignIn.step === 'email'
+                authSignUp.step === 'email'
                 ? <Email />
-                : authSignIn.step === "password"
+                : authSignUp.step === "password"
                 ? <PasswordField />
                 : null
             }
             <div className="flex flex-col w-full mt-auto">
                 <div className="flex items-center justify-center w-full h-fit">
-                    <Button onClick={() => dispatch(setAuthType('signUp'))} type='link'>Нет аккаунта?</Button>
+                    <Button onClick={() => dispatch(setAuthType('signIn'))} type='link'>Уже есть аккаунт?</Button>
                 </div>
-                <Button loading={loading || authSignIn.loading} onClick={
-                    authSignIn.step === 'email' ? () => checkEmailStep() :
-                    authSignIn.step === 'password' ? () => signIn() : () => null
+                <Button loading={loading || authSignUp.loading} onClick={
+                    authSignUp.step === 'email' ? () => checkEmailStep() :
+                    authSignUp.step === 'password' ? () => signUp() : () => null
                 } size='large' block type='primary'>Продолжить</Button>
             </div>
         </>
     )
 }
 
-export default SignIn
+export default SignUp
