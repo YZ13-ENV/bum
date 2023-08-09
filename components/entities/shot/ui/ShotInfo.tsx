@@ -14,11 +14,11 @@ const ShotInfo = ({ shot }: Props) => {
         <div className="absolute bottom-0 left-0 flex flex-col w-full h-fit">
             <div className="flex items-center justify-end w-full gap-2 h-fit">
                 <div className="flex items-center gap-2 px-3 w-fit h-fit rounded-l-lg py-1.5 bg-neutral-900">
-                    <div className='flex items-center gap-2 w-fit h-fit'>
-                        <BiShow size={15} />
-                        <span className='text-sm text-neutral-200'>{shot.views.length}</span>
+                    <div className='flex items-center gap-2 w-fit h-fit text-neutral-200'>
+                        <BiShow size={15} className='text-inherit' />
+                        <span className='text-sm text-inherit'>{shot.views.length}</span>
                     </div>
-                    <div className='flex items-center gap-2 w-fit h-fit text-neutral-800 dark:text-neutral-200'>
+                    <div className='flex items-center gap-2 w-fit h-fit text-neutral-200'>
                         <BiHeart size={15} className='text-inherit' />
                         <span className='text-sm text-inherit'>{shot.views.length}</span>
                     </div>

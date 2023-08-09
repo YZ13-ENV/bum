@@ -1,20 +1,16 @@
 'use client'
 import { auth } from '@/utils/app'
-import { Button, Checkbox, Dropdown, MenuProps, Switch } from 'antd'
+import { Button, Dropdown, MenuProps } from 'antd'
 import Image from 'next/image'
 import React, { useLayoutEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiChevronRight, BiLogOut, BiSun, BiUser, BiUserCircle } from 'react-icons/bi'
+import { BiChevronRight, BiLogOut, BiUser, BiUserCircle } from 'react-icons/bi'
 import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
-import { useAppDispatch, useAppSelector } from '../store/store'
-import { setDarkMode } from '../settings/store'
 
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
-    const dispatch = useAppDispatch()
-    const darkMode = useAppSelector(state => state.settings.darkMode)
     const router = useRouter()
     const items: MenuProps['items'] = [
         {
@@ -27,8 +23,8 @@ const UserStatus = () => {
                     : null
                 }
                 <div className="flex flex-col w-full h-full">
-                    <span className='text-sm font-semibold text-neutral-800 dark:text-neutral-200'>{user?.displayName || 'Пользователь'}</span>
-                    <span className='text-xs text-neutral-500 dark:text-neutral-400'>{user?.email || ''}</span>
+                    <span className='text-sm font-semibold text-neutral-200'>{user?.displayName || 'Пользователь'}</span>
+                    <span className='text-xs text-neutral-400'>{user?.email || ''}</span>
                 </div>
             </div>
         },
@@ -41,12 +37,6 @@ const UserStatus = () => {
             icon: <BiUserCircle size={17} />,
             onClick: () => router.push(`/${user?.uid}`),
             itemIcon: <BiChevronRight size={17} />
-        },
-        {
-            key: 3,
-            label: 'Темная тема',
-            icon: <BiSun size={17} />,
-            itemIcon: <Switch checked={darkMode} onChange={e => dispatch(setDarkMode(e))}  />
         },
         {
             type: 'divider'
