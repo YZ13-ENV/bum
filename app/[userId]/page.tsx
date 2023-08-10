@@ -46,7 +46,7 @@ const UserPage = async({ params }: Props) => {
     const data = await getShortData(params.userId)
     return (
         <section className='flex flex-col w-full h-full'>
-            <div className="relative flex flex-col items-center w-full gap-4 px-20 py-10 border-y h-fit shrink-0 border-neutral-700">
+            <div className="relative flex flex-col items-center w-full gap-4 px-4 py-2 md:px-20 px:py-10 border-y h-fit shrink-0 border-neutral-700">
                 <div className="flex items-center w-full gap-2 h-fit">
                     {
                         data && data.user
@@ -63,7 +63,7 @@ const UserPage = async({ params }: Props) => {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-full px-20 pt-4 profile_grid">
+            <div className="w-full h-full px-4 pt-4 md:px-20 profile_grid">
                 <div className="flex flex-col w-full h-full gap-2">
                     <UserProfileTabs shotsLength={data?.shots.length || 0} profileUID={params.userId} />
                     <div className="flex flex-col w-full h-full gap-2 p-4 overflow-y-auto">
