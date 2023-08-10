@@ -20,14 +20,12 @@ const getShortData = async(userId: string) => {
 const ShotInfo = async({ shot }: Props) => {
     const user = await getShortData(shot.authorId)
     return (
-        <div className="absolute bottom-0 left-0 flex flex-col w-full h-fit">
+        <div className="absolute bottom-0 left-0 z-20 flex flex-col w-full h-fit">
             <div className="flex items-center justify-end w-full gap-2 h-fit">
                 <div className="relative flex items-center justify-between w-full gap-2 h-fit">
                     <div className="absolute bottom-0 left-0 flex items-center gap-2 p-2 transition-all w-fit h-fit">
                         <Button className='!h-fit' href={`/${shot.authorId}`}>
                             <Avatar src={user?.photoUrl} size='small' />
-                            {/* <span className='text-sm font-medium text-neutral-200'>{user?.displayName || 'Пользователь'}</span> */}
-                            {/* <BiChevronRight size={17} /> */}
                         </Button>
                     </div>
                     <ShotActions shot={shot} />
