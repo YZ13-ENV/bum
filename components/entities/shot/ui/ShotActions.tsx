@@ -34,7 +34,7 @@ const ShotActions = ({ shot }: Props) => {
     }
     return (
         <div onClick={e => e.stopPropagation()} className="absolute bottom-0 right-0 flex items-center gap-2 p-2 transition-all w-fit h-fit">
-            <Button danger={isInclude} type={isInclude ? 'primary' : 'default'} icon={<BiHeart  size={15} onClick={addOrRemoveLike} 
+            <Button danger={isInclude} type={isInclude ? 'primary' : 'default'} icon={<BiHeart  size={15} onClick={user ? () => addOrRemoveLike : () => null} 
             className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
             <Button icon={<BiShow size={15} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
         </div>

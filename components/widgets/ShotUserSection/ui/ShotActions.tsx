@@ -44,7 +44,7 @@ const ShotActions = ({ shot }: Props) => {
         },[user])
     return (
         <div className="flex items-center gap-2 w-fit h-fit">
-            <Button onClick={addOrRemoveLike} className='!p-2 !h-fit'><BiHeart size={23} /></Button>
+            <Button danger={isInclude ? true: false} type={isInclude ? 'primary' : 'default'} onClick={addOrRemoveLike} className='!p-2 !h-fit'><BiHeart size={23} /></Button>
             <Button className='!p-2 !h-fit' disabled><BiBookmark size={23} /></Button>
         </div>
     )
