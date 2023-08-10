@@ -67,15 +67,13 @@ const UserPage = async({ params }: Props) => {
                 <div className="flex flex-col w-full h-full gap-2">
                     <UserProfileTabs shotsLength={data?.shots.length || 0} profileUID={params.userId} />
                     <div className="flex flex-col w-full h-full gap-2 p-4 overflow-y-auto">
-                    {
-                    <div className="grid w-full grid-cols-1 grid-rows-4 gap-9 shrink-0 xl:grid-cols-3 xl:grid-rows-1 home_grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 lg:grid-rows-2 md:grid-rows-2 sm:grid-rows-2">
-                                {
-                                    data && data.shots.map((shotChunk, index) => 
-                                        <ShotCard key={`shotChunk#${index}#shot#${index + 1}`} shot={shotChunk} />
-                                    )
-                                }
-                            </div>
-                    }
+                    <div className="grid w-full grid-cols-1 grid-rows-4 gap-9 shrink-0 xl:grid-cols-3 xl:grid-rows-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 lg:grid-rows-2 md:grid-rows-2 sm:grid-rows-2">
+                            {
+                                data && data.shots.map((shotChunk, index) => 
+                                    <ShotCard key={`shotChunk#${index}#shot#${index + 1}`} shot={shotChunk} />
+                                )
+                            }
+                    </div>
                     </div>
                 </div>
             </div>
