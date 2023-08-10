@@ -47,6 +47,7 @@ const FinalTouchModal = () => {
                 likes: [],
                 tags: tags,
                 views: [],
+                thumbnail: null
             }
             await uploadDraft_POST(user.uid, uploaderDraft.draftId, preparedDraft, needFeedback, tags, null)
             setLoading(false)

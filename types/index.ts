@@ -59,7 +59,7 @@ export type ShotData = {
     comments: CommentBlock[]
     needFeedback: boolean
     tags: string[]
-    thumbnail?: ImageBlock | VideoBlock
+    thumbnail: ImageBlock | VideoBlock | null
 }
 
 export type DocShotData = { doc_id: string } & ShotData
