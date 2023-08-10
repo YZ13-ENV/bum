@@ -3,22 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --color-rgb: 0, 0, 0;
-  --background-bg: 245, 245, 245;
-  --scroll-rgb: 200, 200, 200
+  --color-rgb: 255, 255, 255;
+  --background-bg: 0, 0, 0;
+  --scroll-rgb: 34, 34, 34
 }
-/* body {
-  color: rgb(var(--color-rgb));
-  background-color: rgb(var(--background-bg));
-} */
+
 #root {
   color: rgb(var(--color-rgb));
   background-color: rgb(var(--background-bg));
-}
-:root .dark {
-  --color-rgb: 255, 255, 255;
-  --background-bg: 0, 0, 0;
-  --scroll-rgb: 34, 34, 34;
 }
 
 ::-webkit-scrollbar, .dark {

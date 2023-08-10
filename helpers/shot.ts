@@ -20,7 +20,7 @@ export const uploadShot_POST = async(userId: string, shotId: string, shot: ShotF
     return uploadedShot
 }
 
-export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData, needFeedBack: boolean, tags: string[], thumbnail: ImageBlock | null=null) => {
+export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData, needFeedBack: boolean, tags: string[], thumbnail: ShotData['thumbnail']=null) => {
     try {
         const headers = new Headers()
         headers.set("Content-Type", "application/json")

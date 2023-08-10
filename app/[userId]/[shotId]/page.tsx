@@ -5,7 +5,7 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
 import React from 'react'
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
 const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
@@ -13,7 +13,7 @@ const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/
 const MediaBlock = dynamic(() => import('@/components/entities/Blocks/MediaBlock'), {
     loading: () => <ImageLoader />
 }) 
-const ShotUserSection = dynamic(() => import('@/components/shared/ui/ShotUserSection'), {
+const ShotUserSection = dynamic(() => import('@/components/widgets/ShotUserSection'), {
     loading: () => <UserSectionLoader />
 }) 
 type Props = {
@@ -57,7 +57,7 @@ const ShotPage = async({ params }: Props) => {
         <div className='relative flex flex-col w-full min-h-full gap-6 px-4 pb-4 md:px-0 h-fit'>
             {/* <ShotPageLoader /> */}
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
-                <ShotUserSection title={data.shot.title} userId={params.userId}
+                <ShotUserSection shot={data.shot} title={data.shot.title} userId={params.userId}
                 displayName={data.user?.displayName as string | null} photoUrl={data.user?.photoUrl as string | null} />
                 <MediaBlock {...data.shot.rootBlock} server autoPlay />
                 {
