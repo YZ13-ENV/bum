@@ -46,7 +46,9 @@
 .root_grid_wrapper {
   height: calc(100% - 56px);
 }
-
+.profile_grid {
+  height: calc(100% - 146px);
+}
 .home_grid {
   grid-auto-rows: 18rem;
 }

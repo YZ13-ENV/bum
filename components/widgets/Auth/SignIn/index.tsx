@@ -23,8 +23,6 @@ const SignIn = () => {
         if (authSignIn.email.length >= 10 && authSignIn.email.includes('@')) {
             const res = await fetch(`${getHost()}/users/shortByEmail?email=${authSignIn.email}`)
             const resData: { short: ShortUserData } = await res.json()
-            // console.log(resData);
-            
             if (resData) {
                 dispatch(setUserInProcess(resData.short))
                 dispatch(setStep('password'))
