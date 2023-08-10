@@ -63,7 +63,7 @@ const UserPage = async({ params }: Props) => {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-full px-4 pt-4 md:px-20 profile_grid">
+            <div className="w-full h-full px-4 pt-4 md:px-20 md:profile_grid profile_grid_mobile">
                 <div className="flex flex-col w-full h-full gap-2">
                     <UserProfileTabs shotsLength={data?.shots.length || 0} profileUID={params.userId} />
                     <div className="flex flex-col w-full h-full gap-2 p-4 overflow-y-auto">

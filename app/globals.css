@@ -49,6 +49,9 @@
 .profile_grid {
   height: calc(100% - 146px);
 }
+.profile_grid_mobile {
+  height: calc(100% - 82px);
+}
 .home_grid {
   grid-auto-rows: 18rem;
 }
