@@ -13,6 +13,10 @@
   background-color: rgb(var(--background-bg));
 }
 
+* {
+  font-family: var(--root-font) !important;
+}
+
 ::-webkit-scrollbar, .dark {
   width: .5rem;
   height: .5rem;
