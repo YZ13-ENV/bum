@@ -13,7 +13,7 @@ const UploadHeader = () => {
     const shotUploader = useAppSelector(state => state.uploader)
     const dispatch = useAppDispatch()
     return (
-        <div className="flex items-center justify-between w-full gap-2 px-4 pb-2 border-b h-fit border-neutral-800">
+        <div className="flex items-center justify-between w-full gap-2 px-4 py-2 border-b h-fit border-neutral-800">
             <div className="flex items-center gap-2 w-fit h-fit">
                 <Button onClick={() => dispatch(setPrevWorkSidebar(!shotUploader.prevWorkSidebar))}>
                     {

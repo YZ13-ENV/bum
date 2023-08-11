@@ -9,11 +9,13 @@ import PasswordField from '../PasswordField'
 import { getHost } from '@/helpers/getHost'
 import { setAuthType, setStep, setUserInProcess } from '@/components/entities/authProcess/store'
 import { ShortUserData } from '@/types'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { useCookieState } from 'ahooks'
+import UpdateProfile from '../UpdateProfile'
 const SignIn = () => {
     const [cookie, setCookie] = useCookieState('uid')
+    const [authoredUser] = useAuthState(auth)
     const authSignIn = useAppSelector(state => state.auth)
     const authText = authSignIn.step === 'email' 
     ? 'Введите почту прикрепленную к аккаунту' : authSignIn.step === 'password' 
@@ -48,17 +50,24 @@ const SignIn = () => {
             })
         }
     }
-    if (user) {
+    if (authoredUser && user && authoredUser.displayName == null) {
+        return (
+            <div className="flex flex-col items-center w-full h-full gap-6">
+                <UpdateProfile />
+            </div>
+        )
+    }
+    if (user || authSignIn.step === 'success') {
         return (
             <div className="flex flex-col items-center w-full h-full gap-6">
                 {
-                    user.user.photoURL ? 
-                    <Image src={user.user.photoURL} className='rounded-full' width={64} height={64} alt='user-photo' />
+                    user?.user.photoURL ? 
+                    <Image src={user?.user.photoURL} className='rounded-full' width={64} height={64} alt='user-photo' />
                     : <div className='flex items-center justify-center w-16 h-16 rounded-full bg-neutral-800'>
                         <BiUser size={27} />
                     </div>
                 }
-                <span className='text-2xl font-semibold text-neutral-200'>Привет, {user.user.displayName}</span>
+                <span className='text-2xl font-semibold text-neutral-200'>Привет, {user?.user.displayName}</span>
                 <div className="w-full mt-auto h-fit">
                     <Button type='primary' size='large' block href='/'>Вернуться</Button>
                 </div>

@@ -1,16 +1,7 @@
-const BlockImage = dynamic(() => import('@/components/widgets/Blocks/BlockImage'), {
-    loading: () => <div className='w-full h-full rounded-xl bg-neutral-900' />
-}) 
-const BlockVideo = dynamic(() => import('@/components/widgets/Blocks/BlockVideo'), {
-    loading: () => <div className='w-full h-full rounded-xl bg-neutral-900' />
-}) 
-const ServerBlockImage = dynamic(() => import('@/components/widgets/Blocks/ServerBlockImage'), {
-    loading: () => <div className='w-full h-full rounded-xl bg-neutral-900' />
-}) 
-const ServerBlockVideo = dynamic(() => import('@/components/widgets/Blocks/ServerBlockVideo'), {
-    loading: () => <div className='w-full h-full rounded-xl bg-neutral-900' />
-}) 
-import dynamic from 'next/dynamic'
+import BlockImage from '@/components/widgets/Blocks/BlockImage'
+import BlockVideo from '@/components/widgets/Blocks/BlockVideo'
+import ServerBlockImage from '@/components/widgets/Blocks/ServerBlockImage'
+import ServerBlockVideo from '@/components/widgets/Blocks/ServerBlockVideo'
 import React from 'react'
 
 type Props = {

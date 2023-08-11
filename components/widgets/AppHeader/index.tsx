@@ -11,7 +11,7 @@ const AppHeader = () => {
     const path = usePathname()
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1024px)' })
     const isOpen = useAppSelector(state => state.search.isOpen)
-    if (path === '/auth') return null
+    if (path === '/auth' || path === '/uploads/shot') return null
     return (
         <header className="flex items-center justify-between w-full h-16 gap-2 px-4 shrink-0">
             {

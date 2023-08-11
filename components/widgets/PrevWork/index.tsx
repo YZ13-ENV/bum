@@ -1,7 +1,6 @@
 import React from 'react'
 import PrevShotCard from './ui/PrevShotCard'
 import { DocDraftShotData } from '@/types'
-import { useAppSelector } from '@/components/entities/store/store'
 import Tip from '@/components/shared/ui/Tip'
 import { cookies } from 'next/headers'
 import { getHost } from '@/helpers/getHost'
@@ -12,7 +11,9 @@ const getPrevShots = async() => {
     const uid = cookie.get("uid")
     if (uid) {
         try {
-            const res = await fetch(`${getHost()}/shots/onlyDrafts?userId=${uid.value}&asDoc=true`)
+            const res = await fetch(`${getHost()}/shots/onlyDrafts?userId=${uid.value}&asDoc=true`, {
+                cache: 'no-cache'
+            })
             const shots: DocDraftShotData[] = await res.json()
             return shots
         } catch(e) {
@@ -23,7 +24,6 @@ const getPrevShots = async() => {
 }
 const PrevWorks = async() => {
     const works = await getPrevShots()
-    // const prevWorksExpanded = useAppSelector(state => state.uploader.prevWorkSidebar)
     return (
         <Wrapper>
             <Tip text='Картинка, которую вы загрузите в первый блок, будет использоваться как обложка для работы, если вы не загрузите обложку' />

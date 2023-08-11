@@ -31,7 +31,8 @@ const UserProfileTabs = ({ shotsLength, profileUID }: Props) => {
         <div className="flex justify-between w-full h-fit">
             <Segmented options={options} size='large' />
             <div className="flex items-center gap-2 w-fit h-fit">
-                <Button size='large' icon={<BiUserPlus size={17} className='inline-block mb-0.5' />} type='primary'>Отслеживать</Button>
+                <Button disabled size='large' icon={<BiUserPlus size={17} className='inline-block mb-0.5' />} type='primary'
+                >{user?.uid === profileUID ? 'Это вы' : 'Отслеживать'}</Button>
             </div>
         </div>
     )

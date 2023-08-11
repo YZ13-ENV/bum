@@ -4,10 +4,7 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import { VideoBlock } from '@/types'
-import dynamic from 'next/dynamic'
-const LoadedVideo = dynamic(() => import('@/components/shared/ui/LoadedVideo'), {
-    loading: () => <div className='w-full h-full rounded-xl bg-neutral-900' />
-}) 
+import LoadedVideo from '@/components/shared/ui/LoadedVideo'
 type Props = {
     block: VideoBlock
     autoPlay?: boolean

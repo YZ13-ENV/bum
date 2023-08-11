@@ -14,7 +14,7 @@ const UploadShot = () => {
             [x] - 2 - Отображение добавленных блоков
             [x] - 3 - Меню с блоками для добавление 
         */
-        <section className='flex flex-col w-full h-full overflow-y-hidden shrink-0'>
+        <section className='flex flex-col w-full h-full shrink-0'>
             <FinalTouchModal />
             <UploadHeader />
             <div className="flex w-full h-full">

@@ -1,10 +1,7 @@
-const LoadedVideo = dynamic(() => import('@/components/shared/ui/LoadedVideo'), {
-    loading: () => <div className='w-full h-full rounded-xl bg-neutral-900' />
-}) 
+import LoadedVideo from '@/components/shared/ui/LoadedVideo'
 import { VideoBlock } from '@/types'
 import { storage } from '@/utils/app'
 import { getDownloadURL, ref } from 'firebase/storage'
-import dynamic from 'next/dynamic'
 import React from 'react'
 
 type Props = {
