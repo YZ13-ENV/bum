@@ -1,9 +1,10 @@
 'use client'
 import { auth } from '@/utils/app'
-import { Segmented, Select, SelectProps } from 'antd'
+import { Button, Segmented, Select, SelectProps } from 'antd'
 import { useRouter } from 'next/navigation'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { BiFilter } from 'react-icons/bi'
 
 const Tabs = () => {
     const [order, setOrder] = useState<string>('popular')
@@ -33,7 +34,7 @@ const Tabs = () => {
             <div className="max-w-4xl overflow-x-auto w-fit">
                 <Segmented  size='large' options={["Обзор", "Анимации", "Брендинг", "Иллюстрации", "Веб-дизайн", "Мобильный", "Дизайн продукта", "Печать", "Типография"]} />
             </div>
-            <Select size='large' value='Фильтры' />
+            <Button size='large' icon={<BiFilter size={17} className='inline mb-0.5' />}>Фильтры</Button>
         </div>
     )
 }

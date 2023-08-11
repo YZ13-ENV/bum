@@ -4,7 +4,7 @@ import { Button, Dropdown, MenuProps } from 'antd'
 import Image from 'next/image'
 import React, { useLayoutEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiChevronRight, BiLogOut, BiUser, BiUserCircle } from 'react-icons/bi'
+import { BiChevronRight, BiLoaderAlt, BiLogOut, BiUser, BiUserCircle } from 'react-icons/bi'
 import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
 
@@ -55,6 +55,14 @@ const UserStatus = () => {
             auth.signOut()
         }
     },[cookie])
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center border rounded-full w-9 h-9 border-neutral-700 bg-neutral-900">
+                <BiUser size={13} />
+                <BiLoaderAlt className='absolute animate-spin' size={36} />
+            </div>
+        )
+    }
     if (user) {
         if (user.photoURL) {
             return <Dropdown arrow menu={{items}}>

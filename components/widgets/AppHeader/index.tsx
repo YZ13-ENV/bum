@@ -13,7 +13,7 @@ const AppHeader = () => {
     const isOpen = useAppSelector(state => state.search.isOpen)
     if (path === '/auth' || path === '/uploads/shot') return null
     return (
-        <header className="flex items-center justify-between w-full h-16 gap-2 px-4 shrink-0">
+        <header className="flex items-center justify-between w-full h-16 gap-2 px-4 md:px-12 shrink-0">
             {
                 isTabletOrMobile && isOpen ? null
                 : <LogoSection />
