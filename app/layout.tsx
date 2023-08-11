@@ -5,7 +5,6 @@ import { Metadata } from 'next'
 import AppHeader from '@/components/widgets/AppHeader'
 import StateProvider from '@/components/StateProvider'
 import Footer from '@/components/shared/ui/Footer'
-export const dynamic = 'force-dynamic'
 const NunitoSans = Nunito_Sans({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
 export const metadata: Metadata = {

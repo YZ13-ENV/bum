@@ -57,5 +57,6 @@
   height: calc(100% - 82px);
 }
 .home_grid {
-  grid-auto-rows: 18rem;
+  grid-template-columns: repeat(auto-fill, minmax(334px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(15rem, 1fr));
 }
