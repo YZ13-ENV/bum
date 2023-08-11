@@ -14,7 +14,7 @@ const ShotCard = ({ shot }: Props) => {
     return (
         <div className="relative w-full h-full overflow-hidden transition-transform border border-neutral-900 rounded-2xl hover:scale-105 group">
             <Link href={`${shot.authorId}/${shot.doc_id}`} >
-                <MediaBlock {...shot.rootBlock} server quality={85} object='cover' autoPlay={false} />
+                <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
             </Link>
             <ShotInfo shot={shot} />
         </div>

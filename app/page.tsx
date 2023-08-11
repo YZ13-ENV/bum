@@ -5,12 +5,14 @@ import Tabs from "@/components/widgets/Tabs";
 import { getHost } from "@/helpers/getHost";
 import { DocShotData } from "@/types";
 import dynamic from "next/dynamic";
+import { redirect } from "next/navigation";
 
 
-const getAllShots = async() => {
+const getAllShots = async(order: string | null) => {
+  if (!order) return []
   try {
     // fetch (`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : getHost()}/api/revalidate?path=/}`)
-    const res = await fetch(`${getHost()}/shots/allShots`, {
+    const res = await fetch(`${getHost()}/shots/allShots/${order}`, {
       method: "GET",
       cache: 'no-cache'
     })
@@ -21,8 +23,15 @@ const getAllShots = async() => {
     return []
   }
 }
-export default async function Home() {
-  const shots = await getAllShots()
+
+type Props = {
+  searchParams: {
+    order: string
+  }
+}
+export default async function Home({ searchParams }: Props) {
+  const shots = await getAllShots(searchParams.order)
+  if (!searchParams.order) redirect('/?order=popular')
   return (
     <main className="flex flex-col justify-between w-full h-full">
       <Tabs />

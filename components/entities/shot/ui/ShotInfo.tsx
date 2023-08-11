@@ -24,9 +24,7 @@ const ShotInfo = async({ shot }: Props) => {
             <div className="flex items-center justify-end w-full gap-2 h-fit">
                 <div className="relative flex items-center justify-between w-full gap-2 h-fit">
                     <div className="absolute bottom-0 left-0 flex items-center gap-2 p-2 transition-all w-fit h-fit">
-                        <Button className='!h-fit' href={`/${shot.authorId}`}>
-                            <Avatar src={user?.photoUrl} size='small' />
-                        </Button>
+                        <Button className='!h-fit' size='small' href={`/${shot.authorId}`}>{user?.displayName || 'Пользователь'}</Button>
                     </div>
                     <ShotActions shot={shot} />
                 </div>
