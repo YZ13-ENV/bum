@@ -15,7 +15,7 @@ type Props = {
     object?: 'cover' | 'contain' 
 
 }
-const ServerBlockImage = async({ link, object='contain', quality=100 }: Props) => {
+const ServerBlockImage = async({ link, object='contain', quality=75 }: Props) => {
     const url = await getUrl(link)
     return (
         <div className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl`}>

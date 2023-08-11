@@ -21,7 +21,7 @@ type Props = {
     object?: 'cover' | 'contain' 
     autoPlay?: boolean
 }
-const MediaBlock = ({ type, link, server=false, quality, object='contain', autoPlay=false }: Props) => {
+const MediaBlock = ({ type, link, server=false, quality=75, object='contain', autoPlay=false }: Props) => {
     if (link !== '') {
         if (type === "image") {
             return server ? <ServerBlockImage link={link} quality={quality} object={object} /> 
