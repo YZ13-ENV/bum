@@ -7,13 +7,15 @@ import { useCookieState } from 'ahooks'
 import { Button } from 'antd'
 import Image from 'next/image'
 import React from 'react'
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import { useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { BiLeftArrowAlt, BiUser } from 'react-icons/bi'
 import Email from '../Email'
 import PasswordField from '../PasswordField'
+import UpdateProfile from '../UpdateProfile'
 
 const SignUp = () => {
     const [cookie, setCookie] = useCookieState('uid')
+    const [authoredUser] = useAuthState(auth)
     const dispatch = useAppDispatch()
     const authSignUp = useAppSelector(state => state.auth)
     const [
@@ -53,17 +55,24 @@ const SignUp = () => {
             })
         }
     }
-    if (user) {
+    if (authoredUser && user && authoredUser.displayName == null) {
+        return (
+            <div className="flex flex-col items-center w-full h-full gap-6">
+                <UpdateProfile />
+            </div>
+        )
+    }
+    if (user || authSignUp.step === 'success') {
         return (
             <div className="flex flex-col items-center w-full h-full gap-6">
                 {
-                    user.user.photoURL ? 
-                    <Image src={user.user.photoURL} className='rounded-full' width={64} height={64} alt='user-photo' />
+                    user?.user.photoURL ? 
+                    <Image src={user?.user.photoURL} className='rounded-full' width={64} height={64} alt='user-photo' />
                     : <div className='flex items-center justify-center w-16 h-16 rounded-full bg-neutral-800'>
                         <BiUser size={27} />
                     </div>
                 }
-                <span className='text-2xl font-semibold text-neutral-200'>Привет, {user.user.displayName || 'Пользователь'}</span>
+                <span className='text-2xl font-semibold text-neutral-200'>Привет, {user?.user.displayName || 'Пользователь'}</span>
                 <div className="w-full mt-auto h-fit">
                     <Button type='primary' size='large' block href='/'>Вернуться</Button>
                 </div>

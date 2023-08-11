@@ -10,7 +10,10 @@ const UserSection = () => {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     return (
         <div className="flex items-center gap-4 shrink-0 w-fit h-fit">
-            { user && <Button size='large' type='primary' href='/uploads/shot'>{isTabletOrMobile ? <BiShare size={17} className='inline' /> : 'Поделиться работой'}</Button> }
+            { user && 
+                <Button size='large' type='primary' href='/uploads/shot' icon={<BiShare size={17} className='inline mb-0.5' />}>
+                { isTabletOrMobile ? '' : 'Поделиться работой'}</Button> 
+            }
             <UserStatus />
         </div>
     )

@@ -22,7 +22,7 @@ const MenuMediaBlock = ({ block, index }: Props) => {
         dispatch(setBlocks(filteredBlocks))
     }
     return (
-        <div className="relative w-full h-56 border shrink-0 rounded-xl border-neutral-700 bg-neutral-950">
+        <div className="relative w-full border h-fit shrink-0 rounded-xl border-neutral-700 bg-neutral-950">
             <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-2 h-fit">
                 <Button onClick={deleteBlock} danger className='!px-2'><BiTrashAlt size={17} /></Button>
             </div>

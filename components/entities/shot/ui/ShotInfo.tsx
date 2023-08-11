@@ -1,6 +1,6 @@
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
-import { Avatar, Button } from 'antd'
+import { Button } from 'antd'
 import React from 'react'
 import ShotActions from './ShotActions'
 
@@ -9,7 +9,7 @@ type Props = {
 }
 const getShortData = async(userId: string) => {
     try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET' })
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'no-cache' })
         const user: { short: ShortUserData } | null = await userRes.json()
         return user ? user.short : null
     } catch(e) {

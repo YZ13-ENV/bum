@@ -4,6 +4,7 @@ import { Nunito_Sans } from 'next/font/google'
 import { Metadata } from 'next'
 import AppHeader from '@/components/widgets/AppHeader'
 import StateProvider from '@/components/StateProvider'
+import Footer from '@/components/shared/ui/Footer'
 export const dynamic = 'force-dynamic'
 const NunitoSans = Nunito_Sans({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
@@ -24,9 +25,10 @@ export default function RootLayout({
         <html lang="en" className={`${NunitoSans.className} ${NunitoSans.variable}`}>
           <body id='root' className='flex flex-col overflow-x-hidden body_wrapper'>
             <AppHeader />
-            <div className="flex flex-col w-full shrink-0 content_wrapper">
+            <div className="flex flex-col w-full min-h-full shrink-0">
               {children}
             </div>
+            <Footer />
           </body>
         </html>
       </LayoutWrapper>
