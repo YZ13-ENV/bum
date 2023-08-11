@@ -1,7 +1,8 @@
-import LoadedImage from '@/components/shared/ui/LoadedImage'
+const LoadedImage = dynamic(() => import('@/components/shared/ui/LoadedImage'))
 import { storage } from '@/utils/app'
 import { getDownloadURL, ref } from 'firebase/storage'
-import React from 'react'
+import dynamic from 'next/dynamic'
+import React, { Suspense } from 'react'
 
 
 const getUrl = async(link: string) => {
@@ -19,7 +20,9 @@ const ServerBlockImage = async({ link, object='contain', quality=75 }: Props) =>
     const url = await getUrl(link)
     return (
         <div className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl`}>
-            <LoadedImage link={url} unOptimized={link.includes('.gif')} object={object} quality={quality} />
+            <Suspense fallback={<div className='w-full h-full'/>}>
+                <LoadedImage link={url} unOptimized={link.includes('.gif')} object={object} quality={quality} />
+            </Suspense>
         </div>
     )
 }

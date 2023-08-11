@@ -9,8 +9,8 @@ type Props = {
 }
 const LoadedImage = ({ link, quality=75, object='contain', unOptimized=false }: Props) => {
     return (
-        <Image placeholder="blur" unoptimized={unOptimized} blurDataURL={link} loading="lazy" fill 
-        src={link} className={` !relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'}  rounded-xl`} 
+        <Image unoptimized={unOptimized} loading="lazy" fill src={link} 
+        className={` !relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'}  rounded-xl`} 
         alt='block-image' quality={quality} />
     )
 }
