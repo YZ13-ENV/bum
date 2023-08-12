@@ -1,13 +1,14 @@
 const LoadedImage = dynamic(() => import('@/components/shared/ui/LoadedImage'))
-import { storage } from '@/utils/app'
-import { getDownloadURL, ref } from 'firebase/storage'
+import { getHost } from '@/helpers/getHost'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 
 
 const getUrl = async(link: string) => {
-    const imageRef = ref(storage, link)
-    const url = await getDownloadURL(imageRef) 
+    const urlRes = await fetch(`${getHost()}/images/file?link=${link.substring(1)}`, {
+        cache: 'force-cache',
+    })
+    const url = await urlRes.json() 
     return url
 }
 type Props = {

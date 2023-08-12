@@ -4,6 +4,7 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import LoadedImage from '@/components/shared/ui/LoadedImage'
+import { getHost } from '@/helpers/getHost'
 
 type Props = {
     imageLink: string
@@ -23,15 +24,18 @@ const BlockImage = ({ imageLink, object='contain', quality=100 }: Props) => {
             scale: 1
         }
     })
+    const getLink = async() => {
+        setLoading(true)
+        const urlRes = await fetch(`${getHost()}/images/file?link=${imageLink.substring(1)}`, {
+            cache: 'force-cache',
+        })
+        const url = await urlRes.json() 
+        setLink(url)
+        setLoading(false)
+    }
     React.useEffect(() => {
         if (imageLink !== '' && !link) {
-            setLoading(true)
-            const imageRef = ref(storage, imageLink)
-            getDownloadURL(imageRef)
-            .then(res => {
-                setLink(res)
-                setLoading(false)
-            })
+            getLink()
         }
     },[])
     if (!link || loading) return (

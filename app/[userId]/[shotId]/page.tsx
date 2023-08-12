@@ -4,7 +4,7 @@ import UserSectionLoader from '@/components/shared/ui/Loaders/ShotPage/UserSecti
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Metadata } from 'next'
 const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
@@ -59,11 +59,17 @@ const ShotPage = async({ params }: Props) => {
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <ShotUserSection shot={data.shot} title={data.shot.title} userId={params.userId}
                 displayName={data.user?.displayName as string | null} photoUrl={data.user?.photoUrl as string | null} />
-                <MediaBlock {...data.shot.rootBlock} server autoPlay />
+                <Suspense fallback={<ImageLoader />}>
+                    <MediaBlock {...data.shot.rootBlock} server autoPlay />
+                </Suspense>
                 {
                     data.shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
-                            return <MediaBlock key={`block#${index}`} {...block} server />
+                            return (
+                                <Suspense key={`block#${index}`} fallback={<ImageLoader />}>
+                                     <MediaBlock {...block} server />
+                                </Suspense>
+                            )
                         }
                         if (block.type === 'text') {
                             return <TextBlock key={`block#${index}`} block={block} />
