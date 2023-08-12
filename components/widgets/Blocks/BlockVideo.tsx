@@ -5,6 +5,7 @@ import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import { VideoBlock } from '@/types'
 import LoadedVideo from '@/components/shared/ui/LoadedVideo'
+import { getHost } from '@/helpers/getHost'
 type Props = {
     block: VideoBlock
     autoPlay?: boolean
@@ -22,15 +23,18 @@ const BlockVideo = ({ block, autoPlay }: Props) => {
             scale: 1
         }
     })
+    const getLink = async() => {
+        setLoading(true)
+        const urlRes = await fetch(`${getHost()}/images/file?link=${block.link.substring(1)}`, {
+            cache: 'force-cache',
+        })
+        const url = await urlRes.json() 
+        setLink(url)
+        setLoading(false)
+    }
     React.useLayoutEffect(() => {
         if (block.link !== '' && !link) {
-            setLoading(true)
-            const imageRef = ref(storage, block.link)
-            getDownloadURL(imageRef)
-            .then(res => {
-                setLink(res)
-                setLoading(false)
-            })
+            getLink()
         }
     },[])
     if (!link || loading) return (
