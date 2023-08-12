@@ -1,7 +1,6 @@
 const LoadedVideo = dynamic(() => import('@/components/shared/ui/LoadedVideo'))
+import { getHost } from '@/helpers/getHost'
 import { VideoBlock } from '@/types'
-import { storage } from '@/utils/app'
-import { getDownloadURL, ref } from 'firebase/storage'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 
@@ -10,8 +9,10 @@ type Props = {
     autoPlay?: boolean
 }
 const getUrl = async(link: string) => {
-    const videoRef = ref(storage, link)
-    const url = await getDownloadURL(videoRef) 
+    const urlRes = await fetch(`${getHost()}/images/file?link=${link.substring(1)}`, {
+        cache: 'force-cache',
+    })
+    const url = await urlRes.json() 
     return url
 }
 const ServerBlockVideo = async({ block, autoPlay }: Props) => {
