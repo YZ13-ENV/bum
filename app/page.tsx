@@ -2,13 +2,17 @@ import BodyWrapper from "@/components/widgets/BodyWrapper";
 import Tabs from "@/components/widgets/Tabs";
 import { getHost } from "@/helpers/getHost";
 import { DocShotData } from "@/types";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const getAllShots = async(order: string | null) => {
   if (!order) return []
   try {
     // fetch (`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : getHost()}/api/revalidate?path=/}`)
-    const res = await fetch(`${getHost()}/shots/allShots/${order}`, {
+    const cookie = cookies()
+    const uidCookie = cookie.get('uid')
+    const uid = uidCookie ? uidCookie.value : null
+    const res = await fetch(`${getHost()}/shots/allShots/${order === 'following' ? `${order}?userId=${uid}` : order}`, {
       method: "GET",
       cache: 'no-cache'
     })
