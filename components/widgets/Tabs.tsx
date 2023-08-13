@@ -31,7 +31,7 @@ const Tabs = () => {
     return (
         <div className='flex items-center justify-between w-full gap-4 px-4 py-3 md:gap-12 md:p-12 h-14'>
             <Select size='large' className='!w-32' options={orders} value={order} onChange={e => setOrder(e.toString())} />
-            <div className="max-w-4xl overflow-x-auto w-fit">
+            <div className="hidden max-w-4xl overflow-x-auto w-fit">
                 <Segmented  size='large' options={["Обзор", "Анимации", "Брендинг", "Иллюстрации", "Веб-дизайн", "Мобильный", "Дизайн продукта", "Печать", "Типография"]} />
             </div>
             <Button size='large' icon={<BiFilter size={17} className='inline mb-0.5' />}>Фильтры</Button>

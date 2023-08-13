@@ -10,7 +10,7 @@ type Props = {
 }
 const getUrl = async(link: string) => {
     const urlRes = await fetch(`${getHost()}/images/file?link=${link.substring(1)}`, {
-        cache: 'force-cache',
+        cache: 'no-cache',
     })
     const url = await urlRes.json() 
     return url

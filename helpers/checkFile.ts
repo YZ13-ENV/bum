@@ -2,13 +2,13 @@ import { ImageBlock, VideoBlock } from "@/types";
 import { RcFile } from "antd/es/upload";
 import { v4 } from "uuid";
 // "image/jpeg" || "image/png" || "video/mp4"
+
 export const checkFile = (
     userId: string, draftId: string, file: RcFile
     ): ImageBlock | VideoBlock | null => {
     const checkedSize = checkSize(file.size)
     // console.log(checkedSize, file.type)
-    if (file.type === 'video/mp4' && 
-    ((checkedSize.size <= 20 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+    if (file.type === 'video/mp4' && ((checkedSize.size <= 20 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
         return { type: 'video', link: `/users/${userId}/${draftId}/${v4()}.mp4`}
     }
     if (file.type.includes('image') && ((checkedSize.size <= 10 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
@@ -49,4 +49,21 @@ const checkSize = (bytes: number, decimals: number = 2) => {
     const i = Math.floor(Math.log(bytes) / Math.log(k))
 
     return { size: parseFloat((bytes / Math.pow(k, i)).toFixed(dm)), scale: sizes[i]}
+}
+
+export const fileSizeAndType = (file: RcFile) => {
+    const checkedSize = checkSize(file.size)
+    if (file.type === 'video/mp4' && ((checkedSize.size <= 20 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+
+    }
+    if (file.type.includes('image') && ((checkedSize.size <= 10 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+
+    }
+    if (file.type === 'image/png') {
+
+    } 
+    if (file.type === 'image/gif') {
+
+    } 
+    return null
 }

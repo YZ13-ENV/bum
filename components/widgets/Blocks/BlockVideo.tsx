@@ -26,7 +26,7 @@ const BlockVideo = ({ block, autoPlay }: Props) => {
     const getLink = async() => {
         setLoading(true)
         const urlRes = await fetch(`${getHost()}/images/file?link=${block.link.substring(1)}`, {
-            cache: 'force-cache',
+            cache: 'no-cache',
         })
         const url = await urlRes.json() 
         setLink(url)
