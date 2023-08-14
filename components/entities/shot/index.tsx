@@ -13,7 +13,11 @@ const ShotCard = ({ shot }: Props) => {
         <div className="relative overflow-hidden transition-transform border shrink-0 border-neutral-900 rounded-2xl hover:scale-105 group">
             <Suspense>
                 <Link href={`${shot.authorId}/${shot.doc_id}`} >
-                    <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
+                    {
+                        shot.thumbnail
+                        ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
+                        : <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
+                    }
                 </Link>
             </Suspense>
             <Suspense>

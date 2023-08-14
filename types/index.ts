@@ -32,10 +32,17 @@ export type CommentBlock = {
     answers: CommentBlockNoAnswers[]
 }
 
+export type Thumbnail = {
+    width: string
+    height: string
+    link: string
+}
+
 export type ShotForUpload = {
     title: string
     rootBlock: ImageBlock | VideoBlock
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
+    thumbnail: Thumbnail | null
 }
 
 export type DraftShotData = {
@@ -45,6 +52,7 @@ export type DraftShotData = {
     rootBlock: ImageBlock | VideoBlock
     blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
     createdAt: number
+    thumbnail: Thumbnail | null
 }
 
 export type ShotData = {
@@ -59,12 +67,11 @@ export type ShotData = {
     comments: CommentBlock[]
     needFeedback: boolean
     tags: string[]
-    thumbnail: ImageBlock | VideoBlock | null
+    thumbnail: Thumbnail | null
 }
 
 export type DocShotData = { doc_id: string } & ShotData
 export type DocDraftShotData = { doc_id: string } & DraftShotData
-
 
 export type ShortUserData = {
     photoUrl: string

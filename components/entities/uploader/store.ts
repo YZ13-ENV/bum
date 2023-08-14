@@ -15,9 +15,10 @@ const initialState: InitState = {
         blocks: [],
         rootBlock: {
             type: 'image',
-            link: ''
+            link: '',
         },
-        title: ''
+        title: '',
+        thumbnail: null
     },
     blocksSidebar: false,
     prevWorkSidebar: false,
@@ -40,6 +41,9 @@ const ShotUploaderSlice = createSlice({
         setRootBlock(state, { payload, type }: { payload: ShotForUpload['rootBlock'], type: string }) {
             state.shot.rootBlock = payload
         },
+        setThumbnail(state, { payload, type }: { payload: ShotForUpload['thumbnail'], type: string }) {
+            state.shot.thumbnail = payload
+        },
         setTitle(state, { payload, type }: { payload: ShotForUpload['title'], type: string }) {
             state.shot.title = payload
         },
@@ -54,5 +58,5 @@ const ShotUploaderSlice = createSlice({
         },
     }
 })
-export const { setDraftId, setBlocks, setRootBlock, setShot, setTitle, setBlockSidebar, setPrevWorkSidebar, setFinalTouchModal } = ShotUploaderSlice.actions
+export const { setDraftId, setBlocks, setRootBlock, setThumbnail, setShot, setTitle, setBlockSidebar, setPrevWorkSidebar, setFinalTouchModal } = ShotUploaderSlice.actions
 export default ShotUploaderSlice.reducer

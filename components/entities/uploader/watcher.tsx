@@ -15,7 +15,7 @@ const UploaderWatcher = () => {
         // console.log(uploadedData);
     }
     useDebounceEffect(() => {
-        if (uploader.draftId && user) {
+        if (uploader.draftId && user && uploader.finalTouchModal === false) {
             uploadShot(user.uid, uploader.draftId, uploader.shot)
         }
     }, [uploader, user], { maxWait: 2000, wait: 1000 })

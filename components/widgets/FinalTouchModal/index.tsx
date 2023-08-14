@@ -1,5 +1,5 @@
 'use client'
-import { setFinalTouchModal } from '@/components/entities/uploader/store'
+import { setDraftId, setFinalTouchModal, setShot } from '@/components/entities/uploader/store'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { Button } from 'antd'
 import React from 'react'
@@ -54,7 +54,9 @@ const FinalTouchModal = () => {
             setTags([])
             setNeedFeedback(true)
             dispatch(setFinalTouchModal(false))
-            router.push('/')
+            dispatch(setDraftId(null))
+            dispatch(setShot({ blocks: [], rootBlock: { link: '', type: 'image' }, thumbnail: null, title: '' }))
+            router.push(`/${user.uid}/${uploaderDraft.draftId}`)
         }
     }
     if (!finalModal) return null

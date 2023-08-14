@@ -9,7 +9,8 @@ type Props = {
     autoPlay?: boolean
 }
 const getUrl = async(link: string) => {
-    const urlRes = await fetch(`${getHost()}/images/file?link=${link.substring(1)}`, {
+    const stableLink = link.charAt(0) === '/' ? link.substring(1) : link
+    const urlRes = await fetch(`${getHost()}/images/file?link=${stableLink}`, {
         cache: 'no-cache',
     })
     const url = await urlRes.json() 

@@ -26,7 +26,8 @@ const BlockImage = ({ imageLink, object='contain', quality=100 }: Props) => {
     })
     const getLink = async() => {
         setLoading(true)
-        const urlRes = await fetch(`${getHost()}/images/file?link=${imageLink.substring(1)}`, {
+        const stableLink = imageLink.charAt(0) === '/' ? imageLink.substring(1) : imageLink
+        const urlRes = await fetch(`${getHost()}/images/file?link=${stableLink}`, {
             cache: 'no-cache',
         })
         const url = await urlRes.json() 
