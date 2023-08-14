@@ -18,7 +18,7 @@ const Wrapper = ({ children }: Props) => {
     return (
         <animated.div style={{...spring}} className={`absolute flex-col border-r border-neutral-800
         w-full h-full max-w-sm gap-2 p-4 flex bg-black z-10 upload_sidebar overflow-y-auto`}>
-            {children}
+            {blockExpanded && children}
         </animated.div>
     )
 }

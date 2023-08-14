@@ -1,3 +1,4 @@
 export const getHost = () => {
-    return process.env.NEXT_PUBLIC_API_URL
+    return 'https://api.darkmaterial.space'
+    // return 'http://localhost:8000'
 }

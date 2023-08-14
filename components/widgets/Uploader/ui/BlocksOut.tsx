@@ -48,15 +48,20 @@ const BlocksOut = () => {
     return (
         <div className="flex flex-col w-full h-full gap-2">
             <div className="flex items-center justify-between w-full p-2 border h-fit rounded-xl border-neutral-800">
-                <span className='font-semibold'>{uploader.shot.title}</span>
+                <span className='font-semibold'>{uploader.shot.title || 'Заголовок работы'}</span>
                 <BiLock size={17} className='text-neutral-400' />
             </div>
 
             {
-                uploader.shot.rootBlock.link !== '' &&
-                <div className="relative flex items-center justify-center w-full h-fit">
+                uploader.shot.thumbnail && uploader.shot.thumbnail.link !== '' ?
+                <div className="relative flex aspect-video items-center justify-center w-full min-h-[16rem] h-fit">
                     <div className="absolute z-10 p-2 rounded-xl bg-neutral-900"><BiLock size={27} /></div>
-                    <MediaBlock {...uploader.shot.rootBlock} autoPlay />
+                    <MediaBlock {...{link: uploader.shot.thumbnail.link, type: 'image'}} object='cover' autoPlay />
+                </div>
+                : uploader.shot.rootBlock.link !== '' &&
+                <div className="relative flex aspect-video items-center justify-center w-full h-fit min-h-[16rem]">
+                    <div className="absolute z-10 p-2 rounded-xl bg-neutral-900"><BiLock size={27} /></div>
+                    <MediaBlock {...uploader.shot.rootBlock} autoPlay object='cover' />
                 </div>
             }
             <div className="flex flex-col w-full h-full gap-2">

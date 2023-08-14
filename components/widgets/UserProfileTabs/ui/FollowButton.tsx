@@ -44,7 +44,7 @@ const FollowButton = ({ profileUID }: Props) => {
     },[user])
     return (
         <Button loading={loading} size='large' icon={<BiUserPlus size={17} className='inline-block mb-0.5' />} danger={isFollowed}
-        onClick={isFollowed ? stopFollow : startFollow} disabled={!user} type={isFollowed ? 'default' : 'primary'}
+        onClick={isFollowed ? stopFollow : startFollow} disabled={!user || user.uid === profileUID} type={isFollowed ? 'default' : 'primary'}
         >{user?.uid === profileUID ? 'Это вы' : isFollowed ? 'Отслеживается' : 'Отслеживать'}</Button>
     )
 }

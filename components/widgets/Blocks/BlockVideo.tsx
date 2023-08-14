@@ -1,7 +1,5 @@
 'use client'
 import React from 'react'
-import { getDownloadURL, ref } from 'firebase/storage'
-import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import { VideoBlock } from '@/types'
 import LoadedVideo from '@/components/shared/ui/LoadedVideo'
@@ -25,8 +23,9 @@ const BlockVideo = ({ block, autoPlay }: Props) => {
     })
     const getLink = async() => {
         setLoading(true)
-        const urlRes = await fetch(`${getHost()}/images/file?link=${block.link.substring(1)}`, {
-            cache: 'force-cache',
+        const stableLink = block.link.charAt(0) === '/' ? block.link.substring(1) : block.link
+        const urlRes = await fetch(`${getHost()}/images/file?link=${stableLink}`, {
+            cache: 'no-cache',
         })
         const url = await urlRes.json() 
         setLink(url)

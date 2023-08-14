@@ -1,7 +1,7 @@
 import { TextBlock } from '@/types'
 import { Button } from 'antd'
 import React from 'react'
-import { BiGridVertical, BiTrashAlt } from 'react-icons/bi'
+import { BiTrashAlt } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks } from '../../uploader/store'
 
@@ -22,7 +22,7 @@ const TextBlock = ({ block, index }: Props) => {
                 {/* <BiGridVertical size={17} /> */}
                 <span  
                 className="text-sm text-neutral-300">
-                    {block.text}
+                    {block.text || 'Текст блока'}
                 </span>
             </div>
             <Button onClick={deleteBlock} danger type='text'><BiTrashAlt size={17} /></Button>
