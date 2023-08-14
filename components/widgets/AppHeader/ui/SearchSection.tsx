@@ -16,9 +16,9 @@ const SearchSection = () => {
     }, ref);
     if (isOpen) {
         return (
-            <div className="relative w-full h-full max-w-full md:max-w-md">
+            <div className="absolute top-0 left-0 z-30 w-full h-screen max-w-full md:left-2 md:top-2">
                 <div ref={ref} 
-                className="absolute left-0 z-20 flex flex-col w-full border top-2 h-96 rounded-xl bg-neutral-900 border-neutral-700">
+                className="flex flex-col w-full mx-auto border md:max-w-md h-96 rounded-xl bg-neutral-900 border-neutral-700">
 
                     <div className="flex items-center w-full gap-2 pl-3 pr-1 border-b h-fit border-neutral-700">
                         <BiSearch size={17} className='inline text-neutral-500'  />
@@ -36,7 +36,7 @@ const SearchSection = () => {
                             </div>
                             <div className="flex items-center justify-center gap-2 w-fit h-fit">
                                 <Button>Очистить поиск</Button>
-                                <Button type='primary'>Создать проект</Button>
+                                <Button href='/uploads/shot' type='primary'>Создать проект</Button>
                             </div>
                         </div>
                         <div className="flex items-center justify-end w-full h-fit">
