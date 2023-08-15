@@ -15,7 +15,7 @@ const ShotCard = ({ shot }: Props) => {
                     shot.thumbnail 
                     ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
                     : shot.rootBlock.link !== '' ? <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
-                    : <div className='flex flex-col items-center justify-center w-full h-96'>
+                    : <div className='flex flex-col items-center justify-center w-full h-full'>
                         <span className='text-xs text-center text-neutral-400'>Нет обложки</span>
                     </div>
                 }
@@ -32,7 +32,7 @@ const ShotCard = ({ shot }: Props) => {
                     }
                 </Link>
             </Suspense>
-            <Suspense>
+            <Suspense fallback={<div className='w-full h-5 rounded-xl bg-neutral-900'/>}>
                 <ShotInfo shot={shot} />
             </Suspense>
         </div>

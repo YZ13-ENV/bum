@@ -10,7 +10,7 @@ const NunitoSans = Nunito_Sans({ subsets: ['latin', 'cyrillic'], variable: '--ro
 export const metadata: Metadata = {
   title: 'Dey',
   description: 'App for designers and developers for inspiration',
-  icons: ['icon?<generated>']
+  icons: ['/Dey.svg']
 };
 
 export default function RootLayout({

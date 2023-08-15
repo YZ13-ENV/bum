@@ -2,10 +2,10 @@
 import React from 'react'
 import UserSection from './ui/UserSection'
 import LogoSection from './ui/LogoSection'
-import SearchSection from './ui/SearchSection'
 import { usePathname } from 'next/navigation'
 import { useMediaQuery } from 'react-responsive'
 import { useAppSelector } from '@/components/entities/store/store'
+import SearchSection from './ui/SearchSection/index'
 
 const AppHeader = () => {
     const path = usePathname()
