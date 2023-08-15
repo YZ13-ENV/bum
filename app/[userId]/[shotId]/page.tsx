@@ -78,6 +78,7 @@ const ShotPage = async({ params }: Props) => {
                     })
                 }
             </div>
+            {/* <div className="flex items-center justify-center w-full max-w-2xl h-fit"></div> */}
             <LastWorks displayName={data.user?.displayName as string | null} userId={params.userId} />
         </div>
     )

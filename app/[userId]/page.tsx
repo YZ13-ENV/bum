@@ -1,4 +1,5 @@
 import ShotCard from '@/components/entities/shot'
+import ProfileContent from '@/components/widgets/Profile'
 import UserProfileTabs from '@/components/widgets/UserProfileTabs'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
@@ -10,6 +11,9 @@ import { BiUser } from 'react-icons/bi'
 type Props = {
     params: {
         userId: string
+    },
+    searchParams: {
+        tab: string | null
     }
 }
 
@@ -29,24 +33,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  
 
 }
-const getShortData = async(userId: string) => {
+const getShortData = async(userId: string, tab: number | null) => {
+    const stableTab = !tab ? 1 : tab
     try {
         // https://api.darkmaterial.space/shots/onlyShots?userId=FS47Abif0LgqvIwUPx5z7rrwTNg1
-        const shotsRes = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}`, {
+        const shotsRes = await fetch(`${getHost()}/shots/${stableTab === 1 ? 'onlyShots' : 'onlyDrafts'}?userId=${userId}`, {
             cache: 'no-cache'
         })
         const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'no-cache' })
         const shots: DocShotData[] = await shotsRes.json()
         const user: { short: ShortUserData } | null = await userRes.json()
-        console.log(shots, user)
+        // console.log(shots, user)
         return { user: user ? user.short : null, shots: shots }
     } catch(e) {
         console.log(e)
         return null
     }
 }
-const UserPage = async({ params }: Props) => {
-    const data = await getShortData(params.userId)
+const UserPage = async({ params, searchParams }: Props) => {
+    const data = await getShortData(params.userId, parseInt(searchParams.tab || '1'))
+    console.log(searchParams)
     return (
         <section className='flex flex-col w-full h-full'>
             <div className="relative flex flex-col items-center w-full gap-4 px-4 py-2 md:px-12 border-y h-fit shrink-0 border-neutral-700">
@@ -69,13 +75,7 @@ const UserPage = async({ params }: Props) => {
             <div className="w-full h-full px-4 pt-4 md:px-12 md:profile_grid profile_grid_mobile">
                 <div className="flex flex-col w-full h-full gap-4">
                     <UserProfileTabs shotsLength={data?.shots.length || 0} profileUID={params.userId} />
-                    <div className="grid w-full grid-cols-1 grid-rows-4 gap-9 shrink-0 xl:grid-cols-3 xl:grid-rows-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 lg:grid-rows-2 md:grid-rows-2 sm:grid-rows-2">
-                            {
-                                data && data.shots.map((shotChunk, index) => 
-                                    <ShotCard key={`shotChunk#${index}#shot#${index + 1}`} shot={shotChunk} />
-                                )
-                            }
-                    </div>
+                    <ProfileContent tab={parseInt(searchParams.tab || '1')} shots={data?.shots || []} />
                 </div>
             </div>
 

@@ -12,11 +12,12 @@ const getAllShots = async(order: string | null) => {
     const cookie = cookies()
     const uidCookie = cookie.get('uid')
     const uid = uidCookie ? uidCookie.value : null
-    const res = await fetch(`${getHost()}/shots/allShots/${order === 'following' ? `${order}?userId=${uid}` : order}`, {
+    const res = await fetch(`${getHost()}/shots/v2/allShots/${order === 'following' ? `${order}?userId=${uid}` : order}`, {
       method: "GET",
       cache: 'no-cache'
     })
     const allShots: DocShotData[] = await res.json()
+    console.log(allShots)
     return (allShots)
   } catch(e) {
     console.log(e);

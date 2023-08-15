@@ -1,10 +1,11 @@
 'use client'
 import { auth } from '@/utils/app'
-import { Segmented, Button, SegmentedProps } from 'antd'
+import { Segmented, Button, SegmentedProps, Select } from 'antd'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import FollowButton from './ui/FollowButton'
 import { useRouter } from 'next/navigation'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {
     profileUID: string
@@ -14,10 +15,11 @@ const UserProfileTabs = ({ shotsLength, profileUID }: Props) => {
     const [segment, setSegment] = useState<number>(1)
     const router = useRouter()
     const [user] = useAuthState(auth)
-    const options: SegmentedProps['options'] = [
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const options = [
         {
             value: 1,
-            label: `Публикации ${shotsLength}`
+            label: 'Публикации'
         },
         {
             value: 2,
@@ -42,7 +44,11 @@ const UserProfileTabs = ({ shotsLength, profileUID }: Props) => {
     },[segment])
     return (
         <div className="flex justify-between w-full h-fit">
-            <Segmented options={options} size='large' value={segment} onChange={e => setSegment(parseInt(e.toString()))} />
+            {
+                isTabletOrMobile
+                ? <Select options={options} value={segment} size='large' onChange={e => setSegment(parseInt(e.toString()))} />
+                : <Segmented options={options} size='large' value={segment} onChange={e => setSegment(parseInt(e.toString()))} />
+            }
             <div className="flex items-center gap-2 w-fit h-fit">
                 <FollowButton profileUID={profileUID} />
             </div>

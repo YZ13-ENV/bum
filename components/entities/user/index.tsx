@@ -1,10 +1,10 @@
 'use client'
 import { auth } from '@/utils/app'
-import { Button, Dropdown, MenuProps } from 'antd'
+import { Button, Dropdown, MenuProps, QRCode, Space } from 'antd'
 import Image from 'next/image'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiChevronRight, BiLoaderAlt, BiLogOut, BiUser, BiUserCircle } from 'react-icons/bi'
+import { BiChevronRight, BiLoaderAlt, BiLogOut, BiPlus, BiUser, BiUserCircle } from 'react-icons/bi'
 import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
 
@@ -15,6 +15,7 @@ const UserStatus = () => {
     const items: MenuProps['items'] = [
         {
             key: 1,
+            disabled: true,
             label: <div className="flex items-center gap-2 w-52 h-9">
                 {
                     user ?
@@ -39,10 +40,34 @@ const UserStatus = () => {
             itemIcon: <BiChevronRight size={17} />
         },
         {
-            type: 'divider'
+            key: 3,
+            label: 'Поделиться работой',
+            icon: <BiPlus size={17} />,
+            itemIcon: <BiChevronRight size={17} />,
+            onClick: () => router.push('/uploads/shot'),
         },
         {
             key: 4,
+            disabled: true,
+            label: <div className="flex w-full h-40 gap-2 p-4 border rounded-xl border-neutral-700 bg-neutral-900">
+                <div className="flex items-center justify-center w-full h-full">
+                    <QRCode value='https://design.darkmaterial.space' size={128} type='svg' />
+                </div>
+                {/* <div className="flex flex-col items-center justify-center w-full h-full"> */}
+                    {/* <Space.Compact direction='vertical'>
+                        <Button>1</Button>
+                        <Button>2</Button>
+                        <Button>3</Button>
+                        <Button>4</Button>
+                    </Space.Compact> */}
+                {/* </div> */}
+            </div>
+        },
+        {
+            type: 'divider'
+        },
+        {
+            key: 10,
             icon: <BiLogOut size={17} />,
             label: 'Выйти из аккаунта',
             danger: true,
