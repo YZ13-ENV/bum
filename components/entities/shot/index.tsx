@@ -23,7 +23,7 @@ const ShotCard = ({ shot }: Props) => {
     )
     return (
         <div className="relative overflow-hidden transition-transform border shrink-0 border-neutral-900 rounded-2xl hover:scale-105 group">
-            <Suspense>
+            <Suspense fallback={<div className='w-full h-full rounded-xl' />}>
                 <Link href={`${shot.authorId}/${shot.doc_id}`} >
                     {
                         shot.thumbnail
