@@ -22,14 +22,14 @@ const getShortData = async(userId: string) => {
 const ShotInfo = async({ shot }: Props) => {
     const user = await getShortData(shot.authorId)
     return (
-        <div className='absolute bottom-0 left-0 z-20 flex flex-col w-full transition-transform h-fit'>
+        <div className='absolute bottom-0 left-0 z-20 flex flex-col w-full transition-transform group/info h-fit'>
             <div className="relative flex items-center justify-center w-full py-2 h-fit">
-                <div className="p-1 rounded-full w-fit h-fit bg-neutral-900"><BiChevronUp size={15} className='rotate-0 group-hover:rotate-180 text-neutral-200' /></div>
+                <div className="p-1 rounded-full w-fit h-fit bg-neutral-900"><BiChevronUp size={15} className='rotate-0 group-hover/info:rotate-180 text-neutral-200' /></div>
                 <div className="absolute top-0 flex items-center gap-2 right-1 w-fit h-fit">
                     <ShotActions shot={shot} />
                 </div>
             </div>
-            <div className="flex w-full h-0 p-0 overflow-hidden transition-all duration-500 border group-hover:p-2 group-hover:h-20 group-hover:overflow-y-auto shrink-0 rounded-xl bg-neutral-900 border-neutral-700">
+            <div className="flex w-full h-0 p-0 overflow-hidden transition-all duration-300 border group-hover/info:p-2 group-hover/info:h-20 group-hover/info:overflow-y-auto shrink-0 rounded-xl bg-neutral-900 border-neutral-700">
                 <div className="flex items-center justify-between w-full gap-2 p-1 h-fit rounded-xl bg-neutral-800">
                     <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
                         <Image src={user?.photoUrl || ''} width={36} height={36} className='rounded-full' alt={`${shot.authorId}-${shot.doc_id}`} />
