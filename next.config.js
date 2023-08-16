@@ -5,6 +5,7 @@ const nextConfig = {
       'api.darkmaterial.space',
       'api.storage.darkmaterial.space',
       'darkmaterial.space',
+      'localhost',
       'firebasestorage.googleapis.com',
       'storage.googleapis.com'
     ]
