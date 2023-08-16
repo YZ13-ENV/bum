@@ -20,21 +20,14 @@ export const uploadShot_POST = async(userId: string, shotId: string, shot: ShotF
     return uploadedShot
 }
 
-export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData, needFeedBack: boolean, tags: string[], thumbnail: ShotData['thumbnail']=null) => {
+export const uploadDraft_POST = async(userId: string, draftId: string, draft: ShotData) => {
     try {
         const headers = new Headers()
         headers.set("Content-Type", "application/json")
-        const preparedDraft = {
-            ...draft,
-            tags: tags,
-            thumbnail: thumbnail,
-            needFeedBack: needFeedBack
-        }
-        console.log(preparedDraft)
         const res = await fetch(`${getHost()}/shots/publishDraft?userId=${userId}&draftId=${draftId}`, {
             method: 'POST',
             headers: headers,
-            body: JSON.stringify(preparedDraft)
+            body: JSON.stringify(draft)
         })
         const uploadedShot = await res.json()
         return uploadedShot
