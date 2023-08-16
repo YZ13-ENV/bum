@@ -4,5 +4,6 @@ export const getHost = () => {
 }
 
 export const getStorageHost = () => {
-    return 'https://api.storage.darkmaterial.space'
+    return 'http://localhost:8000'
+    // return 'https://api.storage.darkmaterial.space'
 }

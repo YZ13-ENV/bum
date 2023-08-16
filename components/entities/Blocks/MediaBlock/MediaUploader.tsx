@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks, setDraftId, setRootBlock, setThumbnail } from '../../uploader/store'
-import { ImageBlock, VideoBlock } from '@/types'
+import { ImageBlock, Thumbnail, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
 import { uploadMedia, uploadMediaThumbnail } from '@/helpers/uploadMedia'
@@ -28,6 +28,8 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
     const props: UploadProps = {
         name: 'file',
         multiple: false,
+        fileList: [],
+        progress: undefined,
         action: async(file) => {
             if (user) {
                 setLoading(true)
@@ -36,43 +38,34 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     !uploader.draftId ? dispatch(setDraftId(generatedId)) : ''
                     !uploader.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${uploader.draftId}`) 
                     const checkedFile = uploadOnlyImages ? checkOnlyImageFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file) : checkFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                    if (checkedFile && !uploader.draftId) {
-                        const thumbnail = await uploadMediaThumbnail(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                        const uploadedFile = await uploadMedia(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                        // console.log(thumbnail, uploadedFile)
-                        if (uploadedFile) {
-                            message.success('Изображение загруженно')
-                            dispatch(setRootBlock({ type: checkedFile.type, link: uploadedFile,  }))
-                            setLoading(false)
+                    if (checkedFile) {
+                        setLoading(true)
+                        const uploadedFile = new Promise<string | null>(async(res, rej) => {
+                            const uploadedFile = await uploadMedia(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+                            res(uploadedFile)
+                        })
+                        const uploadedThumbnail = new Promise<Thumbnail | null>(async(res, rej) => {
+                            const thumbnail = await uploadMediaThumbnail(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+                            res(thumbnail)
+                        })
+                        uploadedFile.then((link) => {
+                            if (link) {
+                                dispatch(setRootBlock({ type: checkedFile.type, link: link }))
+                                message.success('Изображение загруженно')
+                                setLoading(false)
+                            } 
+                        })
+                        .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
+                        uploadedThumbnail.then((thumbnail) => {
                             if (thumbnail) {
                                 dispatch(setThumbnail(thumbnail))
-                                return uploadedFile
+                                message.success('Обложка для работы загружена')
                             }
-                            return uploadedFile
-                        } else {
-                            message.error('Что-то пошло не так и изображение не загрузилось')
-                            setLoading(false)
-                            return ''
-                        }
-                    } else if (checkedFile && uploader.draftId) {
-                        const thumbnail = await uploadMediaThumbnail(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                        const uploadedFile = await uploadMedia(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                        // console.log(thumbnail, uploadedFile)
-                        if (uploadedFile) {
-                            message.success('Изображение загруженно')
-                            dispatch(setRootBlock({ type: checkedFile.type, link: uploadedFile }))
-                            setLoading(false)
-                            if (thumbnail) {
-                                dispatch(setThumbnail(thumbnail))
-                                return uploadedFile
-                            }
-                            return uploadedFile
-                        } else {
-                            message.error('Что-то пошло не так и изображение не загрузилось')
-                            setLoading(false)
-                            return ''
-                        }
-                    } 
+                            else setLoading(false)
+                        })
+                        .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
+                        return uploader.shot.rootBlock.link
+                    }
                     setLoading(false)
                     return ''
                 } else {
@@ -138,7 +131,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         )
     }
     return (
-        <Dragger disabled={loading} className='!h-[32rem] !shrink-0' {...props} fileList={undefined}>
+        <Dragger disabled={loading} className='!h-[32rem] !shrink-0' {...props} defaultFileList={[]}>
             <div className="flex flex-col items-center justify-center w-full max-w-lg gap-6 mx-auto h-fit">
                 {
                     loading 
