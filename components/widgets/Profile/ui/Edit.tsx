@@ -27,19 +27,28 @@ const Edit = () => {
     name: 'file',
     multiple: false,
     fileList: fileList,
+    progress: undefined,
     action: async(file) => {
         if (user) {
             const typeOf = fileSizeAndType(file)
             if (typeOf === 'jpg' || typeOf === 'png') {
                 setLoading(true)
-                const fileToUpload = await file.arrayBuffer()
-                const avatarRef = ref(storage, `users/${user.uid}/avatar.${typeOf}`)
-                const snap = await uploadBytes(avatarRef, fileToUpload)
-                const refForAPI = `${getStorageHost()}/files/profileImage?link=${snap.ref.fullPath}`
-                await updateProfile(user, { photoURL: refForAPI })
-                message.info('Фото профиля изменилось')
-                setLoading(false)
-                return refForAPI
+                const postUrl = `${getStorageHost()}/files/file?userId=${user.uid}`
+                const formData = new FormData()
+                formData.append('file', file)
+                const postedFetched = await fetch(postUrl, { method: 'POST', body: formData })
+                if (postedFetched.ok) {
+                    const res = await postedFetched.json()
+                    const refForAPI = `${getStorageHost()}/files/file?link=${res}`
+                    await updateProfile(user, { photoURL: refForAPI })
+                    message.info('Фото профиля изменилось')
+                    setLoading(false)
+                    return refForAPI
+                } else {
+                    message.info('Не вышло, попробуйте ещё раз')
+                    setLoading(false)
+                    return ''
+                }
             }
             return ''
         }
