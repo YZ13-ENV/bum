@@ -1,5 +1,5 @@
 'use client'
-import { DocShotData, ShotData } from '@/types'
+import { DocShotData } from '@/types'
 import { Button } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { BiHeart, BiShow } from 'react-icons/bi'
@@ -33,10 +33,10 @@ const ShotActions = ({ shot }: Props) => {
         }
     }
     return (
-        <div onClick={e => e.stopPropagation()} className="absolute bottom-0 right-0 flex items-center gap-2 p-2 transition-all w-fit h-fit">
-            <Button size='small' danger={isInclude} type={isInclude ? 'primary' : 'default'} icon={<BiHeart  size={13} onClick={user ? () => addOrRemoveLike : () => null} 
+        <div onClick={e => e.stopPropagation()} className="flex items-center gap-2 p-2 transition-all w-fit h-fit">
+            <Button shape='round' size='small' danger={isInclude} type={isInclude ? 'primary' : 'default'} icon={<BiHeart  size={13} onClick={user ? () => addOrRemoveLike : () => null} 
             className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
-            <Button size='small' icon={<BiShow size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
+            <Button shape='round' size='small' icon={<BiShow size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
         </div>
     )
 }

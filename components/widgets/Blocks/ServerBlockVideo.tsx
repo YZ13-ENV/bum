@@ -1,5 +1,5 @@
 const LoadedVideo = dynamic(() => import('@/components/shared/ui/LoadedVideo'))
-import { getStorageHost } from '@/helpers/getHost'
+import { fetchFile } from '@/helpers/fetchFile'
 import { VideoBlock } from '@/types'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
@@ -9,19 +9,19 @@ type Props = {
     autoPlay?: boolean
 }
 const getUrl = async(link: string) => {
-    const stableLink = link.charAt(0) === '/' ? link.substring(1) : link
-    const urlRes = await fetch(`${getStorageHost()}/files/file?link=${stableLink}`, {
-        cache: 'no-cache',
-    })
-    const url = await urlRes.json() 
+    const url = await fetchFile(link)
     return url
 }
 const ServerBlockVideo = async({ block, autoPlay }: Props) => {
     const url = await getUrl(block.link)
     return (
-        <div className="relative w-full h-full border rounded-xl border-neutral-700">
+        <div className="relative w-full h-full rounded-xl">
             <Suspense fallback={<div className='w-full h-full'/>}>
-                <LoadedVideo link={url} autoPlay={autoPlay} />
+                {
+                    url
+                    ? <LoadedVideo link={url} autoPlay={autoPlay} />
+                    : <div className='w-full h-full rounded-xl bg-neutral-900' />
+                }
             </Suspense>
         </div>
     )

@@ -1,30 +1,30 @@
 import dynamic from 'next/dynamic'
 const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
-const ShotInfo = dynamic(() => import('./ui/ShotInfo')) 
 import React, { Suspense } from 'react'
 import { DocShotData } from '@/types'
 import Link from 'next/link'
+import ShotWrapper from './ui/ShotWrapper'
 
 type Props = {
     shot: DocShotData
 }
 const ShotCard = ({ shot }: Props) => {
     if (shot.isDraft) return (
-        <div className="relative overflow-hidden transition-transform border shrink-0 border-neutral-900 rounded-2xl hover:scale-105 group">
-                {
-                    shot.thumbnail 
-                    ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
-                    : shot.rootBlock.link !== '' ? <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
-                    : <div className='flex flex-col items-center justify-center w-full h-full'>
-                        <span className='text-xs text-center text-neutral-400'>Нет обложки</span>
-                    </div>
-                }
-        </div>
+        <ShotWrapper shot={shot}>
+            {
+                shot.thumbnail 
+                ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
+                : shot.rootBlock.link !== '' ? <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
+                : <div className='flex flex-col items-center justify-center w-full h-full'>
+                    <span className='text-xs text-center text-neutral-400'>Нет обложки</span>
+                </div>
+            }
+        </ShotWrapper>
     )
     return (
-        <div className="relative overflow-hidden transition-transform border shrink-0 border-neutral-900 rounded-2xl hover:scale-105 group">
+        <ShotWrapper shot={shot}>
             <Suspense fallback={<div className='w-full h-full rounded-xl' />}>
-                <Link href={`${shot.authorId}/${shot.doc_id}`} >
+                <Link href={`${shot.authorId}/${shot.doc_id}`}>
                     {
                         shot.thumbnail
                         ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
@@ -32,10 +32,7 @@ const ShotCard = ({ shot }: Props) => {
                     }
                 </Link>
             </Suspense>
-            <Suspense fallback={<div className='w-full h-5 rounded-xl bg-neutral-900'/>}>
-                <ShotInfo shot={shot} />
-            </Suspense>
-        </div>
+        </ShotWrapper>
     )
 }
 
