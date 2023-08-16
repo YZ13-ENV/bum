@@ -13,7 +13,7 @@ const BlocksOut = () => {
     const uploader = useAppSelector(state => state.uploader)
     const dispatch = useAppDispatch()
     const onDragEnd = (event: DragEndEvent) => {
-        console.log(event);
+        // console.log(event);
         if (event.over && event.over.id !== event.active.id) {
             const blockFrom = uploader.shot.blocks[parseInt(event.active.id.toString())]
             const blockTo = uploader.shot.blocks[parseInt(event.over.id.toString())]

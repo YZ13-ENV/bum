@@ -53,7 +53,7 @@ const checkSize = (bytes: number, decimals: number = 2) => {
 
 export const fileSizeAndType = (file: RcFile) => {
     const checkedSize = checkSize(file.size)
-    console.log(checkedSize)
+    // console.log(checkedSize)
     if (file.type === 'video/mp4' && ((checkedSize.size <= 20 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
         return 'mp4'
     } else 

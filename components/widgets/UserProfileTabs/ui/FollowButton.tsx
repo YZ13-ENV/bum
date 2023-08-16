@@ -19,7 +19,7 @@ const FollowButton = ({ profileUID }: Props) => {
             const res = await fetch(`${getHost()}/users/isInFollowList?userId=${user.uid}&followId=${profileUID}`)
             const isInList: boolean = await res.json()
             setFollowed(isInList)
-            console.log(isInList)
+            // console.log(isInList)
             setLoading(false)
         }
     }

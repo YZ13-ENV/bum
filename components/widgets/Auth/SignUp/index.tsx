@@ -46,7 +46,7 @@ const SignUp = () => {
     }
     const signUp = () => {
         if (authSignUp.password.length >= 6 && authSignUp.email.length >= 10 && authSignUp.email.includes('@')) {
-            console.log(user, loading, error)
+            // console.log(user, loading, error)
             createUserWithEmailAndPassword(authSignUp.email, authSignUp.password)
             .then(creds => {
                 if (creds && creds.user) {

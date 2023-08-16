@@ -30,6 +30,7 @@ export const uploadDraft_POST = async(userId: string, draftId: string, draft: Sh
             thumbnail: thumbnail,
             needFeedBack: needFeedBack
         }
+        console.log(preparedDraft)
         const res = await fetch(`${getHost()}/shots/publishDraft?userId=${userId}&draftId=${draftId}`, {
             method: 'POST',
             headers: headers,
