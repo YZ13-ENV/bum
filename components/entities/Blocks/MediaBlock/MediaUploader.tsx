@@ -1,10 +1,9 @@
 import UploaderIcons from '@/components/shared/ui/Animated/UploaderIcons'
 import { checkFile, checkOnlyImageFile } from '@/helpers/checkFile'
 import { randomString } from '@/helpers/randomString'
-import { auth, storage } from '@/utils/app'
+import { auth } from '@/utils/app'
 import { Button, UploadProps, message } from 'antd'
 import Dragger from 'antd/es/upload/Dragger'
-import { deleteObject, ref } from 'firebase/storage'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useAppDispatch, useAppSelector } from '../../store/store'
@@ -13,6 +12,7 @@ import { ImageBlock, Thumbnail, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
 import { uploadMedia, uploadMediaThumbnail } from '@/helpers/uploadMedia'
+import { getStorageHost } from '@/helpers/getHost'
 
 type Props = {
     block: ImageBlock | VideoBlock
@@ -50,6 +50,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         })
                         uploadedFile.then((link) => {
                             if (link) {
+                                console.log(link)
                                 dispatch(setRootBlock({ type: checkedFile.type, link: link }))
                                 message.success('Изображение загруженно')
                                 setLoading(false)
@@ -58,6 +59,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
                         uploadedThumbnail.then((thumbnail) => {
                             if (thumbnail) {
+                                console.log(thumbnail)
                                 dispatch(setThumbnail(thumbnail))
                                 message.success('Обложка для работы загружена')
                             }
@@ -97,13 +99,11 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
     };
     const deleteImage = async() => {
         if (user && block.link !== '') {
-            const imageRef = ref(storage, block.link)
-            await deleteObject(imageRef)
+            await fetch(`${getStorageHost()}/files/file?link=${block.link}`, { method: "DELETE" })
             if (isRootBlock) {
                 dispatch(setRootBlock({ type: 'image', link: '' }))
                 if (uploader.shot.thumbnail) {
-                    const thumbnailRef = ref(storage, uploader.shot.thumbnail.link)
-                    await deleteObject(thumbnailRef)
+                    await fetch(`${getStorageHost()}/files/file?link=${uploader.shot.thumbnail.link}`, { method: "DELETE" })
                     dispatch(setThumbnail(null))
                 }
             } else {
