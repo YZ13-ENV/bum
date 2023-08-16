@@ -13,6 +13,7 @@ import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
 import { uploadMedia, uploadMediaThumbnail } from '@/helpers/uploadMedia'
 import { getStorageHost } from '@/helpers/getHost'
+import { RcFile } from 'antd/es/upload'
 
 type Props = {
     block: ImageBlock | VideoBlock
@@ -50,7 +51,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         })
                         uploadedFile.then((link) => {
                             if (link) {
-                                console.log(link)
+                                // console.log(link)
                                 dispatch(setRootBlock({ type: checkedFile.type, link: link }))
                                 message.success('Изображение загруженно')
                                 setLoading(false)
@@ -59,7 +60,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
                         uploadedThumbnail.then((thumbnail) => {
                             if (thumbnail) {
-                                console.log(thumbnail)
+                                // console.log(thumbnail)
                                 dispatch(setThumbnail(thumbnail))
                                 message.success('Обложка для работы загружена')
                             }
