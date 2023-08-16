@@ -5,7 +5,6 @@ import LogoSection from './ui/LogoSection'
 import { usePathname } from 'next/navigation'
 import { useMediaQuery } from 'react-responsive'
 import { useAppSelector } from '@/components/entities/store/store'
-import SearchSection from './ui/SearchSection/index'
 
 const AppHeader = () => {
     const path = usePathname()
@@ -18,7 +17,6 @@ const AppHeader = () => {
                 isTabletOrMobile && isOpen ? null
                 : <LogoSection />
             }
-            <SearchSection />
             {
                 isTabletOrMobile && isOpen ? null
                 : <UserSection />

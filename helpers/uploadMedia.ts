@@ -1,7 +1,7 @@
 import { RcFile } from "antd/es/upload";
 import { fileSizeAndType } from "./checkFile";
 import { Thumbnail } from "@/types";
-import { getHost } from "./getHost";
+import { getStorageHost } from "./getHost";
 
 export const uploadMediaThumbnail = async(userId: string, draftId: string, file: RcFile) => {
     const formData = new FormData()
@@ -10,7 +10,7 @@ export const uploadMediaThumbnail = async(userId: string, draftId: string, file:
     if (fileType && fileType !== 'mp4') {
         try {
             formData.append('file', file)
-            const thumbnailRes = await fetch(`${getHost()}/images/uploadThumbnail?uid=${userId}&draftId=${draftId}`, {
+            const thumbnailRes = await fetch(`${getStorageHost()}/files/uploadThumbnail?uid=${userId}&draftId=${draftId}`, {
                 method: 'POST',
                 body: formData
             })
@@ -31,7 +31,7 @@ export const uploadMedia = async(userId: string, draftId: string, file: RcFile) 
     if (fileType) {
         try {
             formData.append('file', file)
-            const uploadedRes = await fetch(`${getHost()}/images/uploadMediaInDraft?uid=${userId}&draftId=${draftId}`, {
+            const uploadedRes = await fetch(`${getStorageHost()}/files/uploadMediaInDraft?uid=${userId}&draftId=${draftId}`, {
                 method: 'POST',
                 body: formData
             })

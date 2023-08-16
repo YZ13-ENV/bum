@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     domains: [
       'api.darkmaterial.space',
-      'localhost',
+      'api.storage.darkmaterial.space',
       'darkmaterial.space',
       'firebasestorage.googleapis.com',
       'storage.googleapis.com'

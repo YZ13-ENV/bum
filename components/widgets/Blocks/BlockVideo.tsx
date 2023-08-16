@@ -3,7 +3,7 @@ import React from 'react'
 import { animated, useSpring } from '@react-spring/web'
 import { VideoBlock } from '@/types'
 import LoadedVideo from '@/components/shared/ui/LoadedVideo'
-import { getHost } from '@/helpers/getHost'
+import { getStorageHost } from '@/helpers/getHost'
 type Props = {
     block: VideoBlock
     autoPlay?: boolean
@@ -24,7 +24,7 @@ const BlockVideo = ({ block, autoPlay }: Props) => {
     const getLink = async() => {
         setLoading(true)
         const stableLink = block.link.charAt(0) === '/' ? block.link.substring(1) : block.link
-        const urlRes = await fetch(`${getHost()}/images/file?link=${stableLink}`, {
+        const urlRes = await fetch(`${getStorageHost()}/files/file?link=${stableLink}`, {
             cache: 'no-cache',
         })
         const url = await urlRes.json() 

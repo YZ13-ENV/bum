@@ -17,7 +17,7 @@ const getAllShots = async(order: string | null) => {
       cache: 'no-cache'
     })
     const allShots: DocShotData[] = await res.json()
-    console.log(allShots)
+    // console.log(allShots)
     return (allShots)
   } catch(e) {
     console.log(e);

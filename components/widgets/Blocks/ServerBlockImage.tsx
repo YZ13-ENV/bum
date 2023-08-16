@@ -1,12 +1,12 @@
 const LoadedImage = dynamic(() => import('@/components/shared/ui/LoadedImage'))
-import { getHost } from '@/helpers/getHost'
+import { getStorageHost } from '@/helpers/getHost'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 
 
 const getUrl = async(link: string) => {
     const stableLink = link.charAt(0) === '/' ? link.substring(1) : link
-    const urlRes = await fetch(`${getHost()}/images/file?link=${stableLink}`, {
+    const urlRes = await fetch(`${getStorageHost()}/files/file?link=${stableLink}`, {
         cache: 'no-cache',
     })
     const url = await urlRes.json() 
