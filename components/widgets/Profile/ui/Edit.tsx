@@ -1,5 +1,6 @@
 'use client'
 import { fileSizeAndType } from '@/helpers/checkFile'
+import { getStorageHost } from '@/helpers/getHost'
 import { auth, storage } from '@/utils/app'
 import { useDebounceEffect } from 'ahooks'
 import { Button, Input, Upload, UploadProps, message } from 'antd'
@@ -34,7 +35,7 @@ const Edit = () => {
                 const fileToUpload = await file.arrayBuffer()
                 const avatarRef = ref(storage, `users/${user.uid}/avatar.${typeOf}`)
                 const snap = await uploadBytes(avatarRef, fileToUpload)
-                const refForAPI = `https://api.darkmaterial.space/images/profileImage?link=${snap.ref.fullPath}`
+                const refForAPI = `${getStorageHost()}/files/profileImage?link=${snap.ref.fullPath}`
                 await updateProfile(user, { photoURL: refForAPI })
                 message.info('Фото профиля изменилось')
                 setLoading(false)

@@ -4,7 +4,7 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import LoadedImage from '@/components/shared/ui/LoadedImage'
-import { getHost } from '@/helpers/getHost'
+import { getStorageHost } from '@/helpers/getHost'
 
 type Props = {
     imageLink: string
@@ -27,7 +27,7 @@ const BlockImage = ({ imageLink, object='contain', quality=100 }: Props) => {
     const getLink = async() => {
         setLoading(true)
         const stableLink = imageLink.charAt(0) === '/' ? imageLink.substring(1) : imageLink
-        const urlRes = await fetch(`${getHost()}/images/file?link=${stableLink}`, {
+        const urlRes = await fetch(`${getStorageHost()}/files/file?link=${stableLink}`, {
             cache: 'no-cache',
         })
         const url = await urlRes.json() 
