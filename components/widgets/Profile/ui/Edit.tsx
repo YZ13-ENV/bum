@@ -43,7 +43,7 @@ const Edit = () => {
                     await updateProfile(user, { photoURL: refForAPI })
                     message.info('Фото профиля изменилось')
                     setLoading(false)
-                    return refForAPI
+                    return ''
                 } else {
                     message.info('Не вышло, попробуйте ещё раз')
                     setLoading(false)

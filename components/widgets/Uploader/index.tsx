@@ -2,7 +2,7 @@
 import { setTitle } from '@/components/entities/uploader/store';
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store';
 import { Input } from 'antd';
-import React from 'react'
+import React, { useMemo } from 'react'
 import UploaderWatcher from '@/components/entities/uploader/watcher';
 import TextBlock from '@/components/entities/Blocks/TextBlock';
 import MediaUploader from '@/components/entities/Blocks/MediaBlock/MediaUploader';
@@ -19,6 +19,7 @@ import MediaUploader from '@/components/entities/Blocks/MediaBlock/MediaUploader
 
 const UploadBlockView = () => {
     const uploader = useAppSelector(state => state.uploader)
+    const rootBlock = useMemo(() => uploader.shot.rootBlock, [uploader.shot.rootBlock])
     const dispatch = useAppDispatch()
     // console.log(uploader.shot.blocks)
     return (
@@ -30,7 +31,7 @@ const UploadBlockView = () => {
                     value={uploader.shot.title} onChange={e => dispatch(setTitle(e.target.value))}
                     placeholder={uploader.shot.rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
                 </div>
-                <MediaUploader isRootBlock uploadOnlyImages={false} block={uploader.shot.rootBlock}  />
+                <MediaUploader isRootBlock uploadOnlyImages={false} block={rootBlock}  />
                 {
                     uploader.shot.blocks.map((block, index) => {
                         if (block.type === 'text') {

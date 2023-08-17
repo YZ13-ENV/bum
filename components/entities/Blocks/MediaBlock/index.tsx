@@ -3,7 +3,7 @@
 const ServerBlockImage = dynamic(() => import('@/components/widgets/Blocks/ServerBlockImage')) 
 const ServerBlockVideo = dynamic(() => import('@/components/widgets/Blocks/ServerBlockVideo')) 
 import dynamic from 'next/dynamic'
-import React from 'react'
+import React, { memo } from 'react'
 
 type Props = {
     type: 'image' | 'video'
@@ -22,4 +22,4 @@ const MediaBlock = ({ type, link, server=false, quality=75, object='contain', au
     return null
 }
 
-export default MediaBlock
+export default memo(MediaBlock)
