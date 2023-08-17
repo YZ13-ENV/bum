@@ -2,11 +2,11 @@
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
 import { auth } from '@/utils/app'
-import { Button } from 'antd'
+import { Button, Dropdown, MenuProps } from 'antd'
 import { useRouter } from 'next/navigation'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiHeart, BiBookmark, BiTrashAlt } from 'react-icons/bi'
+import { BiHeart, BiBookmark, BiTrashAlt, BiDotsVerticalRounded } from 'react-icons/bi'
 
 type Props = {
     shot: DocShotData
@@ -58,12 +58,24 @@ const ShotActions = ({ shot }: Props) => {
         useLayoutEffect(() => {
             if (user) addViews()
         },[user])
+        const items: MenuProps['items'] = [
+            {
+                key: 0,
+                label: 'Удалить',
+                icon: <BiTrashAlt size={13} className='inline mr-1'  />,
+                danger: true,
+                onClick: deleteShot
+            }
+        ]
     return (
         <div className="flex items-center gap-2 w-fit h-fit">
-            <Button loading={loading} onClick={addOrRemoveLike} danger={isInclude ? true: false} type={isInclude ? 'primary' : 'default'}><BiHeart size={17} /></Button>
-            {/* <Button loading={loading} disabled><BiBookmark size={23} /></Button> */}
+            <Button loading={loading} onClick={addOrRemoveLike} danger={isInclude ? true: false} 
+            icon={<BiHeart size={17} className='inline mr-1 mb-0.5' />} type={isInclude ? 'primary' : 'default'}>{shot.likes.length}</Button>
             {
-                (user && user.uid === shot.authorId) && <Button loading={loading} onClick={deleteShot} danger type='primary'><BiTrashAlt size={17} /></Button>
+                (user && user.uid === shot.authorId) && 
+                <Dropdown menu={{items}}>
+                    <Button><BiDotsVerticalRounded size={17} /></Button>
+                </Dropdown>
             }
         </div>
     )

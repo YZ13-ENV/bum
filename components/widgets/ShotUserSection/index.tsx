@@ -14,7 +14,7 @@ type Props = {
 }
 const ShotUserSection = ({ photoUrl, userId, title, displayName, shot }: Props) => {
     return (
-        <div className="flex items-center justify-between w-full max-w-2xl sticky top-12 gap-1 mx-auto h-fit">
+        <div className="sticky top-0 z-20 flex items-center justify-between w-full max-w-2xl gap-1 py-4 mx-auto bg-black h-fit">
             <div className="flex items-center w-full gap-4 h-fit">
                 <Link href={`/${userId}`}>
                     {

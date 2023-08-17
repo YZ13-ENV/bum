@@ -6,6 +6,7 @@ import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 import { Metadata } from 'next'
+import { DateTime } from 'luxon'
 const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
@@ -89,7 +90,33 @@ const ShotPage = async({ params }: Props) => {
             </div>
 
             {/* <div className="flex items-center justify-center w-full max-w-2xl h-fit"></div> */}
-            <LastWorks displayName={user?.displayName as string | null} userId={params.userId} />
+            <div className="flex md:flex-row flex-col items-start w-full max-w-4xl gap-2 mx-auto h-fit min-h-[24rem]">
+                <div className="flex flex-col w-full h-full gap-2 md:w-8/12">
+                    <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
+                        <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).toLocaleString(DateTime.DATE_MED)}</span>
+                        <div className="w-full h-fit">
+                            {
+                                shot.tags.map((tag, index) => <span key={tag + index} 
+                                    className='px-2 py-1 text-xs rounded-full text-neutral-300 bg-neutral-800'>{tag}</span>
+                                )
+                            }
+                        </div>
+                    </div>
+                    {
+                        shot.needFeedback
+                        ? <div className="flex flex-col w-full gap-2 p-2 border h-36 rounded-xl border-neutral-800">
+                            
+                        </div>
+                        : <div className='flex items-center justify-center w-full h-36'>
+                            <span className='text-sm text-neutral-400'>Комментарии отключены</span>
+                        </div>
+                    }
+                </div>
+                <div className="w-full h-full md:w-4/12">
+                    <LastWorks displayName={user?.displayName as string | null} userId={params.userId} />
+                </div>
+            </div>
+
         </div>
         </Suspense>
     )
