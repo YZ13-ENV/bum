@@ -1,10 +1,7 @@
 'use client'
 import React, { memo } from 'react'
-import { getDownloadURL, ref } from 'firebase/storage'
-import { storage } from '@/utils/app'
 import { animated, useSpring } from '@react-spring/web'
 import LoadedImage from '@/components/shared/ui/LoadedImage'
-import { getStorageHost } from '@/helpers/getHost'
 import { fetchFile } from '@/helpers/fetchFile'
 
 type Props = {
@@ -41,7 +38,7 @@ const BlockImage = ({ imageLink, object='contain', quality=100 }: Props) => {
     )
     return (
         <div className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl`}>
-            <LoadedImage link={link} unOptimized={imageLink.includes('.gif')} object={object} quality={quality} />
+            <LoadedImage link={link} object={object} quality={quality} />
         </div>
     )
 }
