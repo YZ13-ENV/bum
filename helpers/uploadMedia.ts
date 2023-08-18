@@ -31,13 +31,16 @@ export const uploadMedia = async(userId: string, draftId: string, file: RcFile) 
     if (fileType) {
         try {
             formData.append('file', file)
-            const uploadedRes = await fetch(`${getStorageHost()}/files/uploadMediaInDraft?uid=${userId}&draftId=${draftId}`, {
+            const uploadedRes = await fetch(`${getStorageHost()}/files/file?userId=${userId}&draftId=${draftId}`, {
                 method: 'POST',
                 body: formData
             })
-            const uploadedFile: string | null = await uploadedRes.json()
+            if (uploadedRes.ok) {
+                const uploadedFile: string | null = await uploadedRes.json()
+                return uploadedFile
+            }
+            return null
             // console.log(uploadedFile)
-            return uploadedFile
         } catch(e) {
             console.log(e)
             return null

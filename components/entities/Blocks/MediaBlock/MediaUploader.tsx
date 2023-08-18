@@ -31,93 +31,120 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         multiple: false,
         fileList: [],
         progress: undefined,
-        action: async(file) => {
-            if (user) {
-                setLoading(true)
+        customRequest: async(opt) => {
+            console.log(opt)
+            if (opt.action !== '' && user) {
                 const generatedId = randomString(20)
+                const targetDraft = uploader.draftId ? uploader.draftId : generatedId
                 if (isRootBlock) {
-                    !uploader.draftId ? dispatch(setDraftId(generatedId)) : ''
-                    !uploader.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${uploader.draftId}`) 
-                    const checkedFile = uploadOnlyImages ? checkOnlyImageFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file) : checkFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                    if (checkedFile) {
-                        setLoading(true)
-                        const uploadedFile = new Promise<string | null>(async(res, rej) => {
-                            const uploadedFile = await uploadMedia(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                            res(uploadedFile)
-                        })
-                        const uploadedThumbnail = new Promise<Thumbnail | null>(async(res, rej) => {
-                            const thumbnail = await uploadMediaThumbnail(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                            res(thumbnail)
-                        })
-                        uploadedFile.then((link) => {
-                            if (link) {
-                                // console.log(link)
-                                dispatch(setRootBlock({ type: checkedFile.type, link: link }))
-                                message.success('Изображение загруженно')
-                                setLoading(false)
-                            } 
-                        })
-                        .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
-                        uploadedThumbnail.then((thumbnail) => {
-                            if (thumbnail) {
-                                // console.log(thumbnail)
-                                dispatch(setThumbnail(thumbnail))
-                                message.success('Обложка для работы загружена')
-                            }
-                            else setLoading(false)
-                        })
-                        .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
-                        return uploader.shot.rootBlock.link
-                    }
-                    setLoading(false)
-                    return ''
+                    setLoading(true)
+                    const uploadedFile = new Promise<string | null>(async(res, rej) => {
+                        const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
+                        res(uploadedFile)
+                    })
+                    const uploadedThumbnail = new Promise<Thumbnail | null>(async(res, rej) => {
+                        const thumbnail = await uploadMediaThumbnail(user.uid, targetDraft, opt.file as RcFile)
+                        res(thumbnail)
+                    })
+                    uploadedFile.then((link) => {
+                        if (link) {
+                            // console.log(link)
+                            dispatch(setRootBlock({ type: uploader.shot.rootBlock.type, link: link }))
+                            message.success('Изображение загруженно')
+                            setLoading(false)
+                        } 
+                    })
+                    .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
+                    uploadedThumbnail.then((thumbnail) => {
+                        if (thumbnail) {
+                            // console.log(thumbnail)
+                            dispatch(setThumbnail(thumbnail))
+                            message.success('Обложка для работы загружена')
+                            setLoading(false)
+                        }
+                        else setLoading(false)
+                    })
+                    .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
                 } else {
-                    const checkedFile: ImageBlock | null = checkOnlyImageFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
-                    if (checkedFile) {
-                        const uploadedFile = await uploadMedia(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+                        const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
                         if (uploadedFile) {
                             const updatedBlocks = uploader.shot.blocks.map((_, blockIndex) => {
-                                if (blockIndex === index) {
+                                if (blockIndex === index && _.type === 'image') {
                                     const updatedBlock: ImageBlock = {
                                         link: uploadedFile,
-                                        type: checkedFile.type
+                                        type: _.type
                                     }
                                     return updatedBlock
                                 } else return _
                             })
                             dispatch(setBlocks(updatedBlocks))
                             setLoading(false)
-                            return uploadedFile
                         }
-                        setLoading(false)
-                        return ''
-                    }
-                    setLoading(false)
-                    return ''
                 }
-            } else return ''
+            }
+        },
+        action: async(file) => {
+            if (user) {
+                // setLoading(true)
+                const generatedId = randomString(20)
+                if (isRootBlock) {
+                    !uploader.draftId ? dispatch(setDraftId(generatedId)) : ''
+                    !uploader.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${uploader.draftId}`) 
+                    const checkedFile = uploadOnlyImages ? checkOnlyImageFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file) : checkFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+                    if (checkedFile) {
+                        dispatch(setRootBlock({ type: checkedFile.type, link: '' }))
+                        return checkedFile.link
+                    } else return ''
+                } else {
+                    const checkedFile = checkOnlyImageFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+                    if (checkedFile) {
+                        const updatedBlocks = uploader.shot.blocks.map((_, blockIndex) => {
+                            if (blockIndex === index) {
+                                const updatedBlock: ImageBlock = {
+                                    link: '',
+                                    type: checkedFile.type
+                                }
+                                return updatedBlock
+                            } else return _
+                        })
+                        dispatch(setBlocks(updatedBlocks))
+                    } else return ''
+                }
+            } return ''
         }
-    };
+    }
+
+
+
     const deleteImage = async() => {
         if (user && block.link !== '') {
-            await fetch(`${getStorageHost()}/files/file?link=${block.link}`, { method: "DELETE" })
-            if (isRootBlock) {
-                dispatch(setRootBlock({ type: 'image', link: '' }))
-                if (uploader.shot.thumbnail) {
-                    await fetch(`${getStorageHost()}/files/file?link=${uploader.shot.thumbnail.link}`, { method: "DELETE" })
-                    dispatch(setThumbnail(null))
-                }
-            } else {
-                const updatedBlocks = uploader.shot.blocks.map((_, blockIndex) => {
-                    if (blockIndex === index) {
-                        const updatedBlock: ImageBlock = {
-                            link: '',
-                            type: 'image'
+            setLoading(true)
+            const res = await fetch(`${getStorageHost()}/files/file?link=${block.link}`, { method: "DELETE" })
+            if (res.ok) {
+                message.info('Файл был удалён')
+                if (isRootBlock) {
+                    dispatch(setRootBlock({ type: 'image', link: '' }))
+                    if (uploader.shot.thumbnail) {
+                        const thumbRes = await fetch(`${getStorageHost()}/files/file?link=${uploader.shot.thumbnail.link}`, { method: "DELETE" })
+                        if (thumbRes.ok) {
+                            message.info('Обложка была удалена')
+                            dispatch(setThumbnail(null))
+                            setLoading(false)
                         }
-                        return updatedBlock
-                    } else return _
-                })
-                dispatch(setBlocks(updatedBlocks))
+                    }
+                } else {
+                    const updatedBlocks = uploader.shot.blocks.map((_, blockIndex) => {
+                        if (blockIndex === index) {
+                            const updatedBlock: ImageBlock = {
+                                link: '',
+                                type: 'image'
+                            }
+                            return updatedBlock
+                        } else return _
+                    })
+                    dispatch(setBlocks(updatedBlocks))
+                    setLoading(false)
+                }
             }
         }
     }
@@ -125,7 +152,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         return (
             <div className="relative w-full h-fit !shrink-0">
                 <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
-                    <Button className='!px-2' onClick={deleteImage}><BiTrashAlt size={17} /></Button>
+                    <Button className='!px-2' loading={loading} onClick={deleteImage} icon={<BiTrashAlt size={15} className='inline-block mb-1' />}>Удалить</Button>
                 </div>
                 <MediaBlock {...block} autoPlay object='contain' quality={75} />
             </div>
@@ -178,3 +205,63 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
 }
 
 export default MediaUploader
+
+
+
+            //         if (checkedFile) {
+            //             setLoading(true)
+            //             const uploadedFile = new Promise<string | null>(async(res, rej) => {
+            //                 const uploadedFile = await uploadMedia(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+            //                 res(uploadedFile)
+            //             })
+            //             const uploadedThumbnail = new Promise<Thumbnail | null>(async(res, rej) => {
+            //                 const thumbnail = await uploadMediaThumbnail(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+            //                 res(thumbnail)
+            //             })
+            //             uploadedFile.then((link) => {
+            //                 if (link) {
+            //                     // console.log(link)
+            //                     dispatch(setRootBlock({ type: checkedFile.type, link: link }))
+            //                     message.success('Изображение загруженно')
+            //                     setLoading(false)
+            //                 } 
+            //             })
+            //             .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
+            //             uploadedThumbnail.then((thumbnail) => {
+            //                 if (thumbnail) {
+            //                     // console.log(thumbnail)
+            //                     dispatch(setThumbnail(thumbnail))
+            //                     message.success('Обложка для работы загружена')
+            //                 }
+            //                 else setLoading(false)
+            //             })
+            //             .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
+            //             return uploader.shot.rootBlock.link
+            //         }
+            //         setLoading(false)
+            //         return ''
+            //     } else {
+            //         const checkedFile: ImageBlock | null = checkOnlyImageFile(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+            //         if (checkedFile) {
+            //             const uploadedFile = await uploadMedia(user.uid, uploader.draftId ? uploader.draftId : generatedId, file)
+            //             if (uploadedFile) {
+            //                 const updatedBlocks = uploader.shot.blocks.map((_, blockIndex) => {
+            //                     if (blockIndex === index) {
+            //                         const updatedBlock: ImageBlock = {
+            //                             link: uploadedFile,
+            //                             type: checkedFile.type
+            //                         }
+            //                         return updatedBlock
+            //                     } else return _
+            //                 })
+            //                 dispatch(setBlocks(updatedBlocks))
+            //                 setLoading(false)
+            //                 return uploadedFile
+            //             }
+            //             setLoading(false)
+            //             return ''
+            //         }
+            //         setLoading(false)
+            //         return ''
+            //     }
+            // } else return ''

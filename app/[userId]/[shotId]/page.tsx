@@ -7,6 +7,8 @@ import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 import { Metadata } from 'next'
 import { DateTime } from 'luxon'
+import Link from 'next/link'
+import { BiChevronRight } from 'react-icons/bi'
 const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
@@ -93,11 +95,14 @@ const ShotPage = async({ params }: Props) => {
             <div className="flex md:flex-row flex-col items-start w-full max-w-4xl gap-2 mx-auto h-fit min-h-[24rem]">
                 <div className="flex flex-col w-full h-full gap-2 md:w-8/12">
                     <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
-                        <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).toLocaleString(DateTime.DATE_MED)}</span>
-                        <div className="w-full h-fit">
+                        <div className="flex items-center w-full gap-2 h-fit">
+                            <span className='text-sm text-neutral-300'>{shot.views.length} просмотров</span>
+                            <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toLocaleString(DateTime.DATE_MED)}</span>
+                        </div>
+                        <div className="inline-flex flex-wrap w-full gap-1 h-fit">
                             {
                                 shot.tags.map((tag, index) => <span key={tag + index} 
-                                    className='px-2 py-1 text-xs rounded-full text-neutral-300 bg-neutral-800'>{tag}</span>
+                                    className='px-2 py-0.5 text-xs rounded-full text-neutral-300 bg-neutral-800'>{tag}</span>
                                 )
                             }
                         </div>
@@ -112,7 +117,11 @@ const ShotPage = async({ params }: Props) => {
                         </div>
                     }
                 </div>
-                <div className="w-full h-full md:w-4/12">
+                <div className="flex flex-col w-full h-full gap-2 md:w-4/12">
+                    <Link href={`/${shot.authorId}`} className="flex items-center justify-between w-full h-fit">
+                        <span className='text-sm line-clamp-1 text-neutral-400'>Больше от <span className='font-semibold text-neutral-200'>{user.displayName}</span></span>
+                        <BiChevronRight size={17} />
+                    </Link>
                     <LastWorks displayName={user?.displayName as string | null} userId={params.userId} />
                 </div>
             </div>
