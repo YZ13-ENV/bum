@@ -57,7 +57,7 @@ const CommentSection = ({ shot }: Props) => {
     return (
         <div className='flex flex-col w-full gap-4 h-fit'>
             <div className="flex flex-col w-full justify-between gap-2 p-2 border min-h-[9rem] rounded-xl border-neutral-800">
-                <TextArea setText={text => setText(text)} text={text} placeholder='Что хотите сказать?' className='text-sm' />
+                <TextArea setText={text => setText(text)} text={text} placeholder='Что хотите сказать?' className='!h-full text-sm' />
                 <div className="flex items-center justify-end w-full h-fit">
                     <Button onClick={addComment} disabled={text.length < 2} loading={loading} type='primary'>Отправить</Button>
                 </div>
