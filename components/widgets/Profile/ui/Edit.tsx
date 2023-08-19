@@ -1,4 +1,5 @@
 'use client'
+import Avatar from '@/components/shared/ui/Avatar'
 import { fileSizeAndType } from '@/helpers/checkFile'
 import { getStorageHost } from '@/helpers/getHost'
 import { auth, storage } from '@/utils/app'
@@ -73,11 +74,7 @@ const Edit = () => {
             <div className="flex flex-col w-full h-full md:w-1/3">
                 <div className="flex justify-center w-full h-fit">
                     <div className="relative w-fit h-fit">
-                    {
-                        user.photoURL
-                        ? <Image src={user.photoURL} className='rounded-full' width={256} height={256} alt={user.uid} />
-                        : <div className='flex items-center justify-center rounded-full w-9 h-9 bg-neutral-800'><BiUser size={18} /></div>
-                    }
+                    <Avatar src={user.photoURL} size={256} />
                     <div className="absolute bottom-0 right-0">
                         <Upload {...props}>
                             <Button loading={loading} icon={<BiEdit size={15} className='inline mb-0.5' />}>Изменить</Button>

@@ -106,13 +106,17 @@ const ShotPage = async({ params }: Props) => {
                                 <ShotActions shot={shot} isOnPage />
                             </div>
                         </div>
-                        <div className="inline-flex flex-wrap w-full gap-1 h-fit">
-                            {
-                                shot.tags.map((tag, index) => <span key={tag + index} 
-                                    className='px-2 py-0.5 text-xs rounded-full border border-neutral-700 text-neutral-300 bg-neutral-800'>{tag}</span>
-                                )
-                            }
-                        </div>
+                        {
+                            shot.tags.length !== 0 &&
+                            <div className="inline-flex flex-wrap w-full gap-1 h-fit">
+                                {
+                                    shot.tags.map((tag, index) => <span key={tag + index} 
+                                        className='px-2 py-0.5 text-xs rounded-full border border-neutral-700 text-neutral-300 bg-neutral-800'>{tag}</span>
+                                    )
+                                }
+                            </div>
+                        }
+
                     </div>
                     <CommentSection shot={shot} />
 
