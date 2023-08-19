@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import React from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { setBlocks } from '../../uploader/store'
+import { setBlocks } from '../../uploader/draft.store'
 
 type Props = {
     block: TextBlock
@@ -11,9 +11,9 @@ type Props = {
 }
 const TextBlock = ({ block, index }: Props) => {
     const dispatch = useAppDispatch()
-    const blocks = useAppSelector(state => state.uploader.shot.blocks)
+    const draft = useAppSelector(state => state.uploader.draft)
     const deleteBlock = () => {
-        const filteredBlocks = blocks.filter((_, blockIndex) => blockIndex !== index)
+        const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
         dispatch(setBlocks(filteredBlocks))
     }
     return (

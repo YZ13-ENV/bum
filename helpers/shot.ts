@@ -28,24 +28,9 @@ export const uploadDraft_POST = async(userId: string, draftId: string, draft: Sh
             headers: headers,
             body: JSON.stringify(draft)
         })
-        const uploadedShot = await res.json()
-        return uploadedShot
+        return res.ok
     } catch(e) {
         console.log(e)
-        return null
+        return false
     }
-}
-
-const uploadShotWithCheck = async(userId: string, shotId: string, shot: ShotForUpload) => {
-    const isExist = await isShotExist(userId, shotId)
-    // console.log(isExist);
-    if (!isExist) {
-        const uploadedShot = await uploadShot_POST(userId, shotId, shot)
-        return uploadedShot
-    }
-    return null
-}
-
-const uploadDraft = async(userId: string, draftId: string, draft: ShotData) => {
-
 }

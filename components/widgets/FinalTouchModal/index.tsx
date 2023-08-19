@@ -1,5 +1,4 @@
 'use client'
-import { setDraftId, setFinalTouchModal, setShot } from '@/components/entities/uploader/store'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { Button } from 'antd'
 import React from 'react'
@@ -12,20 +11,23 @@ import { ShotData } from '@/types'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/navigation'
 import { uploadDraft_POST } from '@/helpers/shot'
+import { setFinalTouchModal, setDraftId } from '@/components/entities/uploader/modal.store'
+import { setDraft } from '@/components/entities/uploader/draft.store'
 
 const FinalTouchModal = () => {
     const router = useRouter()
     const [user] = useAuthState(auth)
     const dispatch = useAppDispatch()
-    const finalModal = useAppSelector(state => state.uploader.finalTouchModal)
-    const uploaderDraft = useAppSelector(state => state.uploader) 
+    const finalModal = useAppSelector(state => state.uploader.modals.finalTouchModal)
+    const draft = useAppSelector(state => state.uploader.draft) 
+    const draftId = useAppSelector(state => state.uploader.modals.draftId)
     const [tags, setTags] = React.useState<string[]>([])
     const [needFeedback, setNeedFeedback] = React.useState<boolean>(true)
     const [loading, setLoading] = React.useState<boolean>(false)
     const uploadDraft = async() => {
-        if (user && uploaderDraft.draftId) {
+        if (user && draftId) {
             setLoading(true)
-            const preparedBlocks = uploaderDraft.shot.blocks.filter((block => {
+            const preparedBlocks = draft.blocks.filter((block => {
                 if (block.type === 'image') {
                     if (block.link === '') return false
                     return true
@@ -37,7 +39,7 @@ const FinalTouchModal = () => {
                 return false
             }))
             const preparedDraft: ShotData = {
-                ...uploaderDraft.shot,
+                ...draft,
                 blocks: preparedBlocks,
                 authorId: user.uid,
                 isDraft: false,
@@ -48,14 +50,16 @@ const FinalTouchModal = () => {
                 tags: tags,
                 views: [],
             }
-            await uploadDraft_POST(user.uid, uploaderDraft.draftId, preparedDraft)
-            setLoading(false)
-            setTags([])
-            setNeedFeedback(true)
-            dispatch(setFinalTouchModal(false))
-            dispatch(setDraftId(null))
-            dispatch(setShot({ blocks: [], rootBlock: { link: '', type: 'image' }, thumbnail: null, title: '' }))
-            router.push(`/${user.uid}/${uploaderDraft.draftId}`)
+            const isOk = await uploadDraft_POST(user.uid, draftId, preparedDraft)
+            if (isOk) {
+                setLoading(false)
+                setTags([])
+                setNeedFeedback(true)
+                dispatch(setFinalTouchModal(false))
+                dispatch(setDraftId(null))
+                dispatch(setDraft({ blocks: [], rootBlock: { link: '', type: 'image' }, thumbnail: null, title: '' }))
+                router.push(`/${user.uid}/${draftId}`)
+            } else setLoading(false)
         }
     }
     if (!finalModal) return null

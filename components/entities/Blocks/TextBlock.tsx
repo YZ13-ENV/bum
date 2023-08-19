@@ -1,19 +1,20 @@
 import { TextBlock } from '@/types'
-import { Button, Input, Space } from 'antd'
-import React, { useEffect } from 'react'
+import { Button, Space } from 'antd'
+import React from 'react'
 import { BiAlignLeft, BiAlignMiddle, BiAlignRight, BiBold, BiItalic } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { MdTextDecrease, MdTextIncrease } from 'react-icons/md'
-import { setBlocks } from '../uploader/store'
 import { fontSize } from '@/utils/fontSize'
+import { setBlocks } from '../uploader/draft.store'
+import TextArea from '@/components/shared/ui/TextArea'
 type Props = {
     block: TextBlock
     index: number
 }
-const { TextArea } = Input
+
 const TextBlock = ({ block, index }: Props) => {
     const dispatch = useAppDispatch()
-    const blocks = useAppSelector(state => state.uploader.shot.blocks)
+    const draft = useAppSelector(state => state.uploader.draft)
     const getBlockAlign = (align: TextBlock['align'], isImportant?: boolean) => {
         if (align === 'left') return isImportant ? '!text-left' : 'text-left'
         if (align === 'center') return isImportant ? '!text-center' : 'text-center'
@@ -25,7 +26,7 @@ const TextBlock = ({ block, index }: Props) => {
                 ...block,
                 size: block.size - 1 as TextBlock['size']
             }
-            const updatedBlocks = blocks.map((_, blockIndex) => {
+            const updatedBlocks = draft.blocks.map((_, blockIndex) => {
             if (blockIndex === index) return updatedSize
                 return _   
             })
@@ -36,7 +37,7 @@ const TextBlock = ({ block, index }: Props) => {
                 ...block,
                 size: block.size + 1 as TextBlock['size']
             }
-            const updatedBlocks = blocks.map((_, blockIndex) => {
+            const updatedBlocks = draft.blocks.map((_, blockIndex) => {
             if (blockIndex === index) return updatedSize
                 return _   
             })
@@ -48,7 +49,7 @@ const TextBlock = ({ block, index }: Props) => {
             ...block,
             isBold: !block.isBold
         }
-        const updatedBlocks = blocks.map((_, blockIndex) => {
+        const updatedBlocks = draft.blocks.map((_, blockIndex) => {
         if (blockIndex === index) return updatedIsBold
             return _   
         })
@@ -59,7 +60,7 @@ const TextBlock = ({ block, index }: Props) => {
             ...block,
             align: align
         }
-        const updatedBlocks = blocks.map((_, blockIndex) => {
+        const updatedBlocks = draft.blocks.map((_, blockIndex) => {
         if (blockIndex === index) return updatedAlign
             return _   
         })
@@ -68,16 +69,16 @@ const TextBlock = ({ block, index }: Props) => {
     const updateIsItalic = () => {
         const updatedIsItalic: TextBlock = {
             ...block,
-            isBold: !block.isItalic
+            isItalic: !block.isItalic
         }
-        const updatedBlocks = blocks.map((_, blockIndex) => {
+        const updatedBlocks = draft.blocks.map((_, blockIndex) => {
         if (blockIndex === index) return updatedIsItalic
             return _   
         })
         dispatch(setBlocks(updatedBlocks))
     }
     const getSize = (size: number) => {
-        return `!${fontSize[size]}`
+        return fontSize[size]
     }
     const getDecorators = (isBold: boolean, isItalic: boolean) => {
         return `${isBold ? '!font-bold' : '' } ${isItalic ? '!italic' : ''}`
@@ -87,17 +88,16 @@ const TextBlock = ({ block, index }: Props) => {
             ...block,
             text: text
         }
-        const updatedBlocks = blocks.map((_, blockIndex) => {
+        const updatedBlocks = draft.blocks.map((_, blockIndex) => {
             if (blockIndex === index) return updatedText
             return _   
         })
         dispatch(setBlocks(updatedBlocks))
     }
     return (
-        <div className='flex flex-col items-end justify-center w-full h-fit'>
-            <TextArea autoSize={{ minRows: 1 }} value={block.text} onChange={e => updateText(e.target.value)}
-            className={`!rounded-none !p-0 ${getSize(block.size)} ${getBlockAlign(block.align)} ${getDecorators(block.isBold, block.isItalic)}`} 
-            bordered={false} placeholder='Введите текст здесь' />
+        <div className='flex flex-col items-end justify-center w-full p-2 h-fit rounded-xl bg-neutral-900'>
+            <TextArea text={block.text} setText={text => updateText(text)} placeholder='Введите текст здесь' 
+            className={`${getDecorators(block.isBold, block.isItalic)} ${getBlockAlign(block.align)} ${getSize(block.size)}`}/>
             <div onClick={e => e.preventDefault()} className="flex items-center gap-2 p-2 border w-fit h-fit rounded-xl border-neutral-800 bg-neutral-900">
                 <Space.Compact>
                     <Button onClick={() => changeSize('minus')}><MdTextDecrease size={15} /></Button>

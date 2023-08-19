@@ -10,13 +10,16 @@ export const uploadMediaThumbnail = async(userId: string, draftId: string, file:
     if (fileType && fileType !== 'mp4') {
         try {
             formData.append('file', file)
-            const thumbnailRes = await fetch(`${getStorageHost()}/files/uploadThumbnail?uid=${userId}&draftId=${draftId}`, {
+            const thumbnailRes = await fetch(`${getStorageHost()}/files/uploadThumbnail?userId=${userId}&draftId=${draftId}`, {
                 method: 'POST',
                 body: formData
             })
-            const thumbnail: Thumbnail = await thumbnailRes.json()
+            if (thumbnailRes.ok) {
+                const thumbnail: Thumbnail = await thumbnailRes.json()
+                return thumbnail
+            }
             // console.log(thumbnail)
-            return thumbnail
+            return null
         } catch(e) {
             console.log(e)
             return null

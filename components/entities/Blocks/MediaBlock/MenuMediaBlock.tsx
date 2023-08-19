@@ -6,7 +6,7 @@ import { ref, deleteObject } from 'firebase/storage'
 import React from 'react'
 import { BiTrashAlt, BiImage } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { setBlocks } from '../../uploader/store'
+import { setBlocks } from '../../uploader/draft.store'
 
 type Props = {
     block: ImageBlock
@@ -14,9 +14,9 @@ type Props = {
 }
 const MenuMediaBlock = ({ block, index }: Props) => {
     const dispatch = useAppDispatch()
-    const blocks = useAppSelector(state => state.uploader.shot.blocks)
+    const draft = useAppSelector(state => state.uploader.draft)
     const deleteBlock = async() => {
-        const filteredBlocks = blocks.filter((_, blockIndex) => blockIndex !== index)
+        const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
         const imageRef = ref(storage, block.link)
         await deleteObject(imageRef)
         dispatch(setBlocks(filteredBlocks))

@@ -1,13 +1,13 @@
-import { setBlocks } from '@/components/entities/uploader/store'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
+import { setBlocks } from '@/components/entities/uploader/draft.store'
 import { ImageBlock, ShotGridBlock, TextBlock } from '@/types'
 import React from 'react'
 import { BiImage, BiText } from 'react-icons/bi'
 
 const BlocksIn = () => {
     const dispatch = useAppDispatch()
-    const blocks = useAppSelector(state => state.uploader.shot.blocks)
-    const imageBlocks = blocks.filter(block => block.type === 'image')
+    const draft = useAppSelector(state => state.uploader.draft)
+    const imageBlocks = draft.blocks.filter(block => block.type === 'image')
     const addBlock = (type: TextBlock['type'] | ImageBlock['type'] | ShotGridBlock['type']) => {
         if (type === 'text') {
             const templateTextBlock: TextBlock = {
@@ -18,14 +18,14 @@ const BlocksIn = () => {
                 size: 1,
                 text: ''
             }
-            dispatch(setBlocks([...blocks, templateTextBlock]))
+            dispatch(setBlocks([...draft.blocks, templateTextBlock]))
         }
         if (type === 'image') {
             const templateImageBlock: ImageBlock = {
                 type: 'image',
                 link: ''
             }
-            dispatch(setBlocks([...blocks, templateImageBlock]))
+            dispatch(setBlocks([...draft.blocks, templateImageBlock]))
         }
     }
     return (

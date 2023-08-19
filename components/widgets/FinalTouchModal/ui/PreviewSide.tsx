@@ -4,7 +4,7 @@ import { BiSolidHeart, BiSolidShow } from 'react-icons/bi'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 
 const PreviewSide = () => {
-    const uploaderDraft = useAppSelector(state => state.uploader.shot)
+    const uploaderDraft = useAppSelector(state => state.uploader.draft)
     return (
         <div className="flex flex-col w-2/6 h-full gap-2">
             <span className='text-sm font-semibold text-neutral-200'>Предпросмотр обложки</span>

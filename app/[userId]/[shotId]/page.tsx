@@ -9,12 +9,14 @@ import { Metadata } from 'next'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { BiChevronRight } from 'react-icons/bi'
+import ShotActions from '@/components/entities/shot/ui/ShotActions'
+import CommentSection from '@/components/widgets/CommentSection'
 const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
 })
 const MediaBlock = dynamic(() => import('@/components/entities/Blocks/MediaBlock'), {
-    loading: () => <ImageLoader />
+    loading: () => <div className='w-full h-96 rounded-xl bg-neutral-900' />
 }) 
 const ShotUserSection = dynamic(() => import('@/components/widgets/ShotUserSection'), {
     loading: () => <UserSectionLoader />
@@ -71,7 +73,7 @@ const ShotPage = async({ params }: Props) => {
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <ShotUserSection shot={shot} title={shot.title} userId={params.userId}
                 displayName={user?.displayName as string | null} photoUrl={user?.photoUrl as string | null} />
-                <Suspense fallback={<ImageLoader />}>
+                <Suspense fallback={<div className='w-full h-96 rounded-xl bg-neutral-900' />}>
                     <MediaBlock {...shot.rootBlock} server autoPlay />
                 </Suspense>
                 {
@@ -95,27 +97,25 @@ const ShotPage = async({ params }: Props) => {
             <div className="flex md:flex-row flex-col items-start w-full max-w-4xl gap-2 mx-auto h-fit min-h-[24rem]">
                 <div className="flex flex-col w-full h-full gap-2 md:w-8/12">
                     <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
-                        <div className="flex items-center w-full gap-2 h-fit">
-                            <span className='text-sm text-neutral-300'>{shot.views.length} просмотров</span>
-                            <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toLocaleString(DateTime.DATE_MED)}</span>
+                        <div className="flex items-center justify-between w-full h-fit">
+                            <div className="flex items-center gap-2 w-fit h-fit">
+                                <span className='text-sm text-neutral-300'>{shot.views.length} просмотров</span>
+                                <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toLocaleString(DateTime.DATE_MED)}</span>
+                            </div>
+                            <div className="flex items-center w-fit h-fit">
+                                <ShotActions shot={shot} isOnPage />
+                            </div>
                         </div>
                         <div className="inline-flex flex-wrap w-full gap-1 h-fit">
                             {
                                 shot.tags.map((tag, index) => <span key={tag + index} 
-                                    className='px-2 py-0.5 text-xs rounded-full text-neutral-300 bg-neutral-800'>{tag}</span>
+                                    className='px-2 py-0.5 text-xs rounded-full border border-neutral-700 text-neutral-300 bg-neutral-800'>{tag}</span>
                                 )
                             }
                         </div>
                     </div>
-                    {
-                        shot.needFeedback
-                        ? <div className="flex flex-col w-full gap-2 p-2 border h-36 rounded-xl border-neutral-800">
-                            
-                        </div>
-                        : <div className='flex items-center justify-center w-full h-36'>
-                            <span className='text-sm text-neutral-400'>Комментарии отключены</span>
-                        </div>
-                    }
+                    <CommentSection shot={shot} />
+
                 </div>
                 <div className="flex flex-col w-full h-full gap-2 md:w-4/12">
                     <Link href={`/${shot.authorId}`} className="flex items-center justify-between w-full h-fit">

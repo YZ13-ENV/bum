@@ -6,18 +6,18 @@ import TextBlock from '@/components/entities/Blocks/MenuBlocks/TextBlock'
 import SortableWrapper from '@/components/shared/ui/SortableWrapper'
 import { DndContext, DragEndEvent, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { setBlocks } from '@/components/entities/uploader/store'
 import MenuMediaBlock from '@/components/entities/Blocks/MediaBlock/MenuMediaBlock'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
+import { setBlocks } from '@/components/entities/uploader/draft.store'
 const BlocksOut = () => {
-    const uploader = useAppSelector(state => state.uploader)
+    const draft = useAppSelector(state => state.uploader.draft)
     const dispatch = useAppDispatch()
     const onDragEnd = (event: DragEndEvent) => {
         // console.log(event);
         if (event.over && event.over.id !== event.active.id) {
-            const blockFrom = uploader.shot.blocks[parseInt(event.active.id.toString())]
-            const blockTo = uploader.shot.blocks[parseInt(event.over.id.toString())]
-            const updatedBlocks = uploader.shot.blocks.map((_, index) => {
+            const blockFrom = draft.blocks[parseInt(event.active.id.toString())]
+            const blockTo = draft.blocks[parseInt(event.over.id.toString())]
+            const updatedBlocks = draft.blocks.map((_, index) => {
                 if (index === parseInt(event.active.id.toString())) {
                     return blockTo
                 }
@@ -48,27 +48,27 @@ const BlocksOut = () => {
     return (
         <div className="flex flex-col w-full h-full gap-2">
             <div className="flex items-center justify-between w-full p-2 border h-fit rounded-xl border-neutral-800">
-                <span className='font-semibold'>{uploader.shot.title || 'Заголовок работы'}</span>
+                <span className='font-semibold'>{draft.title || 'Заголовок работы'}</span>
                 <BiLock size={17} className='text-neutral-400' />
             </div>
 
             {
-                uploader.shot.thumbnail && uploader.shot.thumbnail.link !== '' ?
+                draft.thumbnail && draft.thumbnail.link !== '' ?
                 <div className="relative flex aspect-video items-center justify-center w-full min-h-[16rem] h-fit">
                     <div className="absolute z-10 p-2 rounded-xl bg-neutral-900"><BiLock size={27} /></div>
-                    <MediaBlock {...{link: uploader.shot.thumbnail.link, type: 'image'}} object='cover' autoPlay />
+                    <MediaBlock {...{link: draft.thumbnail.link, type: 'image'}} object='cover' autoPlay />
                 </div>
-                : uploader.shot.rootBlock.link !== '' &&
+                : draft.rootBlock.link !== '' &&
                 <div className="relative flex aspect-video items-center justify-center w-full h-fit min-h-[16rem]">
                     <div className="absolute z-10 p-2 rounded-xl bg-neutral-900"><BiLock size={27} /></div>
-                    <MediaBlock {...uploader.shot.rootBlock} autoPlay object='cover' />
+                    <MediaBlock {...draft.rootBlock} autoPlay object='cover' />
                 </div>
             }
             <div className="flex flex-col w-full h-full gap-2">
             {
-                uploader.shot.blocks.length <= 1
+                draft.blocks.length <= 1
                 ?
-                uploader.shot.blocks.map((block, index) => {
+                draft.blocks.map((block, index) => {
                     if (block.type === 'text') {
                         return (
                             <TextBlock key={`block#${index}`} index={index} block={block} />
@@ -86,9 +86,9 @@ const BlocksOut = () => {
                 :
                 <DndContext onDragEnd={onDragEnd} sensors={sensors}
                 autoScroll={{ acceleration: .1 }}>
-                    <SortableContext strategy={verticalListSortingStrategy} items={uploader.shot.blocks.map((_, index) => ({ id: index }))}>
+                    <SortableContext strategy={verticalListSortingStrategy} items={draft.blocks.map((_, index) => ({ id: index }))}>
                         {
-                            uploader.shot.blocks.map((block, index) => {
+                            draft.blocks.map((block, index) => {
                                 if (block.type === 'text') {
                                     return (
                                         <SortableWrapper key={`block#${index}`} index={index}>

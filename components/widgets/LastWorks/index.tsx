@@ -23,7 +23,7 @@ const LastWorks = async({ displayName, userId }: Props) => {
     const shots = await getLastWorks(userId)
     if (shots.length === 0) return null
     return (
-        <div className="grid w-full h-full gap-2 mini_grid">
+        <div className={`grid w-full ${shots.length === 1 ? 'h-fit' : 'h-full'} gap-2 mini_grid`}>
             {
                 shots.map((shot, index) => 
                     <Link href={`/${userId}/${shot.doc_id}`} 
