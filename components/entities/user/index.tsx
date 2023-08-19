@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiChevronRight, BiLoaderAlt, BiLogOut, BiPlus, BiUser, BiUserCircle } from 'react-icons/bi'
 import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
+import Avatar from '@/components/shared/ui/Avatar'
 
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
@@ -89,15 +90,7 @@ const UserStatus = () => {
         )
     }
     if (user) {
-        if (user.photoURL) {
-            return <Dropdown arrow menu={{items}}>
-                <Image src={user.photoURL} className='rounded-full' width={36} height={36} alt='photo-url' />
-            </Dropdown> 
-        } else return <Dropdown arrow menu={{items}}>
-            <div className="flex items-center justify-center border rounded-full w-9 h-9 border-neutral-700 bg-neutral-900">
-                <BiUser size={15} />
-            </div>
-        </Dropdown>
+        return <Dropdown arrow menu={{ items }}><Avatar src={user.photoURL} size={36} /></Dropdown> 
     } else return <Button size='large' href='/auth' loading={loading} type='primary'>Войти</Button>
 }
 

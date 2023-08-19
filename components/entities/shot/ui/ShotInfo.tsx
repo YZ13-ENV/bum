@@ -5,6 +5,7 @@ import ShotActions from './ShotActions'
 import { BiChevronRight, BiChevronUp } from 'react-icons/bi'
 import Image from 'next/image'
 import Link from 'next/link'
+import Avatar from '@/components/shared/ui/Avatar'
 
 type Props = {
     shot: DocShotData
@@ -30,10 +31,10 @@ const ShotInfo = async({ shot }: Props) => {
                     <ShotActions shot={shot} />
                 </div>
             </div>
-            <div className="flex w-full h-0 p-0 overflow-hidden transition-all duration-300 group-hover/info:border border-0 group-hover/info:p-2 group-hover/info:h-20 group-hover/info:overflow-y-auto shrink-0 rounded-xl bg-neutral-900 border-neutral-700">
+            <div className="flex w-full h-0 p-0 overflow-hidden transition-all duration-300 border-0 group-hover/info:border group-hover/info:p-2 group-hover/info:h-20 group-hover/info:overflow-y-auto shrink-0 rounded-xl bg-neutral-900 border-neutral-700">
                 <div className="flex items-center justify-between w-full gap-2 p-1 h-fit rounded-xl bg-neutral-800">
                     <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
-                        <Image src={user?.photoUrl || ''} width={36} height={36} className='rounded-full' alt={`${shot.authorId}-${shot.doc_id}`} />
+                        <Avatar src={user ? user.photoUrl : null} size={36} />
                         <div className="flex flex-col h-full w-fit">
                             <span className='font-semibold text-neutral-200'>{user?.displayName}</span>
                             <span className='text-xs text-neutral-400'>{user?.displayName}</span>

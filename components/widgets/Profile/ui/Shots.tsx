@@ -7,7 +7,7 @@ type Props = {
 }
 const Shots = ({ shots }: Props) => {
     return (
-        <div className="grid min-h-screen home_grid gap-9">
+        <div className={`grid ${shots.length <= 4 ? 'min-h-fit' : 'min-h-screen'} home_grid gap-9`}>
             {
                 shots.map((shotChunk, index) => 
                     <ShotCard key={`shotChunk#${index}#shot#${index + 1}`} shot={shotChunk} />
