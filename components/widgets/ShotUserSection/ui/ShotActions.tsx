@@ -14,9 +14,7 @@ type Props = {
 const ShotActions = ({ shot }: Props) => {
     const router = useRouter()
     const [user] = useAuthState(auth)
-    const [likes, setLikes] = useState<string[]>(shot.likes)
     const [loading, setLoading] = useState<boolean>(false)
-    const isInclude = useMemo(() => user ? likes.includes(user.uid) : false, [user, likes]) 
     const addViews = async() => {
         if (user) {
             setLoading(true)
@@ -30,31 +28,12 @@ const ShotActions = ({ shot }: Props) => {
         if (user) {
             setLoading(true)            
             const res = await fetch(`${getHost()}/shots/shot?userId=${user.uid}&shotId=${shot.doc_id}`, { method: "DELETE" })
+            const text = await res.text()
+            console.log(text)
             if (res.ok) router.push(`/${user.uid}`)
             setLoading(false)
         }
     }
-    const addOrRemoveLike = async() => {
-            if (user) {
-                if (isInclude) {
-                    const updatedLikes = likes.filter(uid => uid !== user.uid)
-                    setLikes(updatedLikes)
-                } 
-                if (!isInclude) {
-                    setLikes([...likes, user.uid])
-                }
-                setLoading(true)
-                try {
-                    await fetch(`${getHost()}/shots/addOrRemoveLikes?shotAuthorId=${shot.authorId}&shotId=${shot.doc_id}&uid=${user.uid}`, {
-                        method: 'PATCH'
-                    })
-                    setLoading(false)
-                } catch(e) {
-                    setLoading(false)
-                    console.log(e)
-                }
-            }
-        }
         useLayoutEffect(() => {
             if (user) addViews()
         },[user])
@@ -69,12 +48,10 @@ const ShotActions = ({ shot }: Props) => {
         ]
     return (
         <div className="flex items-center gap-2 w-fit h-fit">
-            <Button loading={loading} onClick={addOrRemoveLike} danger={isInclude ? true: false} 
-            icon={<BiHeart size={17} className='inline mr-1 mb-0.5' />} type={isInclude ? 'primary' : 'default'}>{shot.likes.length}</Button>
             {
                 (user && user.uid === shot.authorId) && 
                 <Dropdown menu={{items}}>
-                    <Button><BiDotsVerticalRounded size={17} /></Button>
+                    <Button loading={loading}><BiDotsVerticalRounded size={17} /></Button>
                 </Dropdown>
             }
         </div>

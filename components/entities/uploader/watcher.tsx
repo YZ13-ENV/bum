@@ -8,7 +8,8 @@ import { auth } from '@/utils/app'
 
 const UploaderWatcher = () => {
     const [user] = useAuthState(auth)
-    const uploader = useAppSelector(state => state.uploader)
+    const modals = useAppSelector(state => state.uploader.modals)
+    const draft = useAppSelector(state => state.uploader.draft)
     const [debouncedShot, setDebouncedShot] = React.useState<ShotData | null>(null)
     const uploadShot = async(userId: string, shotId: string, shot: ShotForUpload) => {
         // console.log(userId, shotId, shot)
@@ -16,10 +17,10 @@ const UploaderWatcher = () => {
         // console.log(uploadedData);
     }
     useDebounceEffect(() => {
-        if (uploader.draftId && user && uploader.finalTouchModal === false) {
-            uploadShot(user.uid, uploader.draftId, uploader.shot)
+        if (modals.draftId && user && modals.finalTouchModal === false) {
+            uploadShot(user.uid, modals.draftId, draft)
         }
-    }, [uploader, user], { maxWait: 2000, wait: 1000 })
+    }, [modals.draftId, modals.finalTouchModal, draft, user], { maxWait: 2000, wait: 1000 })
     return (
         <></>
     )
