@@ -17,7 +17,7 @@ const UploadShot = () => {
         <section className='flex flex-col w-full h-full shrink-0'>
             <FinalTouchModal />
             <UploadHeader />
-            <div className="flex w-full h-full">
+            <div className="flex w-full h-full overflow-hidden uploader_view_wrapper">
                 <PrevWorks />
                 <UploadBlockView />
                 <UploadBlocksMenu />

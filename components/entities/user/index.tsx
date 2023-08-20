@@ -8,6 +8,7 @@ import { BiChevronRight, BiLoaderAlt, BiLogOut, BiPlus, BiUser, BiUserCircle } f
 import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
 import Avatar from '@/components/shared/ui/Avatar'
+import Link from 'next/link'
 
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
@@ -90,7 +91,7 @@ const UserStatus = () => {
         )
     }
     if (user) {
-        return <Dropdown arrow menu={{ items }}><Avatar src={user.photoURL} size={36} /></Dropdown> 
+        return <Dropdown arrow menu={{ items }}><Link href=''><Avatar src={user.photoURL} size={36} /></Link></Dropdown> 
     } else return <Button size='large' href='/auth' loading={loading} type='primary'>Войти</Button>
 }
 

@@ -71,6 +71,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                 } else {
                         const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
                         if (uploadedFile) {
+                            message.success('Изображение загруженно')
                             const updatedBlocks = draft.blocks.map((_, blockIndex) => {
                                 if (blockIndex === index && _.type === 'image') {
                                     const updatedBlock: ImageBlock = {
@@ -92,9 +93,9 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                 const generatedId = randomString(20)
                 if (isRootBlock) {
                     !modals.draftId ? dispatch(setDraftId(generatedId)) : ''
-                    !modals.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${modals.draftId}`) 
                     const checkedFile = uploadOnlyImages ? checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file) : checkFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
                     if (checkedFile) {
+                        !modals.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${modals.draftId}`) 
                         dispatch(setRootBlock({ type: checkedFile.type, link: '' }))
                         return checkedFile.link
                     } else return ''

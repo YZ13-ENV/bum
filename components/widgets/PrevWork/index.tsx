@@ -1,10 +1,10 @@
 import React from 'react'
 import PrevShotCard from './ui/PrevShotCard'
 import { DocDraftShotData } from '@/types'
-import Tip from '@/components/shared/ui/Tip'
 import { cookies } from 'next/headers'
 import { getHost } from '@/helpers/getHost'
 import Wrapper from './Wrapper'
+import Header from './ui/Header'
 
 const getPrevShots = async() => {
     const cookie = cookies()
@@ -27,7 +27,7 @@ const PrevWorks = async() => {
     return (
         <Wrapper>
             <div className="flex flex-col w-full h-full gap-2">
-                <span className='font-semibold text-neutral-200'>Ваши работы</span>
+                <Header />
                 {
                     works 
                     ? works.length === 0

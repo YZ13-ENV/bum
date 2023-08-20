@@ -24,7 +24,7 @@ const ShotCard = ({ shot }: Props) => {
     return (
         <ShotWrapper shot={shot}>
             <Suspense fallback={<div className='w-full h-full rounded-xl' />}>
-                <Link href={`${shot.authorId}/${shot.doc_id}`}>
+                <Link href={`/${shot.authorId}/${shot.doc_id}`}>
                     {
                         shot.thumbnail
                         ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
