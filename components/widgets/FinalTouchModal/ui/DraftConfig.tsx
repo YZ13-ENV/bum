@@ -20,7 +20,7 @@ const DraftConfig = ({ loading, uploadDraft, needFeedback, setNeedFeedback, setT
                     Добавьте тэги для вашей работы <span className='text-xs text-neutral-400'>(Максимум 15 тэгов)</span>
                 </span>
                 <div className="flex flex-col w-full gap-1 h-fit">
-                    <Select value={tags} onChange={e => setTags(e)} mode="tags" size='large' placeholder="Tags Mode" />
+                    <Select value={tags} onChange={e => e.length <= 14 ? setTags(e.map(tag => tag.toLowerCase())) : null} mode="tags" size='large' placeholder="Tags Mode" />
                 </div>
             </div>
             <div className="flex items-center w-full gap-2 h-fit">

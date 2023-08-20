@@ -39,13 +39,13 @@
   max-height: 100dvh;
 }
 .upload_sidebar {
-  height: calc(100% - (64px + 37px));
+  height: calc(100% - 0px);
 }
 .content_wrapper {
   height: calc(100% - 64px);
 }
 .uploader_view_wrapper {
-  height: calc(100% - 37px);
+  height: calc(100% - 45px);
 }
 .root_grid_wrapper {
   height: calc(100% - 56px);
