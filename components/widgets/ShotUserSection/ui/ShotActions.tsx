@@ -2,11 +2,11 @@
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
 import { auth } from '@/utils/app'
-import { Button, Dropdown, MenuProps } from 'antd'
+import { Button, Dropdown, MenuProps, Popover, QRCode } from 'antd'
 import { useRouter } from 'next/navigation'
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiHeart, BiBookmark, BiTrashAlt, BiDotsVerticalRounded } from 'react-icons/bi'
+import { BiHeart, BiBookmark, BiTrashAlt, BiDotsVerticalRounded, BiQr } from 'react-icons/bi'
 
 type Props = {
     shot: DocShotData
@@ -46,12 +46,19 @@ const ShotActions = ({ shot }: Props) => {
                 onClick: deleteShot
             }
         ]
+    const content = (
+        <QRCode value={`https://design.darkmaterial.space/${shot.authorId}/${shot.doc_id}`} />
+    )
     return (
         <div className="flex items-center gap-2 w-fit h-fit">
+            <Popover content={content}>
+                <Button><BiQr size={17} /></Button>
+            </Popover>
+            
             {
                 (user && user.uid === shot.authorId) && 
                 <Dropdown menu={{items}}>
-                    <Button loading={loading}><BiDotsVerticalRounded size={17} /></Button>
+                    <Button><BiDotsVerticalRounded size={17} /></Button>
                 </Dropdown>
             }
         </div>

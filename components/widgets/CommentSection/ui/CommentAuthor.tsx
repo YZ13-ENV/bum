@@ -1,3 +1,4 @@
+import Avatar from '@/components/shared/ui/Avatar'
 import { getHost } from '@/helpers/getHost'
 import { CommentBlock, ShortUserData } from '@/types'
 import { DateTime } from 'luxon'
@@ -33,19 +34,15 @@ const CommentAuthor = ({ authorId, createdAt }: Props) => {
     },[])
     if (!user || loading) {
         return (
-            <div className="h-6 w-14 rounded-xl bg-neutral-900 animate-pulse" />
+            <div className="h-6 w-14 shrink-0 rounded-xl bg-neutral-900 animate-pulse" />
         )
     }
     return (
         <div className='flex items-center gap-2 w-fit h-fit'>
-            {
-                user.photoUrl !== ''
-                ? <Image src={user.photoUrl} className='rounded-full' width={32} height={32} alt={authorId} />
-                : <div className='flex items-center justify-center w-8 h-8 rounded-full bg-neutral-900 shrink-0'><BiUser size={13} /></div>
-            }
+            <Avatar src={user.photoUrl} size={32} />
             <div className="flex flex-col w-fit h-fit">
                 <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).toLocaleString(DateTime.DATE_MED)}</div>
+                <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).setLocale('ru').toRelative()}</div>
             </div>
         </div>
     )

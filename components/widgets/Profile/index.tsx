@@ -2,7 +2,7 @@ import React from 'react'
 import Edit from './ui/Edit'
 import Drafts from './ui/Drafts'
 import { DocShotData } from '@/types'
-import Shots from './ui/Shots'
+import Shots from '../../shared/ui/Shots'
 
 type Props = {
     tab: number | null

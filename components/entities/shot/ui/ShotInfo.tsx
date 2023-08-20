@@ -6,6 +6,7 @@ import { BiChevronRight, BiChevronUp } from 'react-icons/bi'
 import Image from 'next/image'
 import Link from 'next/link'
 import Avatar from '@/components/shared/ui/Avatar'
+import { DateTime } from 'luxon'
 
 type Props = {
     shot: DocShotData
@@ -31,17 +32,20 @@ const ShotInfo = async({ shot }: Props) => {
                     <ShotActions shot={shot} />
                 </div>
             </div>
-            <div className="flex w-full h-0 p-0 overflow-hidden transition-all duration-300 border-0 group-hover/info:border group-hover/info:p-2 group-hover/info:h-20 group-hover/info:overflow-y-auto shrink-0 rounded-xl bg-neutral-900 border-neutral-700">
+            <div className="flex flex-col w-full h-0 gap-1 p-0 overflow-hidden transition-all duration-300 border-0 group-hover/info:border group-hover/info:p-2 group-hover/info:h-fit group-hover/info:overflow-y-auto shrink-0 rounded-xl bg-neutral-900 border-neutral-700">
                 <div className="flex items-center justify-between w-full gap-2 p-1 h-fit rounded-xl bg-neutral-800">
-                    <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
-                        <Avatar src={user ? user.photoUrl : null} size={36} />
-                        <div className="flex flex-col h-full w-fit">
-                            <span className='font-semibold text-neutral-200'>{user?.displayName}</span>
-                            <span className='text-xs text-neutral-400'>{user?.displayName}</span>
+                    <Link href={`/${shot.authorId}`} className="flex items-center justify-between w-full gap-2 h-fit">
+                        <div className="flex items-center h-full gap-2 w-fit">
+                            <Avatar src={user ? user.photoUrl : null} size={36} />
+                            <div className="flex flex-col h-full w-fit">
+                                <span className='font-semibold text-neutral-200'>{user?.displayName}</span>
+                                <span className='text-xs text-neutral-400'>{user?.displayName}</span>
+                            </div>
                         </div>
+                        <BiChevronRight size={25} className='text-neutral-400' />
                     </Link>
-                    <BiChevronRight size={25} className='text-neutral-400' />
                 </div>
+                <span className='text-xs text-neutral-400'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toRelative()}</span>
             </div>
         </div>
     )

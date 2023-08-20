@@ -4,7 +4,7 @@ import { auth } from '@/utils/app'
 import { Button } from 'antd'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiUserPlus } from 'react-icons/bi'
+import { BiUserCircle, BiUserMinus, BiUserPlus } from 'react-icons/bi'
 
 type Props = {
     profileUID: string
@@ -48,9 +48,9 @@ const FollowButton = ({ profileUID }: Props) => {
         checkFollow()
     },[user])
     return (
-        <Button loading={loading} size='large' icon={<BiUserPlus size={17} className='inline-block mb-0.5' />} danger={isFollowed}
+        <Button loading={loading} size='large' icon={user?.uid === profileUID ? <BiUserCircle size={17} className='inline-block mb-0.5' /> : isFollowed ? <BiUserMinus size={17} className='inline-block mb-0.5' /> : <BiUserPlus size={17} className='inline-block mb-0.5' /> } danger={isFollowed}
         onClick={isFollowed ? stopFollow : startFollow} disabled={!user || user.uid === profileUID} type={isFollowed ? 'default' : 'primary'}
-        >{user?.uid === profileUID ? 'Это вы' : isFollowed ? 'Отслеживается' : 'Отслеживать'}</Button>
+        >{user?.uid === profileUID ? 'Это вы' : isFollowed ? 'Отписаться' : 'Отслеживать'}</Button>
     )
 }
 
