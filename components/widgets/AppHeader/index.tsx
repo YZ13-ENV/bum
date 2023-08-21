@@ -17,10 +17,7 @@ const AppHeader = () => {
                 isTabletOrMobile && isOpen ? null
                 : <LogoSection />
             }
-            {
-                isTabletOrMobile && isOpen ? null
-                : <UserSection />
-            }
+            <UserSection />
         </header>
     )
 }
