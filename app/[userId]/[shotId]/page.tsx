@@ -5,7 +5,6 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
-import { Metadata } from 'next'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { BiChevronRight } from 'react-icons/bi'
@@ -27,21 +26,7 @@ type Props = {
         userId: string
     }
 }
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
- 
-    try {
-        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${params.userId}&shotId=${params.shotId}`, { method: 'GET', cache: 'no-cache' })
-        const shot: DocShotData = await shotRes.json()
 
-        return {
-            title: shot.title
-        }
-    } catch(e) {
-        return {
-            title: 'Ошибка'
-        }
-    }
-}
 const getUser = async(userId: string) => {
     try {
         const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'no-cache' })
@@ -67,8 +52,7 @@ const ShotPage = async({ params }: Props) => {
     if (!shot) return null
     if (!user) return null
     return (
-        <div className='relative flex flex-col w-full min-h-full gap-6 px-4 pb-4 md:px-0 h-fit'>
-            {/* <ShotPageLoader /> */}
+        <>
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
                 <ShotUserSection shot={shot} title={shot.title} userId={params.userId}
                 displayName={user?.displayName as string | null} photoUrl={user?.photoUrl as string | null} />
@@ -129,7 +113,7 @@ const ShotPage = async({ params }: Props) => {
                 </div>
             </div>
 
-        </div>
+        </>
     )
 }
 

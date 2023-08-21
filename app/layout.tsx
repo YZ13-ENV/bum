@@ -1,5 +1,5 @@
-import LayoutWrapper from '@/components/LayoutWrapper'
 import './globals.css'
+import LayoutWrapper from '@/components/LayoutWrapper'
 import { Nunito_Sans } from 'next/font/google'
 import { Metadata } from 'next'
 import AppHeader from '@/components/widgets/AppHeader'

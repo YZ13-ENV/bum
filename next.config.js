@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true,
+    unoptimized: false,
     domains: [
       'api.darkmaterial.space',
       'api.storage.darkmaterial.space',
