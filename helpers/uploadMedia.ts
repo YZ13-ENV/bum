@@ -27,6 +27,21 @@ export const uploadMediaThumbnail = async(userId: string, draftId: string, file:
     } else return null
 }
 
+export const uploadMediaThumbnailForVideo = async(path: string) => {
+    try {
+        const thumbnailRes = await fetch(`${getStorageHost()}/files/uploadThumbnailForVideo?path=${path}`, {
+            method: 'POST'
+        })
+        if (thumbnailRes.ok) {
+            const thumbnail: Thumbnail = await thumbnailRes.json()
+            return thumbnail
+        } else return null
+    } catch(e) {
+        console.log(e)
+        return null
+    }
+}
+
 export const uploadMedia = async(userId: string, draftId: string, file: RcFile) => {
     const formData = new FormData()
     const fileType = fileSizeAndType(file)

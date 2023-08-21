@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { ImageBlock, Thumbnail, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
-import { uploadMedia, uploadMediaThumbnail } from '@/helpers/uploadMedia'
+import { uploadMedia, uploadMediaThumbnail, uploadMediaThumbnailForVideo } from '@/helpers/uploadMedia'
 import { getStorageHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
@@ -46,8 +46,14 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         res(uploadedFile)
                     })
                     const uploadedThumbnail = new Promise<Thumbnail | null>(async(res, rej) => {
-                        const thumbnail = await uploadMediaThumbnail(user.uid, targetDraft, opt.file as RcFile)
-                        res(thumbnail)
+                        const link = await uploadedFile
+                        if (link && link.endsWith('.mp4')) {
+                            const thumbnail = await uploadMediaThumbnailForVideo(link)
+                            res(thumbnail)
+                        } else {
+                            const thumbnail = await uploadMediaThumbnail(user.uid, targetDraft, opt.file as RcFile)
+                            res(thumbnail)
+                        }
                     })
                     uploadedFile.then((link) => {
                         if (link) {
