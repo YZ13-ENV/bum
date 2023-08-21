@@ -1,13 +1,14 @@
 'use client'
 import { auth } from '@/utils/app'
 import { Button, Segmented, Select, SelectProps } from 'antd'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiFilter } from 'react-icons/bi'
 
 const Tabs = () => {
     const pathname = usePathname()
+    const params = useSearchParams()
     const [order, setOrder] = useState<string>('popular')
     const [user] = useAuthState(auth)
     const orders: SelectProps['options'] = [
@@ -27,7 +28,13 @@ const Tabs = () => {
     ]
     const router = useRouter()
     useLayoutEffect(() => {
-        router.push(`?order=${order}`)
+        const paramString = params.toString()
+        if (paramString.includes('order')) {
+            const edited = paramString.replace(`order=${params.get('order')}`, `order=${order}`)
+            router.push(`?${edited}`)
+        } else {
+            router.push(`?order=${order}&${paramString}`)
+        }
     }, [order])
     return (
         <div className='flex items-center justify-between w-full gap-4 py-4 shrink-0 md:gap-12 h-fit'>
