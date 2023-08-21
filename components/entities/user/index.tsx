@@ -91,7 +91,7 @@ const UserStatus = () => {
         )
     }
     if (user) {
-        return <Dropdown arrow menu={{ items }}><Link href=''><Avatar src={user.photoURL} size={36} /></Link></Dropdown> 
+        return <Dropdown arrow menu={{ items }}><Link href={`/${user.uid}`}><Avatar src={user.photoURL} size={36} /></Link></Dropdown> 
     } else return <Button size='large' href='/auth' loading={loading} type='primary'>Войти</Button>
 }
 
