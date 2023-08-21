@@ -67,7 +67,6 @@ const ShotPage = async({ params }: Props) => {
     if (!shot) return null
     if (!user) return null
     return (
-        <Suspense fallback={<span>...loading...</span>}>
         <div className='relative flex flex-col w-full min-h-full gap-6 px-4 pb-4 md:px-0 h-fit'>
             {/* <ShotPageLoader /> */}
             <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
@@ -131,7 +130,6 @@ const ShotPage = async({ params }: Props) => {
             </div>
 
         </div>
-        </Suspense>
     )
 }
 
