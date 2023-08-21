@@ -1,12 +1,13 @@
 'use client'
 import { auth } from '@/utils/app'
 import { Button, Segmented, Select, SelectProps } from 'antd'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiFilter } from 'react-icons/bi'
 
 const Tabs = () => {
+    const pathname = usePathname()
     const [order, setOrder] = useState<string>('popular')
     const [user] = useAuthState(auth)
     const orders: SelectProps['options'] = [
@@ -15,7 +16,7 @@ const Tabs = () => {
             label: 'Популярные'
         },
         {
-            disabled: user ? false : true,
+            disabled: user && pathname === '/' ? false : true,
             value: 'following',
             label: 'Подписки'
         },
@@ -26,10 +27,10 @@ const Tabs = () => {
     ]
     const router = useRouter()
     useLayoutEffect(() => {
-        router.push(`/?order=${order}`)
+        router.push(`?order=${order}`)
     }, [order])
     return (
-        <div className='flex items-center justify-between w-full gap-4 px-4 py-3 shrink-0 md:gap-12 md:p-12 h-14'>
+        <div className='flex items-center justify-between w-full gap-4 py-4 shrink-0 md:gap-12 h-fit'>
             <Select size='large' className='!w-32' options={orders} value={order} onChange={e => setOrder(e.toString())} />
             <div className="hidden max-w-4xl overflow-x-auto w-fit">
                 <Segmented  size='large' options={["Обзор", "Анимации", "Брендинг", "Иллюстрации", "Веб-дизайн", "Мобильный", "Дизайн продукта", "Печать", "Типография"]} />

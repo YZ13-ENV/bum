@@ -34,7 +34,7 @@ export default async function Home({ searchParams }: Props) {
   const shots = await getAllShots(searchParams.order)
   if (!searchParams.order) redirect('/?order=popular')
   return (
-    <main className="flex flex-col w-full min-h-screen shrink-0">
+    <main className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
       <Tabs />
       <BodyWrapper shots={shots} />
     </main>
