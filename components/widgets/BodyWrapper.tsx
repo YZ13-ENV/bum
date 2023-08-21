@@ -11,7 +11,7 @@ const BodyWrapper = ({ shots }: Props) => {
         </div>
     )
     return (
-        <div className='grid px-4 min-h-fit home_grid gap-9 md:px-12'>
+        <div className='grid min-h-fit px-4 h-fit shrink-0 home_grid gap-9 md:px-12'>
             {
                 shots.map((shotChunk, index) => 
                     <Suspense key={`shotChunk#${index}#shot#${index + 1}`} 
