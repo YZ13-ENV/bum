@@ -27,7 +27,7 @@ export default function RootLayout({
             <div className="flex flex-col w-full min-h-full shrink-0">
               {children}
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </body>
         </html>
       </LayoutWrapper>
