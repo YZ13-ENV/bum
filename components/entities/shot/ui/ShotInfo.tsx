@@ -25,15 +25,17 @@ const ShotInfo = async({ shot }: Props) => {
     const user = await getShortData(shot.authorId)
     return (
         <div className='absolute left-0 z-20 flex flex-col w-full transition-all hover:bottom-0 -bottom-[86px] group/info h-fit'>
-            <div className="relative flex items-center justify-center w-full py-2 h-fit">
-                <div className="p-1 rounded-full w-fit h-fit bg-neutral-900"><BiChevronUp size={15} 
-                className='rotate-0 group-hover/info:rotate-180 text-neutral-200' /></div>
-                <div className="absolute top-0 flex items-center gap-2 right-1 w-fit h-fit">
+            <div className="relative flex items-center justify-center w-full h-10 pl-3 pr-1">
+                <div className='absolute top-0 left-0 w-full h-full bg-opacity-25 bg-gradient-to-t from-black to-transparent'/>
+                <div className="z-20 flex items-center w-full h-fit">
+                    <span className='font-bold line-clamp-1 text-neutral-200'>{shot.title}</span>
+                </div>
+                <div className="z-20 flex items-center gap-1 w-fit h-fit">
                     <ShotActions shot={shot} />
                 </div>
             </div>
-            <div className="flex flex-col w-full gap-1 p-2 transition-all duration-300 border h-fit shrink-0 rounded-xl bg-neutral-900 border-neutral-700">
-                <div className="flex items-center justify-between w-full gap-2 p-1 h-fit rounded-xl bg-neutral-800">
+            <div className="flex flex-col w-full gap-1 px-3 py-2 transition-all duration-300 bg-black rounded-b-xl h-fit shrink-0">
+                <div className="flex items-center justify-between w-full gap-2 p-1 h-fit rounded-xl bg-neutral-900">
                     <Link href={`/${shot.authorId}`} className="flex items-center justify-between w-full gap-2 h-fit">
                         <div className="flex items-center h-full gap-2 w-fit">
                             <Avatar src={user ? user.photoUrl : null} size={36} />

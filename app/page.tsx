@@ -1,10 +1,11 @@
 import BodyWrapper from "@/components/widgets/BodyWrapper";
+import NoUserBanner from "@/components/widgets/NoUserBanner";
 import Tabs from "@/components/widgets/Tabs";
 import { getHost } from "@/helpers/getHost";
 import { DocShotData } from "@/types";
 import { cookies } from "next/headers";
 
-const getAllShots = async(order: string | null) => {
+const getAllShots = async(order: string | null = 'popular') => {
   if (!order) return []
   try {
     // fetch (`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : getHost()}/api/revalidate?path=/}`)
@@ -32,9 +33,12 @@ type Props = {
 export default async function Home({ searchParams }: Props) {
   const shots = await getAllShots(searchParams.order)
   return (
+    <>
+    <NoUserBanner />
     <main className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
       <Tabs />
       <BodyWrapper shots={shots} />
     </main>
+    </>
   );
 }
