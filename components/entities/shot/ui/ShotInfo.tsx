@@ -25,7 +25,7 @@ const ShotInfo = async({ shot }: Props) => {
     const user = await getShortData(shot.authorId)
     return (
         <div className='absolute left-0 z-20 flex flex-col w-full transition-all hover:bottom-0 -bottom-[86px] group/info h-fit'>
-            <div className="relative flex items-center justify-center w-full h-10 pl-3 pr-1">
+            <div className="relative flex items-center justify-center w-full h-12 pl-3 pr-1">
                 <div className='absolute top-0 left-0 w-full h-full bg-opacity-25 bg-gradient-to-t from-black to-transparent'/>
                 <div className="z-20 flex items-center w-full h-fit">
                     <span className='font-bold line-clamp-1 text-neutral-200'>{shot.title}</span>

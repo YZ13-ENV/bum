@@ -17,7 +17,10 @@ const draftSlice = createSlice({
     initialState,
     reducers: {
         setDraft(state, { payload, type }: { payload: ShotForUpload, type: string }) {
-            state = payload
+            state.blocks = payload.blocks
+            state.rootBlock = payload.rootBlock
+            state.title = payload.title
+            state.thumbnail = payload.thumbnail
         },
         setBlocks(state, { payload, type }: { payload: ShotForUpload['blocks'], type: string }) {
             state.blocks = payload

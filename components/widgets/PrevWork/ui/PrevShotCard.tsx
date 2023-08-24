@@ -22,14 +22,13 @@ const PrevShotCard = ({ block }: Props) => {
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState(false)
     const editDraft = () => {
-        console.log(block)
-        dispatch(setDraftId(block.doc_id))
         dispatch(setDraft({
             blocks: block.blocks,
             rootBlock: block.rootBlock,
             title: block.title,
             thumbnail: block.thumbnail
         }))
+        dispatch(setDraftId(block.doc_id))
     }
     const deleteDraft = async() => {
         if (user) {
