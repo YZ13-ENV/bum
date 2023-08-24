@@ -1,7 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { BiUser } from 'react-icons/bi'
 import ShotActions from './ui/ShotActions'
 import { DocShotData } from '@/types'
 import Avatar from '@/components/shared/ui/Avatar'

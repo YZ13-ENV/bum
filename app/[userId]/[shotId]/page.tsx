@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { BiChevronRight } from 'react-icons/bi'
 import ShotActions from '@/components/entities/shot/ui/ShotActions'
 import CommentSection from '@/components/widgets/CommentSection'
+import ConfettiForNewShot from '@/components/widgets/Confetti'
 const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
@@ -75,7 +76,7 @@ const ShotPage = async({ params }: Props) => {
                     })
                 }
             </div>
-
+            <ConfettiForNewShot views={shot.views.length} />
             {/* <div className="flex items-center justify-center w-full max-w-2xl h-fit"></div> */}
             <div className="flex md:flex-row flex-col items-start w-full max-w-4xl gap-2 mx-auto h-fit min-h-[24rem]">
                 <div className="flex flex-col w-full h-full gap-2 md:w-8/12">

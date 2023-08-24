@@ -2,7 +2,7 @@
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { Button } from 'antd'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import { BiLeftArrowAlt, BiUser } from 'react-icons/bi'
 import Email from '../Email'
 import PasswordField from '../PasswordField'
@@ -14,6 +14,7 @@ import { auth } from '@/utils/app'
 import { useCookieState } from 'ahooks'
 import UpdateProfile from '../UpdateProfile'
 const SignIn = () => {
+    const [emailCheckLoading, setEmailCheckLoading] = useState<boolean>(false)
     const [cookie, setCookie] = useCookieState('uid')
     const [authoredUser] = useAuthState(auth)
     const authSignIn = useAppSelector(state => state.auth)
@@ -23,11 +24,17 @@ const SignIn = () => {
     const dispatch = useAppDispatch()
     const checkEmailStep = async() => {
         if (authSignIn.email.length >= 10 && authSignIn.email.includes('@')) {
-            const res = await fetch(`${getHost()}/users/shortByEmail?email=${authSignIn.email}`)
-            const resData: { short: ShortUserData } = await res.json()
-            if (resData) {
-                dispatch(setUserInProcess(resData.short))
-                dispatch(setStep('password'))
+            try {
+                setEmailCheckLoading(true)
+                const res = await fetch(`${getHost()}/users/shortByEmail?email=${authSignIn.email}`)
+                const resData: { short: ShortUserData } = await res.json()
+                setEmailCheckLoading(false)
+                if (resData) {
+                    dispatch(setUserInProcess(resData.short))
+                    dispatch(setStep('password'))
+                }
+            } catch(e) {
+
             }
         }
     }
@@ -97,7 +104,7 @@ const SignIn = () => {
                 <div className="flex items-center justify-center w-full h-fit">
                     <Button onClick={() => dispatch(setAuthType('signUp'))} type='link'>Нет аккаунта?</Button>
                 </div>
-                <Button loading={loading || authSignIn.loading} onClick={
+                <Button loading={emailCheckLoading || loading || authSignIn.loading} onClick={
                     authSignIn.step === 'email' ? () => checkEmailStep() :
                     authSignIn.step === 'password' ? () => signIn() : () => null
                 } size='large' block type='primary'>Продолжить</Button>

@@ -7,6 +7,7 @@ import { MdTextDecrease, MdTextIncrease } from 'react-icons/md'
 import { fontSize } from '@/utils/fontSize'
 import { setBlocks } from '../uploader/draft.store'
 import TextArea from '@/components/shared/ui/TextArea'
+import { useDebounceEffect } from 'ahooks'
 type Props = {
     block: TextBlock
     index: number
@@ -94,6 +95,31 @@ const TextBlock = ({ block, index }: Props) => {
         })
         dispatch(setBlocks(updatedBlocks))
     }
+    useDebounceEffect(() => {
+        const lines = block.text.split("\n")
+        if (lines.length !== 0) {
+            lines.forEach(line => {
+                if (line.length !== 0) {
+                    const isH1 = line.startsWith('#')
+                    const isH2 = line.startsWith('##')
+                    const isH3 = line.startsWith('###')
+                    const isQuote = line.startsWith('>')
+                    // if (isH1 && !isH2 && !isH3) {
+                    //     console.log('h1')
+                    // }
+                    // if (isH1 && isH2 && !isH3) {
+                    //     console.log('h2')
+                    // }
+                    // if (isH1 && isH2 && isH3) {
+                    //     console.log('h3')
+                    // }
+                    // if (isQuote) {
+                    //     console.log('quote')
+                    // }
+                }
+            })
+        }
+    }, [block.text], { wait: 1000 })
     return (
         <div className='flex flex-col items-end justify-center w-full p-2 h-fit rounded-xl bg-neutral-900'>
             <TextArea text={block.text} setText={text => updateText(text)} placeholder='Введите текст здесь' 
