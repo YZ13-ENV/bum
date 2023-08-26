@@ -23,7 +23,7 @@ const TextBlock = ({ block }: Props) => {
     return (
         <div className="flex flex-col w-full max-w-2xl mx-auto h-fit">
             {
-                    lines.map((line, index) => <span key={line + index} className={`${isBold} ${isItalic} ${align} ${size} text-neutral-400`}>{block.text}</span>)
+                lines.map((line, index) => <span key={line + index} className={`${isBold} ${isItalic} ${align} ${size} text-neutral-400`}>{line}</span>)
             }
         </div>
     )
