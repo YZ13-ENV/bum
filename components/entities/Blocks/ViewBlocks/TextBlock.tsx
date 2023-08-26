@@ -10,16 +10,21 @@ const TextBlock = ({ block }: Props) => {
     const isItalic = block.isItalic ? 'italic' : ''
     const align = block.align === 'left' ? 'text-start' : block.align === 'center' ? 'text-center' : 'text-end'
     const size = fontSize[block.size]
+    const lines = block.text.split("\n")
     if (isBold) {
         return (
             <div className="flex flex-col w-full max-w-2xl mx-auto h-fit">
-                <span className={`${isBold} ${isItalic} ${align} ${size} text-neutral-200`}>{block.text}</span>
+                {
+                    lines.map((line, index) => <span key={line + index} className={`${isBold} ${isItalic} ${align} ${size} text-neutral-200`}>{line}</span>)
+                }
             </div>
         )
     }
     return (
         <div className="flex flex-col w-full max-w-2xl mx-auto h-fit">
-            <span className={`${isBold} ${isItalic} ${align} ${size} text-neutral-400`}>{block.text}</span>
+            {
+                    lines.map((line, index) => <span key={line + index} className={`${isBold} ${isItalic} ${align} ${size} text-neutral-400`}>{block.text}</span>)
+            }
         </div>
     )
 }
