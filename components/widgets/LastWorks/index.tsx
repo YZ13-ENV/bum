@@ -27,7 +27,11 @@ const LastWorks = async({ displayName, userId }: Props) => {
                 shots.map((shot, index) => 
                     <Link href={`/${userId}/${shot.doc_id}`} 
                     key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
-                        { shot.rootBlock.link !== '' && <MediaBlock {...shot.rootBlock} object='cover' server quality={25} /> }
+                        {
+                            shot.thumbnail && shot.thumbnail.link !== ''
+                            ? <MediaBlock {...shot.rootBlock} object='cover' server quality={25} />
+                            : shot.rootBlock.link !== '' && <MediaBlock {...shot.rootBlock} object='cover' server quality={25} />
+                        }
                     </Link>
                 )
             }

@@ -54,7 +54,7 @@ const ShotPage = async({ params }: Props) => {
     if (!user) return null
     return (
         <>
-            <div className="flex flex-col w-full max-w-4xl gap-4 mx-auto h-fit shrink-0">
+            <div className="flex flex-col w-full max-w-4xl gap-8 mx-auto h-fit shrink-0">
                 <ShotUserSection shot={shot} title={shot.title} userId={params.userId}
                 displayName={user?.displayName as string | null} photoUrl={user?.photoUrl as string | null} />
                 <Suspense fallback={<div className='w-full h-96 rounded-xl bg-neutral-900' />}>
