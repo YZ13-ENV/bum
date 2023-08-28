@@ -2,7 +2,7 @@
 import { DocShotData } from '@/types'
 import { Button } from 'antd'
 import React, { useMemo, useState } from 'react'
-import { BiHeart, BiShow } from 'react-icons/bi'
+import { BiComment, BiHeart, BiShow } from 'react-icons/bi'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { getHost } from '@/helpers/getHost'
@@ -51,7 +51,10 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
             <Button onClick={addOrRemoveLike} loading={loading} shape='round' size='small' 
             danger={isInclude} type={isInclude ? 'primary' : 'default'} 
             icon={<BiHeart  size={13} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
-            <Button shape='round' size='small' icon={<BiShow size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
+            <div className="flex items-center border rounded-full w-fit h-fit border-neutral-700 bg-neutral-900">
+                { shot.needFeedback && <Button type='text' shape='round' size='small' icon={<BiComment size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.comments.length}</Button> }
+                <Button type='text' shape='round' size='small' icon={<BiShow size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
+            </div>
         </div>
     )
 }

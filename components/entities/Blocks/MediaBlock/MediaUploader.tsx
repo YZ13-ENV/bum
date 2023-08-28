@@ -7,11 +7,11 @@ import Dragger from 'antd/es/upload/Dragger'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { ImageBlock, Thumbnail, VideoBlock } from '@/types'
+import { ImageBlock, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
-import { uploadMedia, uploadMediaThumbnail, uploadMediaThumbnailForVideo } from '@/helpers/uploadMedia'
-import { getStorageHost } from '@/helpers/getHost'
+import { uploadMedia } from '@/helpers/uploadMedia'
+import { getHost, getStorageHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
 import { setDraftId } from '../../uploader/modal.store'
@@ -35,7 +35,6 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         fileList: [],
         progress: undefined,
         customRequest: async(opt) => {
-            // console.log(opt)
             if (opt.action !== '' && user) {
                 const generatedId = randomString(20)
                 const targetDraft = modals.draftId ? modals.draftId : generatedId
@@ -45,16 +44,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
                         res(uploadedFile)
                     })
-                    const uploadedThumbnail = new Promise<Thumbnail | null>(async(res, rej) => {
-                        const link = await uploadedFile
-                        if (link && link.endsWith('.mp4')) {
-                            const thumbnail = await uploadMediaThumbnailForVideo(link)
-                            res(thumbnail)
-                        } else {
-                            const thumbnail = await uploadMediaThumbnail(user.uid, targetDraft, opt.file as RcFile)
-                            res(thumbnail)
-                        }
-                    })
+
                     uploadedFile.then((link) => {
                         if (link) {
                             console.log(link)
@@ -63,16 +53,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                             setLoading(false)
                         } 
                     })
-                    .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
-                    uploadedThumbnail.then((thumbnail) => {
-                        if (thumbnail) {
-                            console.log(thumbnail)
-                            dispatch(setThumbnail(thumbnail))
-                            message.success('Обложка для работы загружена')
-                            setLoading(false)
-                        }
-                        else setLoading(false)
-                    })
+                    .finally(() => setLoading(false))
                     .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
                 } else {
                         const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
@@ -130,13 +111,13 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
     const deleteImage = async() => {
         if (user && block.link !== '') {
             setLoading(true)
-            const res = await fetch(`${getStorageHost()}/files/file?link=${block.link}`, { method: "DELETE" })
+            const res = await fetch(`${getHost()}/files/file?link=${block.link}`, { method: "DELETE" })
             if (res.ok) {
                 message.info('Файл был удалён')
                 if (isRootBlock) {
                     dispatch(setRootBlock({ type: 'image', link: '' }))
                     if (draft.thumbnail) {
-                        const thumbRes = await fetch(`${getStorageHost()}/files/file?link=${draft.thumbnail.link}`, { method: "DELETE" })
+                        const thumbRes = await fetch(`${getHost()}/files/file?link=${draft.thumbnail.link}`, { method: "DELETE" })
                         if (thumbRes.ok) {
                             message.info('Обложка была удалена')
                             dispatch(setThumbnail(null))
