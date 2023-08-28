@@ -9,6 +9,7 @@ import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
 import Avatar from '@/components/shared/ui/Avatar'
 import Link from 'next/link'
+import { useAppSelector } from '../store/store'
 
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
@@ -76,7 +77,7 @@ const UserStatus = () => {
             onClick: () => auth.signOut()
         },
     ]
-
+    const session = useAppSelector(state => state.watcher.session)
     useLayoutEffect(() => {
         if (!cookie) {
             auth.signOut()
@@ -91,8 +92,8 @@ const UserStatus = () => {
         )
     }
     if (user) {
-        return <Dropdown arrow menu={{ items }} trigger={['click']}><><Avatar src={user.photoURL} size={36} /></></Dropdown> 
-    } else return <Button size='large' href='/auth' loading={loading} type='primary'>Войти</Button>
+        return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar src={user.photoURL} size={36} /></div></Dropdown> 
+    } else return <Button size='large' href={`https://auth.darkmaterial.space/auth/signin?back_url=https://design.darkmaterial.space`} loading={loading} type='primary'>Войти</Button>
 }
 
 export default UserStatus
