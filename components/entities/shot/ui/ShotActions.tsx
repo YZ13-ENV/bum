@@ -1,6 +1,6 @@
 'use client'
 import { DocShotData } from '@/types'
-import { Button } from 'antd'
+import { Button, Space } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { BiComment, BiHeart, BiShow } from 'react-icons/bi'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -52,8 +52,10 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
             danger={isInclude} type={isInclude ? 'primary' : 'default'} 
             icon={<BiHeart  size={13} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
             <div className="flex items-center border rounded-full w-fit h-fit border-neutral-700 bg-neutral-900">
-                { shot.needFeedback && <Button type='text' shape='round' size='small' icon={<BiComment size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.comments.length}</Button> }
-                <Button type='text' shape='round' size='small' icon={<BiShow size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
+                <Space.Compact>
+                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!pr-1' icon={<BiComment size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.comments.length}</Button> }
+                    <Button type='text' shape='round' size='small' className='!pl-1' icon={<BiShow size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
+                </Space.Compact>
             </div>
         </div>
     )

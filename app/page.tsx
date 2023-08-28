@@ -1,10 +1,50 @@
 import BodyWrapper from "@/components/widgets/BodyWrapper";
+import Chunker from "@/components/widgets/Chunker";
 import NoUserBanner from "@/components/widgets/NoUserBanner";
 import Tabs from "@/components/widgets/Tabs";
 import { getHost } from "@/helpers/getHost";
 import { DocShotData } from "@/types";
 import { cookies } from "next/headers";
 
+const getAllShots = async(order: string | null = 'popular') => {
+  if (!order) return []
+  try {
+    const cookie = cookies()
+    const uidCookie = cookie.get('uid')
+    const uid = uidCookie ? uidCookie.value : null
+    const res = await fetch(`${getHost()}/shots/v2/allShots/${order === 'following' ? `${order}?userId=${uid}` : order}`, {
+      method: "GET",
+      cache: 'no-cache'
+    })
+    const allShots: DocShotData[] = await res.json()
+    return (allShots)
+  } catch(e) {
+    console.log(e);
+    return []
+  }
+}
+
+type Props = {
+  searchParams: {
+    order: string
+  }
+}
+export default async function Home({ searchParams }: Props) {
+  // const shots = await getAllShots(searchParams.order)
+  return (
+    <>
+    <NoUserBanner />
+    <main className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
+      <Tabs />
+      <Chunker order={searchParams.order} />
+      {/* <BodyWrapper shots={shots} /> */}
+    </main>
+    </>
+  );
+}
+
+
+/*
 const getAllShots = async(order: string | null = 'popular') => {
   if (!order) return []
   try {
@@ -24,21 +64,4 @@ const getAllShots = async(order: string | null = 'popular') => {
     return []
   }
 }
-
-type Props = {
-  searchParams: {
-    order: string
-  }
-}
-export default async function Home({ searchParams }: Props) {
-  const shots = await getAllShots(searchParams.order)
-  return (
-    <>
-    <NoUserBanner />
-    <main className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
-      <Tabs />
-      <BodyWrapper shots={shots} />
-    </main>
-    </>
-  );
-}
+*/
