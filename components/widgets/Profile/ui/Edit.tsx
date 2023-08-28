@@ -40,7 +40,8 @@ const Edit = () => {
                 const postedFetched = await fetch(postUrl, { method: 'POST', body: formData })
                 if (postedFetched.ok) {
                     const res = await postedFetched.json()
-                    await updateProfile(user, { photoURL: res })
+                    const cdn_url = `https://cdn.darkmaterial.space/${res}`
+                    await updateProfile(user, { photoURL: cdn_url })
                     message.info('Фото профиля изменилось')
                     setLoading(false)
                     return ''
