@@ -1,16 +1,25 @@
 'use client'
 import { useInViewport } from 'ahooks'
-import React, { ElementRef, useRef } from 'react'
+import React, { ElementRef, useLayoutEffect, useRef, useState } from 'react'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 type Props = {
     children: React.ReactNode
+    predictedValue?: boolean
 }
-const ChunkWrapper = ({ children }: Props) => {
+const ChunkWrapper = ({ children, predictedValue }: Props) => {
     const ref = useRef<ElementRef<'div'>>(null)
     const [inViewport] = useInViewport(ref);
-    if (!inViewport) {
+    const [shotChunk, setShotChunk] = useState<boolean>(predictedValue ? predictedValue : inViewport ? inViewport : false)
+    useLayoutEffect(() => {
+        if (!shotChunk && inViewport) setShotChunk(true)
+    },[inViewport])
+    if (!shotChunk) {
         return (
-            <div ref={ref} className="w-full h-36 rounded-xl bg-neutral-900" />
+            <div ref={ref} className="flex items-center justify-center w-full gap-2 h-fit">
+                <BiLoaderAlt size={25} className='animate-spin' />
+                <span>Подгружаем...</span>
+            </div>
         )
     }
     return (

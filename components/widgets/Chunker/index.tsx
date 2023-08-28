@@ -28,7 +28,7 @@ const Chunker = async({ order='popular' }: Props) => {
     return (
         <section className='flex flex-col gap-9'>
         {
-            chunks.map(chunk => <Chunk chunkLink={chunk} key={chunk}/>)
+            chunks.map((chunk, index) => <Chunk index={index} chunkLink={chunk} key={chunk}/>)
         }
         </section>
     )
