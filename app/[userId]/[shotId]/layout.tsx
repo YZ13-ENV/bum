@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             robots: 'index, follow',
             themeColor: '#000000',
             twitter: {
-                card: 'app',
+                card: 'summary',
                 images: fetchFile(shot.rootBlock.link),
                 title: shot.title,
                 description: `Работа - ${shot.title}`,
