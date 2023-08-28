@@ -1,7 +1,7 @@
 'use client'
 import Avatar from '@/components/shared/ui/Avatar'
 import { fileSizeAndType } from '@/helpers/checkFile'
-import { getStorageHost } from '@/helpers/getHost'
+import { getHost, getStorageHost } from '@/helpers/getHost'
 import { auth, storage } from '@/utils/app'
 import { useDebounceEffect } from 'ahooks'
 import { Button, Input, Upload, UploadProps, message } from 'antd'
@@ -34,14 +34,13 @@ const Edit = () => {
             const typeOf = fileSizeAndType(file)
             if (typeOf === 'jpg' || typeOf === 'png') {
                 setLoading(true)
-                const postUrl = `${getStorageHost()}/files/file?userId=${user.uid}`
+                const postUrl = `${getHost()}/files/file?link=${user.uid}`
                 const formData = new FormData()
                 formData.append('file', file)
                 const postedFetched = await fetch(postUrl, { method: 'POST', body: formData })
                 if (postedFetched.ok) {
                     const res = await postedFetched.json()
-                    const refForAPI = `${getStorageHost()}/files/file?link=${res}`
-                    await updateProfile(user, { photoURL: refForAPI })
+                    await updateProfile(user, { photoURL: res })
                     message.info('Фото профиля изменилось')
                     setLoading(false)
                     return ''

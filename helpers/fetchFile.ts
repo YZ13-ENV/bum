@@ -3,7 +3,7 @@ import { getStorageHost } from "./getHost"
 export const fetchFile = (link: string): string => {
     // console.log(link)
     const stableLink = link.charAt(0) === '/' ? link.substring(1) : link
-    const fetchUrl = `${getStorageHost()}/files/file?link=${stableLink}`
+    const fetchUrl = `https://cdn.darkmaterial.space/${stableLink}`
     return fetchUrl
 }
 

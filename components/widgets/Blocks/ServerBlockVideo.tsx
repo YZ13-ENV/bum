@@ -8,18 +8,17 @@ type Props = {
     block: VideoBlock
     autoPlay?: boolean
 }
-const getUrl = async(link: string) => {
-    const url = await fetchFile(link)
-    return url
-}
+// const getUrl = async(link: string) => {
+//     const url = await fetchFile(link)
+//     return url
+// }
 const ServerBlockVideo = async({ block, autoPlay }: Props) => {
-    const url = await getUrl(block.link)
     return (
         <div className="relative w-full h-full rounded-xl">
             <Suspense fallback={<div className='w-full h-full'/>}>
                 {
-                    url
-                    ? <LoadedVideo link={url} autoPlay={autoPlay} />
+                    block.link
+                    ? <LoadedVideo link={fetchFile(block.link)} autoPlay={autoPlay} />
                     : <div className='w-full h-full rounded-xl bg-neutral-900' />
                 }
             </Suspense>
