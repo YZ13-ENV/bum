@@ -1,7 +1,7 @@
 'use client'
 import React, { useLayoutEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store'
-import { useDebounceEffect, useLocalStorageState } from 'ahooks'
+import { useCookieState, useDebounceEffect, useLocalStorageState } from 'ahooks'
 import { v4 } from 'uuid'
 import { Session, setSession } from './session'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -12,6 +12,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
 const SessionWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
+    const [cookie, setCookie] = useCookieState('uid')
     const [user] = useAuthState(auth)
     const session = useAppSelector(state => state.watcher.session)
     const dispatch = useAppDispatch()
@@ -41,6 +42,11 @@ const SessionWatcher = () => {
         if (res.ok) {
           const token = await res.json()
           signInWithCustomToken(auth, token)
+          .then(user => {
+            if (user.user) {
+              setCookie(user.user.uid)
+            }
+          })
         }
       } catch(e) {
 
@@ -65,6 +71,9 @@ const SessionWatcher = () => {
         }
       }
     }, [session.sid, sid, user], { wait: 2000 })
+    useLayoutEffect(() => {
+      uploadSession()
+    }, [session])
     useDebounceEffect(() => {
       if (session.uid && !user) {
         getToken(session.uid)

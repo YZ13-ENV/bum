@@ -8,13 +8,19 @@ import { BiChevronRight, BiLoaderAlt, BiLogOut, BiPlus, BiUser, BiUserCircle } f
 import { useCookieState } from 'ahooks'
 import { useRouter } from 'next/navigation'
 import Avatar from '@/components/shared/ui/Avatar'
-import Link from 'next/link'
-import { useAppSelector } from '../store/store'
+import { useAppDispatch, useAppSelector } from '../store/store'
+import { setSession } from '../session/session'
 
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
     const router = useRouter()
+    const dispatch = useAppDispatch()
+    const session = useAppSelector(state => state.watcher.session)
+    const logOut = () => {
+        dispatch(setSession({...session, uid: null}))
+        auth.signOut()
+    }
     const items: MenuProps['items'] = [
         {
             key: 1,
@@ -74,10 +80,10 @@ const UserStatus = () => {
             icon: <BiLogOut size={17} />,
             label: 'Выйти из аккаунта',
             danger: true,
-            onClick: () => auth.signOut()
+            onClick: () => logOut()
         },
     ]
-    const session = useAppSelector(state => state.watcher.session)
+    const back_url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://design.darkmaterial.space'
     useLayoutEffect(() => {
         if (!cookie) {
             auth.signOut()
@@ -93,7 +99,7 @@ const UserStatus = () => {
     }
     if (user) {
         return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar src={user.photoURL} size={36} /></div></Dropdown> 
-    } else return <Button size='large' href={`https://auth.darkmaterial.space/auth/signin?back_url=https://design.darkmaterial.space`} loading={loading} type='primary'>Войти</Button>
+    } else return <Button size='large' href={`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}`} loading={loading} type='primary'>Войти</Button>
 }
 
 export default UserStatus
