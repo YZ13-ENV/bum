@@ -1,6 +1,6 @@
 'use client'
 import TextArea from '@/components/shared/ui/TextArea'
-import { CommentBlock, DocShotData } from '@/types'
+import { CommentBlock, DocShotData, NewCommentBlock } from '@/types'
 import { auth } from '@/utils/app'
 import { Button } from 'antd'
 import { DateTime } from 'luxon'
@@ -19,7 +19,7 @@ const CommentSection = ({ shot }: Props) => {
     const addComment = async() => {
         if (user && text.length !== 0) {
             setLoading(true)
-            const comment: CommentBlock = {
+            const comment: NewCommentBlock = {
                 'authorId': user.uid,
                 'text': text,
                 'createdAt': DateTime.now().toSeconds(),
