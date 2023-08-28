@@ -3,19 +3,27 @@ import React from 'react'
 import CommentAuthor from './CommentAuthor'
 import { Button, Dropdown, MenuProps } from 'antd'
 import { BiDotsVerticalRounded, BiHeart, BiReply, BiTrashAlt } from 'react-icons/bi'
+import { getHost } from '@/helpers/getHost'
 
 type Props = {
+    shotAuthor: string
+    shotId: string
     comment: CommentBlock
 }
-const Comment = ({ comment }: Props) => {
+const Comment = ({ comment, shotAuthor, shotId }: Props) => {
     const items: MenuProps['items'] = [
         {
             key: 0,
             label: "Удалить",
             danger: true,
-            icon: <BiTrashAlt size={13} className='inline' />
+            icon: <BiTrashAlt size={13} className='inline' />,
+            onClick: () => removeComment()
         }
     ]
+    const removeComment = async() => {
+        const fetchUrl = `${getHost()}/shots/removeComment?userId=${shotAuthor}&shotId=${shotId}&commentId=${comment.id}`
+        await fetch(fetchUrl, { 'method': 'DELETE' })
+    }
     return (
         <div className='flex flex-col w-full gap-2 p-2 border h-fit shrink-0 rounded-xl border-neutral-700'>
             <div className="flex items-center justify-between w-full h-fit">
@@ -23,10 +31,10 @@ const Comment = ({ comment }: Props) => {
                 <Dropdown menu={{items}}><Button size='small' type='text'><BiDotsVerticalRounded size={15} /></Button></Dropdown>
             </div>
             <span className='text-sm text-neutral-300'>{comment.text}</span>
-            <div className="flex items-center w-full gap-2 pt-2 border-t h-fit border-neutral-800">
+            {/* <div className="flex items-center w-full gap-2 pt-2 border-t h-fit border-neutral-800">
                 <Button disabled size='small'><BiHeart size={15} /></Button>
                 <Button disabled size='small'><BiReply size={15} /></Button>
-            </div>
+            </div> */}
         </div>
     )
 }

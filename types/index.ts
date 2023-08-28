@@ -25,7 +25,15 @@ export type ShotGridBlock = {
 
 export type CommentBlockNoAnswers = Omit<CommentBlock, 'answers'>
 
+export type NewCommentBlock = {
+    authorId: string
+    text: string
+    createdAt: number
+    answers: CommentBlockNoAnswers[]
+}
+
 export type CommentBlock = {
+    id: string
     authorId: string
     text: string
     createdAt: number

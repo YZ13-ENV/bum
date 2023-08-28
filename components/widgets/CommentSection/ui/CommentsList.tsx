@@ -34,8 +34,8 @@ const CommentsList = ({ authorId, shotId, commentsList }: Props) => {
     return (
         <div className='flex flex-col w-full gap-2 shrink-0 h-fit'>
             {
-                comments.sort((a, b) => a.createdAt - b.createdAt).map((comment, index) => <Comment key={'commentIndex' + index} comment={comment} />
-                )
+                comments.sort((a, b) => a.createdAt - b.createdAt).map((comment, index) => 
+                <Comment key={comment.id + comment.authorId} shotAuthor={authorId} shotId={shotId} comment={comment} /> )
             }
         </div>
     )
