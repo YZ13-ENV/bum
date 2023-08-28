@@ -35,13 +35,13 @@ const ShotInfo = async({ shot }: Props) => {
                 </div>
             </div>
             <div className="flex flex-col w-full gap-1 px-3 py-2 transition-all duration-300 bg-black rounded-b-xl h-fit shrink-0">
-                <div className="flex items-center justify-between w-full gap-2 p-1 h-fit rounded-xl bg-neutral-900">
+                <div className="flex items-center justify-between w-full gap-2 p-1 border h-fit rounded-xl border-neutral-800">
                     <Link href={`/${shot.authorId}`} className="flex items-center justify-between w-full gap-2 h-fit">
                         <div className="flex items-center h-full gap-2 w-fit">
                             <Avatar src={user ? user.photoUrl : null} size={36} />
                             <div className="flex flex-col h-full w-fit">
                                 <span className='font-semibold text-neutral-200'>{user?.displayName}</span>
-                                <span className='text-xs text-neutral-400'>{user?.displayName}</span>
+                                <span className='text-xs text-neutral-400'>{user?.email}</span>
                             </div>
                         </div>
                         <BiChevronRight size={25} className='text-neutral-400' />
