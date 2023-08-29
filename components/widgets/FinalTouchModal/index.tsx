@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation'
 import { uploadDraft_POST } from '@/helpers/shot'
 import { setFinalTouchModal, setDraftId } from '@/components/entities/uploader/modal.store'
 import { setDraft } from '@/components/entities/uploader/draft.store'
+import ModalWrapper from './ui/ModalWrapper'
+import ModalHeader from './ui/ModalHeader'
 
 const FinalTouchModal = () => {
     const router = useRouter()
@@ -64,14 +66,10 @@ const FinalTouchModal = () => {
     }
     if (!finalModal) return null
     return (
-        <div onClick={() => dispatch(setFinalTouchModal(false))} 
-        className='fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-70'>
+        <ModalWrapper>
             <div onClick={e => e.stopPropagation()} 
             className="flex flex-col w-full max-w-4xl gap-3 p-3 border h-3/4 rounded-xl shrink-0 border-neutral-800 bg-neutral-950">
-                <div className="flex items-center justify-between w-full h-fit">
-                    <span className='text-xl font-bold text-neutral-200'>Финальные штрихи</span>
-                    <Button onClick={() => dispatch(setFinalTouchModal(false))}  type='text'><BiX size={21} /></Button>
-                </div>
+                <ModalHeader />
                 <div className="flex items-start w-full h-full gap-4">
                     <PreviewSide />
                     <div className="w-0.5 h-full bg-neutral-800" />
@@ -79,7 +77,7 @@ const FinalTouchModal = () => {
                     tags={tags} setTags={setTags} needFeedback={needFeedback} setNeedFeedback={setNeedFeedback} />
                 </div>
             </div>
-        </div>
+        </ModalWrapper>
     )
 }
 
