@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation'
 import { signInWithCustomToken } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
+import { isEqual } from 'lodash'
 const SessionWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [cookie, setCookie] = useCookieState('uid')
@@ -71,9 +72,9 @@ const SessionWatcher = () => {
         }
       }
     }, [session.sid, sid, user], { wait: 2000 })
-    useLayoutEffect(() => {
+    useDebounceEffect(() => {
       uploadSession()
-    }, [session])
+    }, [session], { wait: 2000, maxWait: 10000 })
     useDebounceEffect(() => {
       if (session.uid && !user) {
         getToken(session.uid)
@@ -94,7 +95,7 @@ const SessionWatcher = () => {
         const sessionRef = doc(db, 'sessions', session.sid)
         onSnapshot(sessionRef, sessionSnap => {
           if (sessionSnap.exists()) {
-            dispatch(setSession(sessionSnap.data() as Session))
+            if (isEqual(sessionSnap.data() as Session, session)) dispatch(setSession(sessionSnap.data() as Session))
           }
         })
       }
