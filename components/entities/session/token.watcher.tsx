@@ -15,7 +15,8 @@ const TokenWatcher = () => {
     const extractToken = () => {
         if (token) {
             const extractToken = params.toString().replace(`token=${token}`, '')
-            console.log(extractToken)
+            setSid(token)
+            // console.log(extractToken)
             return redirect(`?${extractToken}`)
         }
     }
@@ -27,7 +28,6 @@ const TokenWatcher = () => {
                 const session = await res.json()
                 if (session) {
                     dispatch(setSession(session))
-                    setSid(token)
                 }
             }
         } catch(e) {

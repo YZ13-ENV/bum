@@ -10,7 +10,7 @@ import { useSearchParams } from 'next/navigation'
 import { signInWithCustomToken } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
-import { isEqual } from 'lodash'
+import { eq, isEqual } from 'lodash'
 const SessionWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [cookie, setCookie] = useCookieState('uid')
@@ -58,11 +58,6 @@ const SessionWatcher = () => {
         if (session.sid !== '' && !sid) {
           setSid(session.sid)
         }
-        if (session.sid === '' && !sid) {
-          const newSID = v4()
-          dispatch(setSession({ ...session, sid: newSID }))
-          setSid(newSID)
-        }
         if (session.sid === '' && sid) {
           dispatch(setSession({ ...session, sid: sid }))
         }
@@ -95,7 +90,7 @@ const SessionWatcher = () => {
         const sessionRef = doc(db, 'sessions', session.sid)
         onSnapshot(sessionRef, sessionSnap => {
           if (sessionSnap.exists()) {
-            if (isEqual(sessionSnap.data() as Session, session)) dispatch(setSession(sessionSnap.data() as Session))
+            if (!isEqual(sessionSnap.data() as Session, session)) dispatch(setSession(sessionSnap.data() as Session))
           }
         })
       }
