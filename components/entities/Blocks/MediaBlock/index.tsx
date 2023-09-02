@@ -14,6 +14,7 @@ type Props = {
     autoPlay?: boolean
 }
 const MediaBlock = ({ type, link, server=false, quality=75, object='contain', autoPlay=false }: Props) => {
+    if (process.env.NODE_ENV === 'development') return null
     if (link !== '') {
         if (type === "image") {
             return <ServerBlockImage block={{ link: link, type: type }} object={object} quality={quality} />
