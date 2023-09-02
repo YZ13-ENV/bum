@@ -14,6 +14,7 @@ import { setSession } from '../session/session'
 const UserStatus = () => {
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
+    const [isSub, setIsSub] = useState<boolean>(false)
     const router = useRouter()
     const dispatch = useAppDispatch()
     const session = useAppSelector(state => state.watcher.session)
@@ -84,6 +85,18 @@ const UserStatus = () => {
         },
     ]
     const back_url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://design.darkmaterial.space'
+    const checkIsSubscriber = async() => {
+        if (user) {
+            const res = await user.getIdTokenResult()
+            const claims = res.claims
+            if (claims && claims.isSubscriber) {
+                setIsSub(claims.isSubscriber as boolean || undefined ? claims.isSubscriber as boolean : false)
+            }
+        }
+    }
+    useLayoutEffect(() => {
+        checkIsSubscriber()
+    },[user])
     useLayoutEffect(() => {
         if (!cookie) {
             auth.signOut()
@@ -98,7 +111,7 @@ const UserStatus = () => {
         )
     }
     if (user) {
-        return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar src={user.photoURL} size={36} /></div></Dropdown> 
+        return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} src={user.photoURL} size={36} /></div></Dropdown> 
     } else return <Button size='large' href={`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}`} loading={loading} type='primary'>Войти</Button>
 }
 
