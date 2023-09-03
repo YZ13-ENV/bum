@@ -1,5 +1,5 @@
 'use client'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { useCookieState, useDebounceEffect, useLocalStorageState } from 'ahooks'
 import { Session, setSession } from './session'
@@ -23,7 +23,6 @@ const SessionWatcher = () => {
     const handleUploadSession = async() => await uploadSession(session)
     const setLocalSession = async(sid: string) => {
       const extractedSession = await verifyToken(sid) as { sid: string } | null
-      console.log(extractedSession)
       if (extractedSession) dispatch(setSession({ ...session, sid: extractedSession.sid }))
 
     }
@@ -45,14 +44,17 @@ const SessionWatcher = () => {
 
       }
     }
+    const [debouncedSession, setDebouncedSession] = useState<Session | null>(null)
     useDebounceEffect(() => {
       if (!token) {
         if (session.sid === '' && sid) setLocalSession(sid)
       }
     }, [session, sid, user], { wait: 2000 })
     useDebounceEffect(() => {
-      console.log(session, sid, user)
-      handleUploadSession()
+      if (!isEqual(debouncedSession, session)) {
+        handleUploadSession()
+        setDebouncedSession(session)
+      }
     }, [session], { wait: 2000, maxWait: 10000 })
     useDebounceEffect(() => {
       if (session.uid && !user) {
