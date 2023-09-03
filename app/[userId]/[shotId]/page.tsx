@@ -11,7 +11,7 @@ import { BiChevronRight } from 'react-icons/bi'
 import ShotActions from '@/components/entities/shot/ui/ShotActions'
 import CommentSection from '@/components/widgets/CommentSection'
 import ConfettiForNewShot from '@/components/widgets/Confetti'
-const LastWorks = dynamic(() => import('@/components/widgets/LastWorks'))
+import WorksWrapper from '@/components/widgets/LastWorks/ui/WorksWrapper'
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
 })
@@ -103,15 +103,8 @@ const ShotPage = async({ params }: Props) => {
 
                     </div>
                     <CommentSection shot={shot} />
-
                 </div>
-                <div className="flex flex-col w-full h-full gap-2 md:w-4/12">
-                    <Link href={`/${shot.authorId}`} className="flex items-center justify-between w-full h-fit">
-                        <span className='text-sm line-clamp-1 text-neutral-400'>Больше от <span className='font-semibold text-neutral-200'>{user.displayName}</span></span>
-                        <BiChevronRight size={17} />
-                    </Link>
-                    <LastWorks displayName={user?.displayName as string | null} userId={params.userId} />
-                </div>
+                <WorksWrapper userId={params.userId} shotId={params.shotId} />
             </div>
 
         </>

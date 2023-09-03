@@ -10,7 +10,7 @@ type Props = {
 }
 const ShotWrapper = ({ children, shot }: Props) => {
     return (
-        <div className="relative overflow-hidden border aspect-[4/3] w-full h-full rounded-xl shrink-0 border-neutral-900 group">
+        <div className="relative overflow-hidden aspect-[4/3] w-full h-full rounded-xl shrink-0 group">
             {children}
             {
                 !shot.isDraft &&

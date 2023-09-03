@@ -112,7 +112,8 @@ const UserStatus = () => {
     }
     if (user) {
         return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} src={user.photoURL} size={36} /></div></Dropdown> 
-    } else return <Button size='large' href={`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}`} loading={loading} type='primary'>Войти</Button>
+    } else return <Button size='large' onClick={() => router.push(`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}${session.sid && `&token=${session.sid}`}`)} 
+    loading={loading} type='primary'>Войти</Button>
 }
 
 export default UserStatus

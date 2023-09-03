@@ -1,25 +1,31 @@
+'use client'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
 import Link from 'next/link'
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 
 type Props = {
-    displayName: string | null,
     userId: string
+    order?: 'popular' | 'new'
+    exclude?: string
 }
-const getLastWorks = async(userId: string) => {
-    try {
-        const res = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&asDoc=true&limit=4`)
-        const shots: DocShotData[] = await res.json()
-        return shots
-    } catch(e) {
-        console.log(e)
-        return []
+
+const LastWorks = ({ userId, exclude, order }: Props) => {
+    const [shots, setShots] = useState<DocShotData[]>([]) 
+    const getLastWorks = async(userId: string, exclude: Props['exclude'], order: Props['order']) => {
+        try {
+            const res = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&asDoc=true&limit=4&order=${order ? order : 'popular'}${exclude && `&exclude=${exclude}`}`)
+            const shots: DocShotData[] = await res.json()
+            setShots(shots)
+        } catch(e) {
+            console.log(e)
+            setShots([])
+        }
     }
-}
-const LastWorks = async({ displayName, userId }: Props) => {
-    const shots = await getLastWorks(userId)
+    useLayoutEffect(() => {
+        getLastWorks(userId, exclude, order)
+    },[userId, exclude, order])
     if (shots.length === 0) return null
     return (
         <div className={`grid w-full ${shots.length === 1 ? 'h-fit' : 'h-full'} gap-2 grid-cols-1 grid-rows-4`}>
