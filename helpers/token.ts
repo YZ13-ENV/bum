@@ -1,28 +1,22 @@
 import { Session } from "@/components/entities/session/session"
-const url = process.env.NODE_ENV ? `http://localhost:3000/api/token` : `https://design.darkmaterial.space/api/token`
+import { sign, verify } from "jsonwebtoken"
 
-export const generateSidToken = async(session: Session): Promise<string | null> => {
-    try {
-        const headers = new Headers()
-        headers.set("Content-Type", "application/json")
-        const res = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify(session)
-        })
-        if (res.ok) return await res.json()
-        return null
-    } catch (error) {
+export const generateSidToken = (session: Session): string | null => {
+    if (process.env.NEXT_PUBLIC_JWT_SECRET) {
+        const payload = {
+            sid: session.sid
+        }
+        const token = sign(payload, process.env.NEXT_PUBLIC_JWT_SECRET)
+        return token
+    } else {
         return null
     }
 }
-export const verifySidToken = async(sid: string) => {
-  try {
-    const param = `?sid=${sid}`
-    const res = await fetch(`${url}${param}`, { method: 'GET' })
-    if (res.ok) {
-        return await res.json()
-    } return null
-  } catch (error) {
-    return null
-  }
+export const verifyToken = async(sid: string) => {
+    if (process.env.NEXT_PUBLIC_JWT_SECRET) {
+        const token = verify(sid, process.env.NEXT_PUBLIC_JWT_SECRET)
+        return token
+    } else {
+        return null
+    }
 }

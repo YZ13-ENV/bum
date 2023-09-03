@@ -10,7 +10,7 @@ import { signInWithCustomToken } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
 import { isEqual } from 'lodash'
-import { generateSidToken } from '@/helpers/token'
+import { generateSidToken, verifyToken } from '@/helpers/token'
 const SessionWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [cookie, setCookie] = useCookieState('uid')
@@ -29,6 +29,11 @@ const SessionWatcher = () => {
       } catch(e) {
         console.log(e)
       }
+    }
+    const setLocalSession = async(sid: string) => {
+      const extractedSession = await verifyToken(sid) as { sid: string } | null
+      if (extractedSession) dispatch(setSession({ ...session, sid: extractedSession.sid }))
+
     }
     const getToken = async(uid: string) => {
       // Вынести в helpers
@@ -50,12 +55,7 @@ const SessionWatcher = () => {
     }
     useDebounceEffect(() => {
       if (!token) {
-        if (session.sid !== '' && !sid) {
-          setSid(session.sid)
-        }
-        if (session.sid === '' && sid) {
-          dispatch(setSession({ ...session, sid: sid }))
-        }
+        if (session.sid === '' && sid) setLocalSession(sid)
       }
     }, [session.sid, sid, user], { wait: 2000 })
     useDebounceEffect(() => {
@@ -71,10 +71,10 @@ const SessionWatcher = () => {
           getToken(session.uid)
         }
       }
-      if (!session.uid && user) {
+      if (!sid && !session.uid && user) {
         auth.signOut()
       }
-    }, [session, user], { wait: 1000, maxWait: 5000 })
+    }, [session, user], { wait: 1000, maxWait: 3000 })
     useLayoutEffect(() => {
       if (session.sid) {
         const sessionRef = doc(db, 'sessions', session.sid)
