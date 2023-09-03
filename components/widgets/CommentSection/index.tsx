@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import CommentsList from './ui/CommentsList'
 import { getHost } from '@/helpers/getHost'
+import UserStatus from '@/components/entities/user'
 
 type Props = {
     shot: DocShotData
@@ -56,12 +57,19 @@ const CommentSection = ({ shot }: Props) => {
     }
     return (
         <div className='flex flex-col w-full gap-4 h-fit'>
-            <div className="flex flex-col w-full justify-between gap-2 p-2 border min-h-[9rem] rounded-xl border-neutral-800">
-                <TextArea setText={text => setText(text)} text={text} placeholder='Что хотите сказать?' className='!h-full text-sm' />
-                <div className="flex items-center justify-end w-full h-fit">
-                    <Button onClick={addComment} disabled={text.length < 2} loading={loading} type='primary'>Отправить</Button>
+            {
+                user ?
+                <div className="flex flex-col w-full justify-between gap-2 p-2 border min-h-[9rem] rounded-xl border-neutral-800">
+                    <TextArea setText={text => setText(text)} text={text} placeholder='Что хотите сказать?' className='!h-full text-sm' />
+                    <div className="flex items-center justify-end w-full h-fit">
+                        <Button onClick={addComment} disabled={text.length < 2} loading={loading} type='primary'>Отправить</Button>
+                    </div>
                 </div>
-            </div>
+                : <div className='flex items-center justify-between w-full p-2 border h-fit rounded-xl border-neutral-800'>
+                    <span className='text-sm text-neutral300'>Для создания комментария вам необходимо войти в аккаунт</span>
+                    <UserStatus />
+                </div>
+            }
             <CommentsList authorId={shot.authorId} shotId={shot.doc_id} commentsList={shot.comments} />
         </div>
     )

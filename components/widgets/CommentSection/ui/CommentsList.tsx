@@ -15,7 +15,7 @@ const CommentsList = ({ authorId, shotId, commentsList }: Props) => {
     useLayoutEffect(() => {
         const ref = doc(db, 'users', authorId, 'shots', shotId)
         const unSub = onSnapshot(ref, snap => {
-            console.log(snap.data())
+            // console.log(snap.data())
             if (snap.exists()) {
                 const snapData = snap.data()
                 const snapComments: DocShotData['comments'] = snapData['comments']

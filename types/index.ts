@@ -85,4 +85,5 @@ export type ShortUserData = {
     photoUrl: string
     displayName: string
     email: string
+    isSubscriber: boolean
 }

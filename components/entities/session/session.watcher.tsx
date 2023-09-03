@@ -2,7 +2,6 @@
 import React, { useLayoutEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { useCookieState, useDebounceEffect, useLocalStorageState } from 'ahooks'
-import { v4 } from 'uuid'
 import { Session, setSession } from './session'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '@/utils/app'
@@ -10,7 +9,7 @@ import { useSearchParams } from 'next/navigation'
 import { signInWithCustomToken } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
-import { eq, isEqual } from 'lodash'
+import { isEqual } from 'lodash'
 const SessionWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [cookie, setCookie] = useCookieState('uid')
@@ -61,10 +60,6 @@ const SessionWatcher = () => {
         if (session.sid === '' && sid) {
           dispatch(setSession({ ...session, sid: sid }))
         }
-        if (session.sid !== '' && user) {
-          dispatch(setSession({ ...session, uid: user.uid }))
-          uploadSession()
-        }
       }
     }, [session.sid, sid, user], { wait: 2000 })
     useDebounceEffect(() => {
@@ -80,11 +75,10 @@ const SessionWatcher = () => {
           getToken(session.uid)
         }
       }
-    }, [session, user], { wait: 1000 })
-
-    useLayoutEffect(() => {
-      // console.log(session)
-    },[session])
+      if (!session.uid && user) {
+        auth.signOut()
+      }
+    }, [session, user], { wait: 1000, maxWait: 5000 })
     useLayoutEffect(() => {
       if (session.sid) {
         const sessionRef = doc(db, 'sessions', session.sid)

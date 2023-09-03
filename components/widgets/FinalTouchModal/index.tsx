@@ -70,9 +70,9 @@ const FinalTouchModal = () => {
             <div onClick={e => e.stopPropagation()} 
             className="flex flex-col w-full max-w-4xl gap-3 p-3 border h-3/4 rounded-xl shrink-0 border-neutral-800 bg-neutral-950">
                 <ModalHeader />
-                <div className="flex items-start w-full h-full gap-4">
+                <div className="flex flex-col items-start w-full h-full gap-4 md:flex-row">
                     <PreviewSide />
-                    <div className="w-0.5 h-full bg-neutral-800" />
+                    <div className="w-0.5 h-full md:inline hidden bg-neutral-800" />
                     <DraftConfig uploadDraft={uploadDraft} loading={loading}
                     tags={tags} setTags={setTags} needFeedback={needFeedback} setNeedFeedback={setNeedFeedback} />
                 </div>

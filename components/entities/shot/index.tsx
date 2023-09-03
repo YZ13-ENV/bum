@@ -24,9 +24,11 @@ const ShotCard = ({ shot }: Props) => {
     return (
         <ShotWrapper shot={shot}>
             <Suspense fallback={<div className='w-full h-full rounded-xl' />}>
-                <Link href={`/${shot.authorId}/${shot.doc_id}`}>
+                <Link href={`/${shot.authorId}/${shot.doc_id}`} className='relative w-full h-full'>
                     {
-                        shot.thumbnail
+                        process.env.NODE_ENV === 'development'
+                        ? <span>Dev Mode</span>
+                        : shot.thumbnail
                         ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
                         : <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
                     }
