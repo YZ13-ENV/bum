@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /uploads/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /search/
+Disallow: /tags/
