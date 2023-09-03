@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../store/store'
 import { useLocalStorageState } from 'ahooks'
 import { Session, setSession } from './session'
 import { getHost } from '@/helpers/getHost'
-import { verifySidToken } from '@/helpers/token'
+import { verifyToken } from '@/helpers/token'
 
 const TokenWatcher = () => {
     const params = useSearchParams()
@@ -13,23 +13,25 @@ const TokenWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const dispatch = useAppDispatch()
     const session = useAppSelector(state => state.watcher.session)
-    const extractToken = () => {
+    const extractToken = async() => {
         if (token) {
             const extractToken = params.toString().replace(`token=${token}`, '')
-            setSid(token)
-            // console.log(extractToken)
+            if (sid !== token) {
+                setSid(token)
+            }
             return redirect(`?${extractToken}`)
         }
     }
     const getSession = async(sid: string) => {
         try {
-            const token = await verifySidToken(sid)
+            const token = await verifyToken(sid)
             const fetchUrl = `${getHost()}/auth/session?sid=${token}`
             const res = await fetch(fetchUrl)
             if (res.ok) {
-                const session: Session = await res.json()
+                const session: string = await res.json()
                 if (session) {
-                    dispatch(setSession(session))
+                    const extractedSession = await verifyToken(session) as { session: Session } | null
+                    if (extractedSession) dispatch(setSession(extractedSession.session))
                 }
             }
         } catch(e) {
@@ -40,7 +42,7 @@ const TokenWatcher = () => {
         if (token && token !== '') {
             extractToken()
         } else {
-            getSession(session.sid)
+            if (session.sid) getSession(session.sid)
         }
     },[params, token])
     return (
