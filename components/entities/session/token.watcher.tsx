@@ -3,8 +3,9 @@ import { useSearchParams, redirect } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { useLocalStorageState } from 'ahooks'
-import { setSession } from './session'
+import { Session, setSession } from './session'
 import { getHost } from '@/helpers/getHost'
+import { verifySidToken } from '@/helpers/token'
 
 const TokenWatcher = () => {
     const params = useSearchParams()
@@ -22,10 +23,11 @@ const TokenWatcher = () => {
     }
     const getSession = async(sid: string) => {
         try {
-            const fetchUrl = `${getHost()}/auth/session?sid=${sid}`
+            const token = await verifySidToken(sid)
+            const fetchUrl = `${getHost()}/auth/session?sid=${token}`
             const res = await fetch(fetchUrl)
             if (res.ok) {
-                const session = await res.json()
+                const session: Session = await res.json()
                 if (session) {
                     dispatch(setSession(session))
                 }

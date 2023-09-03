@@ -10,6 +10,7 @@ import { signInWithCustomToken } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
 import { isEqual } from 'lodash'
+import { generateSidToken } from '@/helpers/token'
 const SessionWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [cookie, setCookie] = useCookieState('uid')
@@ -21,15 +22,10 @@ const SessionWatcher = () => {
     const uploadSession = async() => {
       // Вынести в helpers
       try {
-        const headers = new Headers()
-        headers.set("Content-Type", "application/json")
-        const fetchUrl = `${getHost()}/auth/session`
-        const res = await fetch(fetchUrl, { 
-          method: 'POST', 
-          headers: headers,
-          body: JSON.stringify(session)
-        })
-        console.log(res.ok)
+        const sessionToken = await generateSidToken(session)
+        if (!sessionToken) throw new Error('Failed while generated token')
+        const fetchUrl = `${getHost()}/auth/session?sessionToken=${sessionToken}`
+        await fetch(fetchUrl, { method: 'POST' })
       } catch(e) {
         console.log(e)
       }
