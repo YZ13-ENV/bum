@@ -13,7 +13,7 @@ const TokenWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const dispatch = useAppDispatch()
     const session = useAppSelector(state => state.watcher.session)
-    const extractToken = async() => {
+    const extractToken = () => {
         if (token) {
             const extractToken = params.toString().replace(`token=${token}`, '')
             if (sid !== token) {
