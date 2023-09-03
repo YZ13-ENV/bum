@@ -10,7 +10,8 @@ import { signInWithCustomToken } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
 import { isEqual } from 'lodash'
-import { generateSidToken, verifyToken } from '@/helpers/token'
+import { verifyToken } from '@/helpers/token'
+import { uploadSession } from '@/helpers/session'
 const SessionWatcher = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [cookie, setCookie] = useCookieState('uid')
@@ -19,19 +20,10 @@ const SessionWatcher = () => {
     const dispatch = useAppDispatch()
     const params = useSearchParams()
     const token = params.get('token')
-    const uploadSession = async() => {
-      // Вынести в helpers
-      try {
-        const sessionToken = await generateSidToken(session)
-        if (!sessionToken) throw new Error('Failed while generated token')
-        const fetchUrl = `${getHost()}/auth/session?sessionToken=${sessionToken}`
-        await fetch(fetchUrl, { method: 'POST' })
-      } catch(e) {
-        console.log(e)
-      }
-    }
+    const handleUploadSession = async() => await uploadSession(session)
     const setLocalSession = async(sid: string) => {
       const extractedSession = await verifyToken(sid) as { sid: string } | null
+      console.log(extractedSession)
       if (extractedSession) dispatch(setSession({ ...session, sid: extractedSession.sid }))
 
     }
@@ -57,9 +49,10 @@ const SessionWatcher = () => {
       if (!token) {
         if (session.sid === '' && sid) setLocalSession(sid)
       }
-    }, [session.sid, sid, user], { wait: 2000 })
+    }, [session, sid, user], { wait: 2000 })
     useDebounceEffect(() => {
-      uploadSession()
+      console.log(session, sid, user)
+      handleUploadSession()
     }, [session], { wait: 2000, maxWait: 10000 })
     useDebounceEffect(() => {
       if (session.uid && !user) {

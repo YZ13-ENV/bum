@@ -5,13 +5,14 @@ import Image from 'next/image'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiChevronRight, BiLoaderAlt, BiLogOut, BiPlus, BiUser, BiUserCircle } from 'react-icons/bi'
-import { useCookieState } from 'ahooks'
+import { useCookieState, useLocalStorageState } from 'ahooks'
 import { useRouter } from 'next/navigation'
 import Avatar from '@/components/shared/ui/Avatar'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { setSession } from '../session/session'
 
 const UserStatus = () => {
+    const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
     const [isSub, setIsSub] = useState<boolean>(false)
@@ -112,7 +113,7 @@ const UserStatus = () => {
     }
     if (user) {
         return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} src={user.photoURL} size={36} /></div></Dropdown> 
-    } else return <Button size='large' onClick={() => router.push(`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}${session.sid && `&token=${session.sid}`}`)} 
+    } else return <Button size='large' onClick={() => router.push(`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}${sid ? `&token=${sid}` : ''}`)} 
     loading={loading} type='primary'>Войти</Button>
 }
 
