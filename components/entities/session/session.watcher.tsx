@@ -25,7 +25,7 @@ const SessionWatcher = () => {
     if (extractedSession) dispatch(setSession({ ...session, sid: extractedSession.sid }))
 
   }, [dispatch, session])
-  const getToken = useCallback(async(uid: string) => {
+  const getToken = async(uid: string) => {
     const fetchUrl = `${getHost()}/users/token?userId=${uid}`
     try {
       const res = await fetch(fetchUrl)
@@ -36,13 +36,13 @@ const SessionWatcher = () => {
     } catch(e) {
 
     }
-  }, [])
+  }
   const [debouncedSession, setDebouncedSession] = useState<Session | null>(null)
   useDebounceEffect(() => {
     if (!token) {
       if (session.sid === '' && sid) setLocalSession(sid)
     }
-  }, [session.sid, sid, user, setLocalSession], { wait: 2000 })
+  }, [session.sid, sid, user], { wait: 2000 })
   useDebounceEffect(() => {
     if (session.uid && !user) {
       getToken(session.uid)
@@ -53,10 +53,13 @@ const SessionWatcher = () => {
         getToken(session.uid)
       }
     }
+    if (!session.uid && user) {
+      auth.signOut()
+    }
     if (!sid && !session.uid && user) {
       auth.signOut()
     }
-  }, [session, user, getToken], { wait: 1000, maxWait: 3000 })
+  }, [session, user], { wait: 1000, maxWait: 3000 })
   useDebounceEffect(() => {
     if (!isEqual(debouncedSession, session)) {
       console.log('Session is need update')
@@ -66,7 +69,7 @@ const SessionWatcher = () => {
         setDebouncedSession(session)
       })
     } else console.log('Session is not need update')
-  }, [session, handleUploadSession], { wait: 2000, maxWait: 10000 })
+  }, [session], { wait: 2000, maxWait: 10000 })
   useLayoutEffect(() => {
     if (session.sid) {
       const sessionRef = doc(db, 'sessions', session.sid)
