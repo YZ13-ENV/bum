@@ -52,7 +52,7 @@ const SessionWatcher = () => {
     }, [session, sid, user], { wait: 2000 })
     useDebounceEffect(() => {
       if (!isEqual(debouncedSession, session)) {
-        handleUploadSession()
+        // handleUploadSession()
         setDebouncedSession(session)
       }
     }, [session], { wait: 2000, maxWait: 10000 })
