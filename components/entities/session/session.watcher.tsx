@@ -14,7 +14,8 @@ import { verifyToken } from '@/helpers/token'
 import { uploadSession } from '@/helpers/session'
 const SessionWatcher = () => {
   const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
-  const [user] = useAuthState(auth)
+  const [user, userLoading] = useAuthState(auth)
+  const [loading, setLoading] = useState<boolean>(true)
   const session = useAppSelector(state => state.watcher.session)
   const dispatch = useAppDispatch()
   const params = useSearchParams()
@@ -39,27 +40,32 @@ const SessionWatcher = () => {
   }
   const [debouncedSession, setDebouncedSession] = useState<Session | null>(null)
   useDebounceEffect(() => {
+    if (!userLoading) setLoading(false)
+  },[userLoading], { wait: 3000 })
+  useDebounceEffect(() => {
     if (!token) {
       if (session.sid === '' && sid) setLocalSession(sid)
-    }
-  }, [session.sid, sid, user], { wait: 2000 })
+    } else setLoading(true)
+  }, [session.sid, sid, user], { wait: 1000 })
   useDebounceEffect(() => {
     if (session.uid && !user) {
       getToken(session.uid)
     }
-    if (user && session.uid) {
-      if (session.uid !== user.uid) {
+    if (!loading) {
+      if (user && session.uid) {
+        if (session.uid !== user.uid) {
+          auth.signOut()
+          getToken(session.uid)
+        }
+      }
+      if (!session.uid && user) {
         auth.signOut()
-        getToken(session.uid)
+      }
+      if (!sid && !session.uid && user) {
+        auth.signOut()
       }
     }
-    if (!session.uid && user) {
-      auth.signOut()
-    }
-    if (!sid && !session.uid && user) {
-      auth.signOut()
-    }
-  }, [session, user], { wait: 1000, maxWait: 3000 })
+  }, [session, user, loading], { wait: 1000 })
   useDebounceEffect(() => {
     if (!isEqual(debouncedSession, session)) {
       console.log('Session is need update')
@@ -69,7 +75,7 @@ const SessionWatcher = () => {
         setDebouncedSession(session)
       })
     } else console.log('Session is not need update')
-  }, [session], { wait: 2000, maxWait: 10000 })
+  }, [session], { wait: 1000 })
   useLayoutEffect(() => {
     if (session.sid) {
       const sessionRef = doc(db, 'sessions', session.sid)
