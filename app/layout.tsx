@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   keywords: ['dey', 'dm', 'dark', 'material', 'dark material', 'dribbble', 'behance', 'drible', 'dribble'],
   icons: [ 'https://cdn.darkmaterial.space/dm/icons/dm-dey.svg' ],
   robots: 'index, follow',
-  alternates: { canonical: 'https://darkmaterial.space' },
+  alternates: { canonical: 'https://design.darkmaterial.space' },
   applicationName: 'Dark Material',
   viewport: 'width=device-width, initial-scale=1',
   twitter: {
