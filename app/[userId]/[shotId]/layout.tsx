@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 description: `Работа - ${shot.title}`,
                 site: `https://design.darkmaterial.space/${shot.authorId}/${shot.doc_id}`,
             },
-            keywords: 'dribbble, dey, behance'
+            keywords: {'dribbble, dey, behance'}
         }
     } catch(e) {
         return {
