@@ -1,31 +1,33 @@
 'use client'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store'
-import { useCookieState, useDebounceEffect, useLocalStorageState } from 'ahooks'
+import { useDebounceEffect, useLocalStorageState } from 'ahooks'
 import { Session, setSession } from './session'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '@/utils/app'
-import { useSearchParams } from 'next/navigation'
 import { signInWithCustomToken } from 'firebase/auth'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 import { getHost } from '@/helpers/getHost'
 import { isEqual } from 'lodash'
 import { verifyToken } from '@/helpers/token'
 import { uploadSession } from '@/helpers/session'
+import { useSearchParams } from 'next/navigation'
 const SessionWatcher = () => {
-  const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
-  const [user, userLoading] = useAuthState(auth)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [sid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
+  const [user] = useAuthState(auth)
   const session = useAppSelector(state => state.watcher.session)
   const dispatch = useAppDispatch()
   const params = useSearchParams()
-  const token = params.get('token')
+  const tokenParam = params.get('token')
   const handleUploadSession = useCallback(async() => await uploadSession(session), [session])
-  const setLocalSession = useCallback(async(sid: string) => {
-    const extractedSession = await verifyToken(sid) as { sid: string } | null
-    if (extractedSession) dispatch(setSession({ ...session, sid: extractedSession.sid }))
 
-  }, [dispatch, session])
+  const setLocalSession = async(sid: string) => {
+    const extractedSession = await verifyToken(sid) as { sid: string } | null
+    if (extractedSession) {
+      const local_session: Session = { ...session, sid: extractedSession.sid }
+      return local_session
+    } else null
+  }
   const getToken = async(uid: string) => {
     const fetchUrl = `${getHost()}/users/token?userId=${uid}`
     try {
@@ -39,35 +41,39 @@ const SessionWatcher = () => {
     }
   }
   const [debouncedSession, setDebouncedSession] = useState<Session | null>(null)
-  useDebounceEffect(() => {
-    if (!userLoading) setLoading(false)
-  },[userLoading], { wait: 3000 })
-  useDebounceEffect(() => {
-    if (!token) {
-      if (session.sid === '' && sid) setLocalSession(sid)
-    } else setLoading(true)
-  }, [session.sid, sid, user], { wait: 1000 })
-  useDebounceEffect(() => {
+  useLayoutEffect(() => {
+    process.env.NODE_ENV === 'development' && console.info(session.sid, session?.uid, user?.uid, sid)
+  },[session, sid, user?.uid])
+  const getCatchSession = (): Promise<Session | null> => new Promise(async(res, rej) => {
+    if (sid && !tokenParam) {
+      const local_session = await setLocalSession(sid)
+      if (local_session && local_session.sid) {
+      const sessionRef = doc(db, 'sessions', local_session.sid)
+        const db_session = await getDoc(sessionRef)
+        if (db_session.exists()) {
+          res(db_session.data() as Session)
+        } else res(null)
+      } else res(null)
+    } else res(null)
+  })
+  const manipulateSession = () => new Promise(async(res, ref) => {
+    if ((session.uid && user) && session.uid !== user.uid) {
+      getToken(session.uid)
+    }
     if (session.uid && !user) {
       getToken(session.uid)
     }
-    if (!loading) {
-      if (user && session.uid) {
-        if (session.uid !== user.uid) {
-          auth.signOut()
-          getToken(session.uid)
-        }
+    if (!session.uid && user) {
+      const sessionNoUser = {
+        ...session,
+        uid: null
       }
-      if (!session.uid && user) {
-        auth.signOut()
-      }
-      if (!sid && !session.uid && user) {
-        auth.signOut()
-      }
+      dispatch(setSession(sessionNoUser))
+      auth.signOut()
     }
-  }, [session, user, loading], { wait: 1000 })
+  })
   useDebounceEffect(() => {
-    if (!isEqual(debouncedSession, session)) {
+    if (!isEqual(debouncedSession, session) && session.sid) {
       console.log('Session is need update')
       handleUploadSession()
       .finally(() => {
@@ -76,13 +82,23 @@ const SessionWatcher = () => {
       })
     } else console.log('Session is not need update')
   }, [session], { wait: 1000 })
+  useDebounceEffect(() => {
+    manipulateSession()
+  }, [session.uid, user], { wait: 1500 })
+  useLayoutEffect(() => {
+    getCatchSession()
+    .then(session => session && dispatch(setSession(session)))
+  }, [session.sid, sid, tokenParam])
   useLayoutEffect(() => {
     if (session.sid) {
       const sessionRef = doc(db, 'sessions', session.sid)
       onSnapshot(sessionRef, sessionSnap => {
-        if (sessionSnap.exists()) {
-          if (!isEqual(sessionSnap.data() as Session, session)) dispatch(setSession(sessionSnap.data() as Session))
-        }
+        process.env.NODE_ENV === 'development' && console.log('session update is coming')
+        if (sessionSnap.exists() && !isEqual(sessionSnap.data() as Session, session)) {
+          const session = sessionSnap.data() as Session
+          dispatch(setSession(session))
+          setDebouncedSession(session)
+        } 
       })
     }
   },[session.sid])
