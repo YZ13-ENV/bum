@@ -10,7 +10,9 @@ type Props = {
 }
 const fetchChunk = async(link: string) => {
     try {
-        const res = await fetch(link)
+        const res = await fetch(link, {
+            cache: 'force-cache'
+        })
         if (res.ok) {
             const data: DocShotData[] = await res.json()
             return data
