@@ -18,8 +18,8 @@ const ConfettiForNewShot = ({ views }: Props) => {
             x: 0,
             y: 0,
             }} 
-            tweenDuration={50000}
-            numberOfPieces={1000}
+            tweenDuration={25000}
+            numberOfPieces={750}
             recycle={false}
         />
     )

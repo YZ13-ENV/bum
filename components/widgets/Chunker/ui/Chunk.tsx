@@ -1,7 +1,8 @@
-import ShotCard from '@/components/entities/shot'
 import { DocShotData } from '@/types'
 import React, { Suspense } from 'react'
 import ChunkWrapper from './ChunkWrapper'
+import dynamic from 'next/dynamic'
+const ShotCard = dynamic(() => import('@/components/entities/shot'))
 
 type Props = {
     chunkLink: string
