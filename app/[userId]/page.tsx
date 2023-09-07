@@ -1,13 +1,11 @@
-import ShotCard from '@/components/entities/shot'
 import Avatar from '@/components/shared/ui/Avatar'
-import ProfileContent from '@/components/widgets/Profile'
-import UserProfileTabs from '@/components/widgets/UserProfileTabs'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Metadata } from 'next'
-import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import React from 'react'
-import { BiUser } from 'react-icons/bi'
+const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
+const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
 
 type Props = {
     params: {

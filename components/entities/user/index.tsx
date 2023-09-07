@@ -58,23 +58,6 @@ const UserStatus = () => {
             onClick: () => router.push('/uploads/shot'),
         },
         {
-            key: 4,
-            disabled: true,
-            label: <div className="flex w-full h-40 gap-2 p-4 border rounded-xl border-neutral-700 bg-neutral-900">
-                <div className="flex items-center justify-center w-full h-full">
-                    <QRCode value='https://design.darkmaterial.space' size={128} type='svg' />
-                </div>
-                {/* <div className="flex flex-col items-center justify-center w-full h-full"> */}
-                    {/* <Space.Compact direction='vertical'>
-                        <Button>1</Button>
-                        <Button>2</Button>
-                        <Button>3</Button>
-                        <Button>4</Button>
-                    </Space.Compact> */}
-                {/* </div> */}
-            </div>
-        },
-        {
             type: 'divider'
         },
         {

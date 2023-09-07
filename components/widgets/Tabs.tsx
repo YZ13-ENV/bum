@@ -42,7 +42,7 @@ const Tabs = () => {
             <div className="hidden max-w-4xl overflow-x-auto w-fit">
                 <Segmented  size='large' options={["Обзор", "Анимации", "Брендинг", "Иллюстрации", "Веб-дизайн", "Мобильный", "Дизайн продукта", "Печать", "Типография"]} />
             </div>
-            <Button size='large' icon={<BiFilter size={17} className='inline mb-0.5' />}>Фильтры</Button>
+            <Button size='large' disabled icon={<BiFilter size={17} className='inline mb-0.5' />}>Фильтры</Button>
         </div>
     )
 }

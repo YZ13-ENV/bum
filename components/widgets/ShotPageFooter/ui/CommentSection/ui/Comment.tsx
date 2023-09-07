@@ -21,7 +21,7 @@ const Comment = ({ comment, shotAuthor, shotId }: Props) => {
         }
     ]
     const removeComment = async() => {
-        const fetchUrl = `${getHost()}/shots/removeComment?userId=${shotAuthor}&shotId=${shotId}&commentId=${comment.id}`
+        const fetchUrl = `${getHost()}/shots/comment?userId=${shotAuthor}&shotId=${shotId}&commentId=${comment.id}`
         await fetch(fetchUrl, { 'method': 'DELETE' })
     }
     return (

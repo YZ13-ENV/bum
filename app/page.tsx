@@ -1,28 +1,28 @@
-import BodyWrapper from "@/components/widgets/BodyWrapper";
+// import BodyWrapper from "@/components/widgets/BodyWrapper";
 import Chunker from "@/components/widgets/Chunker";
 import NoUserBanner from "@/components/widgets/NoUserBanner";
 import Tabs from "@/components/widgets/Tabs";
-import { getHost } from "@/helpers/getHost";
-import { DocShotData } from "@/types";
-import { cookies } from "next/headers";
+// import { getHost } from "@/helpers/getHost";
+// import { DocShotData } from "@/types";
+// import { cookies } from "next/headers";
 
-const getAllShots = async(order: string | null = 'popular') => {
-  if (!order) return []
-  try {
-    const cookie = cookies()
-    const uidCookie = cookie.get('uid')
-    const uid = uidCookie ? uidCookie.value : null
-    const res = await fetch(`${getHost()}/shots/v2/allShots/${order === 'following' ? `${order}?userId=${uid}` : order}`, {
-      method: "GET",
-      cache: 'no-cache'
-    })
-    const allShots: DocShotData[] = await res.json()
-    return (allShots)
-  } catch(e) {
-    console.log(e);
-    return []
-  }
-}
+// const getAllShots = async(order: string | null = 'popular') => {
+//   if (!order) return []
+//   try {
+//     const cookie = cookies()
+//     const uidCookie = cookie.get('uid')
+//     const uid = uidCookie ? uidCookie.value : null
+//     const res = await fetch(`${getHost()}/shots/v2/allShots/${order === 'following' ? `${order}?userId=${uid}` : order}`, {
+//       method: "GET",
+//       cache: 'no-cache'
+//     })
+//     const allShots: DocShotData[] = await res.json()
+//     return (allShots)
+//   } catch(e) {
+//     console.log(e);
+//     return []
+//   }
+// }
 
 type Props = {
   searchParams: {

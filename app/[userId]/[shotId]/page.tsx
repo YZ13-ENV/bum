@@ -5,13 +5,8 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
-import { DateTime } from 'luxon'
-import Link from 'next/link'
-import { BiChevronRight } from 'react-icons/bi'
-import ShotActions from '@/components/entities/shot/ui/ShotActions'
-import CommentSection from '@/components/widgets/CommentSection'
-import ConfettiForNewShot from '@/components/widgets/Confetti'
-import WorksWrapper from '@/components/widgets/LastWorks/ui/WorksWrapper'
+const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
+const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
     loading: () => <TextLoader />
 })
@@ -77,36 +72,7 @@ const ShotPage = async({ params }: Props) => {
                 }
             </div>
             <ConfettiForNewShot views={shot.views.length} />
-            {/* <div className="flex items-center justify-center w-full max-w-2xl h-fit"></div> */}
-            <div className="flex md:flex-row flex-col items-start w-full max-w-4xl gap-2 mx-auto h-fit min-h-[24rem]">
-                <div className="flex flex-col w-full h-full gap-2 md:w-8/12">
-                    <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
-                        <div className="flex items-center justify-between w-full h-fit">
-                            <div className="flex items-center gap-2 w-fit h-fit">
-                                <span className='text-sm text-neutral-300'>{shot.views.length} просмотров</span>
-                                <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toLocaleString(DateTime.DATE_MED)}</span>
-                            </div>
-                            <div className="flex items-center w-fit h-fit">
-                                <ShotActions shot={shot} isOnPage />
-                            </div>
-                        </div>
-                        {
-                            shot.tags.length !== 0 &&
-                            <div className="inline-flex flex-wrap w-full gap-1 h-fit">
-                                {
-                                    shot.tags.map((tag, index) => <Link key={tag + index} href={`/tags/${tag}`}
-                                        className='px-2 py-0.5 text-xs rounded-full border border-neutral-700 text-neutral-300 bg-neutral-800'>{tag}</Link>
-                                    )
-                                }
-                            </div>
-                        }
-
-                    </div>
-                    <CommentSection shot={shot} />
-                </div>
-                <WorksWrapper userId={params.userId} shotId={params.shotId} />
-            </div>
-
+            <ShotPageFooter shot={shot} />
         </>
     )
 }
