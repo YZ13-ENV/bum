@@ -24,10 +24,10 @@ const ShotCard = ({ shot }: Props) => {
     )
     return (
         <ShotWrapper shot={shot}>
-            <Link href={`/${shot.authorId}/${shot.doc_id}`} className='relative w-full h-full'>
+            <Link href={`/${shot.authorId}/${shot.doc_id}`} className='relative w-full aspect-[4/3] h-full'>
                 {
                     process.env.NODE_ENV === 'development'
-                    ? <Image src='/original-error.png' width={200} height={100} alt='placeholder'/>
+                    ? <Image src='/original-error.png' width={400} height={300} className='w-full h-full' alt='placeholder'/>
                     : shot.thumbnail
                     ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
                     : <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />

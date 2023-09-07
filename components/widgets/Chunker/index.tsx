@@ -7,7 +7,7 @@ const getCountOfShots = async() => {
     try {
         const res = await fetch(`${getHost()}/shots/allShotsCount`, {
             method: "GET",
-            cache: 'no-cache'
+            cache: 'default'
         })
         if (res.ok) {
             const count = parseInt(await res.json())
@@ -23,6 +23,7 @@ type Props = {
 }
 const Chunker = async({ order='popular' }: Props) => {
     const count = await getCountOfShots()
+    console.log(count)
     const chunksCount = count <= 16 ? 1: Math.ceil(count / 16)
     const chunks = generateChunks(chunksCount, order)
     return (
