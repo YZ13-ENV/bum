@@ -16,7 +16,7 @@ const CommentAuthor = ({ authorId, createdAt }: Props) => {
     const getUser = async() => {
         try {
             setLoading(true)
-            const userRes = await fetch(`${getHost()}/users/shortData?userId=${authorId}`, { method: 'GET', cache: 'no-cache' })
+            const userRes = await fetch(`${getHost()}/users/shortData?userId=${authorId}`, { method: 'GET', next: { revalidate: 360 } })
             if (userRes.ok) {
                 const user: { short: ShortUserData } | null = await userRes.json()
                 setLoading(false)

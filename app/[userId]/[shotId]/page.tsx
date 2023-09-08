@@ -25,7 +25,7 @@ type Props = {
 
 const getUser = async(userId: string) => {
     try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'force-cache' })
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'default' })
         const user: { short: ShortUserData } | null = await userRes.json()
         return user ? user.short : null
     } catch(e) {
@@ -34,7 +34,7 @@ const getUser = async(userId: string) => {
 }
 const getShot = async(userId: string, shotId: string) => {
     try {
-        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`, { method: 'GET', cache: 'default' })
+        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`, { method: 'GET', cache: 'no-store' })
         const shot: DocShotData = await shotRes.json()
         return shot
     } catch(e) {
