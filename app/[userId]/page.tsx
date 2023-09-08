@@ -19,7 +19,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
  
     try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${params.userId}`, { method: 'GET', cache: 'force-cache' })
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${params.userId}`, { method: 'GET', next: { revalidate: 3600 } })
         const user: { short: ShortUserData } | null = await userRes.json()
         return {
             title: user?.short.displayName || 'Пользователь',
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const getShots = async(userId: string, tab: string | null) => {
     const stableTab = !tab ? 1 : parseInt(tab)
     try {
-        const shotsRes = await fetch(`${getHost()}/shots/${stableTab === 1 ? 'onlyShots' : 'onlyDrafts'}?userId=${userId}`, { cache: 'default' })
+        const shotsRes = await fetch(`${getHost()}/shots/${stableTab === 1 ? 'onlyShots' : 'onlyDrafts'}?userId=${userId}`, { next: { revalidate: 3600 } })
         const shots: DocShotData[] = await shotsRes.json()
         return shots
     } catch(e) {
@@ -46,7 +46,7 @@ const getShots = async(userId: string, tab: string | null) => {
 }
 const getUserShort = async(userId: string) => {
     try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'no-cache' })
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 3600 } })
         const user: { short: ShortUserData } | null = await userRes.json()
         return user ? user.short : null
     } catch(e) {

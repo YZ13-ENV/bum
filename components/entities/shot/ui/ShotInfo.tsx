@@ -3,7 +3,6 @@ import { DocShotData, ShortUserData } from '@/types'
 import React from 'react'
 import ShotActions from './ShotActions'
 import { BiChevronRight, BiChevronUp } from 'react-icons/bi'
-import Image from 'next/image'
 import Link from 'next/link'
 import Avatar from '@/components/shared/ui/Avatar'
 import { DateTime } from 'luxon'
@@ -13,7 +12,7 @@ type Props = {
 }
 const getShortData = async(userId: string) => {
     try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'force-cache' })
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 3600 } })
         const user: { short: ShortUserData } | null = await userRes.json()
         return user ? user.short : null
     } catch(e) {

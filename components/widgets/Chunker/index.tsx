@@ -7,7 +7,7 @@ const getCountOfShots = async() => {
     try {
         const res = await fetch(`${getHost()}/shots/allShotsCount`, {
             method: "GET",
-            cache: 'default'
+            next: { revalidate: 3600 }
         })
         if (res.ok) {
             const count = parseInt(await res.json())
