@@ -23,7 +23,6 @@ type Props = {
 }
 const Chunker = async({ order='popular' }: Props) => {
     const count = await getCountOfShots()
-    console.log(count)
     const chunksCount = count <= 16 ? 1: Math.ceil(count / 16)
     const chunks = generateChunks(chunksCount, order)
     return (

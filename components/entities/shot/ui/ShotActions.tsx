@@ -2,7 +2,7 @@
 import { DocShotData } from '@/types'
 import { Button, Space } from 'antd'
 import React, { useMemo, useState } from 'react'
-import { BiComment, BiHeart, BiShow } from 'react-icons/bi'
+import { BiHeart, BiSolidHeart, BiSolidMessageRoundedDots, BiSolidShow } from 'react-icons/bi'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { getHost } from '@/helpers/getHost'
@@ -48,13 +48,15 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
     }
     return (
         <div onClick={e => e.stopPropagation()} className="flex items-center gap-2 p-2 transition-all w-fit h-fit">
-            <Button onClick={addOrRemoveLike} loading={loading} shape='round' size='small' 
-            danger={isInclude} type={isInclude ? 'primary' : 'default'} 
-            icon={<BiHeart  size={13} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
-            <div className="flex items-center border rounded-full w-fit h-fit border-neutral-700 bg-neutral-900">
+            <Button onClick={addOrRemoveLike} loading={loading} size='small' 
+            danger={isInclude} type={'text'} className='!text-sm !font-semibold'
+            icon={isInclude 
+                ? <BiSolidHeart size={15} className='inline my-auto mb-0.5 mr-1' /> 
+                : <BiHeart size={15} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
+            <div className="flex items-center rounded-full w-fit h-fit">
                 <Space.Compact>
-                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!pr-1' icon={<BiComment size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.comments.length}</Button> }
-                    <Button type='text' shape='round' size='small' className={`${shot.needFeedback ? '!pl-1' : '!px-1'}`} icon={<BiShow size={13} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
+                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!text-sm !font-semibold !pr-1' icon={<BiSolidMessageRoundedDots size={15} className='inline my-auto mb-0.5 mr-1' />}>{shot.comments.length}</Button> }
+                    <Button type='text' shape='round' size='small' className={`${shot.needFeedback ? '!pl-1' : '!px-1'} !text-sm !font-semibold`} icon={<BiSolidShow size={15} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
                 </Space.Compact>
             </div>
         </div>
