@@ -5,6 +5,10 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
+import { Metadata } from 'next'
+import { redirect } from 'next/navigation'
+import { fetchFile } from '@/helpers/fetchFile'
+import { DateTime } from 'luxon'
 const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
 const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
@@ -39,7 +43,44 @@ const getShot = async(userId: string, shotId: string) => {
         return shot
     } catch(e) {
         console.log(e)
-        return null
+        return redirect('')
+    }
+}
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+ 
+    try {
+        const shot = await getShot(params.userId, params.shotId)
+        const user = await getUser(params.userId)
+        if (!shot || !user) return {}
+        return {
+            title: shot.title,
+            description: `Работа от ${user.displayName}, вы можете посмотреть другие работы на Dey`,
+            colorScheme: 'dark',
+            creator: 'Dark Material Team',
+            openGraph: {
+                type: 'article',
+                title: shot.title,
+                description: `Работа - ${shot.title}`,
+                images: fetchFile(shot.rootBlock.link),
+                publishedTime: DateTime.fromSeconds(shot.createdAt).toISO() as string || undefined,
+                siteName: 'Dey',
+                tags: ['dey', 'dribbble', 'behance', 'drible', 'dribble']
+            },
+            robots: 'index, follow',
+            themeColor: '#000000',
+            twitter: {
+                card: 'summary',
+                images: fetchFile(shot.rootBlock.link),
+                title: shot.title,
+                description: `Работа - ${shot.title}`,
+                site: `https://design.darkmaterial.space/${shot.authorId}/${shot.doc_id}`,
+            },
+            keywords: ['dey', 'dribbble', 'behance', 'drible', 'dribble']
+        }
+    } catch(e) {
+        return {
+            title: 'Ошибка'
+        }
     }
 }
 const ShotPage = async({ params }: Props) => {
@@ -48,7 +89,7 @@ const ShotPage = async({ params }: Props) => {
     if (!shot) return null
     if (!user) return null
     return (
-        <>
+        <section className='relative flex flex-col w-full min-h-full gap-6 px-4 pb-4 md:px-0 h-fit'>
             <div className="flex flex-col w-full max-w-4xl gap-8 mx-auto h-fit shrink-0">
                 <ShotUserSection shot={shot} title={shot.title} userId={params.userId}
                 displayName={user?.displayName as string | null} photoUrl={user?.photoUrl as string | null} />
@@ -73,7 +114,7 @@ const ShotPage = async({ params }: Props) => {
             </div>
             <ConfettiForNewShot views={shot.views.length} />
             <ShotPageFooter shot={shot} />
-        </>
+        </section>
     )
 }
 
