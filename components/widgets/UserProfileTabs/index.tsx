@@ -24,10 +24,6 @@ const UserProfileTabs = ({ shotsLength, profileUID }: Props) => {
         {
             value: 2,
             label: 'Черновики',
-        },
-        {
-            value: 3,
-            label: 'Редактировать'
         }
     ].filter(opt => {
         if (user) {

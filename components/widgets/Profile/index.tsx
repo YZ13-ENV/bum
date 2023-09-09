@@ -9,11 +9,9 @@ type Props = {
     shots: DocShotData[]
 }
 const ProfileContent = ({ tab, shots }: Props) => {
-    if (tab === 3) return <Edit />
+    if (tab === 3) return null // <Edit />
     if (tab === 2) return <Drafts shots={shots} />
-    return (
-        <Shots shots={shots} />
-    )
+    return <Shots shots={shots} />
 }
 
 export default ProfileContent
