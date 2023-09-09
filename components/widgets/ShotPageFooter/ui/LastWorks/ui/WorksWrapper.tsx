@@ -1,14 +1,15 @@
 'use client'
 import React, { useState } from 'react'
 import LastWorks from '..'
-import { Segmented, SegmentedProps } from 'antd'
+import { Segmented } from 'antd'
+import { SegmentedValue } from 'antd/es/segmented'
 
 type Props = {
     userId: string
     shotId: string
 }
 const WorksWrapper = ({ userId, shotId }: Props) => {
-    const options: SegmentedProps['options'] = [
+    const options = [
         {
             label: 'Популярные',
             value: 'popular'
@@ -18,10 +19,10 @@ const WorksWrapper = ({ userId, shotId }: Props) => {
             value: 'new'
         },
     ]
-    const [tab, setTab] = useState<string>(options[0].toString())
+    const [tab, setTab] = useState<SegmentedValue>(options[0].value)
     return (
         <div className="flex flex-col w-full h-full gap-2 md:w-4/12">
-            <Segmented options={options} block defaultValue='popular' value={tab} onChange={e => setTab(e.toString())} />
+            <Segmented block default defaultValue='popular' options={options} value={tab} onChange={e => setTab(e)} />
             <LastWorks userId={userId} order={tab as 'popular' | 'new'} exclude={shotId} />
         </div>
     )
