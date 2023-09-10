@@ -1,11 +1,12 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store';
 import { Input } from 'antd';
-import React, { useMemo } from 'react'
-import UploaderWatcher from '@/components/entities/uploader/watcher';
-import TextBlock from '@/components/entities/Blocks/TextBlock';
-import MediaUploader from '@/components/entities/Blocks/MediaBlock/MediaUploader';
+import { useMemo } from 'react'
 import { setTitle } from '@/components/entities/uploader/draft.store';
+import dynamic from 'next/dynamic';
+const UploaderWatcher = dynamic(() => import('@/components/entities/uploader/watcher'));
+const TextBlock = dynamic(() => import('@/components/entities/Blocks/TextBlock'));
+const MediaUploader = dynamic(() => import('@/components/entities/Blocks/MediaBlock/MediaUploader'));
 
 /*
     В момент когда мы закидываем картинку в root block

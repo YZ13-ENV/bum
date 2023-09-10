@@ -1,6 +1,5 @@
 'use client'
 import { Button } from 'antd'
-import React from 'react'
 import { 
     TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand,
     TbLayoutSidebarRightCollapse, TbLayoutSidebarRightExpand
@@ -9,12 +8,16 @@ import { useMediaQuery } from 'react-responsive'
 import { useAppSelector, useAppDispatch } from '../../store/store'
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
 import { setBlockSidebar, setFinalTouchModal, setPrevWorkSidebar } from '../modal.store'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '@/utils/app'
+import { redirect } from 'next/navigation'
 const UploadHeader = () => {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const modals = useAppSelector(state => state.uploader.modals)
     const draft = useAppSelector(state => state.uploader.draft)
-    const thumbnail = useAppSelector(state => state.uploader.thumbnail)
+    const [user] = useAuthState(auth)
     const dispatch = useAppDispatch()
+    if (!user) return redirect('/')
     return (
         <div className="flex items-center justify-between w-full gap-2 px-4 py-2 border-b h-fit border-neutral-800">
             <div className="flex flex-row-reverse items-center gap-2 md:flex-row w-fit h-fit">

@@ -1,5 +1,5 @@
-import UploadShot from '@/components/pages/UploadShot';
-import React from 'react'
+import dynamic from "next/dynamic";
+const UploadShot = dynamic(() => import('@/components/pages/UploadShot'));
 const UploadShotPage = () => {
     return (
         <UploadShot />

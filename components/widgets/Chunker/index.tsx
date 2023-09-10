@@ -1,7 +1,7 @@
 import { generateChunks } from '@/helpers/generateChunks'
 import { getHost } from '@/helpers/getHost'
-import React from 'react'
-import Chunk from './ui/Chunk'
+import dynamic from 'next/dynamic'
+const Chunk = dynamic(() => import('./ui/Chunk'))
 
 const getCountOfShots = async() => {
     try {
@@ -23,7 +23,6 @@ type Props = {
 }
 const Chunker = async({ order='popular' }: Props) => {
     const count = await getCountOfShots()
-    console.log(count)
     const chunksCount = count <= 16 ? 1: Math.ceil(count / 16)
     const chunks = generateChunks(chunksCount, order)
     return (

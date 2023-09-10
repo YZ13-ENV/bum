@@ -1,9 +1,9 @@
-import Shots from '@/components/shared/ui/Shots'
-import SearchBar from '@/components/widgets/SearchBar'
-import Tabs from '@/components/widgets/Tabs'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
-import React from 'react'
+import dynamic from 'next/dynamic'
+const Shots = dynamic(() => import('@/components/shared/ui/Shots'))
+const SearchBar = dynamic(() => import('@/components/widgets/SearchBar')) 
+const Tabs = dynamic(() => import('@/components/widgets/Tabs')) 
 
 type Props = {
     searchParams: {

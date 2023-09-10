@@ -1,10 +1,10 @@
-import React from 'react'
-import PrevShotCard from './ui/PrevShotCard'
 import { DocDraftShotData } from '@/types'
 import { cookies } from 'next/headers'
 import { getHost } from '@/helpers/getHost'
-import Wrapper from './Wrapper'
-import Header from './ui/Header'
+import dynamic from 'next/dynamic'
+const PrevShotCard = dynamic(() => import('./ui/PrevShotCard'))
+const Wrapper = dynamic(() => import('./Wrapper'))
+const Header = dynamic(() => import('./ui/Header'))
 
 const getPrevShots = async() => {
     const cookie = cookies()

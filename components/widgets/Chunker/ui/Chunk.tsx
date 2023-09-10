@@ -1,7 +1,7 @@
-import { DocShotData } from '@/types'
-import React, { Suspense } from 'react'
-import ChunkWrapper from './ChunkWrapper'
 import dynamic from 'next/dynamic'
+import { DocShotData } from '@/types'
+import { Suspense } from 'react'
+const ChunkWrapper = dynamic(() => import('./ChunkWrapper'))
 const ShotCard = dynamic(() => import('@/components/entities/shot'))
 
 type Props = {

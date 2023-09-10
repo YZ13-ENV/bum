@@ -2,7 +2,7 @@
 import { auth } from '@/utils/app'
 import { Button, Segmented, Select, SelectProps } from 'antd'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiFilter } from 'react-icons/bi'
 

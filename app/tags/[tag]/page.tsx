@@ -1,8 +1,8 @@
-import Shots from '@/components/shared/ui/Shots'
-import Tabs from '@/components/widgets/Tabs'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
-import React from 'react'
+import dynamic from 'next/dynamic'
+const Shots = dynamic(() => import('@/components/shared/ui/Shots')) 
+const Tabs = dynamic(() => import('@/components/widgets/Tabs')) 
 
 type Props = {
     params: {

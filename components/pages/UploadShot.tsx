@@ -1,10 +1,9 @@
-import React from 'react'
-const PrevWorks = dynamic(() => import('../widgets/PrevWork')) 
-import UploadBlocksMenu from '../widgets/Uploader/ui/BlockSideMenu'
-import FinalTouchModal from '../widgets/FinalTouchModal'
-import UploadHeader from '../entities/uploader/ui/uploadHeader'
-import UploadBlockView from '@/components/widgets/Uploader'
 import dynamic from 'next/dynamic'
+const PrevWorks = dynamic(() => import('../widgets/PrevWork')) 
+const UploadBlocksMenu = dynamic(() => import('../widgets/Uploader/ui/BlockSideMenu')) 
+const FinalTouchModal = dynamic(() => import('../widgets/FinalTouchModal')) 
+const UploadHeader = dynamic(() => import('../entities/uploader/ui/uploadHeader')) 
+const UploadBlockView = dynamic(() => import('@/components/widgets/Uploader')) 
 
 const UploadShot = () => {
     return (

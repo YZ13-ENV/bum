@@ -1,9 +1,8 @@
-import Avatar from '@/components/shared/ui/Avatar'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
-import React from 'react'
+const Avatar = dynamic(() => import('@/components/shared/ui/Avatar'))
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
 const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
 
@@ -74,7 +73,7 @@ const UserPage = async({ params, searchParams }: Props) => {
             <div className="w-full h-full px-4 pt-4 md:px-12 md:profile_grid profile_grid_mobile">
                 <div className="flex flex-col w-full h-full gap-4">
                     <UserProfileTabs shotsLength={shots?.length || 0} profileUID={params.userId} />
-                    <ProfileContent tab={parseInt(searchParams.tab || '1')} shots={shots || []} />
+                    <ProfileContent userId={params.userId} tab={parseInt(searchParams.tab || '1')} shots={shots || []} />
                 </div>
             </div>
         </section>

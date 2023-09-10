@@ -1,17 +1,18 @@
 import React from 'react'
-import Edit from './ui/Edit'
 import Drafts from './ui/Drafts'
 import { DocShotData } from '@/types'
-import Shots from '../../shared/ui/Shots'
+// import Shots from '../../shared/ui/Shots'
+import UserChunker from '../UserChunker'
 
 type Props = {
+    userId: string
     tab: number | null
     shots: DocShotData[]
 }
-const ProfileContent = ({ tab, shots }: Props) => {
+const ProfileContent = ({ userId, tab, shots }: Props) => {
     if (tab === 3) return null // <Edit />
     if (tab === 2) return <Drafts shots={shots} />
-    return <Shots shots={shots} />
+    return <UserChunker userId={userId} />
 }
 
 export default ProfileContent
