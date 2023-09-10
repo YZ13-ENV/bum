@@ -1,14 +1,14 @@
-import ImageLoader from '@/components/shared/ui/Loaders/ImageLoader'
-import TextLoader from '@/components/shared/ui/Loaders/TextLoader'
-import UserSectionLoader from '@/components/shared/ui/Loaders/ShotPage/UserSectionLoader'
+import dynamic from 'next/dynamic'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
-import dynamic from 'next/dynamic'
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { fetchFile } from '@/helpers/fetchFile'
 import { DateTime } from 'luxon'
+const ImageLoader = dynamic(() => import('@/components/shared/ui/Loaders/ImageLoader')) 
+const TextLoader = dynamic(() => import('@/components/shared/ui/Loaders/TextLoader')) 
+const UserSectionLoader = dynamic(() => import('@/components/shared/ui/Loaders/ShotPage/UserSectionLoader'))
 const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
 const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {

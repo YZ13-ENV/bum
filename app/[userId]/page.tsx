@@ -1,9 +1,8 @@
-import Avatar from '@/components/shared/ui/Avatar'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
-import React from 'react'
+const Avatar = dynamic(() => import('@/components/shared/ui/Avatar'))
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
 const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
 

@@ -1,10 +1,9 @@
 import dynamic from 'next/dynamic'
-const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
-import React, { Suspense } from 'react'
 import { DocShotData } from '@/types'
-import Link from 'next/link'
-import ShotWrapper from './ui/ShotWrapper'
-import Image from 'next/image'
+const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
+const Link = dynamic(() => import('next/link')) 
+const ShotWrapper = dynamic(() => import('./ui/ShotWrapper'))
+const Image = dynamic(() => import('next/image')) 
 
 type Props = {
     shot: DocShotData

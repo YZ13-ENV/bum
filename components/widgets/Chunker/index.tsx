@@ -1,7 +1,7 @@
 import { generateChunks } from '@/helpers/generateChunks'
 import { getHost } from '@/helpers/getHost'
-import React from 'react'
-import Chunk from './ui/Chunk'
+import dynamic from 'next/dynamic'
+const Chunk = dynamic(() => import('./ui/Chunk'))
 
 const getCountOfShots = async() => {
     try {

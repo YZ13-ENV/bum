@@ -1,17 +1,19 @@
 'use client'
 import { Button, Segmented } from 'antd'
 import { SegmentedLabeledOption } from 'antd/es/segmented'
-import React from 'react'
 import { BiListUl, BiGridAlt } from 'react-icons/bi'
-import BlocksIn from './BlocksIn'
-import BlocksOut from './BlocksOut'
-import Wrapper from './Wrapper'
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb'
 import { useAppDispatch } from '@/components/entities/store/store'
 import { setBlockSidebar } from '@/components/entities/uploader/modal.store'
+import { useState } from 'react'
+import dynamic from 'next/dynamic'
+const BlocksIn = dynamic(() => import('./BlocksIn')) 
+const BlocksOut = dynamic(() => import('./BlocksOut')) 
+const Wrapper = dynamic(() => import('./Wrapper')) 
+
 const UploadBlocksMenu = () => {
     const dispatch = useAppDispatch()
-    const [blockSegment, setBlockSegment] = React.useState<string>('')
+    const [blockSegment, setBlockSegment] = useState<string>('')
     const options: SegmentedLabeledOption[] = [
         {
             icon: <BiGridAlt size={15} className='inline' />,

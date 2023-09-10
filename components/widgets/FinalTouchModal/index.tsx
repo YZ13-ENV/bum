@@ -1,10 +1,7 @@
 'use client'
+import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
-import { Button } from 'antd'
-import React from 'react'
-import { BiX } from 'react-icons/bi'
-import PreviewSide from './ui/PreviewSide'
-import DraftConfig from './ui/DraftConfig'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { ShotData } from '@/types'
@@ -13,8 +10,10 @@ import { useRouter } from 'next/navigation'
 import { uploadDraft_POST } from '@/helpers/shot'
 import { setFinalTouchModal, setDraftId } from '@/components/entities/uploader/modal.store'
 import { setDraft } from '@/components/entities/uploader/draft.store'
-import ModalWrapper from './ui/ModalWrapper'
-import ModalHeader from './ui/ModalHeader'
+const PreviewSide = dynamic(() => import('./ui/PreviewSide'))
+const DraftConfig = dynamic(() => import('./ui/DraftConfig'))
+const ModalWrapper = dynamic(() => import('./ui/ModalWrapper')) 
+const ModalHeader = dynamic(() => import('./ui/ModalHeader')) 
 
 const FinalTouchModal = () => {
     const router = useRouter()
@@ -23,9 +22,9 @@ const FinalTouchModal = () => {
     const finalModal = useAppSelector(state => state.uploader.modals.finalTouchModal)
     const draft = useAppSelector(state => state.uploader.draft) 
     const draftId = useAppSelector(state => state.uploader.modals.draftId)
-    const [tags, setTags] = React.useState<string[]>([])
-    const [needFeedback, setNeedFeedback] = React.useState<boolean>(true)
-    const [loading, setLoading] = React.useState<boolean>(false)
+    const [tags, setTags] = useState<string[]>([])
+    const [needFeedback, setNeedFeedback] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(false)
     const uploadDraft = async() => {
         if (user && draftId) {
             setLoading(true)

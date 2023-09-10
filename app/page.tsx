@@ -1,6 +1,7 @@
-import Chunker from "@/components/widgets/Chunker";
-import NoUserBanner from "@/components/widgets/NoUserBanner";
-import Tabs from "@/components/widgets/Tabs";
+import dynamic from "next/dynamic";
+const Chunker = dynamic(() => import("@/components/widgets/Chunker"));
+const NoUserBanner = dynamic(() => import("@/components/widgets/NoUserBanner"));
+const Tabs = dynamic(() => import("@/components/widgets/Tabs"));
 
 type Props = {
   searchParams: {

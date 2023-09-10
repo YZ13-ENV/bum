@@ -28,7 +28,7 @@ const DraftConfig = ({ loading, uploadDraft, needFeedback, setNeedFeedback, setT
                 <Switch defaultChecked checked={needFeedback} onChange={e => setNeedFeedback(e)} />
             </div>
             <div className="flex items-center justify-end w-full gap-2 mt-auto h-fit">
-                <Button size='large'>Оставить в черновиках</Button>
+                {/* <Button size='large'>Оставить в черновиках</Button> */}
                 <Button disabled={!user} loading={loading} onClick={uploadDraft} size='large' type='primary'>Опубликовать</Button>
             </div>
         </div>
