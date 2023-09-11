@@ -12,7 +12,9 @@ const ShotCard = ({ shot }: Props) => {
     if (shot.isDraft) return (
         <ShotWrapper shot={shot}>
             {
-                shot.thumbnail 
+                process.env.NODE_ENV === 'development'
+                ? <Image src='/original-error.png' width={400} height={300} className='w-full h-full' alt='placeholder'/>
+                : shot.thumbnail 
                 ? <MediaBlock {...{ link: shot.thumbnail.link, type: 'image' }} server quality={100} object='cover' autoPlay={false} />
                 : shot.rootBlock.link !== '' ? <MediaBlock {...shot.rootBlock} server quality={75} object='cover' autoPlay={false} />
                 : <div className='flex flex-col items-center justify-center w-full h-full'>
