@@ -12,15 +12,16 @@ import { isEqual } from 'lodash'
 import { verifyToken } from '@/helpers/token'
 import { uploadSession } from '@/helpers/session'
 import { useSearchParams } from 'next/navigation'
+import { message } from 'antd'
 const SessionWatcher = () => {
   const [sid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
-  const [user] = useAuthState(auth)
+  const [user, loading] = useAuthState(auth)
   const session = useAppSelector(state => state.watcher.session)
   const dispatch = useAppDispatch()
   const params = useSearchParams()
   const tokenParam = params.get('token')
   const handleUploadSession = useCallback(async() => await uploadSession(session), [session])
-
+  const [messageApi, contextHolder] = message.useMessage();
   const setLocalSession = async(sid: string) => {
     const extractedSession = await verifyToken(sid) as { sid: string } | null
     if (extractedSession) {
@@ -57,19 +58,22 @@ const SessionWatcher = () => {
     } else res(null)
   })
   const manipulateSession = () => new Promise(async(res, ref) => {
-    if ((session.uid && user) && session.uid !== user.uid) {
-      getToken(session.uid)
-    }
-    if (session.uid && !user) {
-      getToken(session.uid)
-    }
-    if (!session.uid && user) {
-      const sessionNoUser = {
-        ...session,
-        uid: null
+    if (!loading && session.sid !== '') {
+      if ((session.uid && user) && session.uid !== user.uid) {
+        getToken(session.uid)
+        messageApi.info('Пользователь обновился');
       }
-      dispatch(setSession(sessionNoUser))
-      auth.signOut()
+      if (session.uid && !user) {
+        getToken(session.uid)
+      }
+      if (!session.uid && user) {
+        const sessionNoUser = {
+          ...session,
+          uid: null
+        }
+        dispatch(setSession(sessionNoUser))
+        auth.signOut()
+      }
     }
   })
   useDebounceEffect(() => {
@@ -82,9 +86,9 @@ const SessionWatcher = () => {
       })
     } else console.log('Session is not need update')
   }, [session], { wait: 1000 })
-  useDebounceEffect(() => {
+  useLayoutEffect(() => {
     manipulateSession()
-  }, [session.uid, user], { wait: 1500 })
+  }, [session.uid, user])
   useLayoutEffect(() => {
     getCatchSession()
     .then(session => session && dispatch(setSession(session)))
