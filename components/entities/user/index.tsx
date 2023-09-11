@@ -10,12 +10,14 @@ import { useRouter } from 'next/navigation'
 import Avatar from '@/components/shared/ui/Avatar'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { setSession } from '../session/session'
+import { setSubscribeState } from './store'
+import SessionSection from './ui/SessionSection'
 
 const UserStatus = () => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
-    const [isSub, setIsSub] = useState<boolean>(false)
+    const isSub = useAppSelector(state => state.user.isSubscriber)
     const router = useRouter()
     const dispatch = useAppDispatch()
     const session = useAppSelector(state => state.watcher.session)
@@ -47,7 +49,7 @@ const UserStatus = () => {
             key: 2,
             label: 'Перейти в профиль',
             icon: <BiUserCircle size={17} />,
-            onClick: () => router.push(`/${user?.uid}`),
+            onClick: () => router.push('https://darkmaterial.space/profile'),
             itemIcon: <BiChevronRight size={17} />
         },
         {
@@ -56,6 +58,12 @@ const UserStatus = () => {
             icon: <BiPlus size={17} />,
             itemIcon: <BiChevronRight size={17} />,
             onClick: () => router.push('/uploads/shot'),
+        },
+        {
+            type: 'group',
+            key: 4,
+            className: '!px-0',
+            label: <SessionSection />
         },
         {
             type: 'divider'
@@ -74,13 +82,14 @@ const UserStatus = () => {
             const res = await user.getIdTokenResult()
             const claims = res.claims
             if (claims && claims.isSubscriber) {
-                setIsSub(claims.isSubscriber as boolean || undefined ? claims.isSubscriber as boolean : false)
+                dispatch(setSubscribeState(claims.isSubscriber as boolean || undefined ? claims.isSubscriber as boolean : false))
             }
+            if (claims && !claims.isSubscriber) dispatch(setSubscribeState(false))
         }
     }
     useLayoutEffect(() => {
         checkIsSubscriber()
-    },[user])
+    },[user?.uid])
     useLayoutEffect(() => {
         if (!cookie) {
             auth.signOut()

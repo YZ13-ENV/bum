@@ -7,6 +7,8 @@ import SessionWatcher from '@/components/entities/session/session.watcher'
 import TokenWatcher from '@/components/entities/session/token.watcher'
 import LayoutWrapper from '@/components/LayoutWrapper';
 import AppHeader from '@/components/widgets/AppHeader';
+import dynamic from 'next/dynamic';
+const SessionPicker = dynamic(() => import('@/components/widgets/SessionPicker'));
 const NunitoSans = Nunito_Sans({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
 export const metadata: Metadata = {
@@ -50,6 +52,7 @@ export default function RootLayout({
             <SessionWatcher />
             <TokenWatcher />
             <AppHeader />
+            <SessionPicker />
             <div className="flex flex-col w-full min-h-full shrink-0">
               {children}
             </div>

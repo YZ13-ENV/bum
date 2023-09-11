@@ -3,7 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 import AuthReducer from '@/components/entities/authProcess/store'
 import SearchReducer from '@/components/entities/search/store'
-
+import UserReducer from '@/components/entities/user/store'
 import SessionReducer from '@/components/entities/session/session'
 // uploader reducers
 import ThumbnailStatusReducer from '@/components/entities/uploader/thumbnail.store'
@@ -18,7 +18,8 @@ export const store = configureStore({
         uploader: uploader,
         auth: AuthReducer,
         search: SearchReducer,
-        watcher: SessionReducer
+        watcher: SessionReducer,
+        user: UserReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
