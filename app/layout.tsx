@@ -2,12 +2,11 @@ import './globals.css'
 import { Nunito_Sans } from 'next/font/google'
 import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react';
-import dynamic from 'next/dynamic';
-const LayoutWrapper = dynamic(() => import('@/components/LayoutWrapper')) 
-const AppHeader = dynamic(() => import('@/components/widgets/AppHeader')) 
 import StateProvider from '@/components/StateProvider'
 import SessionWatcher from '@/components/entities/session/session.watcher'
 import TokenWatcher from '@/components/entities/session/token.watcher'
+import LayoutWrapper from '@/components/LayoutWrapper';
+import AppHeader from '@/components/widgets/AppHeader';
 const NunitoSans = Nunito_Sans({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
 export const metadata: Metadata = {

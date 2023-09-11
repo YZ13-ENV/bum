@@ -10,7 +10,7 @@ type Props = {
 }
 const ShotWrapper = ({ children, shot }: Props) => {
     return (
-        <div className="relative overflow-hidden aspect-[4/3] w-full h-full rounded-xl shrink-0 group">
+        <article className="relative overflow-hidden aspect-[4/3] w-full h-full rounded-xl shrink-0 group">
             {children}
             {
                 !shot.isDraft &&
@@ -18,7 +18,7 @@ const ShotWrapper = ({ children, shot }: Props) => {
                     <ShotInfo shot={shot} />
                 </Suspense>
             }
-        </div>
+        </article>
     )
 }
 
