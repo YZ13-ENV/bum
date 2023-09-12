@@ -1,6 +1,6 @@
 import Chunker from "@/components/widgets/ChunkModule/Chunker";
 import NoUserBanner from "@/components/widgets/NoUserBanner";
-import { Tabs } from "antd";
+import Tabs from "@/components/widgets/Tabs";
 
 type Props = {
   searchParams: {
