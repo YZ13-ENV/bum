@@ -121,10 +121,10 @@ const TextBlock = ({ block, index }: Props) => {
         }
     }, [block.text], { wait: 1000 })
     return (
-        <div className='flex flex-col items-end justify-center w-full p-2 h-fit rounded-xl bg-neutral-900'>
+        <div className='flex flex-col items-end justify-center w-full h-fit'>
             <TextArea text={block.text} setText={text => updateText(text)} placeholder='Введите текст здесь' 
             className={`${getDecorators(block.isBold, block.isItalic)} ${getBlockAlign(block.align)} ${getSize(block.size)}`}/>
-            <div onClick={e => e.preventDefault()} className="flex items-center gap-2 p-2 border w-fit h-fit rounded-xl border-neutral-800 bg-neutral-900">
+            <div onClick={e => e.preventDefault()} className="flex items-center gap-2 w-fit h-fit">
                 <Space.Compact>
                     <Button onClick={() => changeSize('minus')}><MdTextDecrease size={15} /></Button>
                     <Button>{block.size}</Button>

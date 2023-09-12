@@ -39,7 +39,10 @@ const ShotInfo = async({ shot }: Props) => {
                         <div className="flex items-center h-full gap-2 w-fit">
                             <Avatar src={user ? user.photoUrl : null} size={36} />
                             <div className="flex flex-col h-full w-fit">
-                                <span className='font-semibold text-neutral-200'>{user?.displayName}</span>
+                                <div className="flex items-center gap-1 w-fit h-fit">
+                                    <span className='font-semibold line-clamp-1 text-neutral-200'>{user?.displayName}</span>
+                                    { user?.isSubscriber && <span className="px-2 py-0.5 text-xs text-black bg-white rounded-md">Плюс</span> }
+                                </div>
                                 <span className='text-xs text-neutral-400'>{user?.email}</span>
                             </div>
                         </div>

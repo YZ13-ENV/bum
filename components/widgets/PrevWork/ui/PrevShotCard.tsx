@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { DocDraftShotData } from '@/types'
-import { useAppDispatch } from '@/components/entities/store/store'
+import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { BiRightArrowAlt, BiTrashAlt } from 'react-icons/bi'
 import { Button } from 'antd'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
@@ -17,7 +17,9 @@ type Props = {
 }
 const PrevShotCard = ({ block }: Props) => {
     const dispatch = useAppDispatch()
-    const [disabled, setDisabled] = useState(false)
+    const draft = useAppSelector(state => state.uploader.modals)
+    const isInDraft = draft.draftId === block.doc_id
+    const [disabled, setDisabled] = useState(isInDraft)
     const router = useRouter()
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState(false)

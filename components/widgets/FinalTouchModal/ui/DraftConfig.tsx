@@ -17,7 +17,7 @@ const DraftConfig = ({ loading, uploadDraft, needFeedback, setNeedFeedback, setT
         <div className="flex flex-col w-full h-full gap-8 md:w-4/6">
             <div className="flex flex-col w-full gap-2 h-fit">
                 <span className='text-sm font-semibold text-neutral-200'>
-                    Добавьте тэги для вашей работы <span className='text-xs text-neutral-400'>(Максимум 15 тэгов)</span>
+                    Добавьте тэги для вашей работы <span className='text-xs text-neutral-400'>(Максимум 15 тэгов) {tags.length}/15</span>
                 </span>
                 <div className="flex flex-col w-full gap-1 h-fit">
                     <Select value={tags} onChange={e => e.length <= 15 ? setTags(e.map(tag => tag.toLowerCase())) : null} mode="tags" size='large' placeholder="Tags Mode" />

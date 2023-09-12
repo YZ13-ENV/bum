@@ -11,7 +11,7 @@ import { ImageBlock, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
 import { uploadMedia } from '@/helpers/uploadMedia'
-import { getHost, getStorageHost } from '@/helpers/getHost'
+import { getHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
 import { setDraftId } from '../../uploader/modal.store'
@@ -24,8 +24,10 @@ type Props = {
 }
 
 const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false }: Props) => {
+    const [messageAPI, messageContext] = message.useMessage()
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
+    const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     const dispatch = useAppDispatch()
     const modals = useAppSelector(state => state.uploader.modals)
     const draft = useAppSelector(state => state.uploader.draft)
@@ -44,33 +46,44 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
                         res(uploadedFile)
                     })
-
                     uploadedFile.then((link) => {
                         if (link) {
-                            console.log(link)
                             dispatch(setRootBlock({ type: draft.rootBlock.type, link: link }))
-                            message.success('Изображение загруженно')
+                            messageAPI.success('Изображение загруженно')
                             setLoading(false)
                         } 
                     })
                     .finally(() => setLoading(false))
-                    .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
+                    .catch(why => messageAPI.error('Что-то пошло не так и изображение не загрузилось'))
                 } else {
-                        const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
-                        if (uploadedFile) {
-                            message.success('Изображение загруженно')
-                            const updatedBlocks = draft.blocks.map((_, blockIndex) => {
-                                if (blockIndex === index && _.type === 'image') {
-                                    const updatedBlock: ImageBlock = {
-                                        link: uploadedFile,
-                                        type: _.type
-                                    }
-                                    return updatedBlock
-                                } else return _
-                            })
-                            dispatch(setBlocks(updatedBlocks))
-                            setLoading(false)
-                        }
+                        setLoading(true)
+                        const uploadedFile = new Promise<string | null>(async(res, rej) => {
+                            const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
+                            res(uploadedFile)
+                        })
+                        uploadedFile.then((link) => {
+                            if (link) {
+                                messageAPI.success('Изображение загруженно')
+                                const updatedBlocks = draft.blocks.map((_, blockIndex) => {
+                                    if (blockIndex === index && _.type === 'image') {
+                                        const updatedBlock: ImageBlock = {
+                                            link: link,
+                                            type: _.type
+                                        }
+                                        return updatedBlock
+                                    } else if (blockIndex === index && _.type === 'video') {
+                                        const updatedBlock: VideoBlock = {
+                                            link: link,
+                                            type: _.type
+                                        }
+                                        return updatedBlock
+                                    } else return _
+                                })
+                                dispatch(setBlocks(updatedBlocks))
+                            } 
+                        })
+                        .finally(() => setLoading(false))
+                        .catch(why => messageAPI.error('Что-то пошло не так и изображение не загрузилось'))
                 }
             }
         },
@@ -87,15 +100,23 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         return checkedFile.link
                     } else return ''
                 } else {
-                    const checkedFile = checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
+                    const checkedFile = uploadOnlyImages ? checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file) : checkFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
                     if (checkedFile) {
                         const updatedBlocks = draft.blocks.map((_, blockIndex) => {
                             if (blockIndex === index) {
-                                const updatedBlock: ImageBlock = {
-                                    link: '',
-                                    type: checkedFile.type
+                                if (checkedFile.type === 'video') {
+                                    const updatedBlock: VideoBlock = {
+                                        link: '',
+                                        type: checkedFile.type
+                                    }
+                                    return updatedBlock
+                                } else {
+                                    const updatedBlock: ImageBlock = {
+                                        link: '',
+                                        type: checkedFile.type
+                                    }
+                                    return updatedBlock
                                 }
-                                return updatedBlock
                             } else return _
                         })
                         dispatch(setBlocks(updatedBlocks))
@@ -166,7 +187,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     : <>
                         <div className="flex flex-col w-full gap-2 h-fit">
                             <p className="text-sm font-semibold text-center md:text-base text-neutral-200">Нажмите, или перетащите файл для внесение в работу</p>
-                            <p className="text-xs text-center md:text-sm text-neutral-400">Максимальный размер каждого изображения - 10MB, макс. файлов - 5</p>
+                            <p className="text-xs text-center md:text-sm text-neutral-400">Максимальный размер каждого изображения - 10MB, макс. файлов - {isSubscriber ? 10 : 5}</p>
                             { !uploadOnlyImages && <p className="text-xs text-center md:text-sm text-neutral-400">Максимальный размер видео - 20MB</p> }
                         </div>
                         <div className="grid w-full grid-cols-2 grid-rows-2 px-2 h-1/2">

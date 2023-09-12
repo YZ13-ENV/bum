@@ -5,6 +5,7 @@ import React from 'react'
 import { BiImage, BiText } from 'react-icons/bi'
 
 const BlocksIn = () => {
+    const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     const dispatch = useAppDispatch()
     const draft = useAppSelector(state => state.uploader.draft)
     const imageBlocks = draft.blocks.filter(block => block.type === 'image')
@@ -35,11 +36,11 @@ const BlocksIn = () => {
                 <BiText size={27} />
                 <span className='text-xs'>Текст</span>
             </div>
-            <div onClick={() => imageBlocks.length + 1 < 5 ? addBlock('image') : null} 
+            <div onClick={() => imageBlocks.length + 1 < (isSubscriber ? 10 : 5) ? addBlock('image') : null} 
             className="flex flex-col items-center justify-center w-full h-full gap-2 border rounded-xl border-neutral-700 bg-neutral-900 hover:bg-neutral-800">
                 <BiImage size={27} />
-                <span className='text-xs'>Картинка</span>
-                <span className='text-xs text-neutral-500'>{imageBlocks.length + 1}/5</span>
+                <span className='text-xs'>{isSubscriber ? 'Видео/Картинка' : 'Картинка'}</span>
+                <span className='text-xs text-neutral-500'>{imageBlocks.length + 1}/{isSubscriber ? 10 : 5}</span>
             </div>
         </div>
     )

@@ -49,7 +49,7 @@ export type Thumbnail = {
 export type ShotForUpload = {
     title: string
     rootBlock: ImageBlock | VideoBlock
-    blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
+    blocks: (TextBlock | ImageBlock | VideoBlock | ShotGridBlock)[]
     thumbnail: Thumbnail | null
 }
 
@@ -58,7 +58,7 @@ export type DraftShotData = {
     authorId: string
     title: string
     rootBlock: ImageBlock | VideoBlock
-    blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
+    blocks: (TextBlock | ImageBlock | VideoBlock | ShotGridBlock)[]
     createdAt: number
     thumbnail: Thumbnail | null
 }
@@ -68,7 +68,7 @@ export type ShotData = {
     authorId: string
     title: string
     rootBlock: ImageBlock | VideoBlock
-    blocks: (TextBlock | ImageBlock | ShotGridBlock)[]
+    blocks: (TextBlock | ImageBlock | VideoBlock | ShotGridBlock)[]
     createdAt: number
     likes: string[]
     views: string[]

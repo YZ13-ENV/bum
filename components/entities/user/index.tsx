@@ -13,7 +13,10 @@ import { setSession } from '../session/session'
 import { setSubscribeState } from './store'
 import SessionSection from './ui/SessionSection'
 
-const UserStatus = () => {
+type Props = {
+    showDropdown?: boolean
+}
+const UserStatus = ({ showDropdown=true }: Props) => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
@@ -104,7 +107,9 @@ const UserStatus = () => {
         )
     }
     if (user) {
-        return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} src={user.photoURL} size={36} /></div></Dropdown> 
+        if (showDropdown) {
+            return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} src={user.photoURL} size={36} /></div></Dropdown> 
+        } else return <Avatar isSub={isSub} src={user.photoURL} size={36} />
     } else return <Button size='large' onClick={() => router.push(`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}${sid ? `&token=${sid}` : ''}`)} 
     loading={loading} type='primary'>Войти</Button>
 }

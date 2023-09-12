@@ -34,7 +34,7 @@ const BlockImage = ({ imageLink, object='contain', quality=100 }: Props) => {
         }
     },[])
     if (!link || loading) return (
-        <animated.div style={{...spring}} className="relative w-full h-[32rem] rounded-xl bg-neutral-800 animate-pulse"/>
+        <animated.div style={{...spring}} className="relative w-full h-full rounded-xl bg-neutral-800 animate-pulse"/>
     )
     return (
         <div className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl`}>

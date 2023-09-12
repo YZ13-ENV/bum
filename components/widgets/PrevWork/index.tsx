@@ -12,7 +12,7 @@ const getPrevShots = async() => {
     if (uid) {
         try {
             const res = await fetch(`${getHost()}/shots/onlyDrafts?userId=${uid.value}&asDoc=true`, {
-                next: { revalidate: 3600 }
+                cache: 'no-store'
             })
             const shots: DocDraftShotData[] = await res.json()
             return shots
