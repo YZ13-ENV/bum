@@ -13,7 +13,7 @@ type MediaBlockProps = {
 
 }
 const MediaBlock = ({ withAmbiLight=false, type, link, quality=75, object='contain', autoPlay=false }: MediaBlockProps) => {
-    // if (process.env.NODE_ENV === 'development') return <ServerBlockImage block={{ link: '/original-error.png', type: 'image' }} object={object} quality={quality} />
+    if (process.env.NODE_ENV === 'development') return <ServerBlockImage block={{ link: '/original-error.png', type: 'image' }} object={object} quality={quality} />
     if (link !== '') {
         if (type === "image") {
             return <ServerBlockImage withAmbiLight={withAmbiLight} block={{ link: link, type: type }} object={object} quality={quality} />
