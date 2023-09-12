@@ -1,9 +1,12 @@
+import VideoAmbiLight from "../widgets/AmbiLight/VideoAmbiLight"
 
-type Props = {
+export type LoadedVideoProps = {
+    withAmbiLight?: boolean
     link: string
     autoPlay?: boolean
 }
-const LoadedVideo = ({ link, autoPlay=false }: Props) => {
+const LoadedVideo = ({ withAmbiLight=false, link, autoPlay=false }: LoadedVideoProps) => {
+    if (withAmbiLight) return <VideoAmbiLight link={link} autoPlay={autoPlay} />
     return (
         <video src={link} muted className='object-cover w-full h-full rounded-xl' loop autoPlay={autoPlay} controls={false} />
     )

@@ -10,15 +10,16 @@ import { Suspense } from 'react'
 //     return url
 // }
 type Props = {
+    withAmbiLight?: boolean
     block: ImageBlock
     quality?: number
     object?: 'cover' | 'contain' 
 }
-const ServerBlockImage = async({ block, object='contain', quality=75 }: Props) => {
+const ServerBlockImage = async({ block, withAmbiLight=false, object='contain', quality=75 }: Props) => {
     return (
         <div className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} rounded-xl`}>
             <Suspense fallback={<div className='w-full h-full'/>}>
-                <LoadedImage link={fetchFile(block.link)} object={object} quality={quality} />
+                <LoadedImage withAmbiLight={withAmbiLight} link={fetchFile(block.link)} object={object} quality={quality} />
             </Suspense>
         </div>
     )

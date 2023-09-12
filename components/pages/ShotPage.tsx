@@ -30,14 +30,14 @@ const ShotPage = ({ shot, user, userId }: Props) => {
                 <ShotUserSection isSubscriber={user.isSubscriber} shot={shot} title={shot.title} userId={userId}
                 displayName={user?.displayName as string | null} photoUrl={user?.photoUrl as string | null} />
                 <Suspense fallback={<div className='w-full h-96 rounded-xl bg-neutral-900' />}>
-                    <MediaBlock {...shot.rootBlock} server autoPlay />
+                    <MediaBlock {...shot.rootBlock} autoPlay />
                 </Suspense>
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
                             return (
                                 <Suspense key={`block#${index}`} fallback={<ImageLoader />}>
-                                     <MediaBlock {...block} server />
+                                     <MediaBlock {...block} />
                                 </Suspense>
                             )
                         }

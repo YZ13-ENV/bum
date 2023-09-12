@@ -35,8 +35,8 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
                     key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
                         {
                             shot.thumbnail && shot.thumbnail.link !== ''
-                            ? <MediaBlock {...shot.rootBlock} object='cover' server quality={25} />
-                            : shot.rootBlock.link !== '' && <MediaBlock {...shot.rootBlock} object='cover' server quality={25} />
+                            ? <MediaBlock {...shot.rootBlock} object='cover' quality={25} />
+                            : shot.rootBlock.link !== '' && <MediaBlock {...shot.rootBlock} object='cover' quality={25} />
                         }
                     </Link>
                 )
