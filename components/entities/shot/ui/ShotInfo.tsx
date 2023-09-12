@@ -1,10 +1,9 @@
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
-import React from 'react'
 import ShotActions from './ShotActions'
-import { BiChevronRight, BiChevronUp } from 'react-icons/bi'
+import { BiChevronRight } from 'react-icons/bi'
 import Link from 'next/link'
-import Avatar from '@/components/shared/ui/Avatar'
+import Avatar from '@/components/shared/Avatar'
 import { DateTime } from 'luxon'
 
 type Props = {

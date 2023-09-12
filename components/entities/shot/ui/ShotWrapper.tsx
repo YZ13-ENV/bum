@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 const ShotInfo = dynamic(() => import('./ShotInfo')) 
 import { DocShotData } from '@/types'
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 
 
 type Props = {

@@ -2,13 +2,13 @@
 import { useDebounceEffect } from 'ahooks'
 import { Input } from 'antd'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import { useState } from 'react'
 
 type Props = {
     q: string | null
 }
 const SearchBar = ({ q }: Props) => {
-    const [query, setQuery] = React.useState<string>(q || '')
+    const [query, setQuery] = useState<string>(q || '')
     const params = useSearchParams()
     const router = useRouter()
     useDebounceEffect(() => {

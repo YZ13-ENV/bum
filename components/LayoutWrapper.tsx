@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import { ConfigProvider, theme } from 'antd'
 import { StyleProvider } from '@ant-design/cssinjs'
 import StyledComponentsRegistry from '@/components/AntdComponents/AntdRegistry'

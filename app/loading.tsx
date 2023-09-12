@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Loading = () => {
     return (
         <div className='flex flex-col w-full h-full gap-4 p-4 md:py-4 md:px-12'>

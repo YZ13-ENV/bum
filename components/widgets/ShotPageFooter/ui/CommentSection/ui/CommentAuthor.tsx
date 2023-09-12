@@ -1,10 +1,8 @@
-import Avatar from '@/components/shared/ui/Avatar'
+import Avatar from '@/components/shared/Avatar'
 import { getHost } from '@/helpers/getHost'
 import { CommentBlock, ShortUserData } from '@/types'
 import { DateTime } from 'luxon'
-import Image from 'next/image'
-import React, { useLayoutEffect, useState } from 'react'
-import { BiUser } from 'react-icons/bi'
+import { useLayoutEffect, useState } from 'react'
 
 type Props = {
     authorId: string

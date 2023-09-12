@@ -1,6 +1,6 @@
 'use client'
 import dynamic from 'next/dynamic'
-const Banner = dynamic(() => import('@/components/shared/ui/Banner'))
+const Banner = dynamic(() => import('@/components/shared/Banner'))
 import { auth } from '@/utils/app'
 import { Button } from 'antd'
 import { useAuthState } from 'react-firebase-hooks/auth'

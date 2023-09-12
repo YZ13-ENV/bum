@@ -1,7 +1,7 @@
 'use client'
 import { DocShotData } from '@/types'
 import { Button, Space } from 'antd'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { BiHeart, BiSolidHeart, BiSolidMessageRoundedDots, BiSolidShow } from 'react-icons/bi'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'

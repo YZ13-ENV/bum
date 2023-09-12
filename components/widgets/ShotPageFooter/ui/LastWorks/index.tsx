@@ -3,7 +3,7 @@ import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
 import Link from 'next/link'
-import React, { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 
 type Props = {
     userId: string

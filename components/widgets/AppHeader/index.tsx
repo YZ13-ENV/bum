@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import UserSection from './ui/UserSection'
 import LogoSection from './ui/LogoSection'
 import { usePathname } from 'next/navigation'

@@ -1,10 +1,10 @@
 'use client'
 import { useAppDispatch } from '@/components/entities/store/store'
 import { setFinalTouchModal } from '@/components/entities/uploader/modal.store'
-import React from 'react'
+import { ReactNode } from 'react'
 
 type Props = {
-    children: React.ReactNode
+    children: ReactNode
 }
 const ModalWrapper = ({ children }: Props) => {
     const dispatch = useAppDispatch()

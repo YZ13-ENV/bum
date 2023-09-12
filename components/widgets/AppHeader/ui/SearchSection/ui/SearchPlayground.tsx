@@ -1,10 +1,8 @@
 import { setSearchOpen } from '@/components/entities/search/store'
 import { useAppDispatch } from '@/components/entities/store/store'
-import { DocShotData } from '@/types'
 import { useClickAway } from 'ahooks'
 import { Input, Button } from 'antd'
-import Link from 'next/link'
-import React, { ElementRef, useRef, useState } from 'react'
+import { ElementRef, useRef, useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 import SearchResults from './SearchResults'
 

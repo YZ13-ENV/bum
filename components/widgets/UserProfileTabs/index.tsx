@@ -1,7 +1,7 @@
 'use client'
 import { auth } from '@/utils/app'
 import { Segmented, Button, SegmentedProps, Select } from 'antd'
-import React, { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import FollowButton from './ui/FollowButton'
 import { useRouter } from 'next/navigation'

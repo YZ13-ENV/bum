@@ -2,7 +2,6 @@ import ShotActions from '@/components/entities/shot/ui/ShotActions'
 import { DocShotData } from '@/types'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
-import React from 'react'
 import CommentSection from './ui/CommentSection'
 import WorksWrapper from './ui/LastWorks/ui/WorksWrapper'
 

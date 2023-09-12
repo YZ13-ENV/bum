@@ -4,9 +4,9 @@ import { DocShotData } from '@/types'
 import { auth } from '@/utils/app'
 import { Button, Dropdown, MenuProps, Popover, QRCode } from 'antd'
 import { useRouter } from 'next/navigation'
-import React, { useLayoutEffect, useMemo, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiHeart, BiBookmark, BiTrashAlt, BiDotsVerticalRounded, BiQr } from 'react-icons/bi'
+import { BiTrashAlt, BiDotsVerticalRounded, BiQr } from 'react-icons/bi'
 
 type Props = {
     shot: DocShotData

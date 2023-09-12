@@ -2,7 +2,7 @@
 import { getHost } from '@/helpers/getHost'
 import { auth } from '@/utils/app'
 import { Button } from 'antd'
-import React, { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiUserCircle, BiUserMinus, BiUserPlus } from 'react-icons/bi'
 

@@ -1,7 +1,5 @@
 import ShotCard from '@/components/entities/shot'
 import { DocShotData } from '@/types'
-import React from 'react'
-
 
 type Props = {
     shots: DocShotData[]

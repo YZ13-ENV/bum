@@ -2,7 +2,7 @@
 import { DocShotData } from '@/types'
 import { db } from '@/utils/app'
 import { doc, onSnapshot } from 'firebase/firestore'
-import React, { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import Comment from './Comment'
 
 type Props = {

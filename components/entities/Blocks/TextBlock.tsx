@@ -1,12 +1,11 @@
 import { TextBlock } from '@/types'
 import { Button, Space } from 'antd'
-import React from 'react'
 import { BiAlignLeft, BiAlignMiddle, BiAlignRight, BiBold, BiItalic } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { MdTextDecrease, MdTextIncrease } from 'react-icons/md'
 import { fontSize } from '@/utils/fontSize'
 import { setBlocks } from '../uploader/draft.store'
-import TextArea from '@/components/shared/ui/TextArea'
+import TextArea from '@/components/shared/TextArea'
 import { useDebounceEffect } from 'ahooks'
 type Props = {
     block: TextBlock

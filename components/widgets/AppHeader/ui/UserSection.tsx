@@ -1,5 +1,4 @@
 import { Button } from 'antd'
-import React from 'react'
 import { BiShare } from 'react-icons/bi'
 import { useMediaQuery } from 'react-responsive'
 import UserStatus from '@/components/entities/user'

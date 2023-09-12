@@ -1,7 +1,6 @@
 import { useAppDispatch } from '@/components/entities/store/store'
 import { setFinalTouchModal } from '@/components/entities/uploader/modal.store'
 import { Button } from 'antd'
-import React from 'react'
 import { BiX } from 'react-icons/bi'
 
 const ModalHeader = () => {

@@ -1,4 +1,4 @@
-import Chunker from "@/components/widgets/Chunker";
+import Chunker from "@/components/widgets/ChunkModule/Chunker";
 import NoUserBanner from "@/components/widgets/NoUserBanner";
 import { Tabs } from "antd";
 

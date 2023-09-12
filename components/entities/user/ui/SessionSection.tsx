@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAppSelector } from '../../store/store'
 import SessionUser from './SessionUser'
 import { BiChevronRight, BiChevronUp } from 'react-icons/bi'

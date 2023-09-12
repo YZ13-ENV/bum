@@ -1,15 +1,15 @@
 import { auth } from '@/utils/app'
 import { Button, Select, Switch } from 'antd'
-import React from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 type Props = {
     loading: boolean
     uploadDraft: () => void
     tags: string[]
-    setTags: React.Dispatch<React.SetStateAction<string[]>>
+    setTags: Dispatch<SetStateAction<string[]>>
     needFeedback: boolean
-    setNeedFeedback: React.Dispatch<React.SetStateAction<boolean>>
+    setNeedFeedback: Dispatch<SetStateAction<boolean>>
 }
 const DraftConfig = ({ loading, uploadDraft, needFeedback, setNeedFeedback, setTags, tags }: Props) => {
     const [user] = useAuthState(auth)

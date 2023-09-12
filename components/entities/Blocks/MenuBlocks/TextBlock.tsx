@@ -1,6 +1,5 @@
 import { TextBlock } from '@/types'
 import { Button } from 'antd'
-import React from 'react'
 import { BiTrashAlt } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks } from '../../uploader/draft.store'

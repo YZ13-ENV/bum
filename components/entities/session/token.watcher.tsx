@@ -1,6 +1,6 @@
 'use client'
 import { useSearchParams, redirect } from 'next/navigation'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { useLocalStorageState } from 'ahooks'
 import { Session, setSession } from './session'

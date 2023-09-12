@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import React from 'react'
 import ShotActions from './ui/ShotActions'
 import { DocShotData } from '@/types'
-import Avatar from '@/components/shared/ui/Avatar'
+import Avatar from '@/components/shared/Avatar'
 
 type Props = {
     photoUrl: string | null

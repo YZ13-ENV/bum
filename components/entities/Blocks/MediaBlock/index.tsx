@@ -1,9 +1,7 @@
-// const BlockImage = dynamic(() => import('@/components/widgets/Blocks/BlockImage')) 
-// const BlockVideo = dynamic(() => import('@/components/widgets/Blocks/BlockVideo')) 
-const ServerBlockImage = dynamic(() => import('@/components/widgets/Blocks/ServerBlockImage')) 
-const ServerBlockVideo = dynamic(() => import('@/components/widgets/Blocks/ServerBlockVideo')) 
+const ServerBlockImage = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/ServerBlockImage')) 
+const ServerBlockVideo = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/ServerBlockVideo')) 
 import dynamic from 'next/dynamic'
-import React, { memo } from 'react'
+import { memo } from 'react'
 
 type Props = {
     type: 'image' | 'video'
@@ -14,7 +12,7 @@ type Props = {
     autoPlay?: boolean
 }
 const MediaBlock = ({ type, link, server=false, quality=75, object='contain', autoPlay=false }: Props) => {
-    if (process.env.NODE_ENV === 'development') return <div className='w-full aspect-[4/3] border rounded-xl border-neutral-800' />
+    if (process.env.NODE_ENV === 'development') return <ServerBlockImage block={{ link: '/original-error.png', type: 'image' }} object={object} quality={quality} />
     if (link !== '') {
         if (type === "image") {
             return <ServerBlockImage block={{ link: link, type: type }} object={object} quality={quality} />

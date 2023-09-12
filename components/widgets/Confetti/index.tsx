@@ -1,6 +1,5 @@
 'use client'
 import { useSize } from 'ahooks'
-import React from 'react'
 import Confetti from 'react-confetti'
 type Props = {
     views: number

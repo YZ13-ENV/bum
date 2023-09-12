@@ -2,7 +2,7 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
-const Avatar = dynamic(() => import('@/components/shared/ui/Avatar'))
+const Avatar = dynamic(() => import('@/components/shared/Avatar'))
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
 const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
 
