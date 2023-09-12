@@ -1,6 +1,5 @@
 import { TextBlock } from '@/types'
 import { fontSize } from '@/utils/fontSize'
-import React from 'react'
 
 type Props = {
     block: TextBlock

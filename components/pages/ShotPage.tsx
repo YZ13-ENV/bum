@@ -1,9 +1,9 @@
-import ImageLoader from '@/components/shared/ui/Loaders/ImageLoader'
-import TextLoader from '@/components/shared/ui/Loaders/TextLoader'
-import UserSectionLoader from '@/components/shared/ui/Loaders/ShotPage/UserSectionLoader'
+import ImageLoader from '@/components/shared/Loaders/ImageLoader'
+import TextLoader from '@/components/shared/Loaders/TextLoader'
+import UserSectionLoader from '@/components/shared/Loaders/ShotPage/UserSectionLoader'
 import { DocShotData, ShortUserData } from '@/types'
 import dynamic from 'next/dynamic'
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
 const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {

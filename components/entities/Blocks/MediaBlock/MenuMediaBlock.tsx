@@ -1,12 +1,11 @@
-import BlockImage from '@/components/widgets/Blocks/BlockImage'
 import { ImageBlock, VideoBlock } from '@/types'
 import { Button } from 'antd'
-import React from 'react'
 import { BiTrashAlt, BiImage, BiVideo } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks } from '../../uploader/draft.store'
 import { getHost } from '@/helpers/getHost'
-import BlockVideo from '@/components/widgets/Blocks/BlockVideo'
+import BlockVideo from '../ViewBlocks/BlockVideo'
+import BlockImage from '../ViewBlocks/BlockImage'
 
 type Props = {
     block: ImageBlock | VideoBlock

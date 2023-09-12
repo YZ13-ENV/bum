@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import React from 'react'
 import ShotActions from './ui/ShotActions'
 import { DocShotData } from '@/types'
-import Avatar from '@/components/shared/ui/Avatar'
+import Avatar from '@/components/shared/Avatar'
 
 type Props = {
     photoUrl: string | null
@@ -22,7 +21,7 @@ const ShotUserSection = ({ isSubscriber, photoUrl, userId, title, displayName, s
                 <div className="flex flex-col w-full h-full gap-1">
                     <span className='text-2xl font-bold text-neutral-200'>{title}</span>
                     <div className="flex items-center gap-1 w-fit h-fit">
-                    <span className='text-xs text-neutral-400'>{displayName || 'Пользователь'}</span>
+                        <span className='text-xs text-neutral-400'>{displayName || 'Пользователь'}</span>
                         { isSubscriber && <span className="px-2 py-0.5 text-xs text-black bg-white rounded-md">Плюс</span> }
                     </div>
                 </div>

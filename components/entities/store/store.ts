@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-import AuthReducer from '@/components/entities/authProcess/store'
 import SearchReducer from '@/components/entities/search/store'
 import UserReducer from '@/components/entities/user/store'
 import SessionReducer from '@/components/entities/session/session'
@@ -16,7 +15,6 @@ const uploader = combineReducers({ modals: ModalsReducer, draft: DraftReducer, t
 export const store = configureStore({
     reducer: {
         uploader: uploader,
-        auth: AuthReducer,
         search: SearchReducer,
         watcher: SessionReducer,
         user: UserReducer

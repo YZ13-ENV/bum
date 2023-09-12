@@ -1,7 +1,7 @@
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
 import dynamic from 'next/dynamic'
-const Shots = dynamic(() => import('@/components/shared/ui/Shots'))
+const Shots = dynamic(() => import('@/components/shared/Shots'))
 const SearchBar = dynamic(() => import('@/components/widgets/SearchBar')) 
 const Tabs = dynamic(() => import('@/components/widgets/Tabs')) 
 

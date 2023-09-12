@@ -6,14 +6,14 @@ import { DocShotData } from '@/types'
 import { useDebounceEffect } from 'ahooks'
 import { Button } from 'antd'
 import Link from 'next/link'
-import React, { useLayoutEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react'
 
 type Props = {
     q: string
-    setQ: React.Dispatch<React.SetStateAction<string>>
+    setQ: Dispatch<SetStateAction<string>>
 }
 const SearchResults = ({ q, setQ }: Props) => {
-    const [loading, setLoading] = React.useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const [res, setRes] = useState<DocShotData[]>([])
     const fetchResults = async() => {
         setLoading(true)

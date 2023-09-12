@@ -1,10 +1,10 @@
 import { getHost } from '@/helpers/getHost'
 import { ShortUserData } from '@/types'
-import React, { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Session, setSession } from '../../session/session'
 import { BiCheck, BiLoaderAlt } from 'react-icons/bi'
-import Avatar from '@/components/shared/ui/Avatar'
+import Avatar from '@/components/shared/Avatar'
 type Props = {
     setExpand: React.Dispatch<React.SetStateAction<boolean>>
     uid: string

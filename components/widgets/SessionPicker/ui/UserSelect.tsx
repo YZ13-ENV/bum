@@ -1,13 +1,13 @@
-import Avatar from '@/components/shared/ui/Avatar'
+import Avatar from '@/components/shared/Avatar'
 import { getHost } from '@/helpers/getHost'
 import { ShortUserData } from '@/types'
-import React, { useLayoutEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react'
 import { BiCheck } from 'react-icons/bi'
 
 type Props = {
     uid: string
     selectedUser: string | null,
-    setSelectedUser: React.Dispatch<React.SetStateAction<string | null>>
+    setSelectedUser: Dispatch<SetStateAction<string | null>>
 }
 const UserSelect = ({ selectedUser, setSelectedUser, uid }: Props) => {
     const isSelected = selectedUser === uid

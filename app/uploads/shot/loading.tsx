@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Loading = () => {
     return (
         <section className='flex flex-col w-full h-full shrink-0'>

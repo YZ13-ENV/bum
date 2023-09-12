@@ -1,5 +1,4 @@
 import { useAppSelector } from '@/components/entities/store/store'
-import React from 'react'
 import ShotCard from '@/components/entities/shot'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'

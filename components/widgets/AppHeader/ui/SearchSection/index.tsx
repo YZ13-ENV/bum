@@ -1,7 +1,6 @@
 'use client'
 import { setSearchOpen } from '@/components/entities/search/store'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
-import React from 'react'
 import { BiSearch } from 'react-icons/bi'
 import SearchPlayground from './ui/SearchPlayground'
 import { Button } from 'antd'

@@ -1,8 +1,6 @@
-import React from 'react'
 import Drafts from './ui/Drafts'
 import { DocShotData } from '@/types'
-// import Shots from '../../shared/ui/Shots'
-import UserChunker from '../UserChunker'
+import UserChunker from '../ChunkModule/UserChunker'
 
 type Props = {
     userId: string

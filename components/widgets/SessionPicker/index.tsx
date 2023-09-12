@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import UserSelect from './ui/UserSelect'
 import { setSession } from '@/components/entities/session/session'
 import { Button } from 'antd'

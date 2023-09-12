@@ -6,9 +6,9 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { fetchFile } from '@/helpers/fetchFile'
 import { DateTime } from 'luxon'
-const ImageLoader = dynamic(() => import('@/components/shared/ui/Loaders/ImageLoader')) 
-const TextLoader = dynamic(() => import('@/components/shared/ui/Loaders/TextLoader')) 
-const UserSectionLoader = dynamic(() => import('@/components/shared/ui/Loaders/ShotPage/UserSectionLoader'))
+const ImageLoader = dynamic(() => import('@/components/shared/Loaders/ImageLoader')) 
+const TextLoader = dynamic(() => import('@/components/shared/Loaders/TextLoader')) 
+const UserSectionLoader = dynamic(() => import('@/components/shared/Loaders/ShotPage/UserSectionLoader'))
 const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
 const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {

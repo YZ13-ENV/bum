@@ -1,5 +1,4 @@
 import { CommentBlock } from '@/types'
-import React from 'react'
 import CommentAuthor from './CommentAuthor'
 import { Button, Dropdown, MenuProps } from 'antd'
 import { BiDotsVerticalRounded, BiHeart, BiReply, BiTrashAlt } from 'react-icons/bi'
