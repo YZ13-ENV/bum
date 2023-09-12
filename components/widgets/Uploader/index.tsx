@@ -22,6 +22,7 @@ const UploadBlockView = () => {
     const draft = useAppSelector(state => state.uploader.draft)
     const rootBlock = useMemo(() => draft.rootBlock, [draft.rootBlock])
     const dispatch = useAppDispatch()
+    const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     // console.log(draft.blocks)
     return (
         <>
@@ -39,7 +40,10 @@ const UploadBlockView = () => {
                             return <div key={`block#${index}`} className='w-full max-w-2xl mx-auto'><TextBlock block={block} index={index} /></div>
                         }
                         if (block.type === 'image') {
-                            return <MediaUploader key={`block#${index}`} uploadOnlyImages={true} index={index} block={block} />
+                            return <MediaUploader key={`block#${index}`} uploadOnlyImages={isSubscriber ? false : true} index={index} block={block} />
+                        }
+                        if (block.type === 'video') {
+                            return <MediaUploader key={`block#${index}`} uploadOnlyImages={false} index={index} block={block} />
                         }
                         return null
                     })

@@ -14,7 +14,7 @@ const UploadHeader = () => {
     const draft = useAppSelector(state => state.uploader.draft)
     const dispatch = useAppDispatch()
     return (
-        <div className="flex items-center justify-between w-full gap-2 px-4 py-2 border-b h-fit border-neutral-800">
+        <div className="sticky top-0 z-20 flex items-center justify-between w-full gap-2 px-4 py-2 bg-black border-b h-fit border-neutral-800">
             <div className="flex flex-row-reverse items-center gap-2 md:flex-row w-fit h-fit">
                 <Button onClick={() => dispatch(setPrevWorkSidebar(!modals.prevWorkSidebar))}>
                     {

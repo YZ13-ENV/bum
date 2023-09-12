@@ -79,6 +79,11 @@ const BlocksOut = () => {
                             <MenuMediaBlock key={`block#${index}`} index={index} block={block} />
                         ) 
                     }
+                    if (block.type === 'video') {
+                        return (
+                            <MenuMediaBlock key={`block#${index}`} index={index} block={block} />
+                        ) 
+                    }
                     return (
                         <div key={`block#${index}`} className="flex flex-col items-center justify-center w-full h-56 border rounded-xl border-neutral-800 bg-neutral-950"/>
                     )
@@ -99,7 +104,14 @@ const BlocksOut = () => {
                                 if (block.type === 'image') {
                                     return (
                                         <SortableWrapper key={`block#${index}`} index={index}>
-                                            <MenuMediaBlock key={`block#${index}`} index={index} block={block} />
+                                            <MenuMediaBlock index={index} block={block} />
+                                        </SortableWrapper>
+                                    ) 
+                                }
+                                if (block.type === 'video') {
+                                    return (
+                                        <SortableWrapper key={`block#${index}`} index={index}>
+                                            <MenuMediaBlock index={index} block={block} />
                                         </SortableWrapper>
                                     ) 
                                 }
