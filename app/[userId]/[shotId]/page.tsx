@@ -89,7 +89,7 @@ const ShotPage = async({ params }: Props) => {
     if (!shot) return null
     if (!user) return null
     return (
-        <section className='relative flex flex-col w-full min-h-full gap-6 px-2 py-14 lg:px-0 h-fit'>
+        <section className='relative flex flex-col w-full min-h-full px-2 gap-14 py-14 lg:px-0 h-fit'>
             <div className="flex flex-col w-full max-w-md mx-auto gap-14 md:max-w-4xl h-fit shrink-0">
                 <ShotUserSection shot={shot} isSubscriber={user.isSubscriber} title={shot.title} userId={params.userId}
                 displayName={user?.displayName as string | null} photoUrl={user?.photoUrl as string | null} />
