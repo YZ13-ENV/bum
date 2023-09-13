@@ -22,7 +22,7 @@ const WorksWrapper = ({ userId, shotId }: Props) => {
     const [tab, setTab] = useState<SegmentedValue>(options[0].value)
     return (
         <div className="flex flex-col w-full h-full gap-2 md:w-4/12">
-            <Segmented block default defaultValue='popular' options={options} value={tab} onChange={e => setTab(e)} />
+            <Segmented size='large' block default defaultValue='popular' options={options} value={tab} onChange={e => setTab(e)} />
             <LastWorks userId={userId} order={tab as 'popular' | 'new'} exclude={shotId} />
         </div>
     )

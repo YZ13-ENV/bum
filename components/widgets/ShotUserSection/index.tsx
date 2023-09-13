@@ -12,6 +12,13 @@ type Props = {
     shot: DocShotData
 }
 const ShotUserSection = ({ isSubscriber, photoUrl, userId, title, displayName, shot }: Props) => {
+    if (isSubscriber) {
+        return (
+            <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
+                <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{title}</h1>
+            </div>
+        )
+    }
     return (
         <div className="flex items-center justify-between w-full max-w-2xl gap-1 px-4 py-2 mx-auto bg-black rounded-2xl h-fit">
             <div className="flex items-center w-full gap-4 h-fit">

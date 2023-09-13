@@ -1,17 +1,32 @@
 import ShotActions from '@/components/entities/shot/ui/ShotActions'
-import { DocShotData } from '@/types'
+import { DocShotData, ShortUserData } from '@/types'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import CommentSection from './ui/CommentSection'
 import WorksWrapper from './ui/LastWorks/ui/WorksWrapper'
+import Avatar from '@/components/shared/Avatar'
+import FollowButton from '../UserProfileTabs/ui/FollowButton'
 
 type Props = {
     shot: DocShotData
+    user: ShortUserData
 }
-const ShotPageFooter = ({shot}: Props) => {
+const ShotPageFooter = ({ shot, user }: Props) => {
     return (
         <div className="flex md:flex-row flex-col items-start w-full max-w-4xl gap-2 mx-auto h-fit min-h-[24rem]">
             <div className="flex flex-col w-full h-full gap-2 md:w-8/12">
+                <div className="flex items-center justify-between w-full h-fit">
+                    <div className="flex items-center w-full gap-2 h-fit">
+                        <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
+                            <Avatar src={user.photoUrl} size={36} isSub={user.isSubscriber || false} />
+                            <span className='text-lg font-bold text-neutral-200'>{user.displayName.length <= 30 ? user.displayName : user.displayName.substring(0, 30) + '...' || 'Пользователь'}</span>
+                        </Link>
+                        <FollowButton profileUID={shot.authorId} />
+                    </div>
+                    <div className="flex items-center gap-2 w-fit h-fit">
+                        <ShotActions shot={shot} isOnPage />
+                    </div>
+                </div>
                 <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
                     <div className="flex items-center justify-between w-full h-fit">
                         <div className="flex items-center gap-2 w-fit h-fit">
@@ -19,7 +34,6 @@ const ShotPageFooter = ({shot}: Props) => {
                             <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toLocaleString(DateTime.DATE_MED)}</span>
                         </div>
                         <div className="flex items-center w-fit h-fit">
-                            <ShotActions shot={shot} isOnPage />
                         </div>
                     </div>
                     {
