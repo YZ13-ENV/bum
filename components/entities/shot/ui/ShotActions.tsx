@@ -41,7 +41,7 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
     }
     if (isOnPage) {
         return (
-            <Button onClick={addOrRemoveLike} loading={loading} shape='round' size='small' 
+            <Button onClick={addOrRemoveLike} loading={loading} size='large'
             danger={isInclude} type={isInclude ? 'primary' : 'default'} 
             icon={<BiHeart  size={13} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
         )

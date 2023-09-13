@@ -56,7 +56,7 @@ const SessionUser = ({ uid, setExpand }: Props) => {
         </div>
     )
     return (
-        <div onClick={changeUser} className="flex items-center w-full gap-2 h-fit">
+        <div onClick={changeUser} className="flex items-center w-full gap-2 cursor-pointer h-fit">
             <div className="relative shrink-0">
                 <Avatar src={userData?.photoUrl || '/EmptyUser.svg'} size={32} />
                 {
@@ -71,7 +71,9 @@ const SessionUser = ({ uid, setExpand }: Props) => {
                 }
             </div>
             <div className="flex flex-col w-full h-full">
-                <span className='text-sm font-semibold text-neutral-200'>{userData?.displayName}</span>
+                <span className='text-sm font-semibold line-clamp-1 text-neutral-200'>{
+                    userData?.displayName ? userData.displayName.length <= 30 ? userData.displayName : userData.displayName.substring(0, 20) + '...' : 'Пользователь'
+                }</span>
                 <span className='text-xs text-neutral-400'>{userData?.email}</span>
             </div>
         </div>

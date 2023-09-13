@@ -6,6 +6,7 @@ import { ElementRef, useLayoutEffect, useRef, useState } from 'react'
 const VideoAmbiLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLight'>) => {
     const videoBlock = useRef<ElementRef<'video'>>(null);
     const canvas = useRef<ElementRef<'canvas'>>(null);
+    const [ambientIsRun, setAmbientRun] = useState<boolean>(false)
     const [run, setRun] = useState<boolean>(false);
     const FRAMERATE = 30;
     function repaintAmbilight() {
@@ -16,10 +17,10 @@ const VideoAmbiLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLigh
             }
         }
     }
-    
     function startAmbilightRepaint() {
         if (videoBlock.current && canvas.current) {
             setRun(true)
+            setAmbientRun(true)
         }
     }
     const stopAmbilightRepaint = useInterval(() => {
@@ -29,12 +30,18 @@ const VideoAmbiLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLigh
         if (videoBlock.current) {
             videoBlock.current.play()
             videoBlock.current.addEventListener("play", () => startAmbilightRepaint());
-            videoBlock.current.addEventListener("pause", () => stopAmbilightRepaint());
-            videoBlock.current.addEventListener("ended", () => stopAmbilightRepaint());
+            videoBlock.current.addEventListener("pause", () => {
+                stopAmbilightRepaint()
+                setAmbientRun(false)
+            });
+            videoBlock.current.addEventListener("ended", () => {
+                stopAmbilightRepaint()
+                setAmbientRun(false)
+            });
             videoBlock.current.addEventListener("seeked", () => repaintAmbilight());
             videoBlock.current.addEventListener("load", () => repaintAmbilight());
         }
-    },[videoBlock.current])
+    },[videoBlock.current, ambientIsRun])
     return (
         <>
             <canvas ref={canvas} id="ambiLight" onLoad={() => repaintAmbilight()} />
