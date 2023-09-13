@@ -27,6 +27,11 @@ const VideoAmbiLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLigh
         repaintAmbilight()
       }, run ? 1000 / FRAMERATE : undefined);
     useLayoutEffect(() => {
+        if (!ambientIsRun && run) {
+            startAmbilightRepaint()
+        }
+    },[ambientIsRun, run])
+    useLayoutEffect(() => {
         if (videoBlock.current) {
             videoBlock.current.play()
             videoBlock.current.addEventListener("play", () => startAmbilightRepaint());
@@ -42,6 +47,11 @@ const VideoAmbiLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLigh
             videoBlock.current.addEventListener("load", () => repaintAmbilight());
         }
     },[videoBlock.current, ambientIsRun])
+    useLayoutEffect(() => {
+        if (videoBlock.current) {
+            videoBlock.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
+        }
+    },[])
     return (
         <>
             <canvas ref={canvas} id="ambiLight" onLoad={() => repaintAmbilight()} />
