@@ -18,7 +18,7 @@ const ShotPageFooter = ({ shot, user }: Props) => {
                 <div className="flex items-center justify-between w-full h-fit">
                     <div className="flex items-center w-full gap-2 h-fit">
                         <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
-                            <Avatar src={user.photoUrl} size={36} isSub={user.isSubscriber || false} />
+                            <Avatar src={user.photoUrl} size={36} direction='right' isSub={user.isSubscriber || false} />
                             <span className='text-lg font-bold text-neutral-200'>{user.displayName.length <= 30 ? user.displayName : user.displayName.substring(0, 30) + '...' || 'Пользователь'}</span>
                         </Link>
                         <FollowButton profileUID={shot.authorId} />

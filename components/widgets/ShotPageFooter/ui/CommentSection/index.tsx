@@ -29,7 +29,7 @@ const CommentSection = ({ shot }: Props) => {
             const headers = new Headers()
             headers.set("Content-Type", "application/json")
             try {
-                const res = await fetch(`${getHost()}/shots/addComment?userId=${shot.authorId}&shotId=${shot.doc_id}`, {
+                const res = await fetch(`${getHost()}/shots/comment?userId=${shot.authorId}&shotId=${shot.doc_id}`, {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify(comment)

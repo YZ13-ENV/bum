@@ -7,8 +7,9 @@ import { useLayoutEffect, useState } from 'react'
 type Props = {
     authorId: string
     createdAt: CommentBlock['createdAt']
+    mini?: boolean
 }
-const CommentAuthor = ({ authorId, createdAt }: Props) => {
+const CommentAuthor = ({ authorId, createdAt, mini=false }: Props) => {
     const [user, setUser] = useState<ShortUserData | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const getUser = async() => {
@@ -35,11 +36,28 @@ const CommentAuthor = ({ authorId, createdAt }: Props) => {
             <div className="h-6 w-14 shrink-0 rounded-xl bg-neutral-900 animate-pulse" />
         )
     }
+    if (mini) {
+        return (
+            <div className='flex items-center gap-2 w-fit h-fit'>
+                <Avatar src={user.photoUrl} size={28} />
+                <div className="flex flex-col w-fit h-fit">
+                    <div className="flex items-center gap-2 w-fit h-fit">
+                        <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
+                        <span className='px-2 py-0.5 text-xs font-semibold text-black bg-white rounded-md'>Плюс</span>
+                    </div>
+                    <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).setLocale('ru').toRelative()}</div>
+                </div>
+            </div>
+        )
+    }
     return (
         <div className='flex items-center gap-2 w-fit h-fit'>
             <Avatar src={user.photoUrl} size={32} />
             <div className="flex flex-col w-fit h-fit">
-                <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
+                <div className="flex items-center gap-2 w-fit h-fit">
+                    <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
+                    <span className='px-2 py-0.5 text-xs font-semibold text-black bg-white rounded-md'>Плюс</span>
+                </div>
                 <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).setLocale('ru').toRelative()}</div>
             </div>
         </div>
