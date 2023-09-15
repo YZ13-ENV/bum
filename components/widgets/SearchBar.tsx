@@ -3,6 +3,7 @@ import { useDebounceEffect } from 'ahooks'
 import { Input } from 'antd'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { BiSearch } from 'react-icons/bi'
 
 type Props = {
     q: string | null
@@ -21,8 +22,9 @@ const SearchBar = ({ q }: Props) => {
         }
     }, [query, setQuery], { wait: 1000 })
     return (
-        <div className="w-full max-w-lg">
-            <Input size='large' value={query} onChange={e => setQuery(e.target.value)} placeholder='Поиск' />
+        <div className="flex items-center w-full max-w-lg px-2.5 py-0.5 border rounded-xl border-neutral-700">
+            <BiSearch size={17} />
+            <Input size='large' value={query} bordered={false} onChange={e => setQuery(e.target.value)} placeholder='Поиск' />
         </div>
     )
 }

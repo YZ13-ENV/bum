@@ -1,9 +1,9 @@
 'use client'
-import UserSection from './ui/UserSection'
-import LogoSection from './ui/LogoSection'
-import { usePathname } from 'next/navigation'
+// import UserSection from './ui/UserSection'
+// import LogoSection from './ui/LogoSection'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useMediaQuery } from 'react-responsive'
-import { useAppSelector } from '@/components/entities/store/store'
+// import { useAppSelector } from '@/components/entities/store/store'
 import Image from 'next/image'
 import Link from 'next/link'
 import UserStatus from '@/components/entities/user'
@@ -12,12 +12,15 @@ import { auth } from '@/utils/app'
 import { BiShare } from 'react-icons/bi'
 import { Button } from 'antd'
 import SearchSection from './ui/SearchSection'
+import SearchBar from '../SearchBar'
 
 const AppHeader = () => {
     const path = usePathname()
+    const params = useSearchParams()
+    const q = params.get("q")
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1024px)' })
-    const isOpen = useAppSelector(state => state.search.isOpen)
-    const isSubscriber = useAppSelector(state => state.user.isSubscriber)
+    // const isOpen = useAppSelector(state => state.search.isOpen)
+    // const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     const [user] = useAuthState(auth)
     if (path === '/uploads/shot') return null
     // if (isSubscriber) {
@@ -28,12 +31,16 @@ const AppHeader = () => {
                     <Button className='!absolute left-0' size='large' type='primary' href='/uploads/shot' icon={<BiShare size={17} className='inline mb-0.5' />}>
                     { isTabletOrMobile ? '' : 'Поделиться работой'}</Button> 
                 }
-                <Link href='/'><Image src='/LogoWHandFont.svg' width={128} height={64} alt='v2-logo' /></Link>
+                <Link href='/'><Image src='/LogoWHandFont.svg' width={isTabletOrMobile ? 80 : 128} height={isTabletOrMobile ? 40 : 64} alt='v2-logo' /></Link>
                 <div className="absolute right-0">
                     <UserStatus />
                 </div>
             </nav>
-            <SearchSection />
+            {
+                path === '/search'
+                ? <SearchBar q={q} />
+                : <SearchSection />
+            }
         </header>
     )
     // }

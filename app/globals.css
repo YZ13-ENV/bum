@@ -56,10 +56,21 @@
 .profile_grid_mobile {
   height: calc(100% - 82px);
 }
+.shot_wrapper {
+  min-height: calc(100% - 135.55px);
+}
 .home_grid {
   grid-template-columns: repeat(auto-fill,minmax(400px,1fr));
   grid-template-rows: repeat(auto-fill,minmax(300px,1fr));
   aspect-ratio: 4 / 3;
+}
+
+@media (max-width: 1240px) {
+  .home_grid {
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    grid-template-rows: repeat(auto-fill,minmax(250px,1fr));
+    aspect-ratio: 4 / 3;
+  }
 }
 
 .mini_grid {

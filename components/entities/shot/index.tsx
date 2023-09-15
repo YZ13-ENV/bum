@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic'
 import { DocShotData } from '@/types'
+import { memo } from 'react'
 const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
 const Link = dynamic(() => import('next/link')) 
 const ShotWrapper = dynamic(() => import('./ui/ShotWrapper'))
@@ -33,4 +34,4 @@ const ShotCard = ({ shot }: Props) => {
     )
 }
 
-export default ShotCard
+export default memo(ShotCard)
