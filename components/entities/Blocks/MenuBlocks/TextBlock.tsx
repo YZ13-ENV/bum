@@ -3,6 +3,7 @@ import { Button } from 'antd'
 import { BiTrashAlt } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks } from '../../uploader/draft.store'
+import TextLine from '../ViewBlocks/TextLine'
 
 type Props = {
     block: TextBlock
@@ -17,12 +18,9 @@ const TextBlock = ({ block, index }: Props) => {
     }
     return (
         <div className="flex items-center justify-between w-full p-2 bg-black border h-fit rounded-xl border-neutral-800">
-            <div className="flex items-center w-full gap-2 h-fit">
+            <div className="flex flex-col w-full h-fit">
                 {/* <BiGridVertical size={17} /> */}
-                <span  
-                className="text-sm text-neutral-300">
-                    {block.text || 'Текст блока'}
-                </span>
+                    {block.text.split('\n').map(line => <TextLine key={'menu-line' + line} align='text-start' line={line} />) || 'Текст блока'}
             </div>
             <Button onClick={deleteBlock} danger type='text'><BiTrashAlt size={17} /></Button>
         </div>

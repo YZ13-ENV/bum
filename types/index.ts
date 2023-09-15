@@ -64,6 +64,7 @@ export type DraftShotData = {
 }
 
 export type ShotData = {
+    enableMdSyntax?: boolean,
     isDraft: boolean
     authorId: string
     title: string

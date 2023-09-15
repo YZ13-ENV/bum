@@ -20,6 +20,7 @@
     "ahooks": "^3.7.8",
     "antd": "^5.9.0",
     "autoprefixer": "10.4.14",
+    "encoding": "^0.1.13",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "firebase": "^10.3.1",

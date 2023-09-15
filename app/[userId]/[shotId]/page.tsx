@@ -6,9 +6,10 @@ import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { fetchFile } from '@/helpers/fetchFile'
 import { DateTime } from 'luxon'
+import Link from 'next/link'
+import { BiLeftArrowAlt, BiLoaderAlt } from 'react-icons/bi'
 const ImageLoader = dynamic(() => import('@/components/shared/Loaders/ImageLoader')) 
 const TextLoader = dynamic(() => import('@/components/shared/Loaders/TextLoader')) 
-const UserSectionLoader = dynamic(() => import('@/components/shared/Loaders/ShotPage/UserSectionLoader'))
 const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
 const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
@@ -16,9 +17,6 @@ const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/
 })
 const MediaBlock = dynamic(() => import('@/components/entities/Blocks/MediaBlock'), {
     loading: () => <div className='w-full h-96 rounded-xl bg-neutral-900' />
-}) 
-const ShotUserSection = dynamic(() => import('@/components/widgets/ShotUserSection'), {
-    loading: () => <UserSectionLoader />
 }) 
 type Props = {
     params: {
@@ -29,7 +27,7 @@ type Props = {
 
 const getUser = async(userId: string) => {
     try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'default' })
+        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 3600 } })
         const user: { short: ShortUserData } | null = await userRes.json()
         return user ? user.short : null
     } catch(e) {
@@ -43,11 +41,11 @@ const getShot = async(userId: string, shotId: string) => {
         return shot
     } catch(e) {
         console.log(e)
-        return redirect('')
+        return redirect('/')
     }
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
- 
+    if (process.env.NODE_ENV === 'development') return {}
     try {
         const shot = await getShot(params.userId, params.shotId)
         const user = await getUser(params.userId)
@@ -86,13 +84,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const ShotPage = async({ params }: Props) => {
     const shot = await getShot(params.userId, params.shotId)
     const user = await getUser(params.userId)
-    if (!shot) return null
+    if (!shot) return (
+        <section className='flex flex-col items-center justify-center w-full min-h-full gap-6'>
+            <h1 className='text-2xl font-bold text-center text-neutral-200'>Такой работы не существует</h1>
+            <Link href='/' className='inline-flex items-center gap-2'><BiLeftArrowAlt size={15} /> <span className='text-sm'>Вернуться на главную</span></Link>
+        </section>
+    )
     if (!user) return null
     return (
-        <section className='relative flex flex-col w-full min-h-full px-2 gap-14 py-14 lg:px-0 h-fit'>
+        <section className='relative flex flex-col w-full min-h-full px-2 py-4 gap-14 lg:px-0'>
             <div className="flex flex-col w-full max-w-md mx-auto gap-14 md:max-w-4xl h-fit shrink-0">
-                <ShotUserSection shot={shot} isSubscriber={user.isSubscriber} title={shot.title} userId={params.userId}
-                displayName={user?.displayName as string | null} photoUrl={user?.photoUrl as string | null} />
+                <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
+                    <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
+                </div>
                 <Suspense fallback={<div className='w-full h-96 rounded-xl bg-neutral-900' />}>
                     <MediaBlock withAmbiLight={user.isSubscriber || false} {...shot.rootBlock} autoPlay />
                 </Suspense>
@@ -106,14 +110,20 @@ const ShotPage = async({ params }: Props) => {
                             )
                         }
                         if (block.type === 'text') {
-                            return <TextBlock key={`block#${index}`} block={block} />
+                            return (
+                                <div key={`block#${index}`} className="px-4 md:px-0">
+                                    <TextBlock enableMdSyntax={shot.enableMdSyntax || false} block={block} />
+                                </div>
+                            )
                         }
                         return null
                     })
                 }
             </div>
             <ConfettiForNewShot views={shot.views.length} />
-            <ShotPageFooter shot={shot} user={user} />
+            <Suspense fallback={<div className='flex items-center justify-center w-full h-96'><BiLoaderAlt size={17} className='animate-spin'/></div>}>
+                <ShotPageFooter shot={shot} user={user} />
+            </Suspense>
         </section>
     )
 }

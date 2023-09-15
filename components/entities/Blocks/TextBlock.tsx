@@ -1,19 +1,24 @@
 import { TextBlock } from '@/types'
 import { Button, Space } from 'antd'
-import { BiAlignLeft, BiAlignMiddle, BiAlignRight, BiBold, BiItalic } from 'react-icons/bi'
+import { BiAlignLeft, BiAlignMiddle, BiAlignRight, BiBold, BiItalic, BiSolidMagicWand } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../store/store'
 import { MdTextDecrease, MdTextIncrease } from 'react-icons/md'
 import { fontSize } from '@/utils/fontSize'
 import { setBlocks } from '../uploader/draft.store'
 import TextArea from '@/components/shared/TextArea'
-import { useDebounceEffect } from 'ahooks'
+import MDTextBlock from '@/components/entities/Blocks/ViewBlocks/TextBlock'
+import { BsMarkdown, BsMarkdownFill } from 'react-icons/bs'
+import { setMDSyntax } from '../uploader/modal.store'
+import { useLayoutEffect, useState } from 'react'
 type Props = {
     block: TextBlock
     index: number
 }
 
 const TextBlock = ({ block, index }: Props) => {
+    const [preview, setPreview] = useState<boolean>(false)
     const dispatch = useAppDispatch()
+    const enableSyntax = useAppSelector(state => state.uploader.modals.enableMDSyntax)
     const draft = useAppSelector(state => state.uploader.draft)
     const getBlockAlign = (align: TextBlock['align'], isImportant?: boolean) => {
         if (align === 'left') return isImportant ? '!text-left' : 'text-left'
@@ -94,45 +99,41 @@ const TextBlock = ({ block, index }: Props) => {
         })
         dispatch(setBlocks(updatedBlocks))
     }
-    useDebounceEffect(() => {
-        const lines = block.text.split("\n")
-        if (lines.length !== 0) {
-            lines.forEach(line => {
-                if (line.length !== 0) {
-                    const isH1 = line.startsWith('#')
-                    const isH2 = line.startsWith('##')
-                    const isH3 = line.startsWith('###')
-                    const isQuote = line.startsWith('>')
-                    // if (isH1 && !isH2 && !isH3) {
-                    //     console.log('h1')
-                    // }
-                    // if (isH1 && isH2 && !isH3) {
-                    //     console.log('h2')
-                    // }
-                    // if (isH1 && isH2 && isH3) {
-                    //     console.log('h3')
-                    // }
-                    // if (isQuote) {
-                    //     console.log('quote')
-                    // }
-                }
-            })
-        }
-    }, [block.text], { wait: 1000 })
+    useLayoutEffect(() => {
+        if (!enableSyntax && preview) setPreview(false)
+    },[enableSyntax])
+    if (preview) return(
+        <div className='flex flex-col items-end justify-center w-full gap-2 h-fit'>
+            <MDTextBlock block={block} />
+            <div onClick={e => e.preventDefault()} className="flex items-center gap-2 w-fit h-fit">
+                <Button onClick={() => setPreview(!preview)} type={preview ? 'primary' : 'default'} disabled={!enableSyntax}><BiSolidMagicWand /></Button>
+                <Button type={enableSyntax ? 'primary' : 'default'} 
+                onClick={() => dispatch(setMDSyntax(!enableSyntax))}>{ enableSyntax ? <BsMarkdownFill size={15}/> : <BsMarkdown size={15}/> }</Button>
+            </div>
+        </div>
+    )
     return (
-        <div className='flex flex-col items-end justify-center w-full h-fit'>
+        <div className='flex flex-col items-end justify-center w-full gap-2 h-fit'>
             <TextArea text={block.text} setText={text => updateText(text)} placeholder='Введите текст здесь' 
             className={`${getDecorators(block.isBold, block.isItalic)} ${getBlockAlign(block.align)} ${getSize(block.size)}`}/>
             <div onClick={e => e.preventDefault()} className="flex items-center gap-2 w-fit h-fit">
-                <Space.Compact>
-                    <Button onClick={() => changeSize('minus')}><MdTextDecrease size={15} /></Button>
-                    <Button>{block.size}</Button>
-                    <Button onClick={() => changeSize('plus')}><MdTextIncrease size={15} /></Button>
-                </Space.Compact>
-                <Space.Compact>
-                    <Button onClick={() => updateIsBold()} type={block.isBold ? 'primary' : 'default'} ><BiBold size={15} /></Button>
-                    <Button onClick={() => updateIsItalic()} type={block.isItalic ? 'primary' : 'default'} ><BiItalic size={15} /></Button>
-                </Space.Compact>
+                <Button onClick={() => setPreview(!preview)} type={preview ? 'primary' : 'default'} disabled={!enableSyntax}><BiSolidMagicWand /></Button>
+                <Button type={enableSyntax ? 'primary' : 'default'} 
+                onClick={() => dispatch(setMDSyntax(!enableSyntax))}>{ enableSyntax ? <BsMarkdownFill size={15}/> : <BsMarkdown size={15}/> }</Button>
+                {
+                    !enableSyntax &&
+                    <>
+                    <Space.Compact>
+                        <Button onClick={() => changeSize('minus')}><MdTextDecrease size={15} /></Button>
+                        <Button>{block.size}</Button>
+                        <Button onClick={() => changeSize('plus')}><MdTextIncrease size={15} /></Button>
+                    </Space.Compact>
+                    <Space.Compact>
+                        <Button onClick={() => updateIsBold()} type={block.isBold ? 'primary' : 'default'} ><BiBold size={15} /></Button>
+                        <Button onClick={() => updateIsItalic()} type={block.isItalic ? 'primary' : 'default'} ><BiItalic size={15} /></Button>
+                    </Space.Compact>
+                    </>
+                }
                 <Space.Compact>
                     <Button type={ block.align === 'left' ? 'primary' : 'default' } 
                     onClick={() => updateAlign('left')}>

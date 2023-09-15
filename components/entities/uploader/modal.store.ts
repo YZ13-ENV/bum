@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 
 type InitState = {
+    enableMDSyntax: boolean
     draftId: string | null
     blocksSidebar: boolean
     prevWorkSidebar: boolean
@@ -9,6 +10,7 @@ type InitState = {
 }
 
 const initialState: InitState = {
+    enableMDSyntax: false,
     draftId: null,
     blocksSidebar: false,
     prevWorkSidebar: false,
@@ -19,6 +21,9 @@ const ModalUploaderSlice = createSlice({
     name: 'modal-control',
     initialState,
     reducers: {
+        setMDSyntax(state, { payload, type }: { payload: InitState['enableMDSyntax'], type: string }) {
+            state.enableMDSyntax = payload
+        },
         setDraftId(state, { payload, type }: { payload: InitState['draftId'], type: string }) {
             state.draftId = payload
         },
@@ -33,5 +38,5 @@ const ModalUploaderSlice = createSlice({
         }
     }
 })
-export const { setDraftId, setBlockSidebar, setPrevWorkSidebar, setFinalTouchModal } = ModalUploaderSlice.actions
+export const { setDraftId, setMDSyntax, setBlockSidebar, setPrevWorkSidebar, setFinalTouchModal } = ModalUploaderSlice.actions
 export default ModalUploaderSlice.reducer

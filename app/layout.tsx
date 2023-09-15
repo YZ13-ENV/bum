@@ -53,9 +53,9 @@ export default function RootLayout({
             <TokenWatcher />
             <AppHeader />
             <SessionPicker />
-            <div className="flex flex-col w-full min-h-full shrink-0">
+            <main className="flex flex-col w-full shrink-0 shot_wrapper">
               {children}
-            </div>
+            </main>
             <Analytics />
           </body>
         </html>
