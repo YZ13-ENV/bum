@@ -106,7 +106,7 @@ const ShotPage = async({ params }: Props) => {
                             )
                         }
                         if (block.type === 'text') {
-                            return <TextBlock key={`block#${index}`} block={block} />
+                            return <TextBlock key={`block#${index}`} enableMdSyntax={shot.enableMdSyntax || false} block={block} />
                         }
                         return null
                     })

@@ -19,6 +19,7 @@ const FinalTouchModal = () => {
     const router = useRouter()
     const [user] = useAuthState(auth)
     const dispatch = useAppDispatch()
+    const mdSyntax = useAppSelector(state => state.uploader.modals.enableMDSyntax)
     const finalModal = useAppSelector(state => state.uploader.modals.finalTouchModal)
     const draft = useAppSelector(state => state.uploader.draft) 
     const draftId = useAppSelector(state => state.uploader.modals.draftId)
@@ -41,6 +42,7 @@ const FinalTouchModal = () => {
             }))
             const preparedDraft: ShotData = {
                 ...draft,
+                enableMdSyntax: mdSyntax,
                 blocks: preparedBlocks,
                 authorId: user.uid,
                 isDraft: false,

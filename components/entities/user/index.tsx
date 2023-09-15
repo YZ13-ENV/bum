@@ -88,7 +88,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
                 dispatch(setSubscribeState(claims.isSubscriber as boolean || undefined ? claims.isSubscriber as boolean : false))
             }
             if (claims && !claims.isSubscriber) dispatch(setSubscribeState(false))
-        }
+        } else dispatch(setSubscribeState(false))
     }
     useLayoutEffect(() => {
         checkIsSubscriber()

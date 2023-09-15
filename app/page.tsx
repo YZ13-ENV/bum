@@ -11,7 +11,7 @@ export default async function Home({ searchParams }: Props) {
   return (
     <>
     <NoUserBanner />
-    <main className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
+    <main className='flex flex-col w-full h-full px-4 md:px-12'>
       <Tabs />
       <Chunker order={searchParams.order} />
     </main>
