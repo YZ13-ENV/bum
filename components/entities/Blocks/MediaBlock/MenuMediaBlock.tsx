@@ -1,17 +1,18 @@
-import { ImageBlock, VideoBlock } from '@/types'
+import { ImageBlock, Thumbnail, VideoBlock } from '@/types'
 import { Button } from 'antd'
-import { BiTrashAlt, BiImage, BiVideo } from 'react-icons/bi'
+import { BiTrashAlt, BiImage, BiVideo, BiLock } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks } from '../../uploader/draft.store'
 import { getHost } from '@/helpers/getHost'
-import BlockVideo from '../ViewBlocks/BlockVideo'
-import BlockImage from '../ViewBlocks/BlockImage'
+// import BlockVideo from '../ViewBlocks/BlockVideo'
+// import BlockImage from '../ViewBlocks/BlockImage'
 
 type Props = {
-    block: ImageBlock | VideoBlock
+    block: ImageBlock | VideoBlock | Thumbnail
     index: number
+    disabled?: boolean
 }
-const MenuMediaBlock = ({ block, index }: Props) => {
+const MenuMediaBlock = ({ disabled=false, block, index }: Props) => {
     const dispatch = useAppDispatch()
     const draft = useAppSelector(state => state.uploader.draft)
     const deleteBlock = async() => {
@@ -25,19 +26,18 @@ const MenuMediaBlock = ({ block, index }: Props) => {
         }
     }
     return (
-        <div className="relative w-full border aspect-[4/3] h-fit shrink-0 rounded-xl border-neutral-700 bg-neutral-950">
-            <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-2 h-fit">
-                <Button onClick={deleteBlock} danger className='!px-2'><BiTrashAlt size={17} /></Button>
+        <div className="flex items-center justify-between w-full h-12 gap-2 p-2 bg-black border rounded-xl group border-neutral-800">
+            <div className="flex items-center h-full gap-2 w-fit">
+                <div className="w-1 h-full transition-colors bg-transparent rounded-full group-hover:bg-white" />
+                { block.link.includes('.mp4') ? <BiVideo size={21}/> : <BiImage size={21} /> }
+                <span className='text-sm select-none text-neutral-300'>{ block.link.includes('.mp4') 
+                ? 'Видео' : 'Картинка' }</span>
             </div>
             {
-                block.link !== '' && block.type === 'image' ? <BlockImage imageLink={block.link} />
-                : block.type === 'video' ? <BlockVideo block={block} />
-                : <div className='flex items-center justify-center w-full h-full'>
-                    {
-                        block.type === 'image'
-                        ? <BiImage size={37} className='text-neutral-400' />
-                        : <BiVideo size={37} className='text-neutral-400' />
-                    }
+                disabled
+                ? <BiLock size={17} className='mr-2 text-neutral-400' />
+                : <div className='items-center hidden h-full gap-2 w-fit group-hover:flex'>
+                    <Button onClick={deleteBlock} danger className='!px-2'><BiTrashAlt size={17} /></Button>
                 </div>
             }
         </div>

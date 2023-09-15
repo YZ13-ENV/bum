@@ -1,4 +1,4 @@
-import { useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities';
 import { ReactNode } from 'react';
 
@@ -13,7 +13,7 @@ const SortableWrapper = ({ children, index }: Props) => {
         listeners,
         setNodeRef,
         transform,
-      } = useSortable({ id: index, strategy: verticalListSortingStrategy, disabled: index === 0 });
+      } = useSortable({ id: index });
     const style = {
         transform: transform 
         ? CSS.Transform.toString({ x: transform.x, y: transform.y, scaleX: isDragging ? .85 : 1, scaleY: isDragging ? .85 : 1 }) 
