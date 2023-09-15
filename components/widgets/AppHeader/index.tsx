@@ -25,7 +25,7 @@ const AppHeader = () => {
     if (path === '/uploads/shot') return null
     // if (isSubscriber) {
     return (
-        <header className="flex flex-col items-center justify-center w-full gap-4 px-4 py-4 md:px-12 h-fit">
+        <header className="flex flex-col items-center justify-center w-full gap-8 px-4 py-8 md:px-12 h-fit">
             <nav className="relative flex items-center justify-center w-full h-fit">
                 { user && 
                     <Button className='!absolute left-0' size='large' type='primary' href='/uploads/shot' icon={<BiShare size={17} className='inline mb-0.5' />}>
