@@ -1,12 +1,12 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
-import { BiLock } from 'react-icons/bi'
+// import { BiLock } from 'react-icons/bi'
 import TextBlock from '@/components/entities/Blocks/MenuBlocks/TextBlock'
 import SortableWrapper from '@/components/shared/SortableWrapper'
 import { DndContext, DragEndEvent, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import MenuMediaBlock from '@/components/entities/Blocks/MediaBlock/MenuMediaBlock'
-import MediaBlock from '@/components/entities/Blocks/MediaBlock'
+// import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { setBlocks } from '@/components/entities/uploader/draft.store'
 const BlocksOut = () => {
     const draft = useAppSelector(state => state.uploader.draft)
@@ -14,13 +14,13 @@ const BlocksOut = () => {
     const onDragEnd = (event: DragEndEvent) => {
         // console.log(event);
         if (event.over && event.over.id !== event.active.id) {
-            const blockFrom = draft.blocks[parseInt(event.active.id.toString())]
-            const blockTo = draft.blocks[parseInt(event.over.id.toString())]
+            const blockFrom = draft.blocks[parseInt(event.active.id.toString()) - 1]
+            const blockTo = draft.blocks[parseInt(event.over.id.toString()) - 1]
             const updatedBlocks = draft.blocks.map((_, index) => {
-                if (index === parseInt(event.active.id.toString())) {
+                if (index === parseInt(event.active.id.toString()) - 1) {
                     return blockTo
                 }
-                if (event.over && index === parseInt(event.over.id.toString())) {
+                if (event.over && index === parseInt(event.over.id.toString()) - 1) {
                     return blockFrom
                 }
                 return _
@@ -30,15 +30,15 @@ const BlocksOut = () => {
     }
     const mouseSensor = useSensor(MouseSensor, {
         activationConstraint: {
-            distance: {
-                x: 5,
-                y: 15
-            }
+            distance: 10
         }
     });
-    const touchSensor = useSensor(TouchSensor);
+    const touchSensor = useSensor(TouchSensor, {
+        activationConstraint: {
+            distance: 10
+        }
+    });
     const keyboardSensor = useSensor(KeyboardSensor);
-    
     const sensors = useSensors(
       mouseSensor,
       touchSensor,
@@ -46,22 +46,12 @@ const BlocksOut = () => {
     );
     return (
         <div className="flex flex-col w-full h-full gap-2">
-            <div className="flex items-center justify-between w-full p-2 border h-fit rounded-xl border-neutral-800">
-                <span className='font-semibold'>{draft.title || 'Заголовок работы'}</span>
-                <BiLock size={17} className='text-neutral-400' />
-            </div>
-
+            <TextBlock disabled index={-1} block={{ text: draft.title }} />
             {
                 draft.thumbnail && draft.thumbnail.link !== '' ?
-                <div className="relative flex aspect-video items-center justify-center w-full min-h-[16rem] h-fit">
-                    <div className="absolute z-10 p-2 rounded-xl bg-neutral-900"><BiLock size={27} /></div>
-                    <MediaBlock {...{link: draft.thumbnail.link, type: 'image'}} object='cover' autoPlay />
-                </div>
+                <MenuMediaBlock index={-1} block={draft.thumbnail} disabled />
                 : draft.rootBlock.link !== '' &&
-                <div className="relative flex aspect-video items-center justify-center w-full h-fit min-h-[16rem]">
-                    <div className="absolute z-10 p-2 rounded-xl bg-neutral-900"><BiLock size={27} /></div>
-                    <MediaBlock {...draft.rootBlock} autoPlay object='cover' />
-                </div>
+                <MenuMediaBlock index={-1} block={draft.rootBlock} disabled />
             }
             <div className="flex flex-col w-full h-full gap-2">
             {
@@ -88,34 +78,33 @@ const BlocksOut = () => {
                     )
                 })
                 :
-                <DndContext onDragEnd={onDragEnd} sensors={sensors}
-                autoScroll={{ acceleration: .1 }}>
-                    <SortableContext strategy={verticalListSortingStrategy} items={draft.blocks.map((_, index) => ({ id: index }))}>
+                <DndContext onDragEnd={onDragEnd} sensors={sensors}>
+                    <SortableContext strategy={verticalListSortingStrategy} items={draft.blocks.map((_, index) => ({ id: index + 1, ..._ }))}>
                         {
                             draft.blocks.map((block, index) => {
                                 if (block.type === 'text') {
                                     return (
-                                        <SortableWrapper key={`block#${index}`} index={index}>
+                                        <SortableWrapper key={`block#${index}`} index={index + 1}>
                                             <TextBlock index={index} block={block} />
                                         </SortableWrapper>
                                     )
                                 } 
                                 if (block.type === 'image') {
                                     return (
-                                        <SortableWrapper key={`block#${index}`} index={index}>
+                                        <SortableWrapper key={`block#${index}`} index={index + 1}>
                                             <MenuMediaBlock index={index} block={block} />
                                         </SortableWrapper>
                                     ) 
                                 }
                                 if (block.type === 'video') {
                                     return (
-                                        <SortableWrapper key={`block#${index}`} index={index}>
+                                        <SortableWrapper key={`block#${index}`} index={index + 1}>
                                             <MenuMediaBlock index={index} block={block} />
                                         </SortableWrapper>
                                     ) 
                                 }
                                 return (
-                                    <SortableWrapper key={`block#${index}`} index={index}>
+                                    <SortableWrapper key={`block#${index}`} index={index + 1}>
                                         <div className="flex flex-col items-center justify-center w-full h-56 border rounded-xl border-neutral-800 bg-neutral-950"/>
                                     </SortableWrapper>
                                 )

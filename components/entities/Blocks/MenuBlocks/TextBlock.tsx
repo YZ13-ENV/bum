@@ -1,28 +1,36 @@
 import { TextBlock } from '@/types'
 import { Button } from 'antd'
-import { BiTrashAlt } from 'react-icons/bi'
+import { BiLock, BiText, BiTrashAlt } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks } from '../../uploader/draft.store'
-import TextLine from '../ViewBlocks/TextLine'
 
 type Props = {
-    block: TextBlock
+    block: Partial<TextBlock>
     index: number
+    disabled?: boolean
 }
-const TextBlock = ({ block, index }: Props) => {
+const TextBlock = ({ block, index, disabled=false }: Props) => {
     const dispatch = useAppDispatch()
+    const MdSyntax = useAppSelector(state => state.uploader.modals.enableMDSyntax)
     const draft = useAppSelector(state => state.uploader.draft)
     const deleteBlock = () => {
         const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
         dispatch(setBlocks(filteredBlocks))
     }
     return (
-        <div className="flex items-center justify-between w-full p-2 bg-black border h-fit rounded-xl border-neutral-800">
-            <div className="flex flex-col w-full h-fit">
-                {/* <BiGridVertical size={17} /> */}
-                    {block.text.split('\n').map(line => <TextLine key={'menu-line' + line} align='text-start' line={line} />) || 'Текст блока'}
+        <div className="flex items-center justify-between w-full h-12 gap-2 p-2 bg-black border rounded-xl group border-neutral-800">
+            <div className="flex items-center h-full gap-2 w-fit">
+                <div className="w-1 h-full transition-colors bg-transparent rounded-full group-hover:bg-white" />
+                <BiText size={21} />
+                { MdSyntax && <sup className='text-neutral-200'>MD</sup> }
+                <span className='text-sm select-none line-clamp-1 text-neutral-300'>{ block?.text || 'Текст' }</span>
             </div>
-            <Button onClick={deleteBlock} danger type='text'><BiTrashAlt size={17} /></Button>
+            {   disabled 
+                ? <BiLock size={17} className='mr-2 text-neutral-400' />
+                : <div className='items-center hidden h-full gap-2 w-fit group-hover:flex'>
+                    <Button onClick={deleteBlock} danger className='!px-2'><BiTrashAlt size={17} /></Button>
+                </div>
+            }
         </div>
     )
 }
