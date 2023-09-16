@@ -29,7 +29,7 @@ const ImageAmbiLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withA
         <>
             <canvas ref={canvas} id="ambiLight" />
             <Image ref={ImageBlock} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
-            className={`!relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'}  rounded-xl`} 
+            className={`!relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'} aspect-[4/3] rounded-xl`} 
             alt='block-image' quality={quality} />
         </>
     )

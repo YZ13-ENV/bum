@@ -11,7 +11,7 @@ const LoadedImage = ({ link, quality=75, object='contain', withAmbiLight }: Load
     if (withAmbiLight) return <ImageAmbiLight link={link} object={object} quality={quality} />
     return (
         <Image priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
-        className={`!relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'}  rounded-xl`} 
+        className={`!relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'} aspect-[4/3] rounded-xl`} 
         alt='block-image' quality={quality} />
     )
 }
