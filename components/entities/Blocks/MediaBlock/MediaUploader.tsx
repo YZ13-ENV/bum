@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { ImageBlock, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
-import { uploadMedia } from '@/helpers/uploadMedia'
+import { uploadMedia, uploadThumbnail } from '@/helpers/uploadMedia'
 import { getHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
@@ -24,7 +24,6 @@ type Props = {
 }
 
 const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false }: Props) => {
-    const [messageAPI, messageContext] = message.useMessage()
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
     const isSubscriber = useAppSelector(state => state.user.isSubscriber)
@@ -46,15 +45,26 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
                         res(uploadedFile)
                     })
+                    const uploadedThumbnail = new Promise<string | null>(async(res, rej) => {
+                        const uploadedFile = await uploadThumbnail(user.uid, targetDraft, opt.file as RcFile)
+                        res(uploadedFile)
+                    })
                     uploadedFile.then((link) => {
                         if (link) {
                             dispatch(setRootBlock({ type: draft.rootBlock.type, link: link }))
-                            messageAPI.success('Изображение загруженно')
+                            message.success('Файл загруженно')
                             setLoading(false)
                         } 
                     })
                     .finally(() => setLoading(false))
-                    .catch(why => messageAPI.error('Что-то пошло не так и изображение не загрузилось'))
+                    .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
+                    uploadedThumbnail.then((link) => {
+                        if (link) {
+                            dispatch(setThumbnail({ link: link, width: '400', height: '300' }))
+                            message.success('Обложка загружена')
+                        } 
+                    })
+                    .catch(why => message.error('Что-то пошло не так и обложка не загрузилась'))
                 } else {
                         setLoading(true)
                         const uploadedFile = new Promise<string | null>(async(res, rej) => {
@@ -63,7 +73,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         })
                         uploadedFile.then((link) => {
                             if (link) {
-                                messageAPI.success('Изображение загруженно')
+                                message.success('Изображение загруженно')
                                 const updatedBlocks = draft.blocks.map((_, blockIndex) => {
                                     if (blockIndex === index && _.type === 'image') {
                                         const updatedBlock: ImageBlock = {
@@ -83,7 +93,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                             } 
                         })
                         .finally(() => setLoading(false))
-                        .catch(why => messageAPI.error('Что-то пошло не так и изображение не загрузилось'))
+                        .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
                 }
             }
         },
