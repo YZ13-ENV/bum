@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 
 type InitState = {
+    fullScreenMediaLink: string | null
     enableMDSyntax: boolean
     draftId: string | null
     blocksSidebar: boolean
@@ -10,6 +11,7 @@ type InitState = {
 }
 
 const initialState: InitState = {
+    fullScreenMediaLink: null,
     enableMDSyntax: false,
     draftId: null,
     blocksSidebar: false,
@@ -21,6 +23,9 @@ const ModalUploaderSlice = createSlice({
     name: 'modal-control',
     initialState,
     reducers: {
+        setMediaLink(state, { payload, type }: { payload: InitState['fullScreenMediaLink'], type: string }) {
+            state.fullScreenMediaLink = payload
+        },
         setMDSyntax(state, { payload, type }: { payload: InitState['enableMDSyntax'], type: string }) {
             state.enableMDSyntax = payload
         },
@@ -38,5 +43,5 @@ const ModalUploaderSlice = createSlice({
         }
     }
 })
-export const { setDraftId, setMDSyntax, setBlockSidebar, setPrevWorkSidebar, setFinalTouchModal } = ModalUploaderSlice.actions
+export const { setMediaLink, setDraftId, setMDSyntax, setBlockSidebar, setPrevWorkSidebar, setFinalTouchModal } = ModalUploaderSlice.actions
 export default ModalUploaderSlice.reducer

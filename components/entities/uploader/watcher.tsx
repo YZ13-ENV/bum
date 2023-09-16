@@ -6,6 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { useState } from 'react'
 import { isEqual } from 'lodash'
+import { message } from 'antd'
 
 const UploaderWatcher = () => {
     const [user] = useAuthState(auth)
@@ -14,15 +15,20 @@ const UploaderWatcher = () => {
     const [debouncedShot, setDebouncedShot] = useState<ShotForUpload | null>(null)
     const uploadShot = async(userId: string, shotId: string, shot: ShotForUpload) => {
         if (!debouncedShot || !isEqual(shot, debouncedShot)) {
-            await uploadShot_POST(userId, shotId, shot)
-            setDebouncedShot(shot)
+            try {
+                message.info('Синхронизируем')
+                await uploadShot_POST(userId, shotId, shot)
+                setDebouncedShot(shot)
+            } catch(e) {
+                message.error('Ошибка при синхронизации')
+            }
         }
     }
     useDebounceEffect(() => {
         if (modals.draftId && user && modals.finalTouchModal === false) {
             uploadShot(user.uid, modals.draftId, draft)
         }
-    }, [modals.draftId, modals.finalTouchModal, draft, user], { maxWait: 2000, wait: 1000 })
+    }, [modals.draftId, modals.finalTouchModal, draft, user], { wait: 10000 })
     return (
         <></>
     )
