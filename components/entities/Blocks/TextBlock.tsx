@@ -104,7 +104,7 @@ const TextBlock = ({ block, index }: Props) => {
     },[enableSyntax])
     if (preview) return(
         <div className='flex flex-col items-end justify-center w-full gap-2 h-fit'>
-            <MDTextBlock block={block} />
+            <MDTextBlock enableMdSyntax={enableSyntax} block={block} />
             <div onClick={e => e.preventDefault()} className="flex items-center gap-2 w-fit h-fit">
                 <Button onClick={() => setPreview(!preview)} type={preview ? 'primary' : 'default'} disabled={!enableSyntax}><BiSolidMagicWand /></Button>
                 <Button type={enableSyntax ? 'primary' : 'default'} 

@@ -10,9 +10,9 @@ import { useRouter } from 'next/navigation'
 import { uploadDraft_POST } from '@/helpers/shot'
 import { setFinalTouchModal, setDraftId } from '@/components/entities/uploader/modal.store'
 import { setDraft } from '@/components/entities/uploader/draft.store'
+import ModalWrapper from '@/components/shared/ModalWrapper'
 const PreviewSide = dynamic(() => import('./ui/PreviewSide'))
 const DraftConfig = dynamic(() => import('./ui/DraftConfig'))
-const ModalWrapper = dynamic(() => import('./ui/ModalWrapper')) 
 const ModalHeader = dynamic(() => import('./ui/ModalHeader')) 
 
 const FinalTouchModal = () => {
