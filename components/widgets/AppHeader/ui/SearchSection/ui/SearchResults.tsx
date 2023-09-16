@@ -37,7 +37,7 @@ const SearchResults = ({ q, setQ }: Props) => {
             </div>
             {
                 loading ?
-                <div className="grid w-full h-[97%] shrink-0 gap-4 md:!grid-cols-2 !grid-cols-1 search_grid">
+                <div className="grid w-full h-[97%] gap-4 min-h-fit preview_grid">
                     <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
                     <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
 
@@ -68,7 +68,7 @@ const SearchResults = ({ q, setQ }: Props) => {
                     </div>
                 </>
                 :
-                <div className="grid w-full min-h-min h-fit shrink-0 gap-4 md:!grid-cols-2 !grid-cols-1 search_grid">
+                <div className="grid w-full gap-4 min-h-fit preview_grid">
                     {
                         res.map((shot) => <div key={shot.doc_id + 'searched'}><ShotCard shot={shot} /></div>)
                     }
