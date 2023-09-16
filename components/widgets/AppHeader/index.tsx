@@ -9,7 +9,7 @@ import Link from 'next/link'
 import UserStatus from '@/components/entities/user'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
-import { BiShare } from 'react-icons/bi'
+import { BiSolidMagicWand } from 'react-icons/bi'
 import { Button } from 'antd'
 import SearchSection from './ui/SearchSection'
 import SearchBar from '../SearchBar'
@@ -28,7 +28,7 @@ const AppHeader = () => {
         <header className="flex flex-col items-center justify-center w-full gap-8 px-4 py-8 md:px-12 h-fit">
             <nav className="relative flex items-center justify-center w-full h-fit">
                 { user && 
-                    <Button className='!absolute left-0' size='large' type='primary' href='/uploads/shot' icon={<BiShare size={17} className='inline mb-0.5' />}>
+                    <Button className='!absolute left-0' size='large' type='primary' href='/uploads/shot' icon={<BiSolidMagicWand size={17} className='inline mb-0.5' />}>
                     { isTabletOrMobile ? '' : 'Поделиться работой'}</Button> 
                 }
                 <Link href='/'><Image src='/LogoWHandFont.svg' width={isTabletOrMobile ? 80 : 128} height={isTabletOrMobile ? 40 : 64} alt='v2-logo' /></Link>

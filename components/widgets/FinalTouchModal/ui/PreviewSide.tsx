@@ -11,11 +11,9 @@ const PreviewSide = () => {
     return (
         <div className="flex flex-col w-full gap-2 md:w-2/6 md:h-full h-fit">
             <span className='text-sm font-semibold text-neutral-200'>Предпросмотр обложки</span>
-            <div className="grid w-full h-full preview_grid">
-                <div className="w-full col-span-2">
-                    <ShotCard shot={{ ...uploaderDraft, comments: [], needFeedback: false, tags: [], createdAt: DateTime.now().toSeconds(), likes: [],
-                    doc_id: uploader.modals.draftId as string, isDraft: true, authorId: user?.uid || '',  views: [] }} />
-                </div>
+            <div className="grid w-full h-fit preview_grid">
+                <ShotCard shot={{ ...uploaderDraft, comments: [], needFeedback: false, tags: [], createdAt: DateTime.now().toSeconds(), likes: [],
+                doc_id: uploader.modals.draftId as string, isDraft: true, authorId: user?.uid || '',  views: [] }} />
             </div>
         </div>
     )

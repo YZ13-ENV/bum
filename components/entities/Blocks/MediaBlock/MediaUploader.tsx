@@ -15,6 +15,7 @@ import { getHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
 import { setDraftId } from '../../uploader/modal.store'
+import { uploadShot_POST } from '@/helpers/shot'
 
 type Props = {
     block: ImageBlock | VideoBlock
@@ -52,8 +53,9 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     uploadedFile.then((link) => {
                         if (link) {
                             dispatch(setRootBlock({ type: draft.rootBlock.type, link: link }))
-                            message.success('Файл загруженно')
+                            message.success('Файл загружен')
                             setLoading(false)
+                            uploadShot_POST(user.uid, targetDraft, draft)
                         } 
                     })
                     .finally(() => setLoading(false))
@@ -61,6 +63,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     uploadedThumbnail.then((link) => {
                         if (link) {
                             dispatch(setThumbnail({ link: link, width: '400', height: '300' }))
+                            uploadShot_POST(user.uid, targetDraft, draft)
                             message.success('Обложка загружена')
                         } 
                     })
