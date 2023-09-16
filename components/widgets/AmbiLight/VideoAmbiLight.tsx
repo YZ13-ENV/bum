@@ -55,7 +55,7 @@ const VideoAmbiLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLigh
     return (
         <>
             <canvas ref={canvas} id="ambiLight" onLoad={() => repaintAmbilight()} />
-            <video ref={videoBlock} src={link} muted className='object-cover w-full h-full rounded-xl' loop autoPlay={autoPlay} controls={false} />
+            <video ref={videoBlock} src={link} muted className='object-cover w-full h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />
         </>
     )
 }

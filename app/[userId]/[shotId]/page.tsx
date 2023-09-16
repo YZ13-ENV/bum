@@ -97,9 +97,7 @@ const ShotPage = async({ params }: Props) => {
                 <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
                     <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
                 </div>
-                <Suspense fallback={<div className='w-full h-96 rounded-xl bg-neutral-900' />}>
-                    <MediaBlock withAmbiLight={user.isSubscriber || false} {...shot.rootBlock} autoPlay />
-                </Suspense>
+                <MediaBlock withAmbiLight={user.isSubscriber || false} {...shot.rootBlock} autoPlay />
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
