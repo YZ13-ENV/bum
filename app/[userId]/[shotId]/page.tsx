@@ -101,11 +101,8 @@ const ShotPage = async({ params }: Props) => {
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
-                            return (
-                                <Suspense key={`block#${index}`} fallback={<ImageLoader />}>
-                                     <MediaBlock {...block} />
-                                </Suspense>
-                            )
+                            return <MediaBlock key={`block#${index}`} {...block} />
+                            
                         }
                         if (block.type === 'text') {
                             return (
