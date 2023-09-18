@@ -4,9 +4,11 @@ import TextBlock from '@/components/entities/Blocks/ViewBlocks/TextBlock'
 import ShotPageFooter from '@/components/widgets/ShotPageFooter'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
+import { useSpring, animated, easings } from '@react-spring/web'
+import { useScroll } from 'ahooks'
 import { Button } from 'antd'
 import { useRouter } from 'next/navigation'
-import React, { Suspense, useLayoutEffect, useState } from 'react'
+import React, { ElementRef, Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { BiLoaderAlt, BiX } from 'react-icons/bi'
 
 type Props = {
@@ -19,6 +21,10 @@ const ModalShotPage = ({ params }: Props) => {
     const router = useRouter()
     const [shot, setShot] = useState<DocShotData | null>(null)
     const [user, setUser] = useState<ShortUserData | null>(null)
+    const ref = useRef(null);
+    const sectionRef = useRef<ElementRef<'section'>>(null)
+    const scroll = useScroll(ref);
+    const [wideMode, setWideMode] = useState<boolean>(false)
     const getUserShort = async() => {
         try {
             const userRes = await fetch(`${getHost()}/users/shortData?userId=${params.userId}`, { method: 'GET', next: { revalidate: 3600 } })
@@ -41,6 +47,8 @@ const ModalShotPage = ({ params }: Props) => {
     const jumpBack = () => {
         const root = document.getElementById("root")
         root?.classList.remove('overflow-hidden')
+        setUser(null)
+        setShot(null)
         router.back()
     }
     useLayoutEffect(() => {
@@ -49,21 +57,49 @@ const ModalShotPage = ({ params }: Props) => {
         getUserShort()
         getShot()
     },[params])
+    useLayoutEffect(() => {
+        if (scroll && scroll.top > 40) {
+            setWideMode(true)
+            if (sectionRef.current) {
+                sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+        }
+        if (scroll && scroll.top <= 40) {
+            setWideMode(false)
+        }
+    },[scroll])
+    const [props, api] = useSpring(
+        () => ({
+          from: { 
+            height: '10%'
+           },
+          to: { 
+            height: '100%'
+           },
+           config: {
+            duration: 1200,
+            easing: easings.easeOutCubic
+           }
+        }),
+        []
+      )
     if (!user || !shot) return (
         <div onClick={jumpBack}
         className='fixed top-0 left-0 z-50 flex flex-col items-center justify-end w-full h-full bg-black bg-opacity-50'>
-            <section onClick={e => e.stopPropagation()} className='flex flex-col items-center justify-center w-full max-w-6xl p-2 mx-auto h-5/6 shrink-0 rounded-t-xl bg-neutral-950'>
+            <animated.section style={props} onClick={e => e.stopPropagation()} className='flex flex-col items-center justify-center w-full max-w-6xl p-2 mx-auto h-5/6 shrink-0'>
                 <BiLoaderAlt size={21} className='animate-spin' />
-            </section>
+            </animated.section>
         </div>
     )
     return (
-        <div onClick={jumpBack}
+        <div onClick={jumpBack} ref={ref}
         className='fixed top-0 left-0 z-50 flex flex-col items-center justify-start w-full h-full overflow-y-auto bg-black bg-opacity-50'>
-            <div onClick={e => e.stopPropagation()} className="flex items-start justify-end w-full max-w-6xl py-4 h-1/6">
+            <div className="flex items-start justify-end w-full h-40 max-w-6xl py-4 shrink-0">
                 <Button onClick={jumpBack} type='text'><BiX size={25} /></Button>
             </div>
-            <section onClick={e => e.stopPropagation()} className='flex flex-col w-full max-w-6xl min-h-full px-2 py-4 mx-auto gap-14 lg:px-0 h-fit shrink-0 rounded-t-xl bg-neutral-950'>
+            <section ref={sectionRef} onClick={e => e.stopPropagation()} 
+            style={{ transform: wideMode ? `scale(${1})` : `scale(${.95})`}}
+            className={`flex flex-col w-full max-w-6xl transition-all duration-1000 min-h-full pt-12 mx-auto gap-14 h-fit shrink-0`}>
                 <div className="flex flex-col w-full max-w-md mx-auto gap-14 md:max-w-4xl h-fit shrink-0">
                     <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
                         <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
@@ -86,10 +122,9 @@ const ModalShotPage = ({ params }: Props) => {
                         })
                     }
                 </div>
-                {/* <ConfettiForNewShot views={shot.views.length} /> */}
-                <Suspense fallback={<div className='flex items-center justify-center w-full h-96'><BiLoaderAlt size={17} className='animate-spin'/></div>}>
+                <div className="p-8 mx-auto bg-black w-fit h-fit rounded-t-xl">
                     <ShotPageFooter shot={shot} user={user} />
-                </Suspense>
+                </div>
             </section>
         </div>
     )
