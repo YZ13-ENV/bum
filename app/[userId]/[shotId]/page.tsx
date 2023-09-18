@@ -85,8 +85,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 const ShotPage = async({ params }: Props) => {
-    const shot = await getShot(params.userId, params.shotId)
     const user = await getUser(params.userId)
+    const shot = await getShot(params.userId, params.shotId)
     if (!shot || !user) return (
         <section className='flex flex-col items-center justify-center w-full min-h-full gap-6'>
             <h1 className='text-2xl font-bold text-center text-neutral-200'>Такой работы не существует или к ней ограничен доступ</h1>
