@@ -185,7 +185,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         )
     }
     return (
-        <Dragger disabled={loading} className='md:!h-[32rem] !aspect-[4/3] !shrink-0' {...props} defaultFileList={[]}>
+        <Dragger disabled={loading} className='!aspect-[4/3] !shrink-0' {...props} defaultFileList={[]}>
             <div className="flex flex-col items-center justify-center w-full max-w-lg gap-6 p-4 mx-auto md:p-0 h-fit">
                 {
                     loading 

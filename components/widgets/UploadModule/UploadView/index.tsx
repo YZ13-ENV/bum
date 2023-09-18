@@ -29,7 +29,7 @@ const UploadBlockView = () => {
             <UploaderWatcher />
             <div className="flex flex-col w-full h-full max-w-4xl max-h-full gap-4 px-4 py-4 mx-auto overflow-y-auto md:px-0 md:py-4">
                 <div className="w-full max-w-2xl mx-auto">
-                    <Input size='large' disabled={draft.rootBlock.link === ''} className='!rounded-none !p-0 !text-2xl !font-bold'
+                    <Input size='large' disabled={draft.rootBlock.link === ''} className='!rounded-none !text-center !p-0 !text-2xl !font-bold'
                     value={draft.title} onChange={e => dispatch(setTitle(e.target.value))}
                     placeholder={draft.rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
                 </div>

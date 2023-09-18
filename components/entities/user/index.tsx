@@ -4,7 +4,7 @@ import { Button, Dropdown, MenuProps, QRCode, Space } from 'antd'
 import Image from 'next/image'
 import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiChevronRight, BiLoaderAlt, BiLogOut, BiPlus, BiUser, BiUserCircle } from 'react-icons/bi'
+import { BiChevronRight, BiCog, BiLoaderAlt, BiLogOut, BiPlus, BiUser, BiUserCircle } from 'react-icons/bi'
 import { useCookieState, useLocalStorageState } from 'ahooks'
 import { useRouter } from 'next/navigation'
 import Avatar from '@/components/shared/Avatar'
@@ -52,7 +52,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
             key: 2,
             label: 'Перейти в профиль',
             icon: <BiUserCircle size={17} />,
-            onClick: () => router.push('https://darkmaterial.space/profile'),
+            onClick: () => router.push(`/${user?.uid}`),
             itemIcon: <BiChevronRight size={17} />
         },
         {
@@ -69,8 +69,16 @@ const UserStatus = ({ showDropdown=true }: Props) => {
             label: <SessionSection />
         },
         {
+            key: 5,
+            label: 'Настройки',
+            icon: <BiCog size={17} />,
+            onClick: () => router.push('https://darkmaterial.space/profile'),
+            itemIcon: <BiChevronRight size={17} />
+        },
+        {
             type: 'divider'
         },
+        
         {
             key: 10,
             icon: <BiLogOut size={17} />,

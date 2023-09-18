@@ -15,7 +15,7 @@ const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/
     loading: () => <TextLoader />
 })
 const MediaBlock = dynamic(() => import('@/components/entities/Blocks/MediaBlock'), {
-    loading: () => <div className='w-full h-96 rounded-xl bg-neutral-900' />
+    loading: () => <div className='w-full aspect-[4/3] rounded-xl bg-neutral-900' />
 }) 
 type Props = {
     params: {
@@ -50,8 +50,9 @@ const getShot = async(userId: string, shotId: string) => {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (process.env.NODE_ENV === 'development') return {}
     try {
-        const shot = await getShot(params.userId, params.shotId)
-        const user = await getUser(params.userId)
+        const shotData = getShot(params.userId, params.shotId)
+        const userData = getUser(params.userId)
+        const [shot, user] = await Promise.all([shotData, userData])
         if (!shot || !user) return {}
         return {
             title: shot.title,
@@ -85,8 +86,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 const ShotPage = async({ params }: Props) => {
-    const user = await getUser(params.userId)
-    const shot = await getShot(params.userId, params.shotId)
+    const shotData = getShot(params.userId, params.shotId)
+    const userData = getUser(params.userId)
+    const [shot, user] = await Promise.all([shotData, userData])
     if (!shot || !user) return (
         <section className='flex flex-col items-center justify-center w-full min-h-full gap-6'>
             <h1 className='text-2xl font-bold text-center text-neutral-200'>Такой работы не существует или к ней ограничен доступ</h1>

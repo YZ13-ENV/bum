@@ -60,8 +60,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const UserPage = async({ params, searchParams }: Props) => {
-    const shots = await getShots(params.userId, searchParams.tab)
-    const user = await getUserShort(params.userId)
+    const shotsData = getShots(params.userId, searchParams.tab)
+    const userData = getUserShort(params.userId)
+    const [shots, user] = await Promise.all([shotsData, userData])
     if (!user) return null
     return (
         <section className='flex flex-col w-full h-full'>
