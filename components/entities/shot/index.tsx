@@ -23,7 +23,7 @@ const ShotCard = ({ shot }: Props) => {
     )
     return (
         <ShotWrapper shot={shot}>
-            <Link href={`/${shot.authorId}/${shot.doc_id}`} className='relative w-full aspect-[4/3] h-full'>
+            <Link scroll={false} href={`/${shot.authorId}/${shot.doc_id}`} className='relative w-full aspect-[4/3] h-full'>
                 {
                     shot.thumbnail
                     ? <MediaBlock {...{ link: shot.thumbnail.link, type: shot.thumbnail.link.endsWith('.mp4') ? 'video' : 'image' }} quality={100} object='cover' autoPlay={false} />

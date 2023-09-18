@@ -8,6 +8,7 @@ import TokenWatcher from '@/components/entities/session/token.watcher'
 import LayoutWrapper from '@/components/LayoutWrapper';
 import AppHeader from '@/components/widgets/AppHeader';
 import dynamic from 'next/dynamic';
+import { ReactNode } from 'react'
 const SessionPicker = dynamic(() => import('@/components/widgets/SessionPicker'));
 const NunitoSans = Nunito_Sans({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
@@ -39,11 +40,7 @@ export const metadata: Metadata = {
 },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout(props: { children: ReactNode, modal: ReactNode }) {
   return (
     <StateProvider>
       <LayoutWrapper>
@@ -54,7 +51,8 @@ export default function RootLayout({
             <AppHeader />
             <SessionPicker />
             <main className="flex flex-col w-full shrink-0 shot_wrapper">
-              {children}
+              {props.children}
+              {props.modal}
             </main>
             <Analytics />
           </body>
