@@ -28,7 +28,7 @@ const AppHeader = () => {
                         { isTabletOrMobile ? '' : 'Поделиться работой'}</Button> 
                     }
                 </Suspense>
-                <Link href='/'><Image src='/LogoWHandFont.svg' width={isTabletOrMobile ? 80 : 128} height={isTabletOrMobile ? 40 : 64} alt='v2-logo' /></Link>
+                <Link href='/'><Image src='/DMXDEY.svg' width={isTabletOrMobile ? 120 : 200} height={isTabletOrMobile ? 40 : 64} alt='v2-logo' /></Link>
                 <div className="absolute right-0">
                     <UserStatus />
                 </div>
