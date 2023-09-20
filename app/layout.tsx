@@ -1,5 +1,5 @@
 import './globals.css'
-import { Nunito_Sans } from 'next/font/google'
+import { Rubik } from 'next/font/google'
 import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react';
 import StateProvider from '@/components/StateProvider'
@@ -10,7 +10,7 @@ import AppHeader from '@/components/widgets/AppHeader';
 import dynamic from 'next/dynamic';
 import { ReactNode } from 'react'
 const SessionPicker = dynamic(() => import('@/components/widgets/SessionPicker'));
-const NunitoSans = Nunito_Sans({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
+const rubik = Rubik({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
 export const metadata: Metadata = {
   title: 'Dey',
@@ -44,7 +44,7 @@ export default function RootLayout(props: { children: ReactNode, modal: ReactNod
   return (
     <StateProvider>
       <LayoutWrapper>
-        <html lang="en" className={`${NunitoSans.className} ${NunitoSans.variable}`}>
+        <html lang="en" className={`${rubik.className} ${rubik.variable}`}>
           <body id='root' className='flex flex-col overflow-x-hidden body_wrapper'>
             <SessionWatcher />
             <TokenWatcher />
