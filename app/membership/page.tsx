@@ -1,6 +1,7 @@
 'use client'
 import Avatar from '@/components/shared/Avatar'
 import { auth } from '@/utils/app'
+import { Button } from 'antd'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -11,6 +12,7 @@ const Membership = () => {
             <div className="flex flex-col items-center justify-center w-full gap-4 shrink-0 h-[80vh]">
                 <h1 className='font-bold text-center text-9xl'>DM+</h1>
                 <span className='text-lg font-medium text-center text-neutral-300'>Расширение возможностей</span>
+                <Button disabled size='large'>Запросить</Button>
             </div>
             <div className="flex flex-col w-full py-4 h-fit">
                 <div className="flex items-center w-full max-w-6xl gap-2 mx-auto h-fit">
