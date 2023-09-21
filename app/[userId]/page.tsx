@@ -63,21 +63,52 @@ const UserPage = async({ params, searchParams }: Props) => {
     const shotsData = getShots(params.userId, searchParams.tab)
     const userData = getUserShort(params.userId)
     const [shots, user] = await Promise.all([shotsData, userData])
+    const views = shots ? shots.map(shot => shot.views.length).reduce((a, b) => a + b) : 0
+    const likes = shots ? shots.map(shot => shot.likes.length).reduce((a, b) => a + b) : 0
     if (!user) return null
     return (
         <section className='flex flex-col w-full h-full'>
-            <div className="relative flex flex-col items-center w-full gap-4 px-4 py-2 md:px-12 border-y h-fit shrink-0 border-neutral-700">
-                <div className="flex items-center w-full gap-2 h-fit">
-                    { user && <Avatar src={user.photoUrl} size={64} /> }
-                    <div className="flex flex-col justify-center w-full h-full">
-                        <div className="flex items-center gap-1 w-fit h-fit">
-                            <span className='text-xl font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                            { user.isSubscriber && <span className="px-2 py-0.5 text-xs text-black bg-white rounded-md">Плюс</span> }
+            {
+                user.isSubscriber
+                ?
+                <div className="flex flex-wrap items-center justify-center w-full gap-2 px-4 py-2 h-fit md:px-12">
+                    <div className="flex items-center gap-2 px-4 py-2 w-fit h-fit rounded-xl bg-neutral-900">
+                        <Avatar src={user.photoUrl} size={60} />
+                        <div className="flex flex-col justify-center w-full h-full">
+                            <div className="flex items-center gap-1 w-fit h-fit">
+                                <span className='text-xl font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
+                                { user.isSubscriber && <span className="px-2 py-0.5 text-xs text-black bg-white rounded-md">Плюс</span> }
+                            </div>
+                            <span className='text-xs text-neutral-400'>{user?.email || ''}</span>
                         </div>
-                        <span className='text-xs text-neutral-400'>{user?.email || ''}</span>
+                    </div>
+                    <div className="flex flex-col px-4 py-2 w-fit h-fit rounded-xl bg-neutral-900">
+                        <span className='font-bold text-neutral-400'>Всего работ</span>
+                        <span className='text-3xl font-bold'>{shots?.length || 0}</span>
+                    </div>
+                    <div className="flex flex-col px-4 py-2 w-fit h-fit rounded-xl bg-neutral-900">
+                        <span className='font-bold text-neutral-400'>Всего просмотров</span>
+                        <span className='text-3xl font-bold'>{views}</span>
+                    </div>
+                    <div className="flex flex-col px-4 py-2 w-fit h-fit rounded-xl bg-neutral-900">
+                        <span className='font-bold text-neutral-400'>Всего лайков</span>
+                        <span className='text-3xl font-bold'>{likes}</span>
                     </div>
                 </div>
-            </div>
+                :
+                <div className="relative flex flex-col items-center w-full gap-4 px-4 py-2 md:px-12 border-y h-fit shrink-0 border-neutral-700">
+                    <div className="flex items-center w-full gap-2 h-fit">
+                        { user && <Avatar src={user.photoUrl} size={64} /> }
+                        <div className="flex flex-col justify-center w-full h-full">
+                            <div className="flex items-center gap-1 w-fit h-fit">
+                                <span className='text-xl font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
+                                { user.isSubscriber && <span className="px-2 py-0.5 text-xs text-black bg-white rounded-md">Плюс</span> }
+                            </div>
+                            <span className='text-xs text-neutral-400'>{user?.email || ''}</span>
+                        </div>
+                    </div>
+                </div>
+            }
             <div className="w-full h-full px-4 pt-4 md:px-12 md:profile_grid profile_grid_mobile">
                 <div className="flex flex-col w-full h-full gap-4">
                     <UserProfileTabs shotsLength={shots?.length || 0} profileUID={params.userId} />
