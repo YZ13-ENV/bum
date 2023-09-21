@@ -2,6 +2,8 @@
 import { TextBlock } from '@/types'
 import { fontSize } from '@/utils/fontSize'
 import TextLine from './TextLine'
+import ReactMarkdown from 'react-markdown'
+import Link from 'next/link'
 
 type Props = {
     block: TextBlock
@@ -33,9 +35,20 @@ const TextBlock = ({ block, enableMdSyntax=false }: Props) => {
     }
     return (
         <div className="flex flex-col w-full max-w-2xl mx-auto h-fit">
-            {
+            <ReactMarkdown
+                components={{
+                    h1: ({ node, children }) => <h1 className={`${align} text-4xl font-bold capitalize text-neutral-200`}>{children}</h1>,
+                    h2: ({ node, children }) => <h2 className={`${align} text-3xl font-bold capitalize text-neutral-200`}>{children}</h2>,
+                    h3: ({ node, children }) => <h3 className={`${align} text-2xl font-bold capitalize text-neutral-200`}>{children}</h3>,
+                    span: ({ node, children }) => <span className={`${align} shrink-0 min-h-[20px] text-neutral-300`}>{children}</span>,
+                    text: ({ node, children }) => <span className={`${align} shrink-0 min-h-[20px] text-neutral-300`}>{children}</span>,
+                    p: ({ node, children }) => <p className={`${align} shrink-0 min-h-[20px] text-neutral-300`}>{children}</p>,
+                    a: ({ node, href, children }) => <Link className='text-blue-500 underline' href={href || '/'}>{children}</Link>
+                }}
+            >{block.text}</ReactMarkdown>
+            {/* {
                 lines.map((line, index) => <TextLine align={align} line={line} key={line + index} />)
-            }
+            } */}
         </div>
     )
 }
