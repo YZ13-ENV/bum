@@ -3,10 +3,12 @@ import ShotCard from '@/components/entities/shot'
 import { useAppDispatch } from '@/components/entities/store/store'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
+import { auth } from '@/utils/app'
 import { useDebounceEffect } from 'ahooks'
 import { Button } from 'antd'
 import Link from 'next/link'
 import { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 type Props = {
     q: string
@@ -15,9 +17,10 @@ type Props = {
 const SearchResults = ({ q, setQ }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [res, setRes] = useState<DocShotData[]>([])
+    const [user] = useAuthState(auth)
     const fetchResults = async() => {
         setLoading(true)
-        const fetchUrl = `${getHost()}/search/shots?q=${q.toLowerCase()}`
+        const fetchUrl = `${getHost()}/search/shots?q=${q.toLowerCase()}${user ? `&userId=${user.uid}` : ''}`
         const res = await fetch(fetchUrl)
         if (res.ok) {
             const shots: DocShotData[] = await res.json()
@@ -38,17 +41,14 @@ const SearchResults = ({ q, setQ }: Props) => {
             {
                 loading ?
                 <div className="grid w-full h-[97%] gap-4 min-h-fit preview_grid">
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
-
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
-
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
-
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
-                    <div className='w-full h-full rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
+                    <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
 
                 </div>
                 : res.length === 0 ?
@@ -68,9 +68,9 @@ const SearchResults = ({ q, setQ }: Props) => {
                     </div>
                 </>
                 :
-                <div className="grid w-full gap-4 min-h-fit preview_grid">
+                <div className="flex flex-col w-full gap-4 min-h-fit">
                     {
-                        res.map((shot) => <div key={shot.doc_id + 'searched'}><ShotCard shot={shot} /></div>)
+                        res.map((shot) => <div key={shot.doc_id + 'searched'} className='aspect-[4/3]'><ShotCard shot={shot} /></div>)
                     }
                 </div>
             }
