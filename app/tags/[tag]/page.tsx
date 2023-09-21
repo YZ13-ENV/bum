@@ -26,6 +26,9 @@ const TagPage = async({ params }: Props) => {
     const shots = await getShotByTag(params.tag)
     return (
         <section className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
+            <div className="flex items-center justify-center w-full h-fit">
+                <h1 className='text-4xl font-bold text-center capitalize text-neutral-300'>{params.tag}</h1>
+            </div>
             <Tabs />
             <Shots shots={shots} />
         </section>
