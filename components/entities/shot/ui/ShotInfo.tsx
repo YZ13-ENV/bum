@@ -23,7 +23,7 @@ const ShotInfo = async({ shot }: Props) => {
     const user = await getShortData(shot.authorId)
     return (
         <section className='absolute left-0 z-20 flex flex-col w-full transition-all hover:bottom-0 -bottom-20 group/info h-fit'>
-            <div className="relative flex items-center justify-between w-full pl-3 pr-1 bg-opacity-25 h-fit bg-gradient-to-t from-black to-transparent">
+            <div className="relative flex items-center justify-between w-full py-1 pl-3 pr-1 bg-opacity-25 h-fit bg-gradient-to-t from-black to-transparent">
                 <h2 className='font-bold line-clamp-1 text-neutral-200'>{shot.title}</h2>
                 <ShotActions shot={shot} />
             </div>

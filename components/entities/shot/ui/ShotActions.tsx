@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { getHost } from '@/helpers/getHost'
 import { useRouter } from 'next/navigation'
+import { largeNumber } from '@/helpers/largeNumbers'
 
 type Props = {
     shot: DocShotData
@@ -93,11 +94,11 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
             danger={isInclude} type={'text'} className='!text-sm !font-semibold'
             icon={isInclude 
                 ? <BiSolidHeart size={15} className='inline my-auto mb-0.5 mr-1' /> 
-                : <BiHeart size={15} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
+                : <BiHeart size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(likes.length)}</Button>
             <div className="flex items-center rounded-full w-fit h-fit">
                 <Space.Compact>
-                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!text-sm !font-semibold !pr-1' icon={<BiSolidMessageRoundedDots size={15} className='inline my-auto mb-0.5 mr-1' />}>{shot.comments.length}</Button> }
-                    <Button type='text' shape='round' size='small' className={`!px-1 !text-sm !font-semibold`} icon={<BiSolidShow size={15} className='inline my-auto mb-0.5 mr-1' />}>{shot.views.length}</Button>
+                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!text-sm !font-semibold !pr-1' icon={<BiSolidMessageRoundedDots size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(shot.comments.length)}</Button> }
+                    <Button type='text' shape='round' size='small' className={`!px-1 !text-sm !font-semibold`} icon={<BiSolidShow size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(shot.views.length)}</Button>
                 </Space.Compact>
             </div>
         </div>
