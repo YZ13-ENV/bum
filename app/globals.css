@@ -96,3 +96,13 @@
   z-index: -1;
   height: 100%;
 }
+#ambiLightv2 {
+  aspect-ratio: 4 / 3;
+  position: absolute;
+  align-self: center;
+  filter: blur(100px);
+  opacity: 0.5;
+  z-index: -1;
+  width: 120%;
+  max-width: 1200px;
+}

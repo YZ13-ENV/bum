@@ -55,8 +55,9 @@ const VideoAmbiLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLigh
         }
     },[])
     return (
-        <div className='relative'>
-            <canvas ref={canvas} id="ambiLight" onLoad={() => repaintAmbilight()} />
+        <div className='relative flex items-center justify-center'>
+            <canvas ref={canvas} id="ambiLightv2" onLoad={() => repaintAmbilight()} />
+            {/* <canvas ref={canvas} id="ambiLight" onLoad={() => repaintAmbilight()} /> */}
             {/* { videoBlock.current && <Progress percent={videoBlock.current.currentTime / videoBlock.current.duration * 100} showInfo={false} /> } */}
             <video ref={videoBlock} src={link} muted
             className='object-cover w-full h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />
