@@ -30,7 +30,7 @@ const ShotInfo = async({ shot }: Props) => {
                 <h2 className='text-base font-medium text-neutral-200 line-clamp-1'>{shot.title}</h2>
                 <div className="flex items-center gap-2 shrink-0 w-fit h-fit">
                         <Link href={`/${shot.authorId}`}>
-                            <Avatar src={user ? user.photoUrl : null} size={32} isSub={isSub} direction='left' />
+                            <Avatar src={user ? user.photoUrl : null} size={32} noLabel isSub={isSub} direction='left' />
                         </Link>
                     <ShotActions shot={shot} isSub={isSub} />
                 </div>

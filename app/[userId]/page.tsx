@@ -64,8 +64,8 @@ const UserPage = async({ params, searchParams }: Props) => {
     const shotsData = getShots(params.userId, searchParams.tab)
     const userData = getUserShort(params.userId)
     const [shots, user] = await Promise.all([shotsData, userData])
-    const views = shots ? shots.map(shot => shot.views.length).reduce((a, b) => a + b) : 0
-    const likes = shots ? shots.map(shot => shot.likes.length).reduce((a, b) => a + b) : 0
+    const views = shots && (user?.isSubscriber || false) ? shots.map(shot => shot.views.length).reduce((a, b) => a + b) : 0
+    const likes = shots && (user?.isSubscriber || false) ? shots.map(shot => shot.likes.length).reduce((a, b) => a + b) : 0
     if (!user) return null
     return (
         <section className='flex flex-col w-full h-full'>
