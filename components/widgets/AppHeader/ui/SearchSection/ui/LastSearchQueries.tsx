@@ -1,9 +1,12 @@
 import { getHost } from '@/helpers/getHost'
 import { auth } from '@/utils/app'
+import { Button } from 'antd'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { BiX } from 'react-icons/bi'
 
 type SearchQuery = {
+    queryId: string
     query: string
     createdAt: number
 }
@@ -28,15 +31,22 @@ const LastSearchQueries = ({ q, setQ }: Props) => {
             }
         } else setQueries([])
     }
+    const deleteQuery = async(queryId: string) => user && fetch(`${getHost()}/search/dey?userId=${user.uid}&queryId=${queryId}`, { method: 'DELETE' }).then(() => getQueries())
     useLayoutEffect(() => {
         getQueries()
     },[])
     if (queries.length === 0) return null
     return (
-        <div className='flex flex-col w-full max-h-[10rem] overflow-y-auto gap-1 h-fit'>
+        <div className='flex flex-col w-full gap-1 h-fit'>
             {
-                queries.map(qr => <span key={qr.createdAt} onClick={() => setQ(qr.query)} 
-                className='px-2 py-1 text-sm capitalize bg-black border rounded-lg hover:bg-neutral-800 border-neutral-800 text-neutral-300'>{qr.query}</span>)
+                queries.map(qr => <div className='flex items-center justify-between w-full px-3 py-2 bg-black border rounded-lg hover:bg-neutral-800 border-neutral-800' 
+                key={qr.createdAt} onClick={() => setQ(qr.query)} >
+                    <span className='text-sm capitalize text-neutral-300'>{qr.query}</span>
+                    <Button onClick={e => {e.stopPropagation(); deleteQuery(qr.queryId)}} className='!px-2' type='text' size='small'>
+                        <BiX size={17} className='shrink-0 text-neutral-400' />
+                    </Button>
+                </div> 
+                )
             }
         </div>
     )

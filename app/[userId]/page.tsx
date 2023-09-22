@@ -1,3 +1,4 @@
+import SubLabel from '@/components/shared/SubLabel'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Metadata } from 'next'
@@ -77,7 +78,7 @@ const UserPage = async({ params, searchParams }: Props) => {
                         <div className="flex flex-col justify-center w-full h-full">
                             <div className="flex items-center gap-1 w-fit h-fit">
                                 <span className='text-xl font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                                { user.isSubscriber && <span className="px-2 py-0.5 text-xs text-black bg-white rounded-md">Плюс</span> }
+                                { user.isSubscriber && <SubLabel /> }
                             </div>
                             <span className='text-xs text-neutral-400'>{user?.email || ''}</span>
                         </div>
@@ -102,7 +103,7 @@ const UserPage = async({ params, searchParams }: Props) => {
                         <div className="flex flex-col justify-center w-full h-full">
                             <div className="flex items-center gap-1 w-fit h-fit">
                                 <span className='text-xl font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                                { user.isSubscriber && <span className="px-2 py-0.5 text-xs text-black bg-white rounded-md">Плюс</span> }
+                                { user.isSubscriber && <SubLabel /> }
                             </div>
                             <span className='text-xs text-neutral-400'>{user?.email || ''}</span>
                         </div>

@@ -1,6 +1,6 @@
 'use client'
 import { DocShotData } from '@/types'
-import { Button, Dropdown, MenuProps, Space } from 'antd'
+import { Badge, Button, Dropdown, MenuProps, Space } from 'antd'
 import { useLayoutEffect, useMemo, useState } from 'react'
 import { BiDotsVerticalRounded, BiHeart, BiSolidHeart, BiSolidMessageRoundedDots, BiSolidShow, BiTrashAlt } from 'react-icons/bi'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -12,8 +12,9 @@ import { largeNumber } from '@/helpers/largeNumbers'
 type Props = {
     shot: DocShotData
     isOnPage?: boolean
+    isSub?: boolean
 }
-const ShotActions = ({ shot, isOnPage=false }: Props) => {
+const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
@@ -88,6 +89,25 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
             </>
         )
     }
+    if (isSub) {
+        return (
+            <>
+                <Badge count={shot.likes.length} size='small' color='white'>
+                    <Button loading={loading} danger={isInclude} type={isInclude ? 'primary' : 'default'}
+                    onClick={addOrRemoveLike} size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiHeart /></Button>
+                </Badge>
+                { 
+                    shot.needFeedback && 
+                    <Badge count={shot.comments.length} size='small' color='white'>
+                        <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidMessageRoundedDots /></Button>
+                    </Badge>
+                }
+                <Badge count={shot.views.length} size='small' color='white'> 
+                    <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidShow /></Button>
+                </Badge>
+            </>
+        )
+    }
     return (
         <div onClick={e => e.stopPropagation()} className="flex items-center gap-2 p-2 transition-all w-fit h-fit">
             <Button onClick={addOrRemoveLike} loading={loading} size='small' 
@@ -97,7 +117,7 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
                 : <BiHeart size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(likes.length)}</Button>
             <div className="flex items-center rounded-full w-fit h-fit">
                 <Space.Compact>
-                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!text-sm !font-semibold !pr-1' icon={<BiSolidMessageRoundedDots size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(shot.comments.length)}</Button> }
+                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!text-sm !font-semibold !px-1' icon={<BiSolidMessageRoundedDots size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(shot.comments.length)}</Button> }
                     <Button type='text' shape='round' size='small' className={`!px-1 !text-sm !font-semibold`} icon={<BiSolidShow size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(shot.views.length)}</Button>
                 </Space.Compact>
             </div>

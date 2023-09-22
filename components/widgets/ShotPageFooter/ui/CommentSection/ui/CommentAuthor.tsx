@@ -1,4 +1,5 @@
 import Avatar from '@/components/shared/Avatar'
+import SubLabel from '@/components/shared/SubLabel'
 import { getHost } from '@/helpers/getHost'
 import { CommentBlock, ShortUserData } from '@/types'
 import { DateTime } from 'luxon'
@@ -43,7 +44,7 @@ const CommentAuthor = ({ authorId, createdAt, mini=false }: Props) => {
                 <div className="flex flex-col w-fit h-fit">
                     <div className="flex items-center gap-2 w-fit h-fit">
                         <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                        <span className='px-2 py-0.5 text-xs font-semibold text-black bg-white rounded-md'>Плюс</span>
+                        <SubLabel />
                     </div>
                     <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).setLocale('ru').toRelative()}</div>
                 </div>
@@ -56,7 +57,7 @@ const CommentAuthor = ({ authorId, createdAt, mini=false }: Props) => {
             <div className="flex flex-col w-fit h-fit">
                 <div className="flex items-center gap-2 w-fit h-fit">
                     <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                    <span className='px-2 py-0.5 text-xs font-semibold text-black bg-white rounded-md'>Плюс</span>
+                    <SubLabel />
                 </div>
                 <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).setLocale('ru').toRelative()}</div>
             </div>

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { v4 } from 'uuid'
+import SubLabel from './SubLabel'
 
 type Props = {
     src: string | null
@@ -13,7 +14,7 @@ const Avatar = ({ size, src, isSub, direction='left' }: Props) => {
     }
     return (
         <div className={`flex items-center ${direction === 'left' ? 'flex-row' : 'flex-row-reverse'} h-full gap-2 w-fit`}>
-            <span className='px-2 py-1 text-xs text-black bg-white rounded-md'>Плюс</span>
+            <SubLabel />
             <Image src={src ? src : '/EmptyUser.svg'} className={`rounded-full shrink-0 ${isSub && 'border-2 border-white'}`} width={size} height={size} alt={v4()} />
         </div>
     )
