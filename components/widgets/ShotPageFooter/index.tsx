@@ -6,6 +6,7 @@ import CommentSection from './ui/CommentSection'
 import WorksWrapper from './ui/LastWorks/ui/WorksWrapper'
 import Avatar from '@/components/shared/Avatar'
 import FollowButton from '../UserProfileTabs/ui/FollowButton'
+import { largeNumber } from '@/helpers/largeNumbers'
 
 type Props = {
     shot: DocShotData
@@ -30,7 +31,7 @@ const ShotPageFooter = ({ shot, user }: Props) => {
                 <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
                     <div className="flex items-center justify-between w-full h-fit">
                         <div className="flex items-center gap-2 w-fit h-fit">
-                            <span className='text-sm text-neutral-300'>{shot.views.length} просмотров</span>
+                            <span className='text-sm text-neutral-300'>{largeNumber(shot.views.length)} просмотров</span>
                             <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toLocaleString(DateTime.DATE_MED)}</span>
                         </div>
                         <div className="flex items-center w-fit h-fit">

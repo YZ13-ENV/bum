@@ -1,6 +1,6 @@
+import dynamic from 'next/dynamic'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
-import dynamic from 'next/dynamic'
 const Shots = dynamic(() => import('@/components/shared/Shots')) 
 const Tabs = dynamic(() => import('@/components/widgets/Tabs')) 
 

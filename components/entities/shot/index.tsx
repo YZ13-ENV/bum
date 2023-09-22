@@ -26,7 +26,8 @@ const ShotCard = ({ shot }: Props) => {
             <Link scroll={false} href={`/${shot.authorId}/${shot.doc_id}`} className='relative w-full aspect-[4/3] h-full'>
                 {
                     shot.thumbnail
-                    ? <MediaBlock {...{ link: shot.thumbnail.link, type: shot.thumbnail.link.endsWith('.mp4') ? 'video' : 'image' }} quality={100} object='cover' autoPlay={false} />
+                    ? <MediaBlock {...{ link: shot.thumbnail.link, type: shot.thumbnail.link.endsWith('.mp4') ? 'video' : 'image' }} 
+                    quality={100} object='cover' autoPlay={false} />
                     : <MediaBlock {...shot.rootBlock} quality={75} object='cover' autoPlay={false} />
                 }
             </Link>
