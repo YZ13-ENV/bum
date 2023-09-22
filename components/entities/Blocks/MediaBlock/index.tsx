@@ -1,9 +1,6 @@
-// const ServerBlockImage = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/ServerBlockImage')) 
-// const ServerBlockVideo = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/ServerBlockVideo')) 
 import LoadedImage from '@/components/shared/LoadedImage'
 import LoadedVideo from '@/components/shared/LoadedVideo'
 import { fetchFile } from '@/helpers/fetchFile'
-// import dynamic from 'next/dynamic'
 import { memo } from 'react'
 
 type MediaBlockProps = {

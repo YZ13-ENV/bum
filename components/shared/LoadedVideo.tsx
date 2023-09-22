@@ -1,6 +1,7 @@
 'use client'
 import { ElementRef, useLayoutEffect, useRef } from "react"
 import VideoAmbiLight from "../widgets/AmbiLight/VideoAmbiLight"
+import { useInViewport } from "ahooks"
 
 export type LoadedVideoProps = {
     withAmbiLight?: boolean
@@ -9,10 +10,10 @@ export type LoadedVideoProps = {
 }
 const LoadedVideo = ({ withAmbiLight=false, link, autoPlay=false }: LoadedVideoProps) => {
     const videoBlock = useRef<ElementRef<'video'>>(null)
+    const [inViewport] = useInViewport(videoBlock);
     useLayoutEffect(() => {
-        if (videoBlock.current) {
-        }
-    },[videoBlock])
+        if (videoBlock.current) {}
+    },[videoBlock, inViewport])
     if (withAmbiLight) return <VideoAmbiLight link={link} autoPlay={autoPlay} />
     return (
         <video src={link} ref={videoBlock} loop autoPlay={autoPlay} controls={false}
