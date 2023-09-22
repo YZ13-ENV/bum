@@ -13,7 +13,7 @@ const ImageAmbiLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withA
         if (canvas.current) {
             const context = canvas.current.getContext("2d");
             if (context && ImageBlock.current) {
-                context.drawImage(ImageBlock.current, 0, 0, ImageBlock.current.width, ImageBlock.current.height);
+                context.drawImage(ImageBlock.current, 0, 0, canvas.current.width, canvas.current.height);
             }
         }
     }
@@ -35,7 +35,7 @@ const ImageAmbiLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withA
     return (
         <div style={hex !== '' ? { backgroundColor: hex } : {}} 
         className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} aspect-[4/3] shrink-0 rounded-xl`}>
-            <canvas ref={canvas} id="ambiLight" />
+            <canvas ref={canvas} id="ambiLight" className='aspect-[4/3] rounded-xl' />
             <Image ref={ImageBlock} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
             className={`!relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'} aspect-[4/3] rounded-xl`} 
             alt='block-image' quality={quality} />

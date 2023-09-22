@@ -180,7 +180,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                 <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                     <Button className='!px-2' loading={loading} onClick={deleteImage} icon={<BiTrashAlt size={15} className='inline-block mb-1' />}>Удалить</Button>
                 </div>
-                <MediaBlock {...block} autoPlay object='contain' quality={75} />
+                <MediaBlock {...block} autoPlay object='contain' quality={75} withAmbiLight={isSubscriber} />
             </div>
         )
     }

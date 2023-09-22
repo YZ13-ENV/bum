@@ -1,7 +1,7 @@
 'use client'
 import { TextBlock } from '@/types'
 import { fontSize } from '@/utils/fontSize'
-import TextLine from './TextLine'
+// import TextLine from './TextLine'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 

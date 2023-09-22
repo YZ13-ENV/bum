@@ -7,7 +7,7 @@ import { PiUsersThree } from 'react-icons/pi'
 const SessionSection = () => {
     const [expand, setExpand] = useState<boolean>(false)
     const session = useAppSelector(state => state.watcher.session)
-    if (session.uids.length <= 1) return 0
+    if (session.uids.length <= 1) return null
     if (!expand) {
         return (
             <>
