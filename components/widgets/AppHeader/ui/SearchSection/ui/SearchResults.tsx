@@ -40,7 +40,7 @@ const SearchResults = ({ q, setQ }: Props) => {
             </div>
             {
                 loading ?
-                <div className="grid w-full h-[97%] gap-4 min-h-fit preview_grid">
+                <div className="grid w-full h-[97%] gap-4 min-h-fit search_grid">
                     <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
                     <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
                     <div className='w-full h-full aspect-[4/3] rounded-xl bg-neutral-800 animate-pulse'/>
@@ -68,7 +68,7 @@ const SearchResults = ({ q, setQ }: Props) => {
                     </div>
                 </>
                 :
-                <div className="flex flex-col w-full gap-4 min-h-fit">
+                <div className="grid w-full gap-4 search_grid">
                     {
                         res.map((shot) => <div key={shot.doc_id + 'searched'} className='aspect-[4/3]'><ShotCard shot={shot} /></div>)
                     }
