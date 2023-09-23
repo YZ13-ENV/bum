@@ -96,7 +96,7 @@ const ShotPage = async({ params }: Props) => {
         </section>
     )
     return (
-        <section className='relative flex flex-col w-full min-h-full px-2 py-4 gap-14 lg:px-0'>
+        <section className='relative flex flex-col w-full min-h-full px-2 py-4 overflow-x-hidden gap-14 lg:px-0'>
             <div className="flex flex-col w-full max-w-md mx-auto gap-14 md:max-w-4xl h-fit shrink-0">
                 <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
                     <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
