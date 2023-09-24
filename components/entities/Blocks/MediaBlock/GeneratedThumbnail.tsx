@@ -14,7 +14,7 @@ const GeneratedThumbnail = ({ videoSrc }: GenerateThumbnailProps) => {
             const context = canvasRef.current.getContext("2d");
             if (context && videoRef.current) {
                 videoRef.current.currentTime = 0;
-                videoRef.current.play();
+                // videoRef.current.play();
 
                 const scale = 1;
                 context.scale(scale, scale);
@@ -23,7 +23,7 @@ const GeneratedThumbnail = ({ videoSrc }: GenerateThumbnailProps) => {
                 canvasRef.current.height = videoRef.current.videoHeight * scale;
 
                 context.drawImage(videoRef.current, 0, 0, videoRef.current.videoWidth, videoRef.current.videoHeight);
-                videoRef.current.pause();
+                // videoRef.current.pause();
             }
         }
     }
@@ -40,8 +40,9 @@ const GeneratedThumbnail = ({ videoSrc }: GenerateThumbnailProps) => {
     }, [videoRef.current, needPlay])
     useLayoutEffect(() => {
         const video = videoRef.current;
+        const handleCanPlayThrough = () => paintThumbnail();
+        if (video && needPlay) video.removeEventListener("canplaythrough", handleCanPlayThrough);
         if (video && !needPlay) {
-            const handleCanPlayThrough = () => paintThumbnail();
             video.addEventListener("canplaythrough", handleCanPlayThrough);
             return () => {
                 video.removeEventListener("canplaythrough", handleCanPlayThrough);
