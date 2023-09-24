@@ -96,12 +96,13 @@ const ShotPage = async({ params }: Props) => {
         </section>
     )
     return (
-        <section className='relative flex flex-col w-full min-h-full px-2 py-4 overflow-x-hidden gap-14 lg:px-0'>
+        <section id='shot-page' className='relative flex flex-col w-full min-h-full p-4 gap-14 lg:px-0'>
             <div className="flex flex-col w-full max-w-md mx-auto gap-14 md:max-w-4xl h-fit shrink-0">
                 <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
                     <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
                 </div>
                 <MediaBlock withAmbiLight={user.isSubscriber || false} {...shot.rootBlock} autoPlay />
+                <div className="flex flex-col w-full px-6 md:px-12 h-fit gap-14">
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
@@ -110,14 +111,13 @@ const ShotPage = async({ params }: Props) => {
                         }
                         if (block.type === 'text') {
                             return (
-                                <div key={`block#${index}`} className="px-4 md:px-0">
-                                    <TextBlock enableMdSyntax={shot.enableMdSyntax || false} block={block} />
-                                </div>
+                                <TextBlock key={`block#${index}`} enableMdSyntax={shot.enableMdSyntax || false} block={block} />
                             )
                         }
                         return null
                     })
                 }
+                </div>
             </div>
             <ConfettiForNewShot views={shot.views.length} />
             <Suspense fallback={<div className='flex items-center justify-center w-full h-96'><BiLoaderAlt size={17} className='animate-spin'/></div>}>

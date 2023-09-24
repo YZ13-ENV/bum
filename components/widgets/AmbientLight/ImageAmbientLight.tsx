@@ -4,12 +4,12 @@ import Image from 'next/image';
 import { ElementRef, useLayoutEffect, useRef, useState } from 'react'
 import { FastAverageColor } from 'fast-average-color';
 
-const ImageAmbiLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withAmbiLight'>) => {
+const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withAmbiLight'>) => {
     const ImageBlock = useRef<ElementRef<'img'>>(null);
     const fac = new FastAverageColor()
     const canvas = useRef<ElementRef<'canvas'>>(null);
     const [hex, setHex] = useState<string>("")
-    function repaintAmbilight() {
+    function repaintAmbientLight() {
         if (canvas.current) {
             const context = canvas.current.getContext("2d");
             if (context && ImageBlock.current) {
@@ -23,8 +23,8 @@ const ImageAmbiLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withA
             .then(res => {
                 setHex(res.hex)
             })
-            repaintAmbilight()
-            ImageBlock.current.addEventListener("load", () => repaintAmbilight());
+            repaintAmbientLight()
+            ImageBlock.current.addEventListener("load", () => repaintAmbientLight());
         }
     },[ImageBlock.current])
     useLayoutEffect(() => {
@@ -35,7 +35,7 @@ const ImageAmbiLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withA
     return (
         <div style={hex !== '' ? { backgroundColor: hex } : {}} 
         className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} aspect-[4/3] flex items-center justify-center shrink-0 rounded-xl`}>
-            <canvas ref={canvas} id="ambiLightv2" onLoad={() => repaintAmbilight()} />
+            <canvas ref={canvas} id="ambiLightv2" onLoad={() => repaintAmbientLight()} />
             {/* <canvas ref={canvas} id="ambiLight" className='aspect-[4/3] rounded-xl' /> */}
             <Image ref={ImageBlock} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
             className={`!relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'} aspect-[4/3] rounded-xl`} 
@@ -44,4 +44,4 @@ const ImageAmbiLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withA
     )
 }
 
-export default ImageAmbiLight
+export default ImageAmbientLight

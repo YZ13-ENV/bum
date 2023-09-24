@@ -30,7 +30,7 @@ const SearchPlayground = () => {
                     <>
                         <div className="flex flex-col w-full gap-2 h-fit">
                             <span className='text-xs text-neutral-400'>Быстрые действия</span>
-                            <div onClick={() => router.push('/uploads/shot')} className="flex items-center w-full h-10 gap-1 px-3 bg-black border rounded-xl border-neutral-800">
+                            <div onClick={() => router.push('/uploads/shot')} className="flex items-center w-full h-10 gap-1 px-3 bg-black border rounded-xl hover:bg-neutral-800 border-neutral-800">
                                 <BiPlus className='mb-0.5 text-neutral-300' size={19} />
                                 <span className='text-sm text-neutral-300'>Поделиться работой</span>
                             </div>

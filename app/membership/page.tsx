@@ -33,7 +33,7 @@ const Membership = () => {
                     </div>
                     <div className="flex flex-col w-1/4 h-64 gap-2 p-4 transition-colors duration-700 border rounded-xl border-neutral-600 group hover:border-white">
                         <div className="flex items-center justify-center w-full h-full">
-                            <h3 className='text-2xl font-bold text-center transition-colors duration-700 group-hover:text-neutral-200 text-neutral-400'>AmbiLight для главного блока</h3>
+                            <h3 className='text-2xl font-bold text-center transition-colors duration-700 group-hover:text-neutral-200 text-neutral-400'>AmbientLight для главного блока</h3>
                         </div>
                     </div>
                     <div className="flex flex-col w-1/4 h-64 gap-2 p-4 transition-colors duration-700 border rounded-xl border-neutral-600 group hover:border-white">
