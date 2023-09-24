@@ -1,12 +1,10 @@
 'use client'
 import { LoadedVideoProps } from '@/components/shared/LoadedVideo'
 import { useInterval } from 'ahooks';
-import { useInViewport } from 'ahooks';
 import { ElementRef, useLayoutEffect, useRef, useState } from 'react'
 
 const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLight'>) => {
     const videoBlock = useRef<ElementRef<'video'>>(null);
-    const [inViewport] = useInViewport(videoBlock);
     const canvas = useRef<ElementRef<'canvas'>>(null);
     const [ambientIsRun, setAmbientRun] = useState<boolean>(false)
     const [run, setRun] = useState<boolean>(false);
@@ -34,7 +32,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
         }
     },[ambientIsRun, run])
     useLayoutEffect(() => {
-        if (videoBlock.current && inViewport) {
+        if (videoBlock.current) {
             videoBlock.current.play()
             videoBlock.current.addEventListener("play", () => startAmbientLightRepaint());
             videoBlock.current.addEventListener("pause", () => {
@@ -48,7 +46,8 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
             videoBlock.current.addEventListener("seeked", () => repaintAmbientLight());
             videoBlock.current.addEventListener("load", () => repaintAmbientLight());
         }
-    },[videoBlock.current, ambientIsRun, inViewport])
+
+    },[videoBlock.current, ambientIsRun])
     useLayoutEffect(() => {
         if (videoBlock.current) {
             videoBlock.current.scrollIntoView({ block: 'center', behavior: 'smooth' })

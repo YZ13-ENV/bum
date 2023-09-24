@@ -3,16 +3,21 @@ import { Button, Segmented } from 'antd'
 import { SegmentedLabeledOption } from 'antd/es/segmented'
 import { BiListUl, BiGridAlt } from 'react-icons/bi'
 import { TbLayoutSidebarRightCollapse } from 'react-icons/tb'
-import { useAppDispatch } from '@/components/entities/store/store'
+import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
 import { setBlockSidebar } from '@/components/entities/uploader/modal.store'
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
-import UserStatus from '@/components/entities/user'
+import { auth } from '@/utils/app'
+import Avatar from '@/components/shared/Avatar'
+import { useAuthState } from 'react-firebase-hooks/auth'
+// import UserStatus from '@/components/entities/user'
 const BlocksIn = dynamic(() => import('./BlocksIn')) 
 const BlocksOut = dynamic(() => import('./BlocksOut')) 
 const Wrapper = dynamic(() => import('./Wrapper')) 
 
 const UploadBlocksMenu = () => {
+    const [user] = useAuthState(auth)
+    const isSub = useAppSelector(state => state.user.isSubscriber)
     const dispatch = useAppDispatch()
     const [blockSegment, setBlockSegment] = useState<string>('')
     const options: SegmentedLabeledOption[] = [
@@ -35,7 +40,8 @@ const UploadBlocksMenu = () => {
                         <Button onClick={() => dispatch(setBlockSidebar(false))} className='!px-2'><TbLayoutSidebarRightCollapse size={17} /></Button>
                         <span className='font-semibold text-neutral-200'>Блоки</span>
                     </div>
-                    <UserStatus showDropdown={false} />
+                    <Avatar size={36} src={user?.photoURL || null} isSub={isSub} noLabel />
+                    {/* <UserStatus showDropdown={false} /> */}
                 </div>
                 <div className="flex w-full h-fit">
                     <Segmented className='!w-full' options={options} block value={blockSegment} onChange={e => setBlockSegment(e.toString())} />

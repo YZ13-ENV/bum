@@ -27,27 +27,29 @@ const UploadBlockView = () => {
     return (
         <>
             <UploaderWatcher />
-            <div className="flex flex-col w-full h-full max-w-4xl max-h-full gap-4 px-4 py-4 mx-auto overflow-y-auto md:px-0 md:py-4">
+            <div className="flex flex-col w-full h-full max-w-4xl max-h-full px-4 py-4 mx-auto overflow-y-auto gap-14 md:px-0 md:py-4">
                 <div className="w-full max-w-2xl mx-auto">
-                    <Input size='large' disabled={draft.rootBlock.link === ''} className='!rounded-none !text-center !p-0 !text-2xl !font-bold'
+                    <Input size='large' disabled={draft.rootBlock.link === ''} className='!rounded-none !p-0 !text-4xl !font-extrabold !text-center !text-neutral-200'
                     value={draft.title} onChange={e => dispatch(setTitle(e.target.value))}
                     placeholder={draft.rootBlock.link === '' ? 'Сначала загрузите картинку ниже' : 'Введите название для вашей работы'} bordered={false} />
                 </div>
                 <MediaUploader isRootBlock uploadOnlyImages={false} block={rootBlock}  />
-                {
-                    draft.blocks.map((block, index) => {
-                        if (block.type === 'text') {
-                            return <div key={`block#${index}`} className='w-full max-w-2xl mx-auto'><TextBlock block={block} index={index} /></div>
-                        }
-                        if (block.type === 'image') {
-                            return <MediaUploader key={`block#${index}`} uploadOnlyImages={isSubscriber ? false : true} index={index} block={block} />
-                        }
-                        if (block.type === 'video') {
-                            return <MediaUploader key={`block#${index}`} uploadOnlyImages={false} index={index} block={block} />
-                        }
-                        return null
-                    })
-                }
+                <div className="flex flex-col w-full px-6 md:px-12 h-fit gap-14">
+                    {
+                        draft.blocks.map((block, index) => {
+                            if (block.type === 'text') {
+                                return <div key={`block#${index}`} className='w-full max-w-2xl mx-auto'><TextBlock block={block} index={index} /></div>
+                            }
+                            if (block.type === 'image') {
+                                return <MediaUploader key={`block#${index}`} uploadOnlyImages={isSubscriber ? false : true} index={index} block={block} />
+                            }
+                            if (block.type === 'video') {
+                                return <MediaUploader key={`block#${index}`} uploadOnlyImages={false} index={index} block={block} />
+                            }
+                            return null
+                        })
+                    }
+                </div>
             </div>
         </>
     )
