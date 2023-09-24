@@ -5,6 +5,7 @@ import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
+import { MdHistory, MdWork } from 'react-icons/md'
 const Avatar = dynamic(() => import('@/components/shared/Avatar'))
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
 const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
@@ -110,12 +111,24 @@ const UserPage = async({ params, searchParams }: Props) => {
                     </div>
                 </div>
             }
-            <div className="w-full h-full px-4 pt-4 md:px-12 md:profile_grid profile_grid_mobile">
-                <div className="flex flex-col w-full h-full gap-4">
-                    <UserProfileTabs shotsLength={shots?.length || 0} profileUID={params.userId} />
-                    <Suspense fallback={<div className='flex items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>}>
-                        <ProfileContent userId={params.userId} tab={parseInt(searchParams.tab || '1')} shots={shots || []} />
-                    </Suspense>
+            <div className="flex flex-col items-start w-full h-full gap-4 px-4 pt-4 md:flex-row md:px-12">
+                <div className="flex flex-row gap-2 md:flex-col md:h-full h-fit md:w-72 w-fit shrink-0">
+                    <div className="flex items-center h-10 gap-2 px-3 rounded-lg W-full bg-neutral-900">
+                        <MdWork size={17} />
+                        <span className='hidden md:inline text-neutral-200'>Работы</span>
+                    </div>
+                    <div className="flex items-center h-10 gap-2 px-3 rounded-lg W-full bg-neutral-900">
+                        <MdHistory size={17} />
+                        <span className='hidden md:inline text-neutral-200'>История</span>
+                    </div>
+                </div>
+                <div className="w-full h-full md:profile_grid profile_grid_mobile">
+                    <div className="flex flex-col w-full h-full gap-4">
+                        <UserProfileTabs shotsLength={shots?.length || 0} profileUID={params.userId} />
+                        <Suspense fallback={<div className='flex items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>}>
+                            <ProfileContent userId={params.userId} tab={parseInt(searchParams.tab || '1')} shots={shots || []} />
+                        </Suspense>
+                    </div>
                 </div>
             </div>
         </section>

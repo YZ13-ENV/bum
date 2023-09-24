@@ -1,12 +1,8 @@
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import ShotActions from './ShotActions'
-import { BiChevronRight, BiHeart, BiShow } from 'react-icons/bi'
 import Link from 'next/link'
 import Avatar from '@/components/shared/Avatar'
-import { DateTime } from 'luxon'
-import SubLabel from '@/components/shared/SubLabel'
-import { Badge } from 'antd'
 
 type Props = {
     shot: DocShotData

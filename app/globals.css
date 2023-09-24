@@ -59,15 +59,24 @@
 .shot_wrapper {
   min-height: calc(100% - 135.55px);
 }
+
 .home_grid {
-  grid-template-columns: repeat(auto-fill,minmax(400px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   /* grid-template-rows: repeat(auto-fill,minmax(300px,1fr)); */
   /* aspect-ratio: 4 / 3; */
 }
 
-@media (max-width: 1440px) {
+@media (min-width: 1440px) {
   .home_grid {
-    grid-template-columns: repeat(auto-fill,minmax(380px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(336px,1fr));
+    /* grid-template-rows: repeat(auto-fill,minmax(285px,1fr)); */
+    /* aspect-ratio: 4 / 3; */
+  }
+}
+
+@media (min-width: 1600px) {
+  .home_grid {
+    grid-template-columns: repeat(auto-fill,minmax(400px,1fr));
     /* grid-template-rows: repeat(auto-fill,minmax(285px,1fr)); */
     /* aspect-ratio: 4 / 3; */
   }
