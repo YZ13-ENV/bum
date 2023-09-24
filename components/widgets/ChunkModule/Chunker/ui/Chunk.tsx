@@ -32,7 +32,7 @@ const Chunk = async({ chunkLink, index }: Props) => {
                     dataChunk && dataChunk.map((shotChunk, index) => 
                         <Suspense key={`${shotChunk.doc_id}#${index}#shot#${index + 1}`} 
                         fallback={<div className='w-full h-full rounded-xl bg-neutral-900 animate-pulse'/>}>
-                            <ShotCard shot={shotChunk} />
+                            <ShotCard shot={shotChunk}  />
                         </Suspense>
                     )
                 }
