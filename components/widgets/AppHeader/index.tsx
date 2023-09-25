@@ -33,7 +33,7 @@ const AppHeader = () => {
                     <div className="flex-row items-center hidden gap-3 md:flex w-fit h-fit">
                         <Link className='text-sm font-medium text-neutral-300 hover:text-neutral-100' href='/'>Вдохновение</Link>
                         <Link className='inline-flex items-center gap-2' href='/membership'>
-                            <SubLabel/> <span className='text-sm font-medium hover:text-neutral-100 text-neutral-300'>Подписка</span>
+                            <SubLabel/> <span className='text-sm font-medium mt-0.5 hover:text-neutral-100 text-neutral-300'>Подписка</span>
                         </Link>
                     </div>
                 </div>
