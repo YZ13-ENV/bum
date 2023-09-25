@@ -8,8 +8,8 @@ type Props = {
 }
 const ViewModal = ({ searchParams }: Props) => {
     return (
-        <div className='fixed z-50 top-0 left-0 w-full h-full bg-black bg-opacity-50'>
-            {searchParams?.s}
+        <div className='fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50'>
+            {searchParams.s}
         </div>
     )
 }
