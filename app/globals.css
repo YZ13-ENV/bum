@@ -34,7 +34,7 @@
 
 .body_wrapper {
   width: 100%;
-  height: fit-content;
+  height: 100%;
   min-width: 100dvw;
   min-height: 100dvh;
 }
@@ -57,7 +57,7 @@
   height: calc(100% - 82px);
 }
 .shot_wrapper {
-  min-height: calc(100% - 135.55px);
+  min-height: calc(100dvh - 190.53px);
 }
 
 .home_grid {

@@ -27,7 +27,7 @@ const ShotCard = ({ shot }: Props) => {
     )
     return (
         <ShotWrapper shot={shot}>
-            <Link scroll={false} href={`/${shot.authorId}/${shot.doc_id}`} className='relative w-full aspect-[4/3] h-full'>
+            <Link scroll={false} href={`/view?s=${shot.doc_id}`} className='relative w-full aspect-[4/3] h-full'>
                 {
                     process.env.NODE_ENV === 'development'
                     ? <MediaBlock {...{ link: '/original-error.png', type: 'image' }} quality={75} object='cover' autoPlay={false} />
