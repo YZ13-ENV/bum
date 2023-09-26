@@ -4,7 +4,8 @@ import { auth, db } from "@/utils/app"
 import { useDebounceEffect } from "ahooks"
 import { Button, Input } from "antd"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
-import { useState } from "react"
+import { isEqual } from "lodash"
+import { useEffect, useLayoutEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 
 type Props = {
@@ -20,13 +21,33 @@ const TagsGround = ({ tags }: Props) => {
         if (user) {
             const refTo = doc(db, 'users', user.uid)
             const userData = await getDoc(refTo)
-            userData.get('recommendationTags')
+            const recommendations = userData.get('recommendationTags') as string[] | undefined
+            if (!recommendations) await updateDoc(refTo, { ...userData.data(), recommendationTags: selectedTags })
+            if (recommendations) {
+                const isSame = isEqual(selectedTags, recommendations)
+                if (!isSame) await updateDoc(refTo, { ...userData.data(), recommendationTags: selectedTags })
+            }
         }
     }
+    const getRecommendationTags = async() => {
+        if (user) {
+            const refTo = doc(db, 'users', user.uid)
+            const userData = await getDoc(refTo)
+            const recommendations = userData.get('recommendationTags') as string[] | undefined
+            if (!recommendations) await updateDoc(refTo, { ...userData.data(), recommendationTags: [] })
+            if (recommendations) selectTag(recommendations)
+        }
+    }
+    useEffect(() => {
+        if (user) getRecommendationTags()
+    },[user])
     useDebounceEffect(() => {
         if (noMoreTags) setRemoveNotSelected(true)
         if (!noMoreTags) setRemoveNotSelected(false)
     },[noMoreTags], { wait: 2000 })
+    useLayoutEffect(() => {
+        if (user) applyRecommendationTags()
+    },[selectedTags, user])
     return (
         <div className="flex flex-col w-full gap-2 h-fit">
             <Input className="max-w-md !mx-auto" size="large" value={filterTag} onChange={e => setFilterTag(e.target.value)} placeholder="Фильтрация по тэгам" />
