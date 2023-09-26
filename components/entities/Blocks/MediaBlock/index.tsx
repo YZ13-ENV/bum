@@ -1,6 +1,5 @@
 import LoadedImage from '@/components/shared/LoadedImage'
 import LoadedVideo from '@/components/shared/LoadedVideo'
-import { fetchFile } from '@/helpers/fetchFile'
 import { memo } from 'react'
 
 type MediaBlockProps = {

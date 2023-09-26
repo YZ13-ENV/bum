@@ -16,14 +16,7 @@ const LoadedVideo = ({ withAmbiLight=false, link, autoPlay=false }: LoadedVideoP
     },[videoBlock, inViewport])
     if (withAmbiLight) return <VideoAmbientLight link={link} autoPlay={autoPlay} />
     return (
-        <video src={link} ref={videoBlock} loop autoPlay={autoPlay} controls={false}
-        onMouseEnter={e => !autoPlay && videoBlock.current?.play()} onMouseLeave={() => {
-            if (!autoPlay && videoBlock.current) {
-                videoBlock.current?.pause()
-                videoBlock.current.currentTime = 0
-            }
-        }}
-        muted className='object-cover w-full h-full rounded-xl' />
+        <video src={link} ref={videoBlock} loop autoPlay={autoPlay} controls={false} muted className='object-cover w-full h-full rounded-xl' />
     )
 }
 
