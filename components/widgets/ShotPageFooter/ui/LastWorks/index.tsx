@@ -1,6 +1,7 @@
 'use client'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { getHost } from '@/helpers/getHost'
+import { linkToShot } from '@/helpers/linkTo'
 import { DocShotData } from '@/types'
 import Link from 'next/link'
 import { useLayoutEffect, useState } from 'react'
@@ -31,7 +32,7 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
         <div className={`grid w-full h-fit gap-2 last_works_grid`}>
             {
                 shots.map((shot, index) => 
-                    <Link href={`/${userId}/${shot.doc_id}`} 
+                    <Link href={linkToShot(shot.doc_id)} 
                     key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
                         {
                             shot.thumbnail && shot.thumbnail.link !== ''
