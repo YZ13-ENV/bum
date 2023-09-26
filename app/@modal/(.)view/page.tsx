@@ -1,4 +1,5 @@
 'use client'
+import UserStatus from '@/components/entities/user'
 import ShotPage from '@/components/pages/ShotPage'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
@@ -64,7 +65,8 @@ const ViewModal = () => {
     }, [s])
     return (
         <div className='fixed top-0 left-0 z-50 flex flex-col w-full h-full bg-black bg-opacity-50'>
-            <div className="relative flex items-start justify-end w-full p-10 h-36 shrink-0">
+            <div className="relative flex items-start justify-between w-full p-10 h-36 shrink-0">
+                <UserStatus showDropdown={false} />
                 <Button size='large' color='white' onClick={jumpBack} >Вернуться</Button>
             </div>
             <section className='flex flex-col w-full h-full py-8 overflow-x-hidden overflow-y-auto bg-black border-t border-x border-neutral-900 rounded-t-3xl'>

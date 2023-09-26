@@ -3,6 +3,7 @@ import { DocShotData } from '@/types'
 import { memo } from 'react'
 import GeneratedThumbnail from '../Blocks/MediaBlock/GeneratedThumbnail'
 import { fetchFile } from '@/helpers/fetchFile'
+import { linkToShot } from '@/helpers/linkTo'
 const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
 const Link = dynamic(() => import('next/link')) 
 const ShotWrapper = dynamic(() => import('./ui/ShotWrapper'))
@@ -27,7 +28,7 @@ const ShotCard = ({ shot }: Props) => {
     )
     return (
         <ShotWrapper shot={shot}>
-            <Link scroll={false} href={`/view?s=${shot.doc_id}`} className='relative w-full aspect-[4/3] h-full'>
+            <Link scroll={false} href={linkToShot(shot.doc_id)} className='relative w-full aspect-[4/3] h-full'>
                 {
                     process.env.NODE_ENV === 'development'
                     ? <MediaBlock {...{ link: '/original-error.png', type: 'image' }} quality={75} object='cover' autoPlay={false} />
