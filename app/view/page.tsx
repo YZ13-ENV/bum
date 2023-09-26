@@ -98,13 +98,14 @@ const ShotPage = async({ searchParams }: Props) => {
             <Link href='/' className='px-3 py-1 text-sm text-black bg-white rounded-lg'>Вернуться</Link>
         </div>
     )
-    // return (
-    //     <div className="flex flex-col items-center self-center justify-center w-full h-full max-w-md gap-4 my-auto">
-    //         <h3 className='text-3xl font-bold text-neutral-200'>Такая работа есть</h3>
-    //         { process.env.NODE_ENV === 'development' && JSON.stringify(shotId, null, 2) }
-    //         <Link href='/' className='px-3 py-1 text-sm text-black bg-white rounded-lg'>Вернуться</Link>
-    //     </div>
-    // )
+    else if (process.env.NODE_ENV === 'development') 
+        return (
+            <div className="flex flex-col items-center self-center justify-center w-full h-full max-w-md gap-4 my-auto">
+                <h3 className='text-3xl font-bold text-neutral-200'>Такая работа есть</h3>
+                { process.env.NODE_ENV === 'development' && JSON.stringify(shotId, null, 2) }
+                <Link href='/' className='px-3 py-1 text-sm text-black bg-white rounded-lg'>Вернуться</Link>
+            </div>
+        )
     return (
         <section id='shot-page' className='relative flex flex-col w-full min-h-full p-4 gap-14 lg:px-0'>
             <div className="flex flex-col w-full max-w-md mx-auto gap-14 md:max-w-4xl h-fit shrink-0">

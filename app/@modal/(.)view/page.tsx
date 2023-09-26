@@ -6,11 +6,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useLayoutEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 
-type Props = {
-    searchParams: {
-        s: string | null
-    }
-}
 const getUser = async(userId: string): Promise<ShortUserData | null> => {
     try {
         const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 3600 } })
@@ -34,7 +29,7 @@ const getShot = async(shotId: string): Promise<DocShotData | null> => {
         return null
     }
 }
-const ViewModal = ({ searchParams }: Props) => {
+const ViewModal = () => {
     const searchQueries = useSearchParams()
     const s = searchQueries.get('s')
     const [shot, setShot] = useState<DocShotData | null>(null)
@@ -63,6 +58,7 @@ const ViewModal = ({ searchParams }: Props) => {
             const shotId = s
             getShot(shotId)
             .then(res => setShot(res))
+            .catch(() => setLoading(false))
         }
     }, [s])
     return (
