@@ -47,8 +47,7 @@ const ShotInfo = async({ shot }: Props) => {
         </div>
     )
     return (
-        <div className={`absolute ${isVideo ? 'group-hover:opacity-0 hover:!opacity-100' : ''} 
-        bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 px-4 py-2 h-fit bg-gradient-to-t from-black to-transparent`}>
+        <div className='absolute bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 px-4 py-2 h-fit bg-gradient-to-t from-black to-transparent'>
             <h2 className='text-base font-medium text-neutral-200 line-clamp-1'>{shot.title}</h2>
             <div className="flex items-center gap-2 shrink-0 w-fit h-fit">
                 {/* <Link href={`/${shot.authorId}`}> */}

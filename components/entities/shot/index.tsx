@@ -17,12 +17,9 @@ const ShotCard = ({ shot }: Props) => {
     if (shot.isDraft) return (
         <ShotWrapper shot={shot}>
             {
-                shot.thumbnail 
-                ? <MediaBlock {...{ link: shot.thumbnail.link, type: shot.thumbnail.link.endsWith('.mp4') ? 'video' : 'image' }} quality={100} object='cover' autoPlay={false} />
-                : shot.rootBlock.link !== '' ? <MediaBlock {...shot.rootBlock} quality={75} object='cover' autoPlay={false} />
-                : <div className='flex flex-col items-center justify-center w-full h-full'>
-                    <span className='text-xs text-center text-neutral-400'>Нет обложки</span>
-                </div>
+                isVideo 
+                ? <GeneratedThumbnail videoSrc={fetchFile(stableLink)} />
+                : <MediaBlock {...{ link: fetchFile(stableLink), type: 'image' }} quality={75} object='cover' autoPlay={false} />
             }
         </ShotWrapper>
     )
@@ -31,10 +28,12 @@ const ShotCard = ({ shot }: Props) => {
             <Link scroll={false} href={linkToShot(shot.doc_id)} className='relative w-full aspect-[4/3] h-full'>
                 {
                     process.env.NODE_ENV === 'development'
-                    ? <MediaBlock {...{ link: '/original-error.png', type: 'image' }} quality={75} object='cover' autoPlay={false} />
+                    ? isVideo
+                    ? <GeneratedThumbnail videoSrc={'/dev-video.mp4'} />
+                    : <MediaBlock {...{ link: '/original-error.png', type: 'image' }} quality={75} object='cover' autoPlay={false} />
                     : isVideo 
                     ? <GeneratedThumbnail videoSrc={fetchFile(stableLink)} />
-                    : <MediaBlock {...{ link: stableLink, type: 'image' }} quality={75} object='cover' autoPlay={false} />
+                    : <MediaBlock {...{ link: fetchFile(stableLink), type: 'image' }} quality={75} object='cover' autoPlay={false} />
                 }
             </Link>
         </ShotWrapper>

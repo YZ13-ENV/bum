@@ -19,8 +19,8 @@ const MediaBlock = ({ withAmbiLight=false, type, link, quality=75, object='conta
     }
     if (link !== '') {
         if (type === "image") {
-            return <LoadedImage withAmbiLight={withAmbiLight} link={fetchFile(link)} object={object} quality={quality} />
-        } else return <LoadedVideo link={fetchFile(link)} withAmbiLight={withAmbiLight} autoPlay={autoPlay} />
+            return <LoadedImage withAmbiLight={withAmbiLight} link={link} object={object} quality={quality} />
+        } else return <LoadedVideo link={link} withAmbiLight={withAmbiLight} autoPlay={autoPlay} />
     }
     return null
 }

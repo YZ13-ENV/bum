@@ -1,5 +1,6 @@
 'use client'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
+import { fetchFile } from '@/helpers/fetchFile'
 import { getHost } from '@/helpers/getHost'
 import { linkToShot } from '@/helpers/linkTo'
 import { DocShotData } from '@/types'
@@ -36,8 +37,8 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
                     key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
                         {
                             shot.thumbnail && shot.thumbnail.link !== ''
-                            ? <MediaBlock {...shot.rootBlock} object='cover' quality={25} />
-                            : shot.rootBlock.link !== '' && <MediaBlock {...shot.rootBlock} object='cover' quality={25} />
+                            ? <MediaBlock {...{ link: fetchFile(shot.thumbnail.link), type: 'image' }} object='cover' quality={25} />
+                            : shot.rootBlock.link !== '' && <MediaBlock {...{ link: fetchFile(shot.rootBlock.link), type: 'image' }} object='cover' quality={25} />
                         }
                     </Link>
                 )
