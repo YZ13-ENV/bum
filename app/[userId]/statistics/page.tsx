@@ -4,6 +4,7 @@ import SubLabel from '@/components/shared/SubLabel'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { BiHeart, BiShow } from 'react-icons/bi'
 import { DateTime } from 'luxon'
+import { fetchFile } from '@/helpers/fetchFile'
 
 type Props = {
     params: {
@@ -45,7 +46,7 @@ const UserStatisticsPage = async({ params }: Props) => {
                 popularShot &&
                 <div className="flex flex-col w-full h-48 gap-2 border md:flex-row shrink-0 rounded-xl border-neutral-800">
                     <div className="relative h-full aspect-[4/3] rounded-xl bg-neutral-900">
-                        <MediaBlock link={popularShot.thumbnail ? popularShot.thumbnail.link : popularShot.rootBlock.link} object='cover'
+                        <MediaBlock link={fetchFile(popularShot.thumbnail ? popularShot.thumbnail.link : popularShot.rootBlock.link)} object='cover'
                         type={(popularShot.thumbnail ? popularShot.thumbnail.link : popularShot.rootBlock.link).endsWith('.mp4') ? 'image' : 'video'} />
                     </div>
                     <div className="flex flex-col w-full h-full gap-2 p-4">

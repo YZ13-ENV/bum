@@ -8,7 +8,6 @@ interface GenerateThumbnailProps {
 const GeneratedThumbnail = ({ videoSrc }: GenerateThumbnailProps) => {
     const videoRef = useRef<ElementRef<'video'>>(null);
     const canvasRef = useRef<ElementRef<'canvas'>>(null);
-    const [needPlay, setNeedPlay] = useState<boolean>(false)
     const paintThumbnail = () => {
         if (canvasRef.current) {
             const context = canvasRef.current.getContext("2d");
@@ -29,20 +28,9 @@ const GeneratedThumbnail = ({ videoSrc }: GenerateThumbnailProps) => {
     }
     useLayoutEffect(() => {
         const video = videoRef.current;
-        if (video) {
-            if (needPlay) {
-                video.play()
-            } else {
-                video.pause()
-                video.currentTime = 0
-            }
-        }
-    }, [videoRef.current, needPlay])
-    useLayoutEffect(() => {
-        const video = videoRef.current;
         const handleCanPlayThrough = () => paintThumbnail();
-        if (video && needPlay) video.removeEventListener("canplaythrough", handleCanPlayThrough);
-        if (video && !needPlay) {
+        if (video) video.removeEventListener("canplaythrough", handleCanPlayThrough);
+        if (video) {
             video.addEventListener("canplaythrough", handleCanPlayThrough);
             return () => {
                 video.removeEventListener("canplaythrough", handleCanPlayThrough);
@@ -52,10 +40,8 @@ const GeneratedThumbnail = ({ videoSrc }: GenerateThumbnailProps) => {
 
     return (
         <>
-            <video ref={videoRef} src={videoSrc} loop muted onMouseLeave={() => setNeedPlay(false)}
-            className={`w-full h-full ${needPlay ? 'block z-10' : 'hidden'} aspect-[4/3]`} />
-            <canvas ref={canvasRef} onMouseEnter={() => setNeedPlay(true)}
-            className={`w-full h-full ${needPlay ? 'hidden' : ''} z-10 aspect-[4/3]`} />
+            <video ref={videoRef} src={videoSrc} loop muted className='w-full h-full hidden aspect-[4/3]' />
+            <canvas ref={canvasRef} className='w-full h-full z-10 aspect-[4/3]' />
         </>
     );
 };

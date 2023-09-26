@@ -89,40 +89,24 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
             </>
         )
     }
-    if (isSub) {
-        return (
-            <>
-                <Badge count={shot.likes.length} size='small' color='white'>
-                    <Button loading={loading} danger={isInclude} type={isInclude ? 'primary' : 'default'}
-                    onClick={addOrRemoveLike} size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiHeart /></Button>
-                </Badge>
-                { 
-                    shot.needFeedback && 
-                    <Badge count={shot.comments.length} size='small' color='white'>
-                        <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidMessageRoundedDots /></Button>
-                    </Badge>
-                }
-                <Badge count={shot.views.length} size='small' color='white'> 
-                    <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidShow /></Button>
-                </Badge>
-            </>
-        )
-    }
     return (
-        <div onClick={e => e.stopPropagation()} className="flex items-center gap-2 p-2 transition-all w-fit h-fit">
-            <Button onClick={addOrRemoveLike} loading={loading} size='small' 
-            danger={isInclude} type={'text'} className='!text-sm !font-semibold'
-            icon={isInclude 
-                ? <BiSolidHeart size={15} className='inline my-auto mb-0.5 mr-1' /> 
-                : <BiHeart size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(likes.length)}</Button>
-            <div className="flex items-center rounded-full w-fit h-fit">
-                <Space.Compact>
-                    { shot.needFeedback && <Button type='text' shape='round' size='small' className='!text-sm !font-semibold !px-1' icon={<BiSolidMessageRoundedDots size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(shot.comments.length)}</Button> }
-                    <Button type='text' shape='round' size='small' className={`!px-1 !text-sm !font-semibold`} icon={<BiSolidShow size={15} className='inline my-auto mb-0.5 mr-1' />}>{largeNumber(shot.views.length)}</Button>
-                </Space.Compact>
-            </div>
-        </div>
+        <>
+            <Badge count={shot.likes.length} size='small' color='white'>
+                <Button loading={loading} danger={isInclude} type={isInclude ? 'primary' : 'default'}
+                onClick={addOrRemoveLike} size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiHeart /></Button>
+            </Badge>
+            { 
+                shot.needFeedback && 
+                <Badge count={shot.comments.length} size='small' color='white'>
+                    <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidMessageRoundedDots /></Button>
+                </Badge>
+            }
+            <Badge count={shot.views.length} size='small' color='white' overflowCount={999_999}> 
+                <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidShow /></Button>
+            </Badge>
+        </>
     )
+
 }
 
 export default ShotActions

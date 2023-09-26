@@ -31,10 +31,12 @@ const ShotCard = ({ shot }: Props) => {
             <Link scroll={false} href={linkToShot(shot.doc_id)} className='relative w-full aspect-[4/3] h-full'>
                 {
                     process.env.NODE_ENV === 'development'
-                    ? <MediaBlock {...{ link: '/original-error.png', type: 'image' }} quality={75} object='cover' autoPlay={false} />
+                    ? isVideo
+                    ? <GeneratedThumbnail videoSrc={'/dev-video.mp4'} />
+                    : <MediaBlock {...{ link: '/original-error.png', type: 'image' }} quality={75} object='cover' autoPlay={false} />
                     : isVideo 
                     ? <GeneratedThumbnail videoSrc={fetchFile(stableLink)} />
-                    : <MediaBlock {...{ link: stableLink, type: 'image' }} quality={75} object='cover' autoPlay={false} />
+                    : <MediaBlock {...{ link: fetchFile(stableLink), type: 'image' }} quality={75} object='cover' autoPlay={false} />
                 }
             </Link>
         </ShotWrapper>
