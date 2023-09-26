@@ -9,6 +9,7 @@ import { fetchFile } from '@/helpers/fetchFile'
 import { DateTime } from 'luxon'
 import ViewsHistoryWatcher from '@/components/entities/ViewsHistoryWatcher'
 import { BiLoaderAlt } from 'react-icons/bi'
+import ShotPage from '@/components/pages/ShotPage'
 const TextLoader = dynamic(() => import('@/components/shared/Loaders/TextLoader')) 
 const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
 const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
@@ -86,7 +87,7 @@ type Props = {
         s: string | null
     }
 }
-const ShotPage = async({ searchParams }: Props) => {
+const ShotPageV2 = async({ searchParams }: Props) => {
     const shotId = searchParams.s
     const shotData = shotId ? getShot(shotId) : null
     const [shot] = await Promise.all([shotData])
@@ -98,44 +99,8 @@ const ShotPage = async({ searchParams }: Props) => {
             <Link href='/' className='px-3 py-1 text-sm text-black bg-white rounded-lg'>Вернуться</Link>
         </div>
     )
-    else if (process.env.NODE_ENV === 'development') 
-        return (
-            <div className="flex flex-col items-center self-center justify-center w-full h-full max-w-md gap-4 my-auto">
-                <h3 className='text-3xl font-bold text-neutral-200'>Такая работа есть</h3>
-                { process.env.NODE_ENV === 'development' && JSON.stringify(shotId, null, 2) }
-                <Link href='/' className='px-3 py-1 text-sm text-black bg-white rounded-lg'>Вернуться</Link>
-            </div>
-        )
     return (
-        <section id='shot-page' className='relative flex flex-col w-full min-h-full p-4 gap-14 lg:px-0'>
-            <div className="flex flex-col w-full max-w-md mx-auto gap-14 md:max-w-4xl h-fit shrink-0">
-                <ViewsHistoryWatcher authorId={shot.authorId} shotId={shot.doc_id}  />
-                <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
-                    <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
-                </div>
-                <MediaBlock withAmbiLight={user.isSubscriber || false} {...shot.rootBlock} autoPlay />
-                <div className="flex flex-col w-full px-6 md:px-12 h-fit gap-14">
-                {
-                    shot.blocks.map((block, index) => {
-                        if (block.type === 'image') {
-                            return <MediaBlock key={`block#${index}`} {...block} />
-                            
-                        }
-                        if (block.type === 'text') {
-                            return (
-                                <TextBlock key={`block#${index}`} enableMdSyntax={shot.enableMdSyntax || false} block={block} />
-                            )
-                        }
-                        return null
-                    })
-                }
-                </div>
-            </div>
-            <ConfettiForNewShot views={shot.views.length} />
-            <Suspense fallback={<div className='flex items-center justify-center w-full h-96'><BiLoaderAlt size={17} className='animate-spin'/></div>}>
-                <ShotPageFooter shot={shot} user={user} />
-            </Suspense>
-        </section>
+        <ShotPage shot={shot} user={user} needConfetti />
     )
 }
-export default ShotPage
+export default ShotPageV2

@@ -81,6 +81,9 @@
     /* aspect-ratio: 4 / 3; */
   }
 }
+.last_works_grid {
+  grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+}
 
 .thumbnail_grid {
   grid-template-columns: repeat(auto-fill,minmax(380px,1fr));
@@ -88,9 +91,9 @@
   /* aspect-ratio: 4 / 3; */
 }
 
-.search_grid {
+/* .search_grid {
   grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
-}
+} */
 
 .search_grid {
   grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
@@ -118,4 +121,9 @@
   z-index: -1;
   width: 120%;
   max-width: 100vw;
+}
+@media (min-width: 768px) {
+  #ambiLightv2 {
+    filter: blur(100px) brightness(2);
+  }
 }

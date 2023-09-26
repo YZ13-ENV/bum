@@ -1,4 +1,5 @@
 'use client'
+import ShotPage from '@/components/pages/ShotPage'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Button } from 'antd'
@@ -66,7 +67,7 @@ const ViewModal = () => {
             <div className="relative flex items-start justify-end w-full p-10 h-36 shrink-0">
                 <Button size='large' color='white' onClick={jumpBack} >Вернуться</Button>
             </div>
-            <section className='flex flex-col w-full h-full bg-black border-t border-x border-neutral-900 rounded-t-3xl'>
+            <section className='flex flex-col w-full h-full py-8 overflow-x-hidden overflow-y-auto bg-black border-t border-x border-neutral-900 rounded-t-3xl'>
                 {
                     loading
                     ? <div className='flex flex-col items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>
@@ -78,11 +79,7 @@ const ViewModal = () => {
                         <Button size='large' type='primary' color='white' onClick={jumpBack} >Вернуться</Button>
                     </div>
                     :
-                    <div className="flex flex-col items-center self-center justify-center w-full h-full max-w-md gap-4 my-auto">
-                        <h3 className='text-3xl font-bold text-neutral-200'>Такая работа есть</h3>
-                        { process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test' && JSON.stringify(s, null, 2) }
-                        <Button size='large' type='primary' color='white' onClick={jumpBack} >Вернуться</Button>
-                    </div>
+                    <ShotPage shot={shot} user={user} />
                 }
             </section>
         </div>
