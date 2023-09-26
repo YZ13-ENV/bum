@@ -17,12 +17,9 @@ const ShotCard = ({ shot }: Props) => {
     if (shot.isDraft) return (
         <ShotWrapper shot={shot}>
             {
-                shot.thumbnail 
-                ? <MediaBlock {...{ link: shot.thumbnail.link, type: shot.thumbnail.link.endsWith('.mp4') ? 'video' : 'image' }} quality={100} object='cover' autoPlay={false} />
-                : shot.rootBlock.link !== '' ? <MediaBlock {...shot.rootBlock} quality={75} object='cover' autoPlay={false} />
-                : <div className='flex flex-col items-center justify-center w-full h-full'>
-                    <span className='text-xs text-center text-neutral-400'>Нет обложки</span>
-                </div>
+                isVideo 
+                ? <GeneratedThumbnail videoSrc={fetchFile(stableLink)} />
+                : <MediaBlock {...{ link: fetchFile(stableLink), type: 'image' }} quality={75} object='cover' autoPlay={false} />
             }
         </ShotWrapper>
     )
