@@ -25,9 +25,6 @@ const RecommendationsPage = async() => {
             <span className='text-sm text-neutral-400'>
                 Мы сохраним всё автоматически, так что вам нужно только выбрать что вам интересно
             </span>
-            {/* <span className='text-sm text-neutral-400'>
-                В будущем мы объединим тэги чтобы было легче настроить рекомендации под себя
-            </span> */}
             <div className="w-full "></div>
             <TagsGround tags={onlyTags} />
         </section>

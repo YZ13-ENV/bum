@@ -1,17 +1,28 @@
 'use client'
 
+import { auth, db } from "@/utils/app"
 import { useDebounceEffect } from "ahooks"
 import { Button, Input } from "antd"
+import { doc, getDoc, updateDoc } from "firebase/firestore"
 import { useState } from "react"
+import { useAuthState } from "react-firebase-hooks/auth"
 
 type Props = {
     tags: string[]
 }
 const TagsGround = ({ tags }: Props) => {
+    const [user] = useAuthState(auth)
     const [selectedTags, selectTag] = useState<string[]>([])
     const noMoreTags = selectedTags.length === 10
     const [removeNotSelected, setRemoveNotSelected] = useState<boolean>(false)
     const [filterTag, setFilterTag] = useState<string>("")
+    const applyRecommendationTags = async() => {
+        if (user) {
+            const refTo = doc(db, 'users', user.uid)
+            const userData = await getDoc(refTo)
+            userData.get('recommendationTags')
+        }
+    }
     useDebounceEffect(() => {
         if (noMoreTags) setRemoveNotSelected(true)
         if (!noMoreTags) setRemoveNotSelected(false)

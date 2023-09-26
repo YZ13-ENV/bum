@@ -17,10 +17,12 @@ const ProfileSidebar = ({ uid }: Props) => {
     useLayoutEffect(() => {
         if (user) {
             if (user.uid !== uid) {
+                if (path.endsWith('/recommendations')) redirect(`/${uid}`)
                 if (path.endsWith('/statistics')) redirect(`/${uid}`)
                 if (path.endsWith('/history')) redirect(`/${uid}`)
             }
         } else {
+            if (path.endsWith('/recommendations')) redirect(`/${uid}`)
             if (path.endsWith('/statistics')) redirect(`/${uid}`)
             if (path.endsWith('/history')) redirect(`/${uid}`)
         }
