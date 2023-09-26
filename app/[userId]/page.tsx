@@ -39,7 +39,7 @@ const UserPage = async({ params, searchParams }: Props) => {
     const shots = await getShots(params.userId, searchParams.tab)
     if (!shots) return null
     return (
-        <section className="w-full h-full md:profile_grid profile_grid_mobile">
+        <section className="w-full h-full">
             <div className="flex flex-col w-full h-full gap-4">
                 <UserProfileTabs shotsLength={shots?.length || 0} profileUID={params.userId} />
                 <Suspense fallback={<div className='flex items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>}>

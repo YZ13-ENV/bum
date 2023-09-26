@@ -11,7 +11,26 @@ export const getShots = async(userId: string, tab: string | null) => {
         console.log(e)
         return null
     }
-
+}
+export const getShot = async(userId: string, shotId: string) => {
+    try {
+        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`, { method: 'GET', cache: 'no-store' })
+        const shot: DocShotData = await shotRes.json()
+        return shot
+    } catch(e) {
+        console.log(e)
+        return null
+    }
+}
+export const getShotWithCache = async(userId: string, shotId: string) => {
+    try {
+        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`, { method: 'GET', next: { revalidate: 3600 } })
+        const shot: DocShotData = await shotRes.json()
+        return shot
+    } catch(e) {
+        console.log(e)
+        return null
+    }
 }
 export const getUserShort = async(userId: string) => {
     try {

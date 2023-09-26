@@ -21,8 +21,8 @@ const AppHeader = () => {
     const [user] = useAuthState(auth)
     if (path === '/uploads/shot') return null
     return (
-        <header className="flex flex-col items-center justify-center w-full gap-8 px-4 py-8 md:px-12 h-fit">
-            <nav className="relative flex items-center justify-center w-full h-fit">
+        <header className="flex flex-col items-center justify-center w-full gap-8 px-4 py-8 shrink-0 md:px-12 h-fit">
+            <nav className="relative flex items-center justify-center w-full shrink-0 h-fit">
                 <div className="absolute left-0 flex flex-row items-center gap-4 w-fit h-fit">
                     <Suspense fallback={<BiLoaderAlt className='animate-spin' />}>
                         { user && 

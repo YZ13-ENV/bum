@@ -16,7 +16,7 @@ const UserLayout = async({ children, params }: Props) => {
         null
     )
     return (
-        <div className="flex flex-row items-start w-full h-full gap-4 px-4 pt-4 md:px-12">
+        <div className="flex flex-row items-start w-full gap-4 px-4 pt-4 h-fit shot_wrapper md:px-12">
             <div className="flex flex-col h-full gap-4 w-fit">
                 <div className="flex items-center justify-center w-full gap-2 h-fit">
                     { user && <Avatar src={user.photoUrl} size={42} /> }
@@ -30,9 +30,7 @@ const UserLayout = async({ children, params }: Props) => {
                 </div>
                 <ProfileSidebar uid={params.userId} />
             </div>
-            <div className="w-full h-full md:profile_grid profile_grid_mobile">
-                {children}
-            </div>
+            {children}
         </div>
     )
 }
