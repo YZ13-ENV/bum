@@ -37,8 +37,8 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
                     key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
                         {
                             shot.thumbnail && shot.thumbnail.link !== ''
-                            ? <MediaBlock {...{ link: fetchFile(shot.thumbnail.link), type: 'image' }} object='cover' quality={25} />
-                            : shot.rootBlock.link !== '' && <MediaBlock {...{ link: fetchFile(shot.rootBlock.link), type: 'image' }} object='cover' quality={25} />
+                            ? <MediaBlock {...{ link: fetchFile(shot.thumbnail.link), type: shot.thumbnail.link.endsWith('.mp4') ? 'video' : 'image' }} object='cover' quality={25} />
+                            : shot.rootBlock.link !== '' && <MediaBlock {...{ link: fetchFile(shot.rootBlock.link), type: shot.rootBlock.link.endsWith('.mp4') ? 'video' : 'image' }} object='cover' quality={25} />
                         }
                     </Link>
                 )
