@@ -50,9 +50,9 @@ export default function RootLayout(props: { children: ReactNode, modal: ReactNod
             <TokenWatcher />
             <AppHeader />
             <SessionPicker />
-            <main className="flex flex-col w-full shrink-0 shot_wrapper">
+            <main className="flex flex-col w-full h-full shrink-0 shot_wrapper">
               {props.children}
-              {/* {props.modal} */}
+              {props.modal}
             </main>
             <Analytics />
           </body>

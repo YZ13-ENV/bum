@@ -28,7 +28,7 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
     },[userId, exclude, order])
     if (shots.length === 0) return null
     return (
-        <div className={`grid w-full ${shots.length === 1 ? 'h-fit' : 'h-full'} gap-2 grid-cols-1 grid-rows-4`}>
+        <div className={`grid w-full h-fit gap-2 last_works_grid`}>
             {
                 shots.map((shot, index) => 
                     <Link href={`/${userId}/${shot.doc_id}`} 
