@@ -57,7 +57,7 @@
   height: calc(100% - 82px);
 }
 .shot_wrapper {
-  min-height: calc(100dvh - 190.53px);
+  min-height: calc(100dvh - 120px);
 }
 
 .home_grid {
