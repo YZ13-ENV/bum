@@ -17,13 +17,13 @@ const AppHeader = () => {
     return (
         <header className="flex flex-col justify-center w-full max-w-5xl gap-4 p-4 mx-auto md:p-8 shrink-0 h-fit">
             <div className="flex items-center justify-between w-full h-full p-2 pr-4">
-                <div className='flex items-center gap-2 px-1 w-fit h-fit'>
+                <Link href='/' className='flex items-center gap-2 px-1 w-fit h-fit'>
                     <Image src={'/bum.svg'} width={36} height={36} alt='v2-logo' />
                     <span className='text-2xl font-medium text-neutral-200'>
                         bum
                     </span>
                     <sup className='text-sm text-neutral-400'>{process.env.NODE_ENV === 'development' ? 'Dev' : 'Beta'}</sup>
-                </div>
+                </Link>
                 <div className="items-center justify-center hidden gap-4 md:flex w-fit h-fit">
                     <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/'>Вдохновение</Link>
                     <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/membership'>Подписка</Link>

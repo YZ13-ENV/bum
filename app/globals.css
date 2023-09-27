@@ -57,7 +57,7 @@
   height: calc(100% - 82px);
 }
 .shot_wrapper {
-  min-height: calc(100dvh - 190.53px);
+  min-height: calc(100dvh - 120px);
 }
 
 .home_grid {
@@ -121,9 +121,4 @@
   z-index: -1;
   width: 120%;
   max-width: 100vw;
-}
-@media (min-width: 768px) {
-  #ambiLightv2 {
-    filter: blur(100px) brightness(2);
-  }
 }
