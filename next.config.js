@@ -3,7 +3,6 @@
 module.exports = {
   swcMinify: true,
   compress: true,
-  // optimizeFonts: true,
   images: {
     unoptimized: false,
     formats: ['image/avif', 'image/webp'], 
@@ -12,8 +11,8 @@ module.exports = {
     ]
   },
   experimental: {
-    // swcMinify: true,
-    // workerThreads: 4,
+    workerThreads: true,
+    cpus: 4,
     // turbo: true,
   }
 }

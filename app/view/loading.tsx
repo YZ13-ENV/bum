@@ -1,3 +1,4 @@
+// Lumos new name for project
 const Loading = () => {
     return (
         <div className='relative flex flex-col w-full min-h-full gap-6 px-4 pb-4 md:px-0 h-fit'>
