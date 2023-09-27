@@ -122,8 +122,3 @@
   width: 120%;
   max-width: 100vw;
 }
-@media (min-width: 768px) {
-  #ambiLightv2 {
-    filter: blur(100px) brightness(2);
-  }
-}
