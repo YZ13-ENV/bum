@@ -33,8 +33,7 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
-                            return <MediaBlock key={`block#${index}`} {...block} />
-                            
+                            return <MediaBlock key={`block#${index}`} {...{ link: fetchFile(block.link), type: block.link.endsWith('.mp4') ? 'video' : 'image' }} />
                         }
                         if (block.type === 'text') {
                             return (
