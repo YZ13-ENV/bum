@@ -13,8 +13,8 @@ const SessionPicker = dynamic(() => import('@/components/widgets/SessionPicker')
 const rubik = Rubik({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
 export const metadata: Metadata = {
-  title: 'Dey',
-  description: 'Добро пожаловать в Dey, начните исследовать мир дизайна уже сегодня',
+  title: 'bum',
+  description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',
   authors: { name:"DM-Team", url: 'https://github.com/yz13-env'},
   themeColor: '#000000',
   colorScheme: 'dark',
@@ -26,15 +26,15 @@ export const metadata: Metadata = {
   viewport: 'width=device-width, initial-scale=1',
   twitter: {
       card: 'summary',
-      title: 'Dey',
-      description: 'Добро пожаловать в Dey, начните исследовать мир дизайна уже сегодня',    
+      title: 'bum',
+      description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',    
       images: 'https://cdn.darkmaterial.space/dm/cover/dm-dey-cover.png',
   },
   openGraph: {
     type: 'website',
-    title: 'Dey',
-    description: 'Добро пожаловать в Dey, начните исследовать мир дизайна уже сегодня',
-    siteName: 'Dey',
+    title: 'bum',
+    description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',
+    siteName: 'bum',
     url: 'https://design.darkmaterial.space',
     images: [ { url: 'https://cdn.darkmaterial.space/dm/cover/dm-dey-cover.png' } ],
 },

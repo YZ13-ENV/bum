@@ -1,57 +1,56 @@
 'use client'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useMediaQuery } from 'react-responsive'
 import Image from 'next/image'
-import Link from 'next/link'
 import UserStatus from '@/components/entities/user'
+import { usePathname, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
-import { BiLoaderAlt, BiSolidMagicWand } from 'react-icons/bi'
-import { Button } from 'antd'
-import SearchSection from './ui/SearchSection'
 import SearchBar from '../SearchBar'
-import { Suspense } from 'react'
-import SubLabel from '@/components/shared/SubLabel'
-import { useAppSelector } from '@/components/entities/store/store'
+import SearchSection from './ui/SearchSection'
 
 const AppHeader = () => {
     const path = usePathname()
     const params = useSearchParams()
-    const q = params.get("q")
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1024px)' })
-    const isSub = useAppSelector(state => state.user.isSubscriber)
+    const q = params.get('q')
     const [user] = useAuthState(auth)
     if (path === '/uploads/shot') return null
     return (
-        <header className="flex flex-col items-center justify-center w-full gap-8 px-4 py-8 shrink-0 md:px-12 h-fit">
-            <div className="relative flex items-center justify-between w-full shrink-0 h-fit">
-                <nav className="flex flex-row items-center gap-4 w-fit h-fit">
-                    <Link href='/'><Image src={'/bum-full.svg'} width={120} height={isTabletOrMobile ? 40 : 64} alt='v2-logo' /></Link>
-                    <div className="flex flex-row items-center gap-3 w-fit h-fit">
-                        <Link className='text-sm md:inline hidden font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/'>Вдохновение</Link>
-                        {
-                            !isSub &&
-                            <Link className='inline-flex items-center gap-2' href='/membership'>
-                                <SubLabel/> <span className='text-sm font-medium mt-0.5 hover:text-neutral-100 text-neutral-300'>Подписка</span>
-                            </Link>
-                        }
+        <header className="flex flex-col justify-center w-full max-w-5xl gap-4 p-4 mx-auto md:p-8 shrink-0 h-fit">
+            <div className="flex items-center justify-between w-full h-full p-2 pr-4">
+                <div className='flex items-center gap-2 px-1 w-fit h-fit'>
+                    <Image src={'/bum.svg'} width={36} height={36} alt='v2-logo' />
+                    <span className='text-2xl font-medium text-neutral-200'>
+                        bum
+                    </span>
+                    <sup className='text-sm text-neutral-400'>{process.env.NODE_ENV === 'development' ? 'Dev' : 'Beta'}</sup>
+                </div>
+                <div className="items-center justify-center hidden gap-4 md:flex w-fit h-fit">
+                    <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/'>Вдохновение</Link>
+                    <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/membership'>Подписка</Link>
+                    { 
+                        user && 
+                        <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/uploads/shot'>Поделиться работой</Link>
+                    }
+                </div>
+                <div className="flex items-center gap-4 shrink-0 w-fit">
+                    <div className="max-w-xs shrink-0">
+                    {
+                        path === '/search'
+                        ? <SearchBar q={q} />
+                        : <SearchSection />
+                    }
                     </div>
-                </nav>
-                <div className="flex flex-row items-center gap-4 w-fit h-fit">
-                    <Suspense fallback={<BiLoaderAlt className='animate-spin' />}>
-                        { user && 
-                            <Button size='large' type='primary' href='/uploads/shot' icon={<BiSolidMagicWand size={17} className='inline mb-0.5' />}>
-                            { isTabletOrMobile ? '' : 'Поделиться работой'}</Button> 
-                        }
-                    </Suspense>
                     <UserStatus />
                 </div>
             </div>
-            {
-                path === '/search'
-                ? <SearchBar q={q} />
-                : <SearchSection />
-            }
+            <div className="flex items-center justify-center w-full h-full gap-4 p-2 md:hidden">
+                <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/'>Вдохновение</Link>
+                <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/membership'>Подписка</Link>
+                { 
+                    user && 
+                    <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/uploads/shot'>Поделиться работой</Link>
+                }
+            </div>
         </header>
     )
 }
