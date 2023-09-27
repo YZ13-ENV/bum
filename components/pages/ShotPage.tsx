@@ -7,6 +7,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 import ShotPageFooter from '../widgets/ShotPageFooter'
 import ConfettiForNewShot from '../widgets/Confetti'
 import ViewsHistoryWatcher from '../entities/ViewsHistoryWatcher'
+import { fetchFile } from '@/helpers/fetchFile'
 
 type Props = {
     shot: DocShotData | null
@@ -32,7 +33,7 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
-                            return <MediaBlock key={`block#${index}`} {...block} />
+                            return <MediaBlock key={`block#${index}`} {...{ link: fetchFile(block.link), type: block.link.endsWith('.mp4') ? 'video' : 'image' }} />
                             
                         }
                         if (block.type === 'text') {
