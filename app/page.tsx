@@ -1,24 +1,13 @@
-import Chunker from "@/components/widgets/ChunkModule/Chunker";
-import NoUserBanner from "@/components/widgets/NoUserBanner";
-import Tabs from "@/components/widgets/Tabs";
-import { Suspense } from "react";
-import { BiLoaderAlt } from "react-icons/bi";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-type Props = {
-  searchParams: {
-    order: string
-  }
-}
-export default function Home({ searchParams }: Props) {
+export default function Home() {
+  const takenCookies = cookies()
+  const uid = takenCookies.get('uid')
+  if (uid) redirect('/shots')
   return (
     <>
-      <NoUserBanner />
-      <section className='flex flex-col w-full h-full px-4 md:px-12'>
-        <Tabs />
-        <Suspense fallback={<div className="flex items-center justify-center w-full h-full"><BiLoaderAlt size={17} className="animate-spin" /></div>}>
-          <Chunker order={searchParams.order} />
-        </Suspense>
-      </section>
+    Тут надо больше рассказать о bum
     </>
   );
 }

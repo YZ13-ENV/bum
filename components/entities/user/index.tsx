@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '../store/store'
 import { setSession } from '../session/session'
 import { setSubscribeState } from './store'
 import SessionSection from './ui/SessionSection'
+import { useMediaQuery } from 'react-responsive'
 
 type Props = {
     showDropdown?: boolean
@@ -20,6 +21,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
     const [sid, setSid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     const [user, loading] = useAuthState(auth)
     const [cookie, setCookie] = useCookieState('uid')
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1024px)' })
     const isSub = useAppSelector(state => state.user.isSubscriber)
     const router = useRouter()
     const dispatch = useAppDispatch()
@@ -116,8 +118,8 @@ const UserStatus = ({ showDropdown=true }: Props) => {
     }
     if (user) {
         if (showDropdown) {
-            return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} src={user.photoURL} size={36} /></div></Dropdown> 
-        } else return <Avatar isSub={isSub} src={user.photoURL} size={36} />
+            return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} noLabel={isTabletOrMobile ? true : false} src={user.photoURL} size={36} /></div></Dropdown> 
+        } else return <Avatar isSub={isSub} noLabel={isTabletOrMobile ? true : false} src={user.photoURL} size={36} />
     } else return <Button size='large' onClick={() => router.push(`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}${sid ? `&token=${sid}` : ''}`)} 
     loading={loading} type='primary'>Войти</Button>
 }

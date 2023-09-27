@@ -22,7 +22,7 @@ const SearchBar = ({ q }: Props) => {
         }
     }, [query, setQuery], { wait: 1000 })
     return (
-        <div className="flex items-center w-full max-w-lg px-2.5 py-0.5 border rounded-xl border-neutral-700">
+        <div className="flex items-center w-full max-w-lg px-2.5 py-0.5 shrink-0 border rounded-xl border-neutral-700">
             <BiSearch size={17} />
             <Input size='large' value={query} bordered={false} onChange={e => setQuery(e.target.value)} placeholder='Поиск' />
         </div>

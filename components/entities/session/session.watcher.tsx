@@ -1,7 +1,7 @@
 'use client'
 import { useCallback, useLayoutEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store'
-import { useDebounceEffect, useLocalStorageState } from 'ahooks'
+import { useCookieState, useDebounceEffect, useLocalStorageState } from 'ahooks'
 import { Session, setSession } from './session'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '@/utils/app'
@@ -20,6 +20,7 @@ const SessionWatcher = () => {
   const dispatch = useAppDispatch()
   const params = useSearchParams()
   const tokenParam = params.get('token')
+  const [uid, setUid] = useCookieState('uid');
   const handleUploadSession = useCallback(async() => await uploadSession(session), [session])
   const [messageApi, contextHolder] = message.useMessage();
   const setLocalSession = async(sid: string) => {
@@ -36,6 +37,7 @@ const SessionWatcher = () => {
       if (res.ok) {
         const token = await res.json()
         signInWithCustomToken(auth, token)
+        .then(() => setUid(uid))
       }
     } catch(e) {
 
@@ -73,6 +75,7 @@ const SessionWatcher = () => {
         }
         dispatch(setSession(sessionNoUser))
         auth.signOut()
+        setUid('')
       }
     }
   })
