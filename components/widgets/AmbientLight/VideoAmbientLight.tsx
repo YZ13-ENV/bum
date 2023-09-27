@@ -55,7 +55,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
     },[])
     return (
         <div className='relative flex items-center justify-center'>
-            <canvas ref={canvas} id="ambiLightv2" onLoad={() => repaintAmbientLight()} />
+            <canvas ref={canvas} id="ambiLightv2" onLoad={repaintAmbientLight} />
             <video ref={videoBlock} src={link} muted
             className='object-cover w-full h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />
         </div>

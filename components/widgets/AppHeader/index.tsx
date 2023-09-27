@@ -25,7 +25,7 @@ const AppHeader = () => {
                     <sup className='text-sm text-neutral-400'>{process.env.NODE_ENV === 'development' ? 'Dev' : 'Beta'}</sup>
                 </Link>
                 <div className="items-center justify-center hidden gap-4 md:flex w-fit h-fit">
-                    <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/'>Вдохновение</Link>
+                    <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/shots'>Вдохновение</Link>
                     <Link className='text-sm font-medium mt-0.5 text-neutral-300 hover:text-neutral-100' href='/membership'>Подписка</Link>
                     { 
                         user && 

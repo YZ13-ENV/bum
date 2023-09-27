@@ -8,7 +8,7 @@ export default function Home() {
   if (uid && !(process.env.NODE_ENV === 'development')) redirect('/shots')
   return (
     <section className="relative flex flex-col items-center justify-center w-full h-full gap-4 shot_wrapper">
-      <div className="absolute top-0 left-0 z-0 flex items-center justify-between w-full h-screen -translate-y-32">
+      <div className="absolute top-0 left-0 z-[-1] flex items-center justify-between w-full h-screen -translate-y-32">
         <div className="relative w-1/2 h-full md:w-1/4">
           <Image src='/left-gradient.webp' fill alt='gradient' />
         </div>
