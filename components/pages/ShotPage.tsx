@@ -28,13 +28,12 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
                 <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
                     <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
                 </div>
-                <MediaBlock withAmbiLight={user.isSubscriber || false} {...{ link: shot.rootBlock.link, type: shot.rootBlock.link.endsWith('.mp4') ? 'video' : 'image' }} autoPlay />
+                <MediaBlock withAmbiLight={user.isSubscriber || false} {...{ link: fetchFile(shot.rootBlock.link), type: shot.rootBlock.link.endsWith('.mp4') ? 'video' : 'image' }} autoPlay />
                 <div className="flex flex-col w-full px-6 md:px-12 h-fit gap-14">
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image') {
                             return <MediaBlock key={`block#${index}`} {...{ link: fetchFile(block.link), type: block.link.endsWith('.mp4') ? 'video' : 'image' }} />
-                            
                         }
                         if (block.type === 'text') {
                             return (
