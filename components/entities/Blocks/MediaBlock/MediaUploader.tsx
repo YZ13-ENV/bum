@@ -10,12 +10,14 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { ImageBlock, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
-import { uploadMedia, uploadThumbnail } from '@/helpers/uploadMedia'
+import { uploadMedia } from '@/helpers/uploadMedia'
 import { getHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
 import { setDraftId } from '../../uploader/modal.store'
 import { uploadShot_POST } from '@/helpers/shot'
+import { uploadedFile, uploadedThumbnail } from './helper'
+import { fetchFile } from '@/helpers/fetchFile'
 
 type Props = {
     block: ImageBlock | VideoBlock
@@ -38,19 +40,12 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         progress: undefined,
         customRequest: async(opt) => {
             if (opt.action !== '' && user) {
-                const generatedId = randomString(20)
+                const generatedId = randomString(30)
                 const targetDraft = modals.draftId ? modals.draftId : generatedId
                 if (isRootBlock) {
                     setLoading(true)
-                    const uploadedFile = new Promise<string | null>(async(res, rej) => {
-                        const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
-                        res(uploadedFile)
-                    })
-                    const uploadedThumbnail = new Promise<string | null>(async(res, rej) => {
-                        const uploadedFile = await uploadThumbnail(user.uid, targetDraft, opt.file as RcFile)
-                        res(uploadedFile)
-                    })
-                    uploadedFile.then((link) => {
+                    uploadedFile(user.uid, targetDraft, opt.file as RcFile)
+                    .then((link) => {
                         if (link) {
                             dispatch(setRootBlock({ type: draft.rootBlock.type, link: link }))
                             message.success('Файл загружен')
@@ -59,22 +54,46 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         } 
                     })
                     .finally(() => setLoading(false))
-                    .catch(why => message.error('Что-то пошло не так и изображение не загрузилось'))
-                    uploadedThumbnail.then((link) => {
+                    .catch(why => {
+                        message.error('Что-то пошло не так и изображение не загрузилось')
+                        message.loading('Пробуем снова загрузить')
+                        setLoading(true)
+                        uploadedFile(user.uid, targetDraft, opt.file as RcFile)
+                        .finally(() => setLoading(false))
+                        .then((link) => {
+                            if (link) {
+                                dispatch(setRootBlock({ type: draft.rootBlock.type, link: link }))
+                                message.success('Файл загружен')
+                                setLoading(false)
+                                uploadShot_POST(user.uid, targetDraft, draft)
+                            } 
+                        })
+                    })
+                    uploadedThumbnail(user.uid, targetDraft, opt.file as RcFile)
+                    .then((link) => {
                         if (link) {
                             dispatch(setThumbnail({ link: link, width: '400', height: '300' }))
                             uploadShot_POST(user.uid, targetDraft, draft)
                             message.success('Обложка загружена')
                         } 
                     })
-                    .catch(why => message.error('Что-то пошло не так и обложка не загрузилась'))
+                    .catch(why => {
+                        message.error('Что-то пошло не так и обложка не загрузилась')
+                        message.loading('Пробуем снова загрузить')
+                        setLoading(true)
+                        uploadedThumbnail(user.uid, targetDraft, opt.file as RcFile)
+                        .then((link) => {
+                            if (link) {
+                                dispatch(setThumbnail({ link: link, width: '400', height: '300' }))
+                                uploadShot_POST(user.uid, targetDraft, draft)
+                                message.success('Обложка загружена')
+                            } 
+                        })
+                    })
                 } else {
                         setLoading(true)
-                        const uploadedFile = new Promise<string | null>(async(res, rej) => {
-                            const uploadedFile = await uploadMedia(user.uid, targetDraft, opt.file as RcFile)
-                            res(uploadedFile)
-                        })
-                        uploadedFile.then((link) => {
+                        uploadedFile(user.uid, targetDraft, opt.file as RcFile)
+                        .then((link) => {
                             if (link) {
                                 message.success('Изображение загруженно')
                                 const updatedBlocks = draft.blocks.map((_, blockIndex) => {
@@ -140,8 +159,6 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         }
     }
 
-
-
     const deleteImage = async() => {
         if (user && block.link !== '') {
             setLoading(true)
@@ -180,7 +197,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                 <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                     <Button className='!px-2' loading={loading} onClick={deleteImage} icon={<BiTrashAlt size={15} className='inline-block mb-1' />}>Удалить</Button>
                 </div>
-                <MediaBlock {...block} autoPlay object='contain' quality={75} />
+                <MediaBlock link={block.link} autoPlay object='contain' quality={75} />
             </div>
         )
     }
@@ -224,7 +241,6 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         </div>
                     </>
                 }
-
             </div>
         </Dragger>
     )

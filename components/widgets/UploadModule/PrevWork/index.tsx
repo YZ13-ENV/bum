@@ -2,8 +2,8 @@ import { DocDraftShotData } from '@/types'
 import { cookies } from 'next/headers'
 import { getHost } from '@/helpers/getHost'
 import dynamic from 'next/dynamic'
+import Wrapper from './Wrapper'
 const PrevShotCard = dynamic(() => import('./ui/PrevShotCard'))
-const Wrapper = dynamic(() => import('./Wrapper'))
 const Header = dynamic(() => import('./ui/Header'))
 
 const getPrevShots = async() => {
@@ -35,7 +35,7 @@ const PrevWorks = async() => {
                         <span className='text-xs text-center text-neutral-400'>Нет последних работ</span>
                     </div>
                     :
-                    <div className="grid w-full h-full gap-4 mini_grid">
+                    <div className="grid w-full h-fit gap-4 search_grid">
                         {
                             works.map((shot, index) => 
                                 <PrevShotCard key={index} block={shot} />

@@ -50,8 +50,7 @@ const HistoryCard = async({ historyUnit }: CardProps) => {
     return (
         <div className="flex flex-col w-full gap-2 border md:h-48 h-fit md:flex-row shrink-0 rounded-xl border-neutral-800">
             <div className="relative h-full aspect-[4/3] rounded-xl bg-neutral-900">
-                <MediaBlock link={fetchFile(stableLink as string)} object='cover'
-                type={(stableLink as string).endsWith('.mp4') ? 'video' : 'image'} />
+                <MediaBlock link={stableLink as string} object='cover' />
             </div>
             <div className="flex flex-col w-full h-full gap-2 p-4">
                 { process.env.NODE_ENV === 'development' ? DateTime.fromSeconds(historyUnit.createdAt).toISO() : null }

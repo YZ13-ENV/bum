@@ -27,6 +27,7 @@ const UploadHeader = () => {
                 <Button href='/'>{isTabletOrMobile ? <BiLeftArrowAlt className='inline mb-0.5' size={17} /> :'Вернуться'}</Button>
             </div>
             <div className="flex flex-row-reverse items-center gap-2 md:flex-row w-fit h-fit">
+                { process.env.NODE_ENV === 'development' ? modals.draftId : '' }
                 <Button className='!px-2' disabled={!thumbnail}><BiSolidImage size={17}  /></Button>
                 {/* <Button>{isTabletOrMobile ? <BiSave size={17} /> : 'Сохранить в черновик'}</Button> */}
                 <Button disabled={draft.rootBlock.link === '' || draft.title === ''} 

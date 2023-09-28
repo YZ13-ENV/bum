@@ -46,8 +46,7 @@ const UserStatisticsPage = async({ params }: Props) => {
                 popularShot &&
                 <div className="flex flex-col w-full h-48 gap-2 border md:flex-row shrink-0 rounded-xl border-neutral-800">
                     <div className="relative h-full aspect-[4/3] rounded-xl bg-neutral-900">
-                        <MediaBlock link={fetchFile(popularShot.thumbnail ? popularShot.thumbnail.link : popularShot.rootBlock.link)} object='cover'
-                        type={(popularShot.thumbnail ? popularShot.thumbnail.link : popularShot.rootBlock.link).endsWith('.mp4') ? 'video' : 'image'} />
+                        <MediaBlock link={popularShot.thumbnail ? popularShot.thumbnail.link : popularShot.rootBlock.link} object='cover' />
                     </div>
                     <div className="flex flex-col w-full h-full gap-2 p-4">
                         <span className='px-3 py-1 text-xs border rounded-md w-fit border-neutral-800 text-neutral-400 bg-neutral-900'>Самая популярная работа</span>

@@ -1,9 +1,9 @@
 import LoadedImage from '@/components/shared/LoadedImage'
 import LoadedVideo from '@/components/shared/LoadedVideo'
+import { fetchFile } from '@/helpers/fetchFile'
 import { memo } from 'react'
 
 type MediaBlockProps = {
-    type: 'image' | 'video'
     link: string
     quality?: number
     object?: 'cover' | 'contain' 
@@ -11,15 +11,17 @@ type MediaBlockProps = {
     withAmbiLight?: boolean
 
 }
-const MediaBlock = ({ withAmbiLight=false, type, link, quality=75, object='contain', autoPlay=false }: MediaBlockProps) => {
+const MediaBlock = ({ withAmbiLight=false, link, quality=75, object='contain', autoPlay=false }: MediaBlockProps) => {
+    const type = link.endsWith('.mp4') ? 'video' : 'image'
+    const preparedLink = fetchFile(link)
     if (process.env.NODE_ENV === 'development') {
         if (type === "image") return <LoadedImage withAmbiLight={withAmbiLight} link={'/original-error.png'} object={object} quality={quality} />
         if (type === "video") return <LoadedVideo withAmbiLight={withAmbiLight} link={'/dev-video.mp4'} />
     }
     if (link !== '') {
         if (type === "image") {
-            return <LoadedImage withAmbiLight={withAmbiLight} link={link} object={object} quality={quality} />
-        } else return <LoadedVideo link={link} withAmbiLight={withAmbiLight} autoPlay={autoPlay} />
+            return <LoadedImage withAmbiLight={withAmbiLight} link={preparedLink} object={object} quality={quality} />
+        } else return <LoadedVideo link={preparedLink} withAmbiLight={withAmbiLight} autoPlay={autoPlay} />
     }
     return null
 }

@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { getHost } from '@/helpers/getHost'
+import { fetchFile } from '@/helpers/fetchFile'
 
 type Props = {
     block: DocDraftShotData
@@ -52,9 +53,9 @@ const PrevShotCard = ({ block }: Props) => {
             </div>
             {
                 block.thumbnail && block.thumbnail.link !== '' ?
-                <MediaBlock {...{link: block.thumbnail.link, type: 'image'}} autoPlay />
+                <MediaBlock link={block.thumbnail.link} autoPlay />
                 : block.rootBlock.link !== '' ?
-                <MediaBlock {...block.rootBlock} autoPlay />
+                <MediaBlock link={block.rootBlock.link} autoPlay />
                 : <span className='text-xs text-neutral-300'>Нет обложки</span>
             }
         </div>

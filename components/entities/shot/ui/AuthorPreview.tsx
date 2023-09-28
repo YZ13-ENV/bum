@@ -7,6 +7,7 @@ import React, { useLayoutEffect, useState } from 'react'
 import { BiRightArrowAlt } from 'react-icons/bi'
 import MediaBlock from '../../Blocks/MediaBlock'
 import { fetchFile } from '@/helpers/fetchFile'
+import Link from 'next/link'
 
 type Props = {
     uid: string
@@ -44,10 +45,10 @@ const AuthorPreview = ({ uid, user }: Props) => {
                 <div className="flex items-center w-full h-full gap-2">
                     {
                         shots.map(shot => 
-                            <div key={shot.doc_id + shot.authorId} className="flex flex-col items-center justify-center w-1/2 h-full gap-2 border rounded-lg border-neutral-700">
-                                <MediaBlock link={fetchFile(shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link)} object='cover' autoPlay={false}
-                                type={(shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link).endsWith('.mp4') ? 'video' : 'image'} />
-                            </div>
+                            <Link href={`/view?s=${shot.doc_id}`} 
+                            key={shot.doc_id + shot.authorId} className="flex flex-col items-center justify-center w-1/2 h-full gap-2 border rounded-lg border-neutral-700">
+                                <MediaBlock link={shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link} object='cover' autoPlay={false} />
+                            </Link>
                         )
                     }
                 </div>
