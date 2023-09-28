@@ -1,7 +1,7 @@
 'use client'
 import { LoadedVideoProps } from '@/components/shared/LoadedVideo'
 import { useInterval } from 'ahooks';
-import { ElementRef, useLayoutEffect, useRef, useState } from 'react'
+import { ElementRef, memo, useLayoutEffect, useRef, useState } from 'react'
 
 const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLight'>) => {
     const videoBlock = useRef<ElementRef<'video'>>(null);
@@ -62,4 +62,4 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
     )
 }
 
-export default VideoAmbientLight
+export default memo(VideoAmbientLight)

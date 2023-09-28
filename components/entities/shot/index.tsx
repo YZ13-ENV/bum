@@ -18,8 +18,8 @@ const ShotCard = ({ shot }: Props) => {
         <ShotWrapper shot={shot}>
             {
                 isVideo 
-                ? <GeneratedThumbnail videoSrc={fetchFile(stableLink)} />
-                : <MediaBlock {...{ link: fetchFile(stableLink), type: 'image' }} quality={75} object='cover' autoPlay={false} />
+                ? <GeneratedThumbnail videoSrc={stableLink} />
+                : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
             }
         </ShotWrapper>
     )
@@ -29,11 +29,11 @@ const ShotCard = ({ shot }: Props) => {
                 {
                     process.env.NODE_ENV === 'development'
                     ? isVideo
-                    ? <GeneratedThumbnail videoSrc={'/dev-video.mp4'} />
-                    : <MediaBlock {...{ link: '/original-error.png', type: 'image' }} quality={75} object='cover' autoPlay={false} />
+                    ? <GeneratedThumbnail videoSrc='/dev-video.mp4' />
+                    : <MediaBlock link='/original-error.png' quality={75} object='cover' autoPlay={false} />
                     : isVideo 
-                    ? <GeneratedThumbnail videoSrc={fetchFile(stableLink)} />
-                    : <MediaBlock {...{ link: fetchFile(stableLink), type: 'image' }} quality={75} object='cover' autoPlay={false} />
+                    ? <GeneratedThumbnail videoSrc={stableLink} />
+                    : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
                 }
             </Link>
         </ShotWrapper>

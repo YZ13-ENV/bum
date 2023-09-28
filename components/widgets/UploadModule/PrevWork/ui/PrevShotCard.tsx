@@ -53,9 +53,9 @@ const PrevShotCard = ({ block }: Props) => {
             </div>
             {
                 block.thumbnail && block.thumbnail.link !== '' ?
-                <MediaBlock {...{link: fetchFile(block.thumbnail.link), type: block.thumbnail.link.endsWith('.mp4') ? 'video' : 'image'}} autoPlay />
+                <MediaBlock link={block.thumbnail.link} autoPlay />
                 : block.rootBlock.link !== '' ?
-                <MediaBlock {...{ link: fetchFile(block.rootBlock.link), type: block.rootBlock.link.endsWith('.mp4') ? 'video' : 'image' }} autoPlay />
+                <MediaBlock link={block.rootBlock.link} autoPlay />
                 : <span className='text-xs text-neutral-300'>Нет обложки</span>
             }
         </div>

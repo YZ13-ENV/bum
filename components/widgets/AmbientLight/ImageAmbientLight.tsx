@@ -1,7 +1,7 @@
 'use client'
 import { LoadedImageProps } from '@/components/shared/LoadedImage';
 import Image from 'next/image';
-import { ElementRef, useLayoutEffect, useRef, useState } from 'react'
+import { ElementRef, memo, useLayoutEffect, useRef, useState } from 'react'
 import { FastAverageColor } from 'fast-average-color';
 
 const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withAmbiLight'>) => {
@@ -44,4 +44,4 @@ const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'wi
     )
 }
 
-export default ImageAmbientLight
+export default memo(ImageAmbientLight)
