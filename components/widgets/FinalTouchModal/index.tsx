@@ -61,7 +61,7 @@ const FinalTouchModal = () => {
                 dispatch(setFinalTouchModal(false))
                 dispatch(setDraftId(null))
                 dispatch(setDraft({ blocks: [], rootBlock: { link: '', type: 'image' }, thumbnail: null, title: '' }))
-                router.push(`/${user.uid}/${draftId}`)
+                router.push(`/view?s=${draftId}`)
             } else setLoading(false)
         }
     }

@@ -10,10 +10,10 @@ import dynamic from 'next/dynamic'
 import { auth } from '@/utils/app'
 import Avatar from '@/components/shared/Avatar'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import Wrapper from './Wrapper'
 // import UserStatus from '@/components/entities/user'
 const BlocksIn = dynamic(() => import('./BlocksIn')) 
 const BlocksOut = dynamic(() => import('./BlocksOut')) 
-const Wrapper = dynamic(() => import('./Wrapper')) 
 
 const UploadBlocksMenu = () => {
     const [user] = useAuthState(auth)

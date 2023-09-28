@@ -1,3 +1,4 @@
+import { Button, Space } from "antd";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -22,6 +23,11 @@ export default function Home() {
       </div>
 
       <p className=" text-neutral-400">За руку по миру дизайна</p>
+
+      <Space direction="horizontal">
+        <Button size='large' href='/shots'>К работам</Button>
+        <Button size='large' type='primary' href="https://auth.darkmaterial.space?back_url=https://bum.darkmaterial.space">Войти в аккаунт</Button>
+      </Space>
 
     </section>
   );

@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-const UploadShot = dynamic(() => import('@/components/pages/UploadShot'));
+import UploadShot from "@/components/pages/UploadShot";
 const UploadShotPage = () => {
-    return (
-        <UploadShot />
-    )
+    return <UploadShot />
 }
 
 export default UploadShotPage
