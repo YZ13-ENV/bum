@@ -1,4 +1,4 @@
-# ![dey-logo](/public/Dey.svg) bum (в разработке)
+# ![dey-logo](/public/bum.svg) bum (в разработке)
 Сервис для людей, которые хотят поделиться своими работами.
 
 > [Ссылка на сервис](https://design.darkmaterial.space)
