@@ -35,7 +35,7 @@ const PrevWorks = async() => {
                         <span className='text-xs text-center text-neutral-400'>Нет последних работ</span>
                     </div>
                     :
-                    <div className="grid w-full h-full gap-4 mini_grid">
+                    <div className="grid w-full h-fit gap-4 search_grid">
                         {
                             works.map((shot, index) => 
                                 <PrevShotCard key={index} block={shot} />
