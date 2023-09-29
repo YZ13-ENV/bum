@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 import { DocShotData } from '@/types'
 import { memo } from 'react'
 import GeneratedThumbnail from '../Blocks/MediaBlock/GeneratedThumbnail'
-import { fetchFile } from '@/helpers/fetchFile'
+// import { fetchFile } from '@/helpers/fetchFile'
 import { linkToShot } from '@/helpers/linkTo'
 const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
 const Link = dynamic(() => import('next/link')) 
@@ -18,7 +18,7 @@ const ShotCard = ({ shot }: Props) => {
         <ShotWrapper shot={shot}>
             {
                 isVideo 
-                ? <GeneratedThumbnail videoSrc={stableLink} />
+                ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
                 : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
             }
         </ShotWrapper>
@@ -29,10 +29,10 @@ const ShotCard = ({ shot }: Props) => {
                 {
                     process.env.NODE_ENV === 'development'
                     ? isVideo
-                    ? <GeneratedThumbnail videoSrc='/dev-video.mp4' />
+                    ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
                     : <MediaBlock link='/original-error.png' quality={75} object='cover' autoPlay={false} />
                     : isVideo 
-                    ? <GeneratedThumbnail videoSrc={stableLink} />
+                    ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
                     : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
                 }
             </Link>

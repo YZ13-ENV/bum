@@ -26,7 +26,7 @@ const Chunker = async({ order='popular' }: Props) => {
     const chunksCount = count <= 16 ? 1: Math.ceil(count / 16)
     const chunks = generateChunks(chunksCount, order)
     return (
-        <section className='flex flex-col gap-9'>
+        <section id='shots-wrapper' className='flex flex-col gap-9'>
         {
             chunks.map((chunk, index) => <Chunk index={index} chunkLink={chunk} key={chunk}/>)
         }

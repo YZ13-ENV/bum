@@ -6,6 +6,7 @@ import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { DateTime } from 'luxon'
 import { BiHeart, BiShow } from 'react-icons/bi'
 import { fetchFile } from '@/helpers/fetchFile'
+import Link from 'next/link'
 
 type Props = {
     params: {
@@ -48,7 +49,8 @@ const HistoryCard = async({ historyUnit }: CardProps) => {
         </div>
     )
     return (
-        <div className="flex flex-col w-full gap-2 border md:h-48 h-fit md:flex-row shrink-0 rounded-xl border-neutral-800">
+        <Link href={`/view?s=${shot.doc_id}`} 
+        className="flex flex-col w-full gap-2 transition-colors border md:h-48 h-fit md:flex-row shrink-0 rounded-xl border-neutral-800 hover:bg-neutral-950">
             <div className="relative h-full aspect-[4/3] rounded-xl bg-neutral-900">
                 <MediaBlock link={stableLink as string} object='cover' />
             </div>
@@ -67,7 +69,7 @@ const HistoryCard = async({ historyUnit }: CardProps) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

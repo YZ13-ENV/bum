@@ -16,10 +16,14 @@ const LoadedImage = ({ link, quality=75, object='contain', withAmbiLight }: Load
     const [hex, setHex] = useState<string>("")
     useLayoutEffect(() => {
         if (ImageBlock.current) {
-            fac.getColorAsync(ImageBlock.current)
-            .then(res => {
-                setHex(res.hex)
-            })
+            try {
+                fac.getColorAsync(ImageBlock.current)
+                .then(res => {
+                    setHex(res.hex)
+                })
+            } catch(e) {
+                setHex("")
+            }
         }
     },[ImageBlock.current])
     if (withAmbiLight) return <ImageAmbientLight link={link} object={object} quality={quality} />
