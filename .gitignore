@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/payments/node_modules
+/payments/.react-email
 /.pnp
 .pnp.js
 
