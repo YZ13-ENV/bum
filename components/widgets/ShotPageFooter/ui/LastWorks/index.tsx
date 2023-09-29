@@ -1,6 +1,6 @@
 'use client'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
-import { fetchFile } from '@/helpers/fetchFile'
+// import { fetchFile } from '@/helpers/fetchFile'
 import { getHost } from '@/helpers/getHost'
 import { linkToShot } from '@/helpers/linkTo'
 import { DocShotData } from '@/types'
@@ -17,7 +17,7 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
     const [shots, setShots] = useState<DocShotData[]>([]) 
     const getLastWorks = async(userId: string, exclude: Props['exclude'], order: Props['order']) => {
         try {
-            const res = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&asDoc=true&limit=4&order=${order ? order : 'popular'}${exclude && `&exclude=${exclude}`}`)
+            const res = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&limit=4&order=${order ? order : 'popular'}${exclude && `&exclude=${exclude}`}`)
             const shots: DocShotData[] = await res.json()
             setShots(shots)
         } catch(e) {

@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiStats } from 'react-icons/bi'
 import { BsStars } from 'react-icons/bs'
 import { MdHistory, MdWork } from 'react-icons/md'
+import ProfileActions from './ProfileActions'
 
 type Props = {
     uid: string
@@ -28,17 +29,22 @@ const ProfileSidebar = ({ uid }: Props) => {
         }
     }, [user, uid, path])
     return (
-        <div className="flex flex-col h-full gap-2 md:w-72 w-fit shrink-0">
-            <SidebarLink active={path.endsWith(uid)} icon={<MdWork className='text-inherit' size={17} />} link={`/${uid}/`} title='Работы' />
+        <>
             {
-                (!user || (user && user.uid === uid)) &&
-                <>
-                    <SidebarLink beta active={path.endsWith('/recommendations')} icon={<BsStars className='text-inherit' size={17} />} link={`/${uid}/recommendations`} title='Рекомендации' />
-                    <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
-                    <SidebarLink active={path.endsWith('/history')} icon={<MdHistory className='text-inherit' size={17} />} link={`/${uid}/history`} title='История' />
-                </>
+                user?.uid !== uid && <ProfileActions uid={uid} />
             }
-        </div>
+            <div className="flex flex-col h-full gap-2 md:w-72 w-fit shrink-0">
+                <SidebarLink active={path.endsWith(uid)} icon={<MdWork className='text-inherit' size={17} />} link={`/${uid}/`} title='Работы' />
+                {
+                    (!user || (user && user.uid === uid)) &&
+                    <>
+                        <SidebarLink beta active={path.endsWith('/recommendations')} icon={<BsStars className='text-inherit' size={17} />} link={`/${uid}/recommendations`} title='Рекомендации' />
+                        <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
+                        <SidebarLink active={path.endsWith('/history')} icon={<MdHistory className='text-inherit' size={17} />} link={`/${uid}/history`} title='История' />
+                    </>
+                }
+            </div>
+        </>
     )
 }
 

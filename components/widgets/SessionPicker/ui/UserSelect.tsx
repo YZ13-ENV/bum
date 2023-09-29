@@ -26,7 +26,7 @@ const UserSelect = ({ selectedUser, setSelectedUser, uid }: Props) => {
     },[uid])
     return (
         <div onClick={() => setSelectedUser( isSelected ? null : uid )} 
-        className="flex items-center w-full gap-2 px-2 py-4 border-b border-transparent h-fit">
+        className="flex items-center w-full gap-2 px-2 py-4 border-b border-transparent cursor-pointer h-fit">
             <div className="relative shrink-0">
                 <Avatar src={userData?.photoUrl || '/EmptyUser.svg'} size={40} />
                 {

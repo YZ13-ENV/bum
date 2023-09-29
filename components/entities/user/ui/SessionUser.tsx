@@ -47,7 +47,7 @@ const SessionUser = ({ uid, setExpand }: Props) => {
         fetchData()
     },[uid])
     if (!userData) return (
-        <div className="flex items-center w-full gap-2 h-14">
+        <div className="flex items-center w-full gap-2 h-fit">
             <div className='w-8 h-8 rounded-full shrink-0 bg-neutral-800' />
             <div className="flex flex-col justify-center w-full h-full gap-1">
                 <div className="w-1/2 h-4 rounded-full bg-neutral-800" />

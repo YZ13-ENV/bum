@@ -33,10 +33,10 @@
 }
 
 .body_wrapper {
+  max-width: 100dvw;
+  min-height: 100dvh;
   width: 100%;
   height: fit-content;
-  min-width: 100dvw;
-  min-height: 100dvh;
 }
 .upload_sidebar {
   height: calc(100% - 0px);
@@ -57,9 +57,8 @@
   height: calc(100% - 82px);
 }
 .shot_wrapper {
-  min-height: calc(100dvh - 120px);
+  min-height: calc(100dvh - 142px);
 }
-
 .home_grid {
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   /* grid-template-rows: repeat(auto-fill,minmax(300px,1fr)); */
@@ -67,6 +66,9 @@
 }
 
 @media (min-width: 1440px) {
+  .shot_wrapper {
+    min-height: calc(100dvh - 120px);
+  }
   .home_grid {
     grid-template-columns: repeat(auto-fill,minmax(336px,1fr));
     /* grid-template-rows: repeat(auto-fill,minmax(285px,1fr)); */

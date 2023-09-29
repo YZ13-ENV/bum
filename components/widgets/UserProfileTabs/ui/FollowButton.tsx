@@ -8,8 +8,9 @@ import { BiUserCircle, BiUserMinus, BiUserPlus } from 'react-icons/bi'
 
 type Props = {
     profileUID: string
+    mini?: boolean
 }
-const FollowButton = ({ profileUID }: Props) => {
+const FollowButton = ({ profileUID, mini=false }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [isFollowed, setFollowed] = useState<boolean>(false)
     const [user] = useAuthState(auth)
@@ -66,6 +67,13 @@ const FollowButton = ({ profileUID }: Props) => {
         checkFollow()
     },[user])
     if (!user) return null
+    if (mini) {
+        return (
+            <Button className='!h-10' loading={loading} size='large' danger={isFollowed} type={isFollowed ? 'default' : 'primary'}
+            onClick={isFollowed ? stopFollow : startFollow} disabled={!user || user.uid === profileUID} 
+            >{user?.uid === profileUID ? <BiUserCircle size={17} className='inline-block mb-0.5' /> : isFollowed ? <BiUserMinus size={17} className='inline-block mb-0.5' /> : <BiUserPlus size={17} className='inline-block mb-0.5' /> }</Button>
+        )
+    }
     return (
         <Button loading={loading} size='large' icon={user?.uid === profileUID ? <BiUserCircle size={17} className='inline-block mb-0.5' /> : isFollowed ? <BiUserMinus size={17} className='inline-block mb-0.5' /> : <BiUserPlus size={17} className='inline-block mb-0.5' /> } danger={isFollowed}
         onClick={isFollowed ? stopFollow : startFollow} disabled={!user || user.uid === profileUID} type={isFollowed ? 'default' : 'primary'}
