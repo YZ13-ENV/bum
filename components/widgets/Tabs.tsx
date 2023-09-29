@@ -32,7 +32,6 @@ const Tabs = ({ prefix }: Props) => {
     const router = useRouter()
     const [debouncedUrl, setDebouncedUrl] = useState<string>(`${prefix}/${tab}?${params.toString()}`)
     useLayoutEffect(() => {
-        console.log(prefix)
         const paramString = params.toString()
         const url = `${prefix}/${tab}?${paramString}`
         if (url !== debouncedUrl) {

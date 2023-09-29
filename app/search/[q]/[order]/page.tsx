@@ -6,9 +6,7 @@ import React from 'react'
 type Props = {
     params: {
         order: string
-    }
-    searchParams: {
-        q: string | null,
+        q: string
     }
 }
 const getSearchedShots = async(q: string | null, order: string='popular') => {
@@ -25,8 +23,8 @@ const getSearchedShots = async(q: string | null, order: string='popular') => {
         }
     } else return []
 }
-const SearchShotsWithOrder = async({ params, searchParams }: Props) => {
-    const shots = await getSearchedShots(searchParams.q, params.order)
+const SearchShotsWithOrder = async({ params }: Props) => {
+    const shots = await getSearchedShots(params.q, params.order)
     return <Shots shots={shots} />
 }
 

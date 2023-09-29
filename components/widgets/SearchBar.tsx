@@ -1,25 +1,20 @@
 'use client'
 import { useDebounceEffect } from 'ahooks'
 import { Input } from 'antd'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSelectedLayoutSegment } from 'next/navigation'
 import { useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 
 type Props = {
-    q: string | null
+    q: string
 }
 const SearchBar = ({ q }: Props) => {
     const [query, setQuery] = useState<string>(q || '')
-    const params = useSearchParams()
     const router = useRouter()
+    const segment = useSelectedLayoutSegment()
     useDebounceEffect(() => {
-        const paramString = params.toString()
-        if (paramString.includes('q')) {
-            const edited = paramString.replace(`q=${params.get('q')}`, `q=${query}`)
-            router.push(`?${edited}`)
-        } else {
-            router.push(`?${paramString}&q=${query}`)
-        }
+        const url = `/search/${query}${segment ? `/${segment}` : ''}`
+        router.push(url)
     }, [query, setQuery], { wait: 1000 })
     return (
         <div className="flex items-center w-full max-w-lg px-2.5 py-0.5 border rounded-xl border-neutral-700">

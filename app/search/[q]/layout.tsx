@@ -3,16 +3,16 @@ import Tabs from '@/components/widgets/Tabs'
 import React from 'react'
 
 type Props = {
-    searchParams: {
+    params: {
         q: string
     }
     children: React.ReactNode
 }
-const SearchLayout = ({ searchParams, children }: Props) => {
+const SearchLayout = ({ params, children }: Props) => {
     return (
         <div className='flex flex-col w-full h-full gap-4'>
             <div className="flex items-center justify-center w-full h-fit">
-                <SearchBar q={searchParams?.q || null} />
+                <SearchBar q={decodeURI(params.q)} />
             </div>
             <div className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
                 <Tabs prefix='/search' />
