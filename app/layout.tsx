@@ -9,6 +9,7 @@ import LayoutWrapper from '@/components/LayoutWrapper';
 import AppHeader from '@/components/widgets/AppHeader';
 import dynamic from 'next/dynamic';
 import { ReactNode } from 'react'
+import CookiesAlert from '@/components/widgets/CookiesAlert';
 const SessionPicker = dynamic(() => import('@/components/widgets/SessionPicker'));
 const rubik = Rubik({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 
@@ -50,6 +51,7 @@ export default function RootLayout(props: { children: ReactNode, modal: ReactNod
             <TokenWatcher />
             <AppHeader />
             <SessionPicker />
+            <CookiesAlert />
             <main className="flex flex-col w-full h-full shrink-0 shot_wrapper">
               {props.children}
               {/* {props.modal} */}

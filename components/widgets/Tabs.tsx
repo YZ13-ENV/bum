@@ -1,51 +1,42 @@
 'use client'
 import { auth } from '@/utils/app'
-import { Button, Segmented, Select, SelectProps } from 'antd'
+import { Segmented } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BiFilter } from 'react-icons/bi'
 
-const Tabs = () => {
+type Props = {
+    prefix: string
+}
+const Tabs = ({ prefix }: Props) => {
     const pathname = usePathname()
     const params = useSearchParams()
-    const [order, setOrder] = useState<string>('popular')
     const [user] = useAuthState(auth)
-    const orders: SelectProps['options'] = [
-        {
-            value: 'popular',
-            label: 'Популярные'
-        },
-        {
-            disabled: user && pathname === '/' ? false : true,
-            value: 'following',
-            label: 'Подписки'
-        },
-        {
-            value: 'new',
-            label: 'Новые'
-        }
-    ]
     const options = [
         {
             label: 'Популярные',
-            value: 'popular'
+            value: '/popular'
+        },
+        {
+            disabled: user && pathname.includes('/shots') ? false : true,
+            value: '/following',
+            label: 'Подписки'
         },
         {
             label: 'Новые',
-            value: 'new'
+            value: '/new'
         },
-    ]
+    ].filter(opt => pathname.includes('/shots') ? opt : opt.value !== '/following')
     const [tab, setTab] = useState<SegmentedValue>(options[0].value)
     const router = useRouter()
+    const [debouncedUrl, setDebouncedUrl] = useState<string>(`${prefix}/${tab}?${params.toString()}`)
     useLayoutEffect(() => {
         const paramString = params.toString()
-        if (paramString.includes('order')) {
-            const edited = paramString.replace(`order=${params.get('order')}`, `order=${tab}`)
-            router.push(`?${edited}`)
-        } else {
-            router.push(`?order=${tab}&${paramString}`)
+        const url = `${prefix}/${tab}?${paramString}`
+        if (url !== debouncedUrl) {
+            setDebouncedUrl(url)
+            router.push(url)
         }
     }, [tab])
     return (

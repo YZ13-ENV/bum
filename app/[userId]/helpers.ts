@@ -1,10 +1,10 @@
 import { getHost } from "@/helpers/getHost"
 import { DocShotData, ShortUserData } from "@/types"
 
-export const getShots = async(userId: string, tab: string | null) => {
+export const getShots = async(userId: string, tab: string | null, order?: 'popular' | 'new') => {
     const stableTab = !tab ? 1 : parseInt(tab)
     try {
-        const shotsRes = await fetch(`${getHost()}/shots/${stableTab === 1 ? 'onlyShots' : 'onlyDrafts'}?userId=${userId}`, { next: { revalidate: 3600 } })
+        const shotsRes = await fetch(`${getHost()}/shots/${stableTab === 1 ? 'onlyShots' : 'onlyDrafts'}?userId=${userId}${order ? `&order=${order}` :''}`, { next: { revalidate: 3600 } })
         const shots: DocShotData[] = await shotsRes.json()
         return shots
     } catch(e) {

@@ -36,7 +36,7 @@ const SearchResults = ({ q, setQ }: Props) => {
             <div className="flex items-center justify-between w-full h-fit">
                 <span className='text-xs text-neutral-400'>Найдено работ: {res.length}</span>
                 <Link onClick={() => { dispatch(setSearchOpen(false)); setQ('') }} 
-                href={`/search?q=${q}`} className='text-xs text-neutral-400'>Открыть в виде страницы</Link>
+                href={`/search/${q}/popular`} className='text-xs text-neutral-400'>Открыть в виде страницы</Link>
             </div>
             {
                 loading ?

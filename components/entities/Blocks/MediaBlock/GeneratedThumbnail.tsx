@@ -46,12 +46,12 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
         }
     }, [thumbnailLink, videoLink, videoRef.current]);
 
-    if (playVideo) return <div onMouseLeave={() => setPlayVideo(false)}><LoadedVideo link={fetchFile(videoLink)} autoPlay /></div>
+    if (playVideo) return <div onMouseLeave={() => setPlayVideo(false)}><LoadedVideo link={process.env.NODE_ENV === 'development' ? '/dev-video.mp4' :fetchFile(videoLink)} autoPlay /></div>
     return (
         <>
             { delay !== undefined && <span onMouseEnter={() => setDelay(2000)}
             className='absolute px-3 py-1 text-xs rounded-md bottom-14 right-2 bg-neutral-900 text-neutral-400'>Не убирайте указатель, предпросмотр начинается</span> }
-            <video ref={videoRef} src={fetchFile(thumbnailLink ? thumbnailLink : videoLink)} 
+            <video ref={videoRef} src={process.env.NODE_ENV === 'development' ? '/dev-video.mp4' : fetchFile(thumbnailLink ? thumbnailLink : videoLink)} 
             loop muted className='w-full h-full hidden aspect-[4/3] rounded-xl' />
             <canvas ref={canvasRef} onLoad={paintThumbnail}
             onMouseEnter={() => setDelay(2000)} onMouseLeave={() => { clear(); setDelay(undefined)}}
