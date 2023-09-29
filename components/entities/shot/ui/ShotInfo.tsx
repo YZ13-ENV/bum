@@ -22,11 +22,12 @@ const getShortData = async(userId: string) => {
 const ShotInfo = async({ shot }: Props) => {
     const user = await getShortData(shot.authorId)
     const isSub = user?.isSubscriber || false
+    const isVideo = (shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link).includes('.mp4')
     const content = (
         <AuthorPreview uid={shot.authorId} user={user} />
     )
     return (
-        <div className='absolute bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 px-4 py-2 group-hover:opacity-0 hover:!opacity-100 rounded-b-xl h-fit bg-gradient-to-t from-black to-transparent'>
+        <div className={`absolute bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 px-4 py-2 ${isVideo ? 'group-hover:opacity-0 hover:!opacity-100' : ''} rounded-b-xl h-fit bg-gradient-to-t from-black to-transparent`}>
             <h2 className='text-base font-medium text-neutral-200 line-clamp-1'>{shot.title}</h2>
             <div className="flex items-center gap-2 shrink-0 w-fit h-fit">
                 <Popover content={content} placement='top' trigger={['hover']}>

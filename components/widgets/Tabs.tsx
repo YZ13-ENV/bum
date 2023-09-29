@@ -27,13 +27,18 @@ const Tabs = ({ prefix }: Props) => {
             label: 'Новые',
             value: '/new'
         },
-    ]
+    ].filter(opt => pathname.includes('/shots') ? opt : opt.value !== '/following')
     const [tab, setTab] = useState<SegmentedValue>(options[0].value)
     const router = useRouter()
-    // console.log(pathname)
+    const [debouncedUrl, setDebouncedUrl] = useState<string>(`${prefix}/${tab}?${params.toString()}`)
     useLayoutEffect(() => {
+        console.log(prefix)
         const paramString = params.toString()
-        router.push(`${prefix}/${tab}?${paramString}`)
+        const url = `${prefix}/${tab}?${paramString}`
+        if (url !== debouncedUrl) {
+            setDebouncedUrl(url)
+            router.push(url)
+        }
     }, [tab])
     return (
         <div className='flex items-center justify-center w-full gap-4 py-4 shrink-0 md:gap-12 h-fit'>
