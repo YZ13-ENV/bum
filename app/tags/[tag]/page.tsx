@@ -29,7 +29,7 @@ const TagPage = async({ params }: Props) => {
             <div className="flex items-center justify-center w-full h-fit">
                 <h1 className='text-4xl font-bold text-center capitalize text-neutral-300'>{params.tag}</h1>
             </div>
-            <Tabs />
+            <Tabs prefix='/tags' />
             <Shots shots={shots} />
         </section>
     )

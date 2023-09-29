@@ -19,7 +19,7 @@ const Membership = () => {
             <div className="flex flex-col w-full py-4 h-fit">
                 <div className="flex items-center w-full max-w-6xl gap-2 mx-auto h-fit">
                     <div className="flex flex-col w-1/4 h-64 gap-2 p-4 transition-colors duration-700 border rounded-xl border-neutral-600 group hover:border-white">
-                        <h3 className='text-lg font-bold transition-colors duration-700 group-hover:text-neutral-200 text-neutral-400'>Значок рядом с аватаркой и ником</h3>
+                        <h3 className='text-lg font-bold transition-colors duration-700 group-hover:text-neutral-200 text-neutral-400'>Уникальный вид</h3>
                         <div className="flex items-center justify-center w-full h-full">
                             <Avatar src={user?.photoURL || null} size={48} isSub />
                         </div>
@@ -29,13 +29,14 @@ const Membership = () => {
                         <div className="flex items-center justify-center w-full h-full">
                             <ul className='px-4'>
                                 <li className='text-sm list-disc text-neutral-400'>Больше медиа блоков (10 вместо 5)</li>
+                                <li className='text-sm list-disc text-neutral-400'>Возможность загружать видео в каждый блок</li>
                                 <li className='text-sm list-disc text-neutral-400'>Обновления раньше остальных</li>
                             </ul>
                         </div>
                     </div>
                     <div className="flex flex-col w-1/4 h-64 gap-2 p-4 transition-colors duration-700 border rounded-xl border-neutral-600 group hover:border-white">
                         <div className="flex items-center justify-center w-full h-full">
-                            <h3 className='text-2xl font-bold text-center transition-colors duration-700 group-hover:text-neutral-200 text-neutral-400'>AmbientLight для главного блока</h3>
+                            <h3 className='text-2xl font-bold text-center transition-colors duration-700 group-hover:text-neutral-200 text-neutral-400'>Ambient подсветка на странице работы</h3>
                         </div>
                     </div>
                     <div className="flex flex-col w-1/4 h-64 gap-2 p-4 transition-colors duration-700 border rounded-xl border-neutral-600 group hover:border-white">

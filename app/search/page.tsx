@@ -32,7 +32,7 @@ const SearchPage = async({ searchParams }: Props) => {
             {/* <div className="flex items-center justify-center w-full py-4 h-fit">
                 <SearchBar q={searchParams.q} />
             </div> */}
-            <Tabs />
+            <Tabs prefix='/search' />
             <Shots shots={shots || []} />
         </section>
     )

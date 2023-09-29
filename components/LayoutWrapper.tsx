@@ -21,12 +21,12 @@ const LayoutWrapper = ({ children }: Props) => {
             {
                 !process.env.VERCEL_ENV || process.env.VERCEL_ENV === 'development'
                 ? <StyleProvider hashPriority='high'>
-                    <Suspense fallback={<BiLoaderAlt className='animate-spin' />}>
+                    <Suspense fallback={<div className='flex items-center justify-center w-screen h-screen'><BiLoaderAlt className='animate-spin' /></div>}>
                         {children}
                     </Suspense>
                 </StyleProvider>
                 : <StyledComponentsRegistry>
-                    <Suspense fallback={<BiLoaderAlt className='animate-spin' />}>
+                    <Suspense fallback={<div className='flex items-center justify-center w-screen h-screen'><BiLoaderAlt className='animate-spin' /></div>}>
                         {children}
                     </Suspense>
                 </StyledComponentsRegistry>
