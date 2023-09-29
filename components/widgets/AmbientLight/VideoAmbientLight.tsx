@@ -47,7 +47,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
             videoBlock.current.addEventListener("load", () => repaintAmbientLight());
         }
 
-    },[videoBlock.current, ambientIsRun])
+    },[videoBlock.current, ambientIsRun, run])
     useLayoutEffect(() => {
         if (videoBlock.current) {
             videoBlock.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
