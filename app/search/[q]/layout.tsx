@@ -15,7 +15,7 @@ const SearchLayout = ({ params, children }: Props) => {
                 <SearchBar q={decodeURI(params.q)} />
             </div>
             <div className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
-                <Tabs prefix='/search' />
+                <Tabs prefix={`/search/${params.q}`} />
                 { children }
             </div>
         </div>
