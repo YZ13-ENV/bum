@@ -5,7 +5,7 @@ import React from 'react'
 import { flatten, uniq } from 'lodash'
 import TagsGround from './TagsGround'
 
-const getAllShot = async() => {
+export const getAllShot = async() => {
     const collRef = collectionGroup(db, 'shots')
     const snaps = await getDocs(collRef)
     const convertedSnaps = snaps.docs.map(snap => ({ ...snap.data() as ShotData, doc_id: snap.id } as DocShotData))
