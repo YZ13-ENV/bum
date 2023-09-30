@@ -2,7 +2,7 @@
 import { auth } from '@/utils/app'
 import { Segmented } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams, useSelectedLayoutSegment } from 'next/navigation'
 import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -28,13 +28,14 @@ const Tabs = ({ prefix }: Props) => {
             value: '/new'
         },
     ].filter(opt => pathname.includes('/shots') ? opt : opt.value !== '/following')
-    const [tab, setTab] = useState<SegmentedValue>(options[0].value)
+    const segment = useSelectedLayoutSegment()
+    const [tab, setTab] = useState<SegmentedValue>(segment ? `/${segment}` : options[0].value)
     const router = useRouter()
     const [debouncedUrl, setDebouncedUrl] = useState<string>(`${prefix}/${tab}?${params.toString()}`)
     useLayoutEffect(() => {
         const paramString = params.toString()
         const url = `${prefix}/${tab}?${paramString}`
-        if (url !== debouncedUrl) {
+        if (url !== debouncedUrl || !(segment === ('popular' || 'following' || 'new'))) {
             setDebouncedUrl(url)
             router.push(url)
         }

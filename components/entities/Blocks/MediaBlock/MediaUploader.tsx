@@ -225,7 +225,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
         <div className='relative w-full aspect-[4/3]'>
             {
                 (previewLink || block.link) &&
-                <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-75' : ''}`}>
+                <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
                     <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
