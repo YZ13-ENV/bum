@@ -1,3 +1,4 @@
+import Footer from '@/components/shared/Footer'
 import Tabs from '@/components/widgets/Tabs'
 import React from 'react'
 
@@ -6,10 +7,13 @@ type Props = {
 }
 const ShotsLayout = ({ children }: Props) => {
     return (
-        <section className='flex flex-col w-full h-full px-4 md:px-12'>
-            <Tabs prefix='/shots' />
-            {children}
-        </section>
+        <div className='flex flex-col w-full gap-4 h-fit'>
+            <div className='flex flex-col w-full h-full px-4 md:px-12'>
+                <Tabs prefix='/shots' />
+                {children}
+            </div>
+            <Footer />
+        </div>
     )
 }
 
