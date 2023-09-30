@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 export default function Home() {
   const takenCookies = cookies()
   const uid = takenCookies.get('uid')
-  if (uid && !(process.env.NODE_ENV === 'development')) redirect('/shots')
+  if (uid && !(process.env.NODE_ENV === 'development')) redirect('/shots/popular')
   return (
     <section className="relative flex flex-col items-center justify-center w-full h-full gap-4 shot_wrapper">
       <div className="absolute top-0 left-0 z-[-1] flex items-center justify-between w-full h-screen -translate-y-32">
