@@ -7,7 +7,7 @@ type Props = {
 }
 const ShotsLayout = ({ children }: Props) => {
     return (
-        <div className='flex flex-col w-full gap-4 h-fit'>
+        <div className='flex flex-col w-full h-full gap-4 shot_wrapper'>
             <div className='flex flex-col w-full h-full px-4 md:px-12'>
                 <Tabs prefix='/shots' />
                 {children}
