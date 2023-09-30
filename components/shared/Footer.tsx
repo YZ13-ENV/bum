@@ -10,7 +10,7 @@ import { BiLogoDribbble, BiLogoLinkedin, BiLogoTwitter } from "react-icons/bi"
 const Footer = () => {
     const [user] = useAuthState(auth)
     return (
-        <div className="flex flex-col w-full gap-6 p-4 md:p-12 h-fit bg-neutral-950 rounded-xl">
+        <footer className="flex flex-col w-full gap-6 p-4 mt-auto md:p-12 h-fit bg-neutral-950 rounded-xl">
             <div className="flex w-full h-24 max-w-5xl mx-auto">
                 <div className="flex flex-col w-1/3 h-full gap-4">
                     <Image src='/bum-full.svg' width={120} height={60} alt="bum-logo" />
@@ -52,7 +52,7 @@ const Footer = () => {
                     href='/tags'>Тэги</Link>
                 </div>
             </div>
-        </div>
+        </footer>
     )
 }
 
