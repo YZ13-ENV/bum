@@ -10,14 +10,16 @@ import { useAppDispatch, useAppSelector } from '../../store/store'
 import { ImageBlock, VideoBlock } from '@/types'
 import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
-import { uploadMedia } from '@/helpers/uploadMedia'
+// import { uploadMedia } from '@/helpers/uploadMedia'
 import { getHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
 import { setDraftId } from '../../uploader/modal.store'
 import { uploadShot_POST } from '@/helpers/shot'
 import { uploadedFile, uploadedThumbnail } from './helper'
-import { fetchFile } from '@/helpers/fetchFile'
+import { useDebounceEffect } from 'ahooks'
+import UploaderConditions from './UploaderConditions'
+// import { fetchFile } from '@/helpers/fetchFile'
 
 type Props = {
     block: ImageBlock | VideoBlock
@@ -29,9 +31,12 @@ type Props = {
 const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false }: Props) => {
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
+    const [previewLink, setPreviewLink] = useState<string>('')
+    const [predictedType, setPredictedType] = useState<'image' | 'video'>('image')
     const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     const dispatch = useAppDispatch()
     const modals = useAppSelector(state => state.uploader.modals)
+    const finalTouch = modals.finalTouchModal
     const draft = useAppSelector(state => state.uploader.draft)
     const props: UploadProps = {
         name: 'file',
@@ -95,7 +100,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         uploadedFile(user.uid, targetDraft, opt.file as RcFile)
                         .then((link) => {
                             if (link) {
-                                message.success('Изображение загруженно')
+                                message.success('Файл загружен')
                                 const updatedBlocks = draft.blocks.map((_, blockIndex) => {
                                     if (blockIndex === index && _.type === 'image') {
                                         const updatedBlock: ImageBlock = {
@@ -129,11 +134,17 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     if (checkedFile) {
                         !modals.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${modals.draftId}`) 
                         dispatch(setRootBlock({ type: checkedFile.type, link: '' }))
+                        setPredictedType(checkedFile.type)
+                        const url = URL.createObjectURL(file)
+                        setPreviewLink(url)
                         return checkedFile.link
                     } else return ''
                 } else {
                     const checkedFile = uploadOnlyImages ? checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file) : checkFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
                     if (checkedFile) {
+                        setPredictedType(checkedFile.type)
+                        const url = URL.createObjectURL(file)
+                        setPreviewLink(url)
                         const updatedBlocks = draft.blocks.map((_, blockIndex) => {
                             if (blockIndex === index) {
                                 if (checkedFile.type === 'video') {
@@ -165,6 +176,8 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
             const res = await fetch(`${getHost()}/files/file?link=${block.link}`, { method: "DELETE" })
             if (res.ok) {
                 message.info('Файл был удалён')
+                URL.revokeObjectURL(previewLink)
+                setPreviewLink('')
                 if (isRootBlock) {
                     dispatch(setRootBlock({ type: 'image', link: '' }))
                     if (draft.thumbnail) {
@@ -191,58 +204,44 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
             }
         }
     }
-    if (block.link && block.link !== '') {
-        return (
-            <div className="relative w-full h-fit !shrink-0">
-                <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
-                    <Button className='!px-2' loading={loading} onClick={deleteImage} icon={<BiTrashAlt size={15} className='inline-block mb-1' />}>Удалить</Button>
-                </div>
-                <MediaBlock link={block.link} autoPlay object='contain' quality={75} />
-            </div>
-        )
-    }
+    useDebounceEffect(() => {
+        if (finalTouch && previewLink && block.link) {
+            URL.revokeObjectURL(previewLink)
+            setPreviewLink('')
+        }
+    },[finalTouch, previewLink, block.link], { wait: 2000 })
+    // if (block.link && block.link !== '') {
+    //     return (
+    //         <div className="relative w-full h-fit !shrink-0">
+    //             <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
+    //                 <Button className='!px-2' loading={loading} onClick={deleteImage} icon={<BiTrashAlt size={15} className='inline-block mb-1' />}>Удалить</Button>
+    //             </div>
+    //             <MediaBlock asBlob={previewLink ? true : false} autoPlay
+    //             link={previewLink ? previewLink : block.link} object='contain' quality={75} />
+    //         </div>
+    //     )
+    // }
     return (
-        <Dragger disabled={loading} className='!aspect-[4/3] !shrink-0' {...props} defaultFileList={[]}>
-            <div className="flex flex-col items-center justify-center w-full max-w-lg gap-6 p-4 mx-auto md:p-0 h-fit">
-                {
-                    loading 
-                    ? <div className='flex items-center justify-center w-full h-fit'><BiLoaderAlt size={36} className='text-neutral-200 animate-spin' /></div>
-                    : <UploaderIcons />
-                }
-                {
-                    loading 
-                    ? <div className='flex items-center justify-center w-full h-fit'>
-                        <p className="text-sm text-center text-neutral-400">Теперь подождите пока файл загрузится...</p>
+        <div className='relative w-full aspect-[4/3]'>
+            {
+                (previewLink || block.link) &&
+                <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-75' : ''}`}>
+                    <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
+                        <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
-                    : <>
-                        <div className="flex flex-col w-full gap-2 h-fit">
-                            <p className="text-sm font-semibold text-center md:text-base text-neutral-200">Нажмите, или перетащите файл для внесение в работу</p>
-                            <p className="text-xs text-center md:text-sm text-neutral-400">Максимальный размер каждого изображения - 10MB, макс. файлов - {isSubscriber ? 10 : 5}</p>
-                            { !uploadOnlyImages && <p className="text-xs text-center md:text-sm text-neutral-400">Максимальный размер видео - 20MB</p> }
-                        </div>
-                        <div className="grid w-full grid-cols-2 grid-rows-2 px-2 h-1/2">
-                            <div className="flex items-start justify-start w-full h-full">
-                                <li className='text-xs list-disc md:text-sm text-start text-neutral-400'>Изображения (.jpg, .png)</li>
-                            </div>
-                            {
-                                !uploadOnlyImages &&
-                                <>
-                                    <div className="flex items-start justify-start w-full h-full">
-                                        <li className='text-xs list-disc md:text-sm text-start text-neutral-400'>Видео (.mp4)</li>
-                                    </div>
-                                    <div className="flex items-start justify-start w-full h-full">
-                                        <li className='text-xs list-disc md:text-sm text-start text-neutral-400'>Анимированные GIF (.gif)</li>
-                                    </div>
-                                </>
-                            }
-                            <div className="flex items-start justify-start w-full h-full">
-                                <li className='text-xs list-disc md:text-sm text-start text-neutral-400'>Загружайте, только то что принадлежит вам</li>
-                            </div>
-                        </div>
-                    </>
-                }
-            </div>
-        </Dragger>
+                    <MediaBlock asBlob={previewLink ? true : false} autoPlay forcedType={predictedType}
+                    link={previewLink ? previewLink : block.link} object='contain' quality={75} />
+                </div>
+            }
+            {
+                !block.link &&
+                <Dragger disabled={loading} className={`!aspect-[4/3] !shrink-0 ${previewLink ? '!absolute !left-0 !top-0 !opacity-0' : '!opacity-100'}`} {...props} defaultFileList={[]}>
+                    <div className="flex flex-col items-center justify-center w-full max-w-lg gap-6 p-4 mx-auto md:p-0 h-fit">
+                        <UploaderConditions isSubscriber={isSubscriber} onlyImages={uploadOnlyImages} />
+                    </div>
+                </Dragger>
+            }
+        </div>
     )
 }
 
