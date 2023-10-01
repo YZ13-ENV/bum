@@ -34,11 +34,11 @@ const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'wi
     },[])
     return (
         <div style={hex !== '' ? { backgroundColor: hex } : {}} 
-        className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full'} aspect-[4/3] flex items-center justify-center shrink-0 rounded-xl`}>
-            <canvas ref={canvas} id="ambiLightv2" onLoad={() => repaintAmbientLight()} />
+        className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full aspect-[4/3]'} flex items-center justify-center shrink-0 rounded-xl`}>
+            <canvas ref={canvas} id="ambiLightv2" className={object === 'contain' ? 'h-full' : 'h-full aspect-[4/3]'} onLoad={() => repaintAmbientLight()} />
             {/* <canvas ref={canvas} id="ambiLight" className='aspect-[4/3] rounded-xl' /> */}
             <Image ref={ImageBlock} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
-            className={`!relative ${object === 'contain' ? 'object-contain !h-fit' : '!h-full object-cover'} aspect-[4/3] rounded-xl`} 
+            className={`!relative w-full ${object === 'contain' ? '!object-contain !h-fit' : '!h-full object-cover aspect-[4/3]'} rounded-xl`} 
             alt='block-image' quality={quality} />
         </div>
     )
