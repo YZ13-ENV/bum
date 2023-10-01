@@ -65,6 +65,10 @@
   /* aspect-ratio: 4 / 3; */
 }
 
+.home_grid_mini {
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+}
+
 @media (min-width: 1440px) {
   .shot_wrapper {
     min-height: calc(100dvh - 120px);

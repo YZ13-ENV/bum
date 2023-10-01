@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { getShots, getUserShort } from './helpers'
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
-const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
+// const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
 
 type Props = {
     params: {
@@ -36,12 +36,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const UserPage = async({ params, searchParams }: Props) => {
-    const shots = await getShots(params.userId, searchParams.tab)
+    const shots = await getShots(params.userId, '1', 'new')
     if (!shots) return null
     return (
         <section className="w-full h-full">
             <div className="flex flex-col w-full h-full gap-4">
-                <UserProfileTabs shotsLength={shots?.length || 0} profileUID={params.userId} />
+                {/* <UserProfileTabs shotsLength={shots?.length || 0} profileUID={params.userId} /> */}
                 <Suspense fallback={<div className='flex items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>}>
                     <ProfileContent userId={params.userId} tab={parseInt(searchParams.tab || '1')} shots={shots || []} />
                 </Suspense>
