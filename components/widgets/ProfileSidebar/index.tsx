@@ -7,7 +7,9 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { BiStats } from 'react-icons/bi'
 import { BsStars } from 'react-icons/bs'
 import { MdHistory, MdWork } from 'react-icons/md'
+import { RiUser5Line } from 'react-icons/ri'
 import ProfileActions from './ProfileActions'
+import { useAppSelector } from '@/components/entities/store/store'
 
 type Props = {
     uid: string
@@ -15,12 +17,17 @@ type Props = {
 const ProfileSidebar = ({ uid }: Props) => {
     const path = usePathname()
     const [user] = useAuthState(auth)
+    const isSub = useAppSelector(state => state.user.isSubscriber)
     useLayoutEffect(() => {
         if (user) {
             if (user.uid !== uid) {
                 if (path.endsWith('/recommendations')) redirect(`/${uid}`)
                 if (path.endsWith('/statistics')) redirect(`/${uid}`)
                 if (path.endsWith('/history')) redirect(`/${uid}`)
+            }
+            if (!isSub) {
+                if (path.endsWith('/recommendations')) redirect(`/${uid}`)
+                if (path.endsWith('/statistics')) redirect(`/${uid}`)
             }
         } else {
             if (path.endsWith('/recommendations')) redirect(`/${uid}`)
@@ -35,11 +42,17 @@ const ProfileSidebar = ({ uid }: Props) => {
             }
             <div className="flex flex-col h-full gap-2 md:w-72 w-fit shrink-0">
                 <SidebarLink active={path.endsWith(uid)} icon={<MdWork className='text-inherit' size={17} />} link={`/${uid}/`} title='Работы' />
+                <SidebarLink active={path.endsWith('/bio')} icon={<RiUser5Line className='text-inherit' size={17} />} link={`/${uid}/bio`} title='Биография' />
                 {
                     (!user || (user && user.uid === uid)) &&
                     <>
-                        <SidebarLink beta active={path.endsWith('/recommendations')} icon={<BsStars className='text-inherit' size={17} />} link={`/${uid}/recommendations`} title='Рекомендации' />
-                        <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
+                        {
+                            isSub &&
+                            <>
+                                <SidebarLink beta active={path.endsWith('/recommendations')} icon={<BsStars className='text-inherit' size={17} />} link={`/${uid}/recommendations`} title='Рекомендации' />
+                                <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
+                            </>
+                        }
                         <SidebarLink active={path.endsWith('/history')} icon={<MdHistory className='text-inherit' size={17} />} link={`/${uid}/history`} title='История' />
                     </>
                 }
