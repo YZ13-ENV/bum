@@ -25,6 +25,7 @@ const fetchChunk = async(link: string) => {
 }
 const Chunk = async({ chunkLink, index }: Props) => {
     const dataChunk = await fetchChunk(chunkLink)
+    console.log(dataChunk)
     if (index === 0) {
         return (
             <ChunkWrapper predictedValue={true}>

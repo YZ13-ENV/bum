@@ -41,18 +41,19 @@ export const sortTabs = (integrationMode?: boolean) => [
         value: '/recommendations'
     },
     {
-        icon: <Tooltip title='Популярные'><HiSortDescending className='inline-block mb-1' size={17} /></Tooltip>,
-        label: 'Популярные',
-        value: '/popular'
-    },
-    {
         icon: <Tooltip title='Подписки'><RiUserStarLine className='inline-block mb-1' size={17} /></Tooltip>,
         value: '/following',
         label: 'Подписки'
+    },
+    {
+        icon: <Tooltip title='Популярные'><HiSortDescending className='inline-block mb-1' size={17} /></Tooltip>,
+        label: 'Популярные',
+        value: '/popular'
     },
     {
         icon: <Tooltip title='Новые'><MdFiberNew className='inline-block mb-1' size={17} /></Tooltip>,
         label: 'Новые',
         value: '/new'
     },
+
 ].map(opt => integrationMode ? { icon: opt.icon, value: opt.value } : opt)

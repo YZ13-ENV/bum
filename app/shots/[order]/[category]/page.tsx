@@ -1,3 +1,6 @@
+import Chunker from "@/components/widgets/ChunkModule/Chunker"
+import { Suspense } from "react"
+import { BiLoaderAlt } from "react-icons/bi"
 
 type Props = {
     params: {
@@ -6,7 +9,12 @@ type Props = {
     }
 }
 const ShotsByCategoryPage = ({ params }: Props) => {
-    return `/shots/${params.order}/${params.category}`
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center w-full h-full shot_wrapper"><BiLoaderAlt size={17} className="animate-spin" /></div>}>
+            {/* {`/shots/${params.order}`} */}
+            <Chunker order={`${params.order}/${params.category}`} countPrefix='/shots/v2/chunkByCategoriesCount/' shotsPrefix='/shots/v2/chunkByCategories/' />
+        </Suspense>
+    )
 }
 
 export default ShotsByCategoryPage
