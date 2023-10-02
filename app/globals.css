@@ -12,7 +12,9 @@
   color: rgb(var(--color-rgb));
   background-color: rgb(var(--background-bg));
 }
-
+.second-font {
+  font-family: var(--second-font);
+}
 * {
   font-family: var(--root-font);
 }
