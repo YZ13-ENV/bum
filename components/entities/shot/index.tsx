@@ -29,7 +29,7 @@ const ShotCard = ({ shot }: Props) => {
                 {
                     process.env.NODE_ENV === 'development'
                     ? isVideo
-                    ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
+                    ? <GeneratedThumbnail thumbnailLink={'/dev-video.mp4'} videoLink={shot.rootBlock.link} />
                     : <MediaBlock link='/original-error.png' quality={75} object='cover' autoPlay={false} />
                     : isVideo 
                     ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
