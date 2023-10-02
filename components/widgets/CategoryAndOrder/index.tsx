@@ -57,7 +57,7 @@ const CategoryAndOrder = ({ integrationMode=false, noCategory=true }: Props) => 
     return (
         <div className="relative flex flex-row items-center justify-center w-full gap-2 shrink-0 h-fit">
             <div className={`flex items-center justify-center ${integrationMode ? 'w-fit' : 'w-full'} gap-2 shrink-0 h-fit`}>
-                {integrationMode && <span className='text-sm text-neutral-400'>Сортировка: </span>}
+                {integrationMode && <span className='hidden text-sm md:inline text-neutral-400'>Сортировка: </span>}
                 <Segmented size='large' default defaultValue='/popular' options={options} value={orderTab} onChange={e => setOrderTab(e.toString())} />
             </div>
             {

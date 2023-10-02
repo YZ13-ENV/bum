@@ -43,7 +43,7 @@ export default function Home() {
       </div> */}
       <div className="flex flex-col w-full gap-4 my-6 h-fit shrink-0 md:my-12">
         <div className="w-full max-w-5xl mx-auto mb-4">
-          <h2 className="text-4xl font-semibold text-neutral-200">Работы на любой вкус</h2>
+          <h2 className="text-3xl font-semibold text-center md:text-4xl text-neutral-200">Работы на любой вкус</h2>
         </div>
         <div className="grid w-full gap-4 px-4 mx-auto last_works_grid h-fit justify-items-center">
           <div className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
