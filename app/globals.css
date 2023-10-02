@@ -130,3 +130,6 @@
   width: 120%;
   max-width: 100vw;
 }
+.categories_container {
+  width: calc(100% - 160px);
+}
