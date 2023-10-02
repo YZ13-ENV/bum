@@ -10,7 +10,8 @@ type Props = {
 const ShotsByOrder = ({ params }: Props) => {
     return (
         <Suspense fallback={<div className="flex items-center justify-center w-full h-full shot_wrapper"><BiLoaderAlt size={17} className="animate-spin" /></div>}>
-            <Chunker order={params.order} />
+            {`/shots/${params.order}`}
+            {/* <Chunker order={params.order} countPrefix='/shots/allShotsCount/' shotsPrefix='/shots/v2/chunkedAllShots/' /> */}
         </Suspense>
     )
 }

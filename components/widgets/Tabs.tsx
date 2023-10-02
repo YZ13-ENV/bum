@@ -2,7 +2,7 @@
 import { auth } from '@/utils/app'
 import { Segmented, Tooltip } from 'antd'
 import { SegmentedValue } from 'antd/es/segmented'
-import { usePathname, useRouter, useSearchParams, useSelectedLayoutSegment } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams, useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation'
 import { useLayoutEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useAppSelector } from '../entities/store/store'
@@ -13,11 +13,12 @@ import { RiUserStarLine } from 'react-icons/ri'
 
 type Props = {
     prefix: string
+    category?: string
     integrationMode?: boolean
 }
-const Tabs = ({ prefix, integrationMode=false }: Props) => {
+const Tabs = ({ prefix, integrationMode=false, category }: Props) => {
     const pathname = usePathname()
-    const params = useSearchParams()
+    // const params = useSearchParams()
     const [user] = useAuthState(auth)
     const isSub = useAppSelector(state => state.user.isSubscriber)
     const excludeIf = (val: string, notSupported: boolean=false) => {
@@ -51,27 +52,57 @@ const Tabs = ({ prefix, integrationMode=false }: Props) => {
     ]
     .map(opt => integrationMode ? { icon: opt.icon, value: opt.value } : opt)
     .filter(opt => pathname.includes('/shots') ? excludeIf(opt.value, false) : excludeIf(opt.value, true))
-    const segment = useSelectedLayoutSegment()
-    const [tab, setTab] = useState<SegmentedValue>(segment ? `/${segment}` : options[0].value)
+    const detectCategoryTab = (segment: string) => {
+        if (segment.includes(detectedSortTab)) return detectedSortTab
+        if (segment.includes(`${detectedSortTab}/animation`)) return `${detectedSortTab}/animation`
+        if (segment.includes(`${detectedSortTab}/illustration`)) return `${detectedSortTab}/illustration`
+        if (segment.includes(`${detectedSortTab}/typography`)) return `${detectedSortTab}/typography`
+        if (segment.includes(`${detectedSortTab}/product_design`)) return `${detectedSortTab}/product_design`
+        if (segment.includes(`${detectedSortTab}/web`)) return `${detectedSortTab}/web`
+        if (segment.includes(`${detectedSortTab}/mobile`)) return `${detectedSortTab}/mobile`
+        return null
+    }
+    const tabOpt = ((tab: string) => {
+        if (tab.includes('/recommendations')) return true
+        if (tab.includes('/popular')) return true
+        if (tab.includes('/following')) return true
+        if (tab.includes('/new')) return true
+        return false
+    })
+    const segmentHasNewTab = (segment: string, tab: string) => segment.includes(tab)
+    const detectTab = (segment: string) => {
+        if (segment.includes('/recommendations')) return '/recommendations'
+        if (segment.includes('/popular')) return '/popular'
+        if (segment.includes('/following')) return '/following'
+        if (segment.includes('/new')) return '/new'
+        return null
+    }
+    const replaceTo = (segment: string, toReplace: string) => {
+        if (segment.includes('/recommendations')) return segment.replace('/recommendations', toReplace)
+        if (segment.includes('/popular')) return segment.replace('/popular', toReplace)
+        if (segment.includes('/following')) return segment.replace('/following', toReplace)
+        if (segment.includes('/new')) return segment.replace('/new', toReplace)
+        return segment
+    }
+    const detectedSortTab = detectTab(pathname) || '/popular'
+    const hasCategory = detectCategoryTab(pathname) !== null
+    const [tab, setTab] = useState<SegmentedValue>(detectTab(pathname) ? detectTab(pathname) as string : options[0].value)
     const router = useRouter()
-    const [debouncedUrl, setDebouncedUrl] = useState<string>(`${prefix}/${tab}?${params.toString()}`)
     useLayoutEffect(() => {
-        const paramString = params.toString()
-        const url = `${prefix}/${tab}?${paramString}`
-        if (url !== debouncedUrl || !(segment === ('popular' || 'following' || 'new'))) {
-            setDebouncedUrl(url)
-            router.push(url)
-        }
-    }, [tab])
+            if (tabOpt(pathname)) {
+                const accessedTabs = detectedSortTab === '/recommendations' || detectedSortTab === '/following'
+                if (hasCategory && accessedTabs && pathname.includes('/shots')) {
+                    router.push(`/shots${detectTab(pathname) || '/popular'}`)
+                } else {
+                    if (!segmentHasNewTab(pathname, tab.toString())) router.push(replaceTo(pathname, tab.toString()))
+
+                }
+            }
+    }, [tab, pathname])
     return (
         <div className={`flex items-center justify-center ${integrationMode ? 'w-fit' : 'w-full'} gap-2 shrink-0 h-fit`}>
             {integrationMode && <span className='text-sm text-neutral-400'>Сортировка: </span>}
             <Segmented size='large' default defaultValue='popular' options={options} value={tab} onChange={e => setTab(e)} />
-            {/* <Select size='large' className='!w-32' options={orders} value={order} onChange={e => setOrder(e.toString())} /> */}
-            {/* <div className="hidden max-w-4xl overflow-x-auto w-fit"> */}
-                {/* <Segmented  size='large' options={["Обзор", "Анимации", "Брендинг", "Иллюстрации", "Веб-дизайн", "Мобильный", "Дизайн продукта", "Печать", "Типография"]} /> */}
-            {/* </div> */}
-            {/* <Button size='large' disabled icon={<BiFilter size={17} className='inline mb-0.5' />}>Фильтры</Button> */}
         </div>
     )
 }

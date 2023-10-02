@@ -1,7 +1,8 @@
 import Footer from '@/components/shared/Footer'
-import Categories from '@/components/widgets/Categories'
-import Tabs from '@/components/widgets/Tabs'
+import CategoryAndOrder from '@/components/widgets/CategoryAndOrder/index'
 import React from 'react'
+// import Categories from '@/components/widgets/Categories'
+// import Tabs from '@/components/widgets/Tabs'
 
 type Props = {
     children: React.ReactNode
@@ -10,10 +11,7 @@ const ShotsLayout = ({ children }: Props) => {
     return (
         <div className='flex flex-col w-full h-full gap-4 shot_wrapper'>
             <div className='flex flex-col w-full h-full gap-6 px-4 md:px-12'>
-                <div className="relative flex flex-row items-center justify-center w-full gap-2 overflow-x-hidden h-fit">
-                    <div className="left-0 inline shrink-0 lg:absolute"><Tabs integrationMode prefix='/shots' /></div>
-                    <Categories />
-                </div>
+                <CategoryAndOrder integrationMode noCategory={false} />
                 {children}
             </div>
             <Footer />
