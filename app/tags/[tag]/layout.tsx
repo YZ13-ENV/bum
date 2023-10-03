@@ -1,5 +1,6 @@
 import CategoryAndOrder from '@/components/widgets/CategoryAndOrder'
-import React from 'react'
+import React, { Suspense } from 'react'
+import Loading from './loading'
 
 type Props = {
     params: {
@@ -16,7 +17,9 @@ const ShotByTagLayout = ({ params, children }: Props) => {
             </div>
             <CategoryAndOrder />
             <section className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
-                { children }
+                <Suspense fallback={<Loading />}>
+                    { children }
+                </Suspense>
             </section>
         </div>
     )

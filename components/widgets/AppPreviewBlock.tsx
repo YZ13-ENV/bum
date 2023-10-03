@@ -14,15 +14,16 @@ const AppPreviewBlock = () => {
         console.log(inViewPort, ratio)
     },[inViewPort, ratio])
     return (
-        <div  className="relative max-w-7xl p-1 group w-full md:my-12 my-6 h-fit overflow-hidden rounded-xl border border-transparent">
-            <div className="absolute right-0 top-0 w-full h-full bg-neutral-800"></div>
+        <div  className="relative w-full p-1 my-6 overflow-hidden border border-transparent max-w-7xl group md:my-12 h-fit rounded-xl">
+            <div className="absolute top-0 right-0 w-full h-full bg-neutral-800"></div>
             <div ref={ref} 
-            className="absolute left-0 cursor-pointer flex flex-col items-center justify-center top-0 z-10 w-full h-full bg-gradient-to-t from-black to-transparent">
-                <h2 className='text-4xl group-hover:opacity-100 opacity-0 transition-opacity duration-500 font-semibold text-center text-neutral-300'>
+            className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gradient-to-t from-black to-transparent">
+                <h2 className='text-4xl font-semibold text-center transition-opacity duration-500 opacity-0 group-hover:opacity-100 text-neutral-300'>
                     Вдохновляйтесь. Делитесь. Оценивайте.
                 </h2>
             </div>
-            <Image src={isTabletOrMobile ? '/bum_preview_mobile.png' : '/bum_preview.png'} 
+            <Image src={isTabletOrMobile ? '/bum_preview_mobile.png' : '/bum_preview.png'} placeholder='blur' 
+            blurDataURL={isTabletOrMobile ? '/bum_preview_mobile.png' : '/bum_preview.png'} priority
             className={`!relative group-hover:brightness-50 transition-all duration-500 rounded-xl`} fill alt='app-preview' />
         </div>
     )

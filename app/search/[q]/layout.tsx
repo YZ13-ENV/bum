@@ -1,6 +1,7 @@
 import CategoryAndOrder from '@/components/widgets/CategoryAndOrder'
 import SearchBar from '@/components/widgets/SearchBar'
-import React from 'react'
+import React, { Suspense } from 'react'
+import Loading from './loading'
 
 type Props = {
     params: {
@@ -16,7 +17,9 @@ const SearchLayout = ({ params, children }: Props) => {
             </div>
             <div className='flex flex-col w-full h-full gap-4 p-4 md:py-4 md:px-12'>
                 <CategoryAndOrder />
-                { children }
+                <Suspense fallback={<Loading />}>
+                    { children }
+                </Suspense>
             </div>
         </div>
     )
