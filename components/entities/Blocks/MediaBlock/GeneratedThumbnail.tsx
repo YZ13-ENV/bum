@@ -1,9 +1,8 @@
 'use client'
 import LoadedVideo from '@/components/shared/LoadedVideo';
-import VideoAmbientLight from '@/components/widgets/AmbientLight/VideoAmbientLight';
 import { fetchFile } from '@/helpers/fetchFile';
 import { useTimeout } from 'ahooks';
-import { useRef, ElementRef, useLayoutEffect, useState } from 'react';
+import { useRef, ElementRef, useState, useLayoutEffect } from 'react';
 
 interface GenerateThumbnailProps {
     thumbnailLink: string | null
@@ -19,26 +18,24 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
         setPlayVideo(true)
     }, delay);
     const paintThumbnail = () => {
-        if (canvasRef.current) {
-            const context = canvasRef.current.getContext("2d");
-            if (context && videoRef.current) {
-                const scale = 1;
-                context.scale(scale, scale);
-
-                canvasRef.current.width = videoRef.current.videoWidth * scale;
-                canvasRef.current.height = videoRef.current.videoHeight * scale;
-
-                context.drawImage(videoRef.current, 0, 0, videoRef.current.videoWidth, videoRef.current.videoHeight);
+        if (canvasRef.current && videoRef.current) {
+            const context = canvasRef.current.getContext("2d", { alpha: false });
+            if (context) {
+                context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
             }
         }
     }
     useLayoutEffect(() => {
-        const video = videoRef.current;
-        const handleCanPlayThrough = () => paintThumbnail();
-        if (video) video.addEventListener("canplaythrough", handleCanPlayThrough);
-    }, [thumbnailLink, videoLink, videoRef.current]);
-
-    if (playVideo) return <div onMouseLeave={() => setPlayVideo(false)}><LoadedVideo link={process.env.NODE_ENV === 'development' ? '/dev-video.mp4' :fetchFile(videoLink)} autoPlay /></div>
+        if (videoRef.current || canvasRef.current) {
+            if (videoRef.current) {
+                videoRef.current.addEventListener('load', paintThumbnail)
+                videoRef.current.addEventListener('canplaythrough', paintThumbnail)
+                videoRef.current.addEventListener('loadeddata', paintThumbnail)
+                videoRef.current.addEventListener('loadedmetadata', paintThumbnail)
+            }
+        } 
+    },[videoRef, canvasRef])
+    if (playVideo) return <div onMouseLeave={() => {setPlayVideo(false); setDelay(undefined)}}><LoadedVideo link={process.env.NODE_ENV === 'development' ? '/dev-video.mp4' :fetchFile(videoLink)} autoPlay /></div>
     return (
         <>
             { delay !== undefined && <span onMouseEnter={() => setDelay(2000)}
@@ -46,9 +43,8 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
             <video ref={videoRef} preload='metadata' loop muted className='w-full h-full hidden aspect-[4/3] rounded-xl'>
                 <source src={(process.env.NODE_ENV === 'development' ? thumbnailLink ? thumbnailLink : videoLink : fetchFile(thumbnailLink ? thumbnailLink : videoLink)) + '#t=0.5'} />
             </video>
-            <canvas ref={canvasRef} onLoad={paintThumbnail}
-            onMouseEnter={() => setDelay(2000)} onMouseLeave={() => { clear(); setDelay(undefined)}}
-             className='w-full h-full z-10 aspect-[4/3] rounded-xl' />
+            <canvas ref={canvasRef} onMouseEnter={() => setDelay(2000)} onMouseLeave={() => { clear(); setDelay(undefined)}}
+            className='w-full h-full z-10 aspect-[4/3] rounded-xl' />
         </>
     );
 };
