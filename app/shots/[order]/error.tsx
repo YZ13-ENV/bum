@@ -17,7 +17,7 @@ const ErrorPage = ({ error, reset }: Props) => {
         <div className='flex flex-col items-center justify-center w-full h-full gap-4 p-4'>
             <h1 className='text-3xl font-semibold text-neutral-200'>Что-то пошло не так!</h1>
             <Space direction='horizontal' size='middle'>
-                <Button type='primary'>Вернуться</Button>
+                <Button href='/shots/popular' type='primary'>Вернуться</Button>
                 <Button onClick={reset} type='default'>Попробовать ещё раз</Button>
             </Space>
         </div>
