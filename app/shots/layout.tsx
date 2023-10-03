@@ -1,7 +1,7 @@
 import Footer from '@/components/shared/Footer'
 import CategoryAndOrder from '@/components/widgets/CategoryAndOrder/index'
 import React, { Suspense } from 'react'
-import Loading from '../search/[q]/loading'
+import Loading from './loading'
 // import Categories from '@/components/widgets/Categories'
 // import Tabs from '@/components/widgets/Tabs'
 
