@@ -8,7 +8,7 @@ type Props = {
 }
 const ShotsByCategoryPage = ({ params }: Props) => {
     return (
-        <Chunker order={`${params.category}/${params.order}`} countPrefix='/shots/v2/chunkByCategoriesCount/' shotsPrefix='/shots/v2/chunkByCategories/' />
+        <Chunker countPrefix={`/shots/count/${params.order}/${params.category}`} shotsPrefix={`/shots/all/${params.order}/${params.category}`} />
     )
 }
 

@@ -4,11 +4,11 @@ import dynamic from 'next/dynamic'
 import { cookies } from 'next/headers'
 const Chunk = dynamic(() => import('./ui/Chunk'))
 
-const getCountOfShots = async(order: string, countPrefix: string) => {
+const getCountOfShots = async(countPrefix: string) => {
     try {
-        const cookiesList = cookies()
-        const uid = cookiesList.get('uid')
-        const link = `${getHost()}${countPrefix}${order}${uid ? `?userId=${uid.value}` : ''}`
+        // const cookiesList = cookies()
+        // const uid = cookiesList.get('uid')
+        const link = `${getHost()}${countPrefix}`
         const res = await fetch(link, {
             method: "GET",
             next: { revalidate: 3600 }
@@ -25,15 +25,15 @@ const getCountOfShots = async(order: string, countPrefix: string) => {
 type Props = {
     countPrefix: string
     shotsPrefix: string
-    order: string
+    // order: string
 }
-const Chunker = async({ order='popular', countPrefix, shotsPrefix }: Props) => {
+const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
     const cookiesList = cookies()
     const uid = cookiesList.get('uid')
-    const count = await getCountOfShots(order, countPrefix)
+    const count = await getCountOfShots(countPrefix)
     const chunksCount = count <= 16 ? 1: Math.ceil(count / 16)
-    const chunks = (order === 'following' || order === 'recommendations' || shotsPrefix.includes('Recommendations')) && uid 
-    ? generateChunks(chunksCount, order, shotsPrefix, uid.value) : generateChunks(chunksCount, order, shotsPrefix)
+    const chunks = generateChunks(chunksCount, shotsPrefix)
+    // ?  : generateChunks(chunksCount, order, shotsPrefix)
     return (
         <section id='shots-wrapper' className='flex flex-col gap-9'>
         {

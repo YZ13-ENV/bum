@@ -1,24 +1,12 @@
 import Link from 'next/link'
-import React, { Suspense } from 'react'
-import dynamic from 'next/dynamic'
+import React from 'react'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Metadata } from 'next'
-import { redirect } from 'next/navigation'
+// import { redirect } from 'next/navigation'
 import { fetchFile } from '@/helpers/fetchFile'
 import { DateTime } from 'luxon'
-import ViewsHistoryWatcher from '@/components/entities/ViewsHistoryWatcher'
-import { BiLoaderAlt } from 'react-icons/bi'
 import ShotPage from '@/components/pages/ShotPage'
-const TextLoader = dynamic(() => import('@/components/shared/Loaders/TextLoader')) 
-const ConfettiForNewShot = dynamic(() => import('@/components/widgets/Confetti')) 
-const ShotPageFooter = dynamic(() => import('@/components/widgets/ShotPageFooter')) 
-const TextBlock = dynamic(() => import('@/components/entities/Blocks/ViewBlocks/TextBlock'), {
-    loading: () => <TextLoader />
-})
-const MediaBlock = dynamic(() => import('@/components/entities/Blocks/MediaBlock'), {
-    loading: () => <div className='w-full aspect-[4/3] rounded-xl bg-neutral-900' />
-}) 
 
 const getUser = async(userId: string) => {
     try {
@@ -30,17 +18,17 @@ const getUser = async(userId: string) => {
             return user ? user.short : null
         } else return user ? user.short : null
     } catch(e) {
-        return redirect('/')
+        return null
     }
 }
 const getShot = async(shotId: string) => {
     try {
-        const shotRes = await fetch(`${getHost()}/shots/shotById?&shotId=${shotId}`, { method: 'GET', cache: 'no-store' })
+        const shotRes = await fetch(`${getHost()}/shots/shot/${shotId}`, { method: 'GET', cache: 'no-store' })
         const shot: DocShotData = await shotRes.json()
         return shot
     } catch(e) {
         console.log(e)
-        return redirect('/')
+        return null
     }
 }
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {

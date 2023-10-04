@@ -20,7 +20,7 @@ const LastSearchQueries = ({ q, setQ }: Props) => {
     const getQueries = async() => {
         if (user) {
             try {
-                const url = `${getHost()}/search/dey?userId=${user.uid}`
+                const url = `${getHost()}/search/history/dey?userId=${user.uid}`
                 const res = await fetch(url, { cache: 'no-store' })
                 if (res.ok) {
                     const qrs = await res.json() as SearchQuery[]
@@ -31,7 +31,7 @@ const LastSearchQueries = ({ q, setQ }: Props) => {
             }
         } else setQueries([])
     }
-    const deleteQuery = async(queryId: string) => user && fetch(`${getHost()}/search/dey?userId=${user.uid}&queryId=${queryId}`, { method: 'DELETE' }).then(() => getQueries())
+    const deleteQuery = async(queryId: string) => user && fetch(`${getHost()}/search/history/dey?userId=${user.uid}&queryId=${queryId}`, { method: 'DELETE' }).then(() => getQueries())
     useLayoutEffect(() => {
         getQueries()
     },[])

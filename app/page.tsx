@@ -3,6 +3,7 @@ import AppPreviewBlock from "@/components/widgets/AppPreviewBlock";
 import { Button, Space } from "antd";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function Home() {
@@ -46,24 +47,30 @@ export default function Home() {
           <h2 className="text-3xl font-semibold text-center md:text-4xl text-neutral-200">Работы на любой вкус</h2>
         </div>
         <div className="grid w-full gap-4 px-4 mx-auto last_works_grid h-fit justify-items-center">
-          <div className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
+          <Link href='/shots/popular/animation'
+          className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
             <span className="font-medium text-center text-inherit">Анимация</span>
-          </div>
-          <div className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
+          </Link>
+          <Link href='/shots/popular/illustration' 
+          className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
             <span className="font-medium text-center text-inherit">Иллюстрация</span>
-          </div>
-          <div className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
+          </Link>
+          <Link href='/shots/popular/typography' 
+          className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
             <span className="font-medium text-center text-inherit">Типография</span>
-          </div>
-          <div className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
+          </Link>
+          <Link href='/shots/popular/product_design' 
+          className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
             <span className="font-medium text-center text-inherit">Дизайн продукта</span>
-          </div>
-          <div className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
+          </Link>
+          <Link href='/shots/popular/web' 
+          className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
             <span className="font-medium text-center text-inherit">Веб дизайн</span>
-          </div>
-          <div className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
+          </Link>
+          <Link href='/shots/popular/mobile' 
+          className="w-full aspect-[4/3] flex items-center cursor-pointer justify-center transition-colors text-neutral-200 hover:text-black hover:bg-white bg-neutral-900 rounded-xl">
             <span className="font-medium text-center text-inherit">Мобильный дизайн</span>
-          </div>
+          </Link>
         </div>
       </div>
       <Footer />

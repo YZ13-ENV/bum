@@ -3,7 +3,6 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { initializeFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage';
-import { getRemoteConfig } from "firebase/remote-config";
 
 export const app = initializeApp(firebaseConfig, 'root')
 export const auth = getAuth(app)

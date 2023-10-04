@@ -7,44 +7,44 @@ import { RiUserStarLine } from "react-icons/ri"
 export const withCustomSortTab = (sortTag: string) => [
     {
         label: 'Обзор',
-        value: sortTag
+        value: '/'
     },
     {
         label: 'Анимация',
-        value: `${sortTag}/animation`
+        value: `/animation`
     },
     {
         label: 'Иллюстрация',
-        value: `${sortTag}/illustration`
+        value: `/illustration`
     },
     {
         label: 'Типография',
-        value: `${sortTag}/typography`
+        value: `/typography`
     },
     {
         label: 'Дизайн продукта',
-        value: `${sortTag}/product_design`
+        value: `/product_design`
     },
     {
         label: 'Веб дизайн',
-        value: `${sortTag}/web`
+        value: `/web`
     },
     {
         label: 'Мобильный дизайн',
-        value: `${sortTag}/mobile`
+        value: `/mobile`
     },
 ]
 export const sortTabs = (integrationMode?: boolean) => [
-    {
-        icon: <Tooltip title='Рекомендации'><BsStars className='inline-block mb-1' size={17} /></Tooltip>,
-        label: 'Рекомендации',
-        value: '/recommendations'
-    },
-    {
-        icon: <Tooltip title='Подписки'><RiUserStarLine className='inline-block mb-1' size={17} /></Tooltip>,
-        value: '/following',
-        label: 'Подписки'
-    },
+    // {
+    //     icon: <Tooltip title='Рекомендации'><BsStars className='inline-block mb-1' size={17} /></Tooltip>,
+    //     label: 'Рекомендации',
+    //     value: '/recommendations'
+    // },
+    // {
+    //     icon: <Tooltip title='Подписки'><RiUserStarLine className='inline-block mb-1' size={17} /></Tooltip>,
+    //     value: '/following',
+    //     label: 'Подписки'
+    // },
     {
         icon: <Tooltip title='Популярные'><HiSortDescending className='inline-block mb-1' size={17} /></Tooltip>,
         label: 'Популярные',

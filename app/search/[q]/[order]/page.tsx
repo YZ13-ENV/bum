@@ -12,7 +12,7 @@ type Props = {
 const getSearchedShots = async(q: string | null, order: string='popular') => {
     if (q) {
         try {
-            const fetchUrl = `${getHost()}/search/shots?q=${q.toLowerCase()}&order=${order}`
+            const fetchUrl = `${getHost()}/search/query/${q.toLowerCase()}/${order}`
             const res = await fetch(fetchUrl)
             if (res.ok) {
                 const shots: DocShotData[] = await res.json()
