@@ -22,8 +22,8 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center justify-center gap-8 my-6 md:my-24 w-fit h-fit">
         <div className="flex flex-col items-center justify-center w-full gap-4 h-fit">
-          <h1 className="text-6xl font-semibold text-center text-neutral-200">За руку по миру дизайна</h1>
-          <p className=" text-neutral-400">Место для встречи идей и открытий</p>
+          <h1 className="text-5xl font-semibold text-center text-transparent lg:text-7xl bg-clip-text bg-gradient-to-tl from-black to-white">За руку по миру дизайна</h1>
+          <p className="mt-2 text-lg text-neutral-400">Место для встречи идей и открытий</p>
         </div>
         <Space direction="horizontal" size='middle'>
           <Button size='large' href='/shots'>К работам</Button>
@@ -31,17 +31,6 @@ export default function Home() {
         </Space>
       </div>
       <AppPreviewBlock />
-      {/* <div className="flex flex-col w-full max-w-5xl gap-6 my-6 h-fit shrink-0 md:my-12">
-        <div className="flex items-center w-full gap-6 h-fit">
-          <Image src='/bum.svg' width={48} height={48} alt='bum-logo' />
-          <h2 className="text-4xl font-semibold text-neutral-200">Адаптивная подсветка</h2>
-        </div>
-        <span className="text-neutral-400">Благодаря AmbientLight ваши работы будут выглядеть ещё лучше и красивее*.</span>
-        <div className="w-full mx-auto ">
-          <Image src='/AmbientLight_preview.png' className="!relative rounded-xl" fill alt='ambientlight-preview' />
-        </div>
-        <span className="text-sm text-neutral-400">*- AmbientLight доступна обладателям DM+.</span>
-      </div> */}
       <div className="flex flex-col w-full gap-4 my-6 h-fit shrink-0 md:my-12">
         <div className="w-full max-w-5xl mx-auto mb-4">
           <h2 className="text-3xl font-semibold text-center md:text-4xl text-neutral-200">Работы на любой вкус</h2>
