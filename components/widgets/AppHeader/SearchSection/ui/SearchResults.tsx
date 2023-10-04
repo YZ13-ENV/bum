@@ -20,7 +20,7 @@ const SearchResults = ({ q, setQ }: Props) => {
     const [user] = useAuthState(auth)
     const fetchResults = async() => {
         setLoading(true)
-        const fetchUrl = `${getHost()}/search/shots?q=${q.toLowerCase()}${user ? `&userId=${user.uid}` : ''}`
+        const fetchUrl = `${getHost()}/search/query/${q.toLowerCase()}/popular${user ? `&userId=${user.uid}` : ''}`
         const res = await fetch(fetchUrl)
         if (res.ok) {
             const shots: DocShotData[] = await res.json()

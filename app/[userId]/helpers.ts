@@ -12,11 +12,17 @@ export const getShots = async(userId: string, tab: string | null, order?: 'popul
         return null
     }
 }
-export const getShot = async(userId: string, shotId: string) => {
+export const getShot = async(shotId: string, userId?: string) => {
     try {
-        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`, { method: 'GET', cache: 'no-store' })
-        const shot: DocShotData = await shotRes.json()
-        return shot
+        if (userId) {
+            const shotRes = await fetch(`${getHost()}/shots/shot/${shotId}/${userId}`, { method: 'GET', cache: 'no-store' })
+            const shot: DocShotData = await shotRes.json()
+            return shot
+        } else {
+            const shotRes = await fetch(`${getHost()}/shots/shot/${shotId}`, { method: 'GET', cache: 'no-store' })
+            const shot: DocShotData = await shotRes.json()
+            return shot
+        }
     } catch(e) {
         console.log(e)
         return null
@@ -24,9 +30,15 @@ export const getShot = async(userId: string, shotId: string) => {
 }
 export const getShotWithCache = async(userId: string, shotId: string) => {
     try {
-        const shotRes = await fetch(`${getHost()}/shots/shot?userId=${userId}&shotId=${shotId}`, { method: 'GET', next: { revalidate: 3600 } })
-        const shot: DocShotData = await shotRes.json()
-        return shot
+        if (userId) {
+            const shotRes = await fetch(`${getHost()}/shots/shot/${shotId}/${userId}`, { method: 'GET', next: { revalidate: 3600 } })
+            const shot: DocShotData = await shotRes.json()
+            return shot
+        } else {
+            const shotRes = await fetch(`${getHost()}/shots/shot/${shotId}`, { method: 'GET', next: { revalidate: 3600 } })
+            const shot: DocShotData = await shotRes.json()
+            return shot
+        }
     } catch(e) {
         console.log(e)
         return null

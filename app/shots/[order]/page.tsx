@@ -6,11 +6,9 @@ type Props = {
     }
 }
 const ShotsByOrder = ({ params }: Props) => {
-    const isRecommendation = params.order === 'recommendations'
+    // const isRecommendation = params.order === 'recommendations'
     return (
-        <Chunker order={isRecommendation ? 'popular' : params.order} 
-        countPrefix={isRecommendation ? '/shots/v2/chunkWithRecommendationsCount/' : '/shots/allShotsCount/'} 
-        shotsPrefix={isRecommendation ? '/shots/v2/chunkWithRecommendations/' : '/shots/v2/chunkedAllShots/'} />
+        <Chunker countPrefix={`/shots/count/${params.order}/`} shotsPrefix={`/shots/all/${params.order}/`} />
     )
 }
 

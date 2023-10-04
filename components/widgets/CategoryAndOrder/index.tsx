@@ -1,13 +1,14 @@
 'use client'
 import { Segmented, Select } from 'antd'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { sortTabs, withCustomSortTab } from './const'
 import { useAppSelector } from '@/components/entities/store/store'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
-import { detectCategoryTab, detectSortTab, replaceCategoryTabTo, replaceSortTabTo } from './helpers'
+import { cleanPathname, detectCategoryTab, detectSortTab } from './helpers'
+// import { SegmentedValue } from 'antd/es/segmented'
 
 type Props = {
     integrationMode?: boolean
@@ -18,47 +19,32 @@ const CategoryAndOrder = ({ integrationMode=false, noCategory=true }: Props) => 
     const [user] = useAuthState(auth)
     const isSub = useAppSelector(state => state.user.isSubscriber)
     const pathname = usePathname()
-    const excludeIf = (val: string, notSupported: boolean=false) => {
-        if ((!user || !isSub || notSupported) && val === '/recommendations') return false
-        if ((!user || notSupported) && val === '/following') return false
-        if (!user && val === '/following') return false
-        return true
-    }
-    const detectedSortTab = detectSortTab(pathname) || '/popular'
+    // const excludeIf = (val: string, notSupported: boolean=false) => {
+    //     if ((!user || !isSub || notSupported) && val === '/recommendations') return false
+    //     if ((!user || notSupported) && val === '/following') return false
+    //     if (!user && val === '/following') return false
+    //     return true
+    // }
+    const detectedSortTab = detectSortTab(pathname)
     const detectedCategoryTab = detectCategoryTab(pathname, detectedSortTab)
-    const options = sortTabs(integrationMode).filter(opt => pathname.includes('/shots') ? excludeIf(opt.value, false) : excludeIf(opt.value, true))
-    const isShotsLayout = pathname.startsWith('/shots')
+    const options = sortTabs(integrationMode) // .filter(opt => pathname.includes('/shots') ? excludeIf(opt.value, false) : excludeIf(opt.value, true))
+    const isShotsLayout = useMemo(() => pathname.startsWith('/shots'), [pathname]) 
     const [orderTab, setOrderTab] = useState<string>(detectedSortTab)
     const [categoryTab, setCategoryTab] = useState<string>(detectedCategoryTab ? detectedCategoryTab : withCustomSortTab(orderTab)[0].value)
-    const [debouncedOrderTab, setDebouncedOrderTab] = useState<string>('')
     const router = useRouter()
     useLayoutEffect(() => {
-        if (isShotsLayout) {
-            const newCategoryTag = replaceCategoryTabTo(categoryTab, debouncedOrderTab ? debouncedOrderTab : detectedSortTab, orderTab)
-            setDebouncedOrderTab(orderTab)
-            setCategoryTab(newCategoryTag)
-        } else {
-            const newOrderTab = replaceSortTabTo(pathname, orderTab)
-            router.push(newOrderTab)
-        }
-    },[detectedSortTab, orderTab])
-    useLayoutEffect(() => {
-        if (isShotsLayout) {
-
-            if (categoryTab !== orderTab &&  (orderTab === '/recommendations' || orderTab === '/following')) {
-                const url = `/shots${orderTab}`
-            router.push(url)
-            } else {
-                const url = `/shots${categoryTab}`
-                router.push(url)
-            }
-        }
-    },[isShotsLayout, detectedCategoryTab, categoryTab])
+        const newSegment = categoryTab === '/' ? orderTab : `${orderTab}${categoryTab}`
+        const newPath = cleanPathname(pathname, detectedSortTab, detectedCategoryTab)
+        // console.log(detectedSortTab, detectedCategoryTab)
+        // console.log(orderTab, categoryTab)
+        // console.log(pathname, newPath, newSegment)
+        router.push(newPath + newSegment)
+    },[isShotsLayout, orderTab, categoryTab])
     return (
         <div className="relative flex flex-row items-center justify-center w-full gap-2 shrink-0 h-fit">
             <div className={`flex items-center justify-center ${integrationMode ? 'w-fit' : 'w-full'} gap-2 shrink-0 h-fit`}>
                 {integrationMode && <span className='hidden text-sm md:inline text-neutral-400'>Сортировка: </span>}
-                <Segmented size='large' default defaultValue='/popular' options={options} value={orderTab} onChange={e => setOrderTab(e.toString())} />
+                <Segmented size='large' default defaultValue={detectedSortTab} options={options} value={orderTab} onChange={e => setOrderTab(e.toString())} />
             </div>
             {
                 (noCategory === false || isShotsLayout) &&
@@ -66,9 +52,9 @@ const CategoryAndOrder = ({ integrationMode=false, noCategory=true }: Props) => 
                     {
                         isTabletOrMobile
                         ? <Select className='!w-32' size='large' value={categoryTab} onSelect={e => setCategoryTab(e)}
-                        options={withCustomSortTab(orderTab)} defaultValue={detectedCategoryTab} />
+                        options={withCustomSortTab(orderTab)} defaultValue={'/'} />
                         : <Segmented size='large' className='!shrink-0' value={categoryTab} onChange={e => setCategoryTab(e.toString())}
-                        default defaultValue='/popular' options={withCustomSortTab(orderTab)} />
+                        default defaultValue={'/'} options={withCustomSortTab(orderTab)} />
                     }
                 </div>
             }

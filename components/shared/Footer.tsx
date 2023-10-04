@@ -1,19 +1,36 @@
 'use client'
 
-import { auth } from "@/utils/app"
+import { app, auth } from "@/utils/app"
 import { Button } from "antd"
+import { getRemoteConfig, fetchAndActivate, getString } from "firebase/remote-config"
 import Image from "next/image"
 import Link from "next/link"
+import { useState, useEffect } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { BiLogoDribbble, BiLogoLinkedin, BiLogoTwitter } from "react-icons/bi"
 
 const Footer = () => {
     const [user] = useAuthState(auth)
+    const [tag, setTag] = useState<string>('')
+    useEffect(() => {
+        const remoteConfig = getRemoteConfig(app);
+        remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
+        fetchAndActivate(remoteConfig)
+        .then(() => {
+            const bum_string = getString(remoteConfig, 'bum_version')
+            setTag(bum_string)
+        })
+        .catch((err) => {
+        });
+    },[])
     return (
         <footer className="flex flex-col w-full gap-6 p-4 mt-auto md:p-12 h-fit bg-neutral-950 rounded-xl">
             <div className="flex w-full h-24 max-w-5xl mx-auto">
                 <div className="flex flex-col w-1/3 h-full gap-4">
-                    <Image src='/bum-full.svg' width={120} height={60} alt="bum-logo" />
+                    <div className="flex items-center gap-2 w-fit h-fit">
+                        <Image src='/bum-full.svg' width={120} height={60} alt="bum-logo" />
+                        <sup className="text-neutral-400">{tag}</sup>
+                    </div>
                     <div className="flex items-center gap-2 w-fit h-fit">
                         <Button className="!px-3" size="large"><BiLogoTwitter size={17} /></Button>
                         <Button className="!px-3" size="large"><BiLogoLinkedin size={17} /></Button>

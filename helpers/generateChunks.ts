@@ -1,9 +1,9 @@
 import { getHost } from "./getHost"
 
-export const generateChunks = (chunkCount: number, order: string, shotsPrefix: string, userId?: string) => {
+export const generateChunks = (chunkCount: number, shotsPrefix: string) => {
     const chunks = []
     for (let i = 0; i < chunkCount; i++) {
-        const chunkLink = `${getHost()}${shotsPrefix}${order}?skip=${i * 16}${userId ? `&userId=${userId}` : ''}`
+        const chunkLink = `${getHost()}${shotsPrefix}?skip=${i * 16}`
         chunks.push(chunkLink)
     }
     return chunks

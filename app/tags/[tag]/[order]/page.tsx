@@ -9,10 +9,10 @@ type Props = {
         order: string
     }
 }
-const getShotByTag = async(tag: string): Promise<DocShotData[]> => {
+const getShotsByTag = async(tag: string, order: string): Promise<DocShotData[]> => {
     try {
-        const fetchUrl = `${getHost()}/tags/${tag}`
-        const res = await fetch(fetchUrl)
+        const fetchUrl = `${getHost()}/tags/${tag}/${order}`
+        const res = await fetch(fetchUrl, { method: 'GET', next: { revalidate: 1800 } })
         if (res.ok) {
             const shots: DocShotData[] = await res.json()
             return shots
@@ -23,7 +23,7 @@ const getShotByTag = async(tag: string): Promise<DocShotData[]> => {
     }
 }
 const TagPage = async({ params }: Props) => {
-    const shots = await getShotByTag(params.tag)
+    const shots = await getShotsByTag(params.tag, params.order)
     return (
         <Shots shots={shots} />
     )
