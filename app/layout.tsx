@@ -1,6 +1,5 @@
 import './globals.css'
-import { Rubik } from 'next/font/google'
-import { Playfair_Display } from 'next/font/google'
+import { Rubik, Spectral } from 'next/font/google'
 import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react';
 import StateProvider from '@/components/StateProvider'
@@ -13,7 +12,7 @@ import { ReactNode } from 'react'
 import CookiesAlert from '@/components/widgets/CookiesAlert';
 const SessionPicker = dynamic(() => import('@/components/widgets/SessionPicker'));
 const rubik = Rubik({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
-const playfairDisplay = Playfair_Display({ subsets: ['latin', 'cyrillic'], variable: '--second-font' })
+const spectral = Spectral({ subsets: ['latin', 'cyrillic'], weight: ['600', '400'], variable: '--second-font' })
 
 export const metadata: Metadata = {
   title: 'bum',
@@ -47,7 +46,7 @@ export default function RootLayout(props: { children: ReactNode, modal: ReactNod
   return (
     <StateProvider>
       <LayoutWrapper>
-        <html lang="en" className={`${rubik.className} ${rubik.variable} ${playfairDisplay.variable}`}>
+        <html lang="en" className={`${rubik.className} ${rubik.variable} ${spectral.variable}`}>
           <body id='root' className='flex flex-col overflow-x-hidden body_wrapper'>
             <SessionWatcher />
             <TokenWatcher />

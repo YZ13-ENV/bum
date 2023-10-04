@@ -9,12 +9,12 @@ const AppPreviewBlock = () => {
     const [inViewPort, ratio] = useInViewport(ref, {
         root: () => document.getElementById('promo-section')
     })
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' })
     useLayoutEffect(() => {
         console.log(inViewPort, ratio)
     },[inViewPort, ratio])
     return (
-        <div  className="relative w-full p-1 my-6 overflow-hidden border border-transparent max-w-7xl group md:my-12 h-fit rounded-xl">
+        <div  className="relative w-full max-w-md p-1 my-6 overflow-hidden border border-transparent md:max-w-4xl lg:max-w-7xl group md:my-12 h-fit rounded-xl">
             <div className="absolute top-0 right-0 w-full h-full bg-neutral-800"></div>
             <div ref={ref} 
             className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gradient-to-t from-black to-transparent">
