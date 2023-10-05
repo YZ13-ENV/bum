@@ -51,7 +51,7 @@ const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
     // const uid = cookiesList.get('uid')
     const count = await getCountOfShots(countPrefix)
     const firstChunk = await getFirstChunk(shotsPrefix)
-    const chunksCount = count <= 16 ? 0: Math.ceil((count - 1) / 16)
+    const chunksCount = count <= 16 ? 0 : Math.ceil((count - 1) / 16)
     const chunks = generateChunks(chunksCount, shotsPrefix)
     // ?  : generateChunks(chunksCount, order, shotsPrefix)
     return (
