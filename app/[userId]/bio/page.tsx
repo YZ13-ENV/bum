@@ -1,5 +1,4 @@
 import Bio from "@/components/widgets/Bio"
-import { cookies } from 'next/headers'
 
 type Props = {
     params: {
@@ -7,11 +6,9 @@ type Props = {
     }
 }
 const UserBio = ({ params }: Props) => {
-    const cookiesList = cookies()
-    const uid = cookiesList.get('uid')
     return (
-        <section className='flex flex-col w-full h-full max-w-5xl gap-4 mx-auto overflow-y-auto md:flex-row'>
-            <Bio preparedValue={uid?.value ? uid.value === params.userId : false} />
+        <section className='flex flex-col w-full max-w-5xl gap-4 mx-auto overflow-y-auto h-fit shot_wrapper md:flex-row'>
+            <Bio uid={params.userId} />
         </section>
     )
 }

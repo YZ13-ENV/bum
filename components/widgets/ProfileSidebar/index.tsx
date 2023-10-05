@@ -36,28 +36,26 @@ const ProfileSidebar = ({ uid }: Props) => {
         }
     }, [user, uid, path])
     return (
-        <>
+        <div className="flex flex-col h-full gap-2 md:w-72 w-fit shrink-0">
             {
                 user?.uid !== uid && <ProfileActions uid={uid} />
             }
-            <div className="flex flex-col h-full gap-2 md:w-72 w-fit shrink-0">
-                <SidebarLink active={path.endsWith(uid)} icon={<MdWork className='text-inherit' size={17} />} link={`/${uid}/`} title='Работы' />
-                <SidebarLink active={path.endsWith('/bio')} icon={<RiUser5Line className='text-inherit' size={17} />} link={`/${uid}/bio`} title='Биография' />
-                {
-                    (!user || (user && user.uid === uid)) &&
-                    <>
-                        {
-                            isSub &&
-                            <>
-                                <SidebarLink beta active={path.endsWith('/recommendations')} icon={<BsStars className='text-inherit' size={17} />} link={`/${uid}/recommendations`} title='Рекомендации' />
-                                <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
-                            </>
-                        }
-                        <SidebarLink active={path.endsWith('/history')} icon={<MdHistory className='text-inherit' size={17} />} link={`/${uid}/history`} title='История' />
-                    </>
-                }
-            </div>
-        </>
+            <SidebarLink active={path.endsWith(uid)} icon={<MdWork className='text-inherit' size={17} />} link={`/${uid}/`} title='Работы' />
+            <SidebarLink active={path.endsWith('/bio')} icon={<RiUser5Line className='text-inherit' size={17} />} link={`/${uid}/bio`} title='Биография' />
+            {
+                (!user || (user && user.uid === uid)) &&
+                <>
+                    {
+                        isSub &&
+                        <>
+                            <SidebarLink beta active={path.endsWith('/recommendations')} icon={<BsStars className='text-inherit' size={17} />} link={`/${uid}/recommendations`} title='Рекомендации' />
+                            <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
+                        </>
+                    }
+                    <SidebarLink active={path.endsWith('/history')} icon={<MdHistory className='text-inherit' size={17} />} link={`/${uid}/history`} title='История' />
+                </>
+            }
+        </div>
     )
 }
 

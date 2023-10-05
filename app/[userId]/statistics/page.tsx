@@ -46,13 +46,13 @@ const UserStatisticsPage = async({ params }: Props) => {
             {
                 shotsSlice.length !== 0 &&
                 shotsSlice.map((shot, index) =>
-                    <Link href={`/view?s=${shot.doc_id}`} key={shot.doc_id} 
-                    className="flex flex-col w-full h-48 gap-2 transition-colors border md:flex-row shrink-0 rounded-xl border-neutral-800 hover:bg-neutral-950">
-                        <div className="relative h-full aspect-[4/3] flex items-center justify-center rounded-xl bg-neutral-900">
+                    <Link href={`/view?s=${shot.doc_id}`} key={shot.doc_id}
+                    className="flex flex-col w-full gap-2 transition-colors border md:h-48 h-fit md:flex-row shrink-0 rounded-xl border-neutral-800 hover:bg-neutral-950">
+                        <div className="relative h-full aspect-[4/3] rounded-xl bg-neutral-900">
                             <MediaBlock link={shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link} object='cover' />
                         </div>
                         <div className="flex flex-col w-full h-full gap-2 p-4">
-                            { index === 0 && <span className='px-3 py-1 text-xs border rounded-md w-fit border-neutral-800 text-neutral-400 bg-neutral-900'>Самая популярная работа</span> }
+                            { process.env.NODE_ENV === 'development' ? DateTime.fromSeconds(shot.createdAt).toISO() : null }
                             <span className='text-lg font-medium text-neutral-200'>{shot.title}</span>
                             <span className='text-xs text-neutral-400'>{DateTime.fromSeconds(shot.createdAt).toRelativeCalendar()}</span>
                             <div className="flex items-center gap-2 mt-auto w-fit h-fit">

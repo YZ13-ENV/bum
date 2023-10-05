@@ -23,6 +23,11 @@ export type ShotGridBlock = {
     ids: string[]
 }
 
+export type ActionWithTimestamp = {
+    uid: string,
+    createdAt: number
+}
+
 export type CommentBlockNoAnswers = Omit<CommentBlock, 'answers'>
 
 export type NewCommentBlock = {
@@ -37,6 +42,8 @@ export type CommentBlock = {
     authorId: string
     text: string
     createdAt: number
+    // dislikes: ActionWithTimestamp[]
+    // likes: ActionWithTimestamp[]
     answers: CommentBlockNoAnswers[]
 }
 
