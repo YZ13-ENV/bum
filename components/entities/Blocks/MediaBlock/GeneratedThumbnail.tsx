@@ -26,7 +26,7 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
         }
     }
     useLayoutEffect(() => {
-        if (videoRef.current || canvasRef.current) {
+        if ((videoRef.current || canvasRef.current) && !playVideo) {
             if (videoRef.current) {
                 videoRef.current.addEventListener('load', paintThumbnail)
                 videoRef.current.addEventListener('canplaythrough', paintThumbnail)
@@ -34,7 +34,7 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
                 videoRef.current.addEventListener('loadedmetadata', paintThumbnail)
             }
         } 
-    },[videoRef, canvasRef])
+    },[videoRef, canvasRef, playVideo])
     if (playVideo) return <div onMouseLeave={() => {setPlayVideo(false); setDelay(undefined)}}><LoadedVideo link={process.env.NODE_ENV === 'development' ? '/dev-video.mp4' :fetchFile(videoLink)} autoPlay /></div>
     return (
         <>

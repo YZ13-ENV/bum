@@ -210,19 +210,8 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
             setPreviewLink('')
         }
     },[finalTouch, previewLink, block.link], { wait: 2000 })
-    // if (block.link && block.link !== '') {
-    //     return (
-    //         <div className="relative w-full h-fit !shrink-0">
-    //             <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
-    //                 <Button className='!px-2' loading={loading} onClick={deleteImage} icon={<BiTrashAlt size={15} className='inline-block mb-1' />}>Удалить</Button>
-    //             </div>
-    //             <MediaBlock asBlob={previewLink ? true : false} autoPlay
-    //             link={previewLink ? previewLink : block.link} object='contain' quality={75} />
-    //         </div>
-    //     )
-    // }
     return (
-        <div className='relative w-full aspect-[4/3]'>
+        <div className={`relative w-full ${previewLink ? '' : 'aspect-[4/3]'}`}>
             {
                 (previewLink || block.link) &&
                 <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
