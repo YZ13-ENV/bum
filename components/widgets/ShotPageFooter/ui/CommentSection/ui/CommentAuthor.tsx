@@ -16,7 +16,7 @@ const CommentAuthor = ({ authorId, createdAt, mini=false }: Props) => {
     const getUser = async() => {
         try {
             setLoading(true)
-            const userRes = await fetch(`${getHost()}/users/shortData?userId=${authorId}`, { method: 'GET', next: { revalidate: 360 } })
+            const userRes = await fetch(`${getHost()}/users/shortData?userId=${authorId}`, { method: 'GET', next: { revalidate: 3600 } })
             if (userRes.ok) {
                 const user: { short: ShortUserData } | null = await userRes.json()
                 setLoading(false)
@@ -43,8 +43,8 @@ const CommentAuthor = ({ authorId, createdAt, mini=false }: Props) => {
                 <Avatar src={user.photoUrl} size={28} />
                 <div className="flex flex-col w-fit h-fit">
                     <div className="flex items-center gap-2 w-fit h-fit">
-                        <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                        <SubLabel />
+                        <span className='text-sm font-semibold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
+                        <SubLabel mini />
                     </div>
                     <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).setLocale('ru').toRelative()}</div>
                 </div>
@@ -57,7 +57,7 @@ const CommentAuthor = ({ authorId, createdAt, mini=false }: Props) => {
             <div className="flex flex-col w-fit h-fit">
                 <div className="flex items-center gap-2 w-fit h-fit">
                     <span className='text-sm font-bold text-neutral-200'>{user.displayName || 'Пользователь'}</span>
-                    <SubLabel />
+                    <SubLabel mini />
                 </div>
                 <div className="text-xs text-neutral-400">{DateTime.fromSeconds(createdAt).setLocale('ru').toRelative()}</div>
             </div>

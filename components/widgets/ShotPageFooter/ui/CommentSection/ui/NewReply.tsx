@@ -8,14 +8,15 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { DateTime } from 'luxon'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { MdReply } from 'react-icons/md'
+import { BiSend } from 'react-icons/bi'
 
 type Props = {
     shotAuthor: string
     shotId: string
     comment: CommentBlock
+    setWantReply: React.Dispatch<React.SetStateAction<boolean>>
 }
-const NewReply = ({ shotAuthor, shotId, comment }: Props) => {
+const NewReply = ({ shotAuthor, shotId, comment, setWantReply }: Props) => {
     const [loading, setLoading] = useState<boolean>(false)
     const [text, setText] = useState<string>('')
     const [user] = useAuthState(auth)
@@ -48,8 +49,10 @@ const NewReply = ({ shotAuthor, shotId, comment }: Props) => {
                 await updateDoc(shotRef, updatedShot)
                 setText('')
                 setLoading(false)
+                setWantReply(false)
             } catch(e) {
                 setLoading(false)
+                setWantReply(false)
             }
  
         }
@@ -59,7 +62,8 @@ const NewReply = ({ shotAuthor, shotId, comment }: Props) => {
         <div className="flex items-center justify-end w-full gap-2 h-fit">
             <Avatar src={user?.photoURL || null} size={28} />
             <Input value={text} onChange={e => setText(e.target.value)} placeholder='Хотите ответить?' />
-            <Button onClick={pushReply} disabled={!user || text.length === 0} loading={loading}>{ !loading && <MdReply size={15} /> }</Button>
+            <Button onClick={pushReply} type={text.length !== 0 ? 'primary' : 'default'}
+            disabled={!user || text.length === 0} loading={loading}>{ !loading && <BiSend size={15} /> }</Button>
         </div>
     )
 }

@@ -3,7 +3,10 @@ import { app } from '@/utils/app'
 import { fetchAndActivate, getRemoteConfig, getString } from 'firebase/remote-config'
 import React, { useEffect, useState } from 'react'
 
-const SubLabel = () => {
+type Props = {
+  mini?: boolean
+}
+const SubLabel = ({ mini }: Props) => {
   const [tag, setTag] = useState<string>('')
   useEffect(() => {
       const remoteConfig = getRemoteConfig(app);
@@ -16,6 +19,7 @@ const SubLabel = () => {
       .catch((err) => {
       });
   },[])
+  if (mini) return <span className='px-1.5 py-0.5 text-xs text-black bg-white rounded-md'>{tag || 'Плюс'}</span>
   return <span className='px-2 py-1 text-xs text-black bg-white rounded-md'>{tag || 'Плюс'}</span>
 }
 
