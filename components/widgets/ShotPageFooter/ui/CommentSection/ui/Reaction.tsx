@@ -6,8 +6,9 @@ import { CommentBlock, Reaction } from '@/types'
 import { DateTime } from 'luxon'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
-import { getHost } from '@/helpers/getHost'
+// import { getHost } from '@/helpers/getHost'
 import { useAppSelector } from '@/components/entities/store/store'
+import { patchComment } from '../helpers'
 // import { doc, getDoc } from 'firebase/firestore'
 // import { db } from '@/utils/app'
 
@@ -17,18 +18,7 @@ type Props = {
     comment: CommentBlock
     reactions: CommentBlock['reactions']
 }
-const patchComment = async(comment: CommentBlock, authorId: string, shotId: string): Promise<boolean> => {
-    try {
-        const headers = new Headers()
-        headers.set("Content-Type", "application/json")
-        const url = `${getHost()}/shots/comment?userId=${authorId}&shotId=${shotId}`
-        const res = await fetch(url, { method: 'PATCH', headers: headers, body: JSON.stringify(comment) })
-        if (res.ok) return Boolean(await res.json())
-        return false
-    } catch(e) {
-        return false
-    }
-}
+
 const Reaction = ({ comment, shotAuthor, shotId, reactions }: Props) => {
     const [user] = useAuthState(auth)
     const isSub = useAppSelector(state => state.user.isSubscriber)

@@ -1,7 +1,8 @@
-import { Reaction } from "@/types";
+import { getHost } from "@/helpers/getHost";
+import { CommentBlock, Reaction } from "@/types";
 import { uniq } from "lodash";
 
-type GroupedReactions = {
+export type GroupedReactions = {
     key: string
     emoji: string
     uids: string[]
@@ -26,4 +27,16 @@ export const groupReactions = (reactions: Reaction[] | undefined) => {
         }
     })
     return groupedReactions
+}
+export const patchComment = async(comment: CommentBlock, authorId: string, shotId: string): Promise<boolean> => {
+    try {
+        const headers = new Headers()
+        headers.set("Content-Type", "application/json")
+        const url = `${getHost()}/shots/comment?userId=${authorId}&shotId=${shotId}`
+        const res = await fetch(url, { method: 'PATCH', headers: headers, body: JSON.stringify(comment) })
+        if (res.ok) return Boolean(await res.json())
+        return false
+    } catch(e) {
+        return false
+    }
 }

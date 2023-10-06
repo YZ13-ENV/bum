@@ -44,7 +44,7 @@ const Comment = ({ comment, shotAuthor, shotId }: Props) => {
                 </div>
                 <span className='text-sm text-neutral-300'>{comment.text}</span>
                 <div className="flex flex-col w-full gap-2 h-fit">
-                    <Reactions reactions={comment.reactions} />
+                    <Reactions reactions={comment.reactions} comment={comment} shotAuthor={shotAuthor} shotId={shotId} />
                     <div className="flex items-center w-full gap-2 h-fit">
                         <Reaction reactions={comment.reactions} comment={comment} shotAuthor={shotAuthor} shotId={shotId} />
                         <div className="inline-flex gap-1 px-3 py-1.5 rounded-md bg-neutral-900 w-fit h-fit"><span className='text-xs text-neutral-300'>{comment.answers.length} Ответов</span></div>
