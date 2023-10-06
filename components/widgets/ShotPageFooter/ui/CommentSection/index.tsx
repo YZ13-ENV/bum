@@ -24,7 +24,8 @@ const CommentSection = ({ shot }: Props) => {
                 'authorId': user.uid,
                 'text': text,
                 'createdAt': DateTime.now().toSeconds(),
-                'answers': []
+                'answers': [],
+                'reactions': []
             }
             const headers = new Headers()
             headers.set("Content-Type", "application/json")
@@ -65,7 +66,7 @@ const CommentSection = ({ shot }: Props) => {
                         <Button onClick={addComment} disabled={text.length < 2} loading={loading} type='primary'>Отправить</Button>
                     </div>
                 </div>
-                : <div className='flex items-center justify-between w-full p-2 border h-fit rounded-xl border-neutral-800'>
+                : <div className='flex items-center justify-between w-full px-4 py-2 border h-fit rounded-xl border-neutral-800'>
                     <span className='text-sm text-neutral300'>Для создания комментария вам необходимо войти в аккаунт</span>
                     <UserStatus />
                 </div>

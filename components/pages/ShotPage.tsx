@@ -25,7 +25,7 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
         <section id='shot-page' className='relative flex flex-col w-full min-h-full p-4 gap-14 lg:px-0'>
             <div id='content-wrapper' className="flex flex-col w-full max-w-sm mx-auto gap-14 md:max-w-2xl lg:max-w-4xl h-fit shrink-0">
                 <ViewsHistoryWatcher authorId={shot.authorId} shotId={shot.doc_id}  />
-                <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
+                {/* <div className="flex items-center justify-center w-full max-w-2xl gap-1 px-4 py-2 mx-auto h-fit">
                     <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
                 </div>
                 <MediaBlock withAmbiLight={user.isSubscriber || false} link={shot.rootBlock.link} autoPlay />
@@ -43,7 +43,7 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
                         return null
                     })
                 }
-                </div>
+                </div> */}
             </div>
             { needConfetti || isVideo === false && <ConfettiForNewShot views={shot.views.length} /> }
             <Suspense fallback={<div className='flex items-center justify-center w-full h-96'><BiLoaderAlt size={17} className='animate-spin'/></div>}>
