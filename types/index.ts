@@ -35,6 +35,16 @@ export type NewCommentBlock = {
     text: string
     createdAt: number
     answers: CommentBlockNoAnswers[]
+    reactions?: Reaction[]
+}
+
+export type Reaction = {
+    reaction: {
+        key: string,
+        emoji: string
+    }
+    uid: string
+    createdAt: number
 }
 
 export type CommentBlock = {
@@ -42,6 +52,7 @@ export type CommentBlock = {
     authorId: string
     text: string
     createdAt: number
+    reactions?: Reaction[]
     // dislikes: ActionWithTimestamp[]
     // likes: ActionWithTimestamp[]
     answers: CommentBlockNoAnswers[]

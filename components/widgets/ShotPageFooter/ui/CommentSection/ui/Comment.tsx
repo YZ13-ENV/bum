@@ -9,6 +9,8 @@ import { LuSmilePlus } from 'react-icons/lu'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { useState } from 'react'
+import Reaction from './Reaction'
+import Reactions from './Reactions'
 
 type Props = {
     shotAuthor: string
@@ -41,10 +43,13 @@ const Comment = ({ comment, shotAuthor, shotId }: Props) => {
                     <Dropdown menu={{items}}><Button size='small' type='text'><BiDotsVerticalRounded size={15} /></Button></Dropdown>
                 </div>
                 <span className='text-sm text-neutral-300'>{comment.text}</span>
-                <div className="flex items-center w-full gap-2 h-fit">
-                    <Button disabled type='text'><LuSmilePlus /></Button>
-                    <div className="inline-flex gap-1 px-3 py-1.5 rounded-md bg-neutral-900 w-fit h-fit"><span className='text-xs text-neutral-300'>{comment.answers.length} Ответов</span></div>
-                    <Button onClick={() => setWantReply(!wantReply)} type={wantReply ? 'default' : 'text'}>{wantReply ? 'Отменить' : 'Ответить'}</Button>
+                <div className="flex flex-col w-full gap-2 h-fit">
+                    <Reactions reactions={comment.reactions} />
+                    <div className="flex items-center w-full gap-2 h-fit">
+                        <Reaction reactions={comment.reactions} comment={comment} shotAuthor={shotAuthor} shotId={shotId} />
+                        <div className="inline-flex gap-1 px-3 py-1.5 rounded-md bg-neutral-900 w-fit h-fit"><span className='text-xs text-neutral-300'>{comment.answers.length} Ответов</span></div>
+                        <Button onClick={() => setWantReply(!wantReply)} type={wantReply ? 'default' : 'text'}>{wantReply ? 'Отменить' : 'Ответить'}</Button>
+                    </div>
                 </div>
             </div>
             <div className={`flex flex-col w-full gap-2 p-2 transition-all border-x h-fit ${showAll ? 'border-neutral-700' : 'border-transparent'} `}>
