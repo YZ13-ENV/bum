@@ -26,7 +26,7 @@ export default function Home() {
           <p className="mt-2 text-lg text-neutral-400">Место для встречи идей и открытий</p>
         </div>
         <Space direction="horizontal" size='middle'>
-          <Button size='large' href='/shots'>К работам</Button>
+          <Button size='large' href='/shots/popular'>К работам</Button>
           <Button size='large' type='primary' href="https://auth.darkmaterial.space?back_url=https://bum.darkmaterial.space">Войти в аккаунт</Button>
         </Space>
       </div>
