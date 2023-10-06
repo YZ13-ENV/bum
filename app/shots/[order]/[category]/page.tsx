@@ -1,4 +1,6 @@
 import Chunker from "@/components/widgets/ChunkModule/Chunker"
+import { Suspense } from "react"
+import Loading from "../../loading"
 
 type Props = {
     params: {
@@ -8,7 +10,9 @@ type Props = {
 }
 const ShotsByCategoryPage = ({ params }: Props) => {
     return (
-        <Chunker countPrefix={`/shots/count/${params.order}/${params.category}`} shotsPrefix={`/shots/all/${params.order}/${params.category}`} />
+        <Suspense fallback={<Loading />}>
+            <Chunker countPrefix={`/shots/count/${params.order}/${params.category}`} shotsPrefix={`/shots/all/${params.order}/${params.category}`} />
+        </Suspense>
     )
 }
 
