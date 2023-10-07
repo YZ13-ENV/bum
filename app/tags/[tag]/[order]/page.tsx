@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic'
-import { getHost } from '@/helpers/getHost'
-import { DocShotData } from '@/types'
+import { getShotsByTag } from '@/app/fetchers'
 const Shots = dynamic(() => import('@/components/shared/Shots')) 
 
 type Props = {
@@ -9,19 +8,7 @@ type Props = {
         order: string
     }
 }
-const getShotsByTag = async(tag: string, order: string): Promise<DocShotData[]> => {
-    try {
-        const fetchUrl = `${getHost()}/tags/${tag}/${order}`
-        const res = await fetch(fetchUrl, { method: 'GET', next: { revalidate: 1800 } })
-        if (res.ok) {
-            const shots: DocShotData[] = await res.json()
-            return shots
-        } else return []
-    } catch(e) {
-        console.log(e)
-        return []
-    }
-}
+
 const TagPage = async({ params }: Props) => {
     const shots = await getShotsByTag(params.tag, params.order)
     return (

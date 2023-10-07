@@ -3,6 +3,7 @@ import { LoadedImageProps } from '@/components/shared/LoadedImage';
 import Image from 'next/image';
 import { ElementRef, memo, useLayoutEffect, useRef, useState } from 'react'
 import { FastAverageColor } from 'fast-average-color';
+import { useSpring, animated, easings } from '@react-spring/web';
 
 const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'withAmbiLight'>) => {
     const ImageBlock = useRef<ElementRef<'img'>>(null);
@@ -17,6 +18,18 @@ const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'wi
             }
         }
     }
+    const springs = useSpring({
+        from: {
+            opacity: 0
+        },
+        to: {
+            opacity: 1
+        },
+        config: {
+            duration: 1500,
+            easing: easings.easeInOutCirc
+        }
+    })
     useLayoutEffect(() => {
         if (ImageBlock.current) {
             fac.getColorAsync(ImageBlock.current)
@@ -35,7 +48,8 @@ const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'wi
     return (
         <div style={hex !== '' ? { backgroundColor: hex } : {}} 
         className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full aspect-[4/3]'} flex items-center justify-center shrink-0 rounded-xl`}>
-            <canvas ref={canvas} id="ambiLightv2" className={object === 'contain' ? 'h-full' : 'h-full aspect-[4/3]'} onLoad={() => repaintAmbientLight()} />
+            <animated.canvas ref={canvas} style={springs}
+            id="ambiLightv2" className={object === 'contain' ? 'h-full' : 'h-full aspect-[4/3]'} onLoad={() => repaintAmbientLight()} />
             {/* <canvas ref={canvas} id="ambiLight" className='aspect-[4/3] rounded-xl' /> */}
             <Image ref={ImageBlock} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
             className={`!relative w-full ${object === 'contain' ? '!object-contain !h-fit' : '!h-full object-cover aspect-[4/3]'} rounded-xl`} 
