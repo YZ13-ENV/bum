@@ -1,13 +1,15 @@
 'use client'
-import { app } from '@/utils/app';
+import { app, auth } from '@/utils/app';
 import { fetchAndActivate, getRemoteConfig, getString } from 'firebase/remote-config';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 
 const LogoSection = () => {
     const [tag, setTag] = useState<string>('')
+    const [user] = useAuthState(auth)
     useEffect(() => {
         const remoteConfig = getRemoteConfig(app);
         remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
@@ -20,7 +22,7 @@ const LogoSection = () => {
         });
     },[])
     return (
-        <Link href='/' className='flex items-center gap-2 px-1 w-fit h-fit'>
+        <Link href={user ? '/shots/popular' : '/'} className='flex items-center gap-2 px-1 w-fit h-fit'>
             <Image src={'/bum.svg'} width={36} height={36} alt='v2-logo' />
             <span className='text-2xl font-medium text-neutral-200'>
                 bum
