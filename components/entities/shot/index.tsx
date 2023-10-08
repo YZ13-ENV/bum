@@ -2,7 +2,6 @@ import dynamic from 'next/dynamic'
 import { DocShotData } from '@/types'
 import { Suspense, memo } from 'react'
 import GeneratedThumbnail from '../Blocks/MediaBlock/GeneratedThumbnail'
-// import { fetchFile } from '@/helpers/fetchFile'
 import { linkToShot } from '@/helpers/linkTo'
 const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
 const Link = dynamic(() => import('next/link')) 
@@ -32,7 +31,8 @@ const ShotCard = ({ shot }: Props) => {
                         ? isVideo
                         ? <GeneratedThumbnail thumbnailLink={'/dev-video.mp4'} videoLink={shot.rootBlock.link} />
                         : <MediaBlock link='/original-error.png' quality={75} object='cover' autoPlay={false} />
-                        : isVideo 
+                        : 
+                        isVideo 
                         ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
                         : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
                     }
