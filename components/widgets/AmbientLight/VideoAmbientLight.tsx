@@ -2,12 +2,25 @@
 import { LoadedVideoProps } from '@/components/shared/LoadedVideo'
 import { useInterval } from 'ahooks';
 import { ElementRef, memo, useLayoutEffect, useRef, useState, useCallback, useEffect } from 'react'
+import { useSpring, animated, easings } from '@react-spring/web';
 
 const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiLight'>) => {
     const videoBlock = useRef<ElementRef<'video'>>(null);
     const canvas = useRef<ElementRef<'canvas'>>(null);
     const [run, setRun] = useState<boolean>(false);
     const FRAMERATE = 30;
+    const springs = useSpring({
+        from: {
+            opacity: 0
+        },
+        to: {
+            opacity: 1
+        },
+        config: {
+            duration: 1500,
+            easing: easings.easeInOutCirc
+        }
+    })
     const repaintAmbientLight = useCallback(() => {
         if (canvas.current) {
             const context = canvas.current.getContext("2d");
@@ -74,7 +87,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
 
     return (
         <div className='relative flex items-center justify-center'>
-            <canvas ref={canvas} id="ambiLightv2" className='aspect-[4/3]' onLoad={() => repaintAmbientLight()} />
+            <animated.canvas style={springs} ref={canvas} id="ambiLightv2" className='aspect-[4/3]' onLoad={() => repaintAmbientLight()} />
             <video ref={videoBlock} src={link} muted
             className='object-cover w-full h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />
         </div>

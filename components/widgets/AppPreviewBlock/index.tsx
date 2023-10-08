@@ -1,18 +1,11 @@
 'use client'
-import { useInViewport } from 'ahooks'
 import Image from 'next/image'
-import React, { ElementRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { ElementRef, useRef } from 'react'
 import { animated, useSpring } from '@react-spring/web'
 import { useMediaQuery } from 'react-responsive'
 const AppPreviewBlock = () => {
     const ref = useRef<ElementRef<'div'>>(null)
-    const [inViewPort, ratio] = useInViewport(ref, {
-        root: () => document.getElementById('promo-section')
-    })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' })
-    useLayoutEffect(() => {
-        console.log(inViewPort, ratio)
-    },[inViewPort, ratio])
     const props = useSpring({
             from: {
                 opacity: 0,

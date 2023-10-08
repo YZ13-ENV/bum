@@ -2,7 +2,7 @@
 import LoadedVideo from '@/components/shared/LoadedVideo';
 import { fetchFile } from '@/helpers/fetchFile';
 import { useTimeout } from 'ahooks';
-import { useRef, ElementRef, useState, useLayoutEffect } from 'react';
+import { useRef, ElementRef, useState, useLayoutEffect, memo } from 'react';
 
 interface GenerateThumbnailProps {
     thumbnailLink: string | null
@@ -49,5 +49,5 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
     );
 };
 
-export default GeneratedThumbnail;
+export default memo(GeneratedThumbnail);
 

@@ -1,4 +1,3 @@
-import UploaderIcons from '@/components/shared/Animated/UploaderIcons'
 import { checkFile, checkOnlyImageFile } from '@/helpers/checkFile'
 import { randomString } from '@/helpers/randomString'
 import { auth } from '@/utils/app'
@@ -8,9 +7,8 @@ import { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { ImageBlock, VideoBlock } from '@/types'
-import { BiLoaderAlt, BiTrashAlt } from 'react-icons/bi'
+import { BiTrashAlt } from 'react-icons/bi'
 import MediaBlock from '.'
-// import { uploadMedia } from '@/helpers/uploadMedia'
 import { getHost } from '@/helpers/getHost'
 import { RcFile } from 'antd/es/upload'
 import { setRootBlock, setThumbnail, setBlocks } from '@/components/entities/uploader/draft.store'
@@ -19,7 +17,6 @@ import { uploadShot_POST } from '@/helpers/shot'
 import { uploadedFile, uploadedThumbnail } from './helper'
 import { useDebounceEffect } from 'ahooks'
 import UploaderConditions from './UploaderConditions'
-// import { fetchFile } from '@/helpers/fetchFile'
 
 type Props = {
     block: ImageBlock | VideoBlock

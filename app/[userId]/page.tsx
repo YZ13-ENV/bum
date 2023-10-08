@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { getUserShort } from './helpers'
-import { getHost } from '@/helpers/getHost'
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
 // const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
 

@@ -1,36 +1,12 @@
 import Link from 'next/link'
 import React from 'react'
-import { getHost } from '@/helpers/getHost'
-import { DocShotData, ShortUserData } from '@/types'
 import { Metadata } from 'next'
-// import { redirect } from 'next/navigation'
 import { fetchFile } from '@/helpers/fetchFile'
 import { DateTime } from 'luxon'
 import ShotPage from '@/components/pages/ShotPage'
+import { getShot, getUser } from '../fetchers'
 
-const getUser = async(userId: string) => {
-    try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 3600 } })
-        const user: { short: ShortUserData } | null = await userRes.json()
-        if (!user) {
-            const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'no-store' })
-            const user: { short: ShortUserData } | null = await userRes.json()
-            return user ? user.short : null
-        } else return user ? user.short : null
-    } catch(e) {
-        return null
-    }
-}
-const getShot = async(shotId: string) => {
-    try {
-        const shotRes = await fetch(`${getHost()}/shots/shot/${shotId}`, { method: 'GET', cache: 'no-store' })
-        const shot: DocShotData = await shotRes.json()
-        return shot
-    } catch(e) {
-        console.log(e)
-        return null
-    }
-}
+
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
     const shotId = { userId: '', shotId: '' }
     if (process.env.NODE_ENV === 'development' || !shotId) return {}
