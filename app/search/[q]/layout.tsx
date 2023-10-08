@@ -2,6 +2,7 @@ import CategoryAndOrder from '@/components/widgets/CategoryAndOrder'
 import SearchBar from '@/components/widgets/SearchBar'
 import React, { Suspense } from 'react'
 import Loading from './loading'
+import Footer from '@/components/shared/Footer'
 
 type Props = {
     params: {
@@ -21,6 +22,7 @@ const SearchLayout = ({ params, children }: Props) => {
                     { children }
                 </Suspense>
             </div>
+            <Footer />
         </div>
     )
 }

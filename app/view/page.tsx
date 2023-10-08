@@ -5,6 +5,7 @@ import { fetchFile } from '@/helpers/fetchFile'
 import { DateTime } from 'luxon'
 import ShotPage from '@/components/pages/ShotPage'
 import { getShot, getUser } from '../fetchers'
+import Footer from '@/components/shared/Footer'
 
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
@@ -64,7 +65,10 @@ const ShotPageV2 = async({ searchParams }: Props) => {
         </div>
     )
     return (
-        <ShotPage shot={shot} user={user} needConfetti />
+        <>
+            <ShotPage shot={shot} user={user} needConfetti />
+            <Footer />
+        </>
     )
 }
 export default ShotPageV2
