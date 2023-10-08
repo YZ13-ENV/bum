@@ -39,10 +39,10 @@ const Footer = () => {
                         <Button className="!px-3" size="large"><BiLogoDribbble size={17} /></Button>
                     </div>
                 </div>
-                <div className="flex items-center w-3/4 h-full py-1">
+                <div className="flex items-start w-3/4 h-full gap-4 py-1">
                     <div className="flex flex-col items-start justify-center gap-3 w-fit h-fit">
                         <span className="font-medium text-neutral-200">Навигация</span>
-                        <Link className="text-sm text-neutral-400 hover:text-neutral-200" 
+                        <Link className="text-sm inl text-neutral-400 hover:text-neutral-200" 
                         href='/shots'>Вдохновение</Link>
                         <Link className="text-sm text-neutral-400 hover:text-neutral-200" 
                         href='/membership'>Подписка</Link>
@@ -51,6 +51,19 @@ const Footer = () => {
                             <Link className="text-sm text-neutral-400 hover:text-neutral-200" 
                             href='/uploads/shot'>Поделиться работой</Link>
                         }
+                    </div>
+                    <div className="flex flex-col items-start justify-center gap-3 w-fit h-fit">
+                        <span className="font-medium text-neutral-200">Продукты</span>
+                        <Link className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-200" 
+                        href='/redirect/app/darkmaterial.space'>
+                            <Image src='/DM.svg' width={20} height={20} alt='dm-logo' />
+                            DarkMaterial
+                        </Link>
+                        <Link className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-200" 
+                        href='/redirect/app/notes.darkmaterial.space'>
+                            <Image src='/Notes.svg' width={20} height={20} alt='dm-logo' />
+                            Заметки
+                        </Link>
                     </div>
                 </div>
             </div>
