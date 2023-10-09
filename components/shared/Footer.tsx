@@ -39,7 +39,7 @@ const Footer = () => {
                         <Button className="!px-3" size="large"><BiLogoDribbble size={17} /></Button>
                     </div>
                 </div>
-                <div className="flex items-start w-3/4 h-full gap-4 py-1">
+                <div className="flex items-start w-full h-full gap-4 py-1 md:w-3/4">
                     <div className="flex flex-col items-start justify-center gap-3 w-fit h-fit">
                         <span className="font-medium text-neutral-200">Навигация</span>
                         <Link className="text-sm inl text-neutral-400 hover:text-neutral-200" 
@@ -63,6 +63,14 @@ const Footer = () => {
                         href='/redirect/app/notes.darkmaterial.space'>
                             <Image src='/Notes.svg' width={20} height={20} alt='dm-logo' />
                             Заметки
+                        </Link>
+                    </div>
+                    <div className="flex flex-col items-start justify-center gap-3 w-fit h-fit">
+                        <span className="font-medium text-neutral-200">Подписка</span>
+                        <Link className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-200" 
+                        href='/redirect/app/plus.darkmaterial.space'>
+                            <Image src='/dm+.svg' width={20} height={20} alt='dm-logo' />
+                            DM+
                         </Link>
                     </div>
                 </div>

@@ -30,7 +30,7 @@ const LoadedImage = ({ link, quality=75, object='contain', withAmbiLight }: Load
     return (
         <Image ref={ImageBlock} style={ object !== 'cover' || hex !== '' ? { backgroundColor: hex } :{}} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
         className={`!relative ${object === 'contain' ? 'object-contain w-full !h-fit' : 'h-full aspect-[4/3] object-cover'} rounded-xl`} 
-        alt='block-image' quality={quality} />
+        alt='block-image' quality={quality} placeholder='blur' blurDataURL={link} />
     )
 }
 

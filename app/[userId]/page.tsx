@@ -41,6 +41,7 @@ const UserPage = async({ params, searchParams }: Props) => {
                     <ProfileContent userId={params.userId} />
                 </Suspense>
             </div>
+            {/* <Footer></Footer> */}
         </section>
     )
 }

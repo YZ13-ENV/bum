@@ -9,7 +9,7 @@ type Props = {
 }
 const PricingPool = ({ forYear }: Props) => {
     return (
-        <div className="flex items-center justify-center w-full gap-8 h-fit">
+        <div className="flex flex-col items-center justify-center w-full gap-8 md:flex-row h-fit">
             <PricingColumn title='Стандарт' buttonContent={<span className='text-sm'>Бесплатно</span>}>
                 <li className='my-2 list-none'>
                     <div className="flex items-center w-full gap-2 h-fit">
@@ -30,7 +30,7 @@ const PricingPool = ({ forYear }: Props) => {
                     </div>
                 </li>
             </PricingColumn>
-            <PricingColumn title='DM+' isSelected buttonContent={
+            <PricingColumn title='DM+' isSelected linkToPay='https://plus.darkmaterial.space' buttonContent={
                 <span className='!inline-flex flex-col items-center justify-center w-full h-full'>
                     <span className='text-sm'>Подключить за {forYear ? 109 : 199}p в месяц</span>
                     { forYear && <span className='text-xs text-blue-200'>При оплате за год</span> }

@@ -1,6 +1,7 @@
 import CategoryAndOrder from '@/components/widgets/CategoryAndOrder'
 import React, { Suspense } from 'react'
 import Loading from './loading'
+import Footer from '@/components/shared/Footer'
 
 type Props = {
     params: {
@@ -21,6 +22,7 @@ const ShotByTagLayout = ({ params, children }: Props) => {
                     { children }
                 </Suspense>
             </section>
+            <Footer />
         </div>
     )
 }

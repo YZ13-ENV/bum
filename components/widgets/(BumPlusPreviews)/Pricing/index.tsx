@@ -12,7 +12,7 @@ const Pricing = () => {
         <div className='flex flex-col items-center justify-center w-full gap-12 py-12 h-fit'>
             <div className="flex flex-col gap-8 mx-auto w-fit h-fit">
                 <div className="flex items-center justify-center w-full">
-                    <h1 className='text-6xl font-bold text-center text-neutral-200'>
+                    <h1 className='text-4xl font-bold text-center md:text-6xl text-neutral-200'>
                         Доступные цены для новых возможностей
                     </h1>
                 </div>
