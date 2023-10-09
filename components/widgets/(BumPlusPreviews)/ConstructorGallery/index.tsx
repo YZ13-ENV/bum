@@ -7,7 +7,7 @@ const ConstructorGallery = () => {
     const [turnOnSubscription, setTurnOnSubscription] = useState<boolean>(false)
     return (
         <div className='flex items-center justify-center gap-4 py-12 mx-auto shot_wrapper w-fit h-fit'>
-            <div className="relative flex gap-4 w-fit h-fit">
+            <div className="relative flex flex-col gap-4 md:flex-row w-fit h-fit">
                 <div className="absolute right-0 flex items-center gap-2 -top-8">
                     <span className="text-sm text-neutral-400">Расширьте возможности</span>
                     <Switch checked={turnOnSubscription} onChange={e => setTurnOnSubscription(e)} />
