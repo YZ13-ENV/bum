@@ -30,7 +30,7 @@ const PricingPool = ({ forYear }: Props) => {
                     </div>
                 </li>
             </PricingColumn>
-            <PricingColumn title='DM+' isSelected buttonContent={
+            <PricingColumn title='DM+' isSelected linkToPay='https://plus.darkmaterial.space' buttonContent={
                 <span className='!inline-flex flex-col items-center justify-center w-full h-full'>
                     <span className='text-sm'>Подключить за {forYear ? 109 : 199}p в месяц</span>
                     { forYear && <span className='text-xs text-blue-200'>При оплате за год</span> }

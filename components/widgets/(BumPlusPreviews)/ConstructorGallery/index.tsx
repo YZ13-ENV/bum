@@ -9,7 +9,7 @@ const ConstructorGallery = () => {
         <div className='flex items-center justify-center gap-4 py-12 mx-auto shot_wrapper w-fit h-fit'>
             <div className="relative flex flex-col gap-4 md:flex-row w-fit h-fit">
                 <div className="absolute right-0 flex items-center gap-2 -top-8">
-                    <span className="text-sm text-neutral-400">Расширьте возможности</span>
+                    <span className="text-sm text-neutral-400">Расширить возможности</span>
                     <Switch checked={turnOnSubscription} onChange={e => setTurnOnSubscription(e)} />
                 </div>
                 <div className="relative aspect-[4/3] w-64 rounded-lg border flex items-center justify-center border-neutral-800 gap-2">
