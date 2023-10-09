@@ -76,7 +76,7 @@
     min-height: calc(100dvh - 120px);
   }
   .home_grid {
-    grid-template-columns: repeat(auto-fill,minmax(336px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
     /* grid-template-rows: repeat(auto-fill,minmax(285px,1fr)); */
     /* aspect-ratio: 4 / 3; */
   }
@@ -84,7 +84,7 @@
 
 @media (min-width: 1600px) {
   .home_grid {
-    grid-template-columns: repeat(auto-fill,minmax(400px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(336px,1fr));
     /* grid-template-rows: repeat(auto-fill,minmax(285px,1fr)); */
     /* aspect-ratio: 4 / 3; */
   }
