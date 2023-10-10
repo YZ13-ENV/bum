@@ -5,7 +5,7 @@ module.exports = {
   compress: true,
   images: {
     unoptimized: false,
-    formats: ['image/avif', 'image/webp'], 
+    formats: ['image/webp'], 
     domains: [
       'cdn.darkmaterial.space',
     ]

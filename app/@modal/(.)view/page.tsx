@@ -1,36 +1,13 @@
 'use client'
+import { getShot, getUser } from '@/app/fetchers'
 import UserStatus from '@/components/entities/user'
 import ShotPage from '@/components/pages/ShotPage'
-import { getHost } from '@/helpers/getHost'
 import { DocShotData, ShortUserData } from '@/types'
 import { Button } from 'antd'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useLayoutEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 
-const getUser = async(userId: string): Promise<ShortUserData | null> => {
-    try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 3600 } })
-        const user: { short: ShortUserData } | null = await userRes.json()
-        if (!user) {
-            const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', cache: 'no-store' })
-            const user: { short: ShortUserData } | null = await userRes.json()
-            return user ? user.short : null
-        } else return user ? user.short : null
-    } catch(e) {
-        return null
-    }
-}
-const getShot = async(shotId: string): Promise<DocShotData | null> => {
-    try {
-        const shotRes = await fetch(`${getHost()}/shots/shotById?&shotId=${shotId}`, { method: 'GET', cache: 'no-store' })
-        const shot: DocShotData = await shotRes.json()
-        return shot
-    } catch(e) {
-        console.log(e)
-        return null
-    }
-}
 const ViewModal = () => {
     const searchQueries = useSearchParams()
     const s = searchQueries.get('s')
@@ -65,11 +42,10 @@ const ViewModal = () => {
     }, [s])
     return (
         <div className='fixed top-0 left-0 z-50 flex flex-col w-full h-full bg-black bg-opacity-50'>
-            <div className="relative flex items-start justify-between w-full p-10 h-36 shrink-0">
-                <UserStatus showDropdown={false} />
+            <div className="relative flex items-start justify-end w-full max-w-5xl px-10 py-4 mx-auto h-fit shrink-0">
                 <Button size='large' color='white' onClick={jumpBack} >Вернуться</Button>
             </div>
-            <section className='flex flex-col w-full h-full py-8 overflow-x-hidden overflow-y-auto bg-black border-t border-x border-neutral-900 rounded-t-3xl'>
+            <section className='flex flex-col w-full h-[80vh] max-w-5xl py-12 px-4 mx-auto overflow-x-hidden overflow-y-auto bg-black border-t lg:px-32 md:px-20 border-x border-neutral-900 rounded-xl'>
                 {
                     loading
                     ? <div className='flex flex-col items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>

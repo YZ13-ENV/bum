@@ -13,7 +13,7 @@ import { useDebounceEffect } from 'ahooks'
 const SessionPicker = () => {
     const session = useAppSelector(state => state.watcher.session)
     const [user, loading] = useAuthState(auth)
-    const [forcedClose, setForcedClose] = useState<boolean>(false)
+    const [forcedClose, setForcedClose] = useState<boolean>(true)
     const [selectedUser, setSelectedUser] = useState<string | null>(user ? user.uid : null)
     const dispatch = useAppDispatch()
     const signIn = async() => {
@@ -28,8 +28,17 @@ const SessionPicker = () => {
         if (selectedUser) signIn()
     },[selectedUser])
     useDebounceEffect(() => {
-        if (user && !loading) setForcedClose(true)
-        if (!user && !loading) setForcedClose(false)
+        if (!session.uid) setForcedClose(false)
+        if (session.uid) {
+            setForcedClose(true)
+            if (!selectedUser) setSelectedUser(session.uid)
+        }
+    },[session], { wait: 2000 })
+    useDebounceEffect(() => {
+        if (!forcedClose) {
+            if (user && !loading) setForcedClose(true)
+            if (!user && !loading) setForcedClose(false)
+        }
     },[user, forcedClose, loading], { wait: 2000 })
     if (forcedClose) return null
     return (

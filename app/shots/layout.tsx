@@ -7,7 +7,9 @@ import Loading from './loading'
 
 type Props = {
     children: React.ReactNode
+    modal: React.ReactNode
 }
+
 const ShotsLayout = ({ children }: Props) => {
     return (
         <div className='flex flex-col w-full h-full gap-4 shot_wrapper'>
