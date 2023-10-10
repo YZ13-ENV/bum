@@ -11,6 +11,7 @@ import { auth } from '@/utils/app'
 import { getHost } from '@/helpers/getHost'
 import { setBlocks } from '../../uploader/draft.store'
 import { Button } from 'antd'
+import { useTimeout } from 'ahooks'
 
 type Props = {
     block: ShotGridBlock
@@ -20,10 +21,22 @@ const ShortGridBlock = ({ block, index }: Props) => {
     const [user] = useAuthState(auth)
     const dispatch = useAppDispatch()
     const [uploadMode, setUploadMode] = useState<boolean>(block.ids.length === 0 ? true : false)
+    const [debouncedItem, setDebouncedItem] = useState<number>(0)
     const [selectedItem, setSelectedItem] = useState<number>(0)
     const draft = useAppSelector(state => state.uploader.draft)
     const path = usePathname()
     const isNotUploaderPage = path !== '/uploads/shot'
+    const [transitionBetweenImages, setTransitionBetweenImages] = useState<boolean>(false)
+    const [delay, setDelay] = useState<number | undefined>(undefined)
+    const clear = useTimeout(() => {
+        setTransitionBetweenImages(false)
+        changeItem(debouncedItem)
+        setDelay(undefined)
+    }, delay)
+    useEffect(() => {
+        setTransitionBetweenImages(true)
+        setDelay(250)
+    },[debouncedItem])
     useEffect(() => {
         if (block.ids.length === 0) {
             setUploadMode(true)
@@ -31,6 +44,7 @@ const ShortGridBlock = ({ block, index }: Props) => {
             setUploadMode(false)
         }
     },[block.ids])
+    const changeItem = (index: number) => setSelectedItem(index)
     const deleteImage = async(idIndex: number) => {
         if (user && block.ids.length !== 0) {
             const res = await fetch(`${getHost()}/files/file?link=${block.ids[idIndex]}`, { method: "DELETE" })
@@ -96,15 +110,15 @@ const ShortGridBlock = ({ block, index }: Props) => {
                 uploadMode && index !== undefined
                 ? <ShortGridUploader block={block} index={index} />
                 :
-                <div className="flex items-center justify-center w-full aspect-[4/3] shrink-0 rounded-xl bg-neutral-900">
+                <div style={{ scale: transitionBetweenImages ? .95 : 1 }} className="flex items-center transition-all justify-center w-full aspect-[4/3] shrink-0 rounded-xl bg-neutral-900">
                     { block.ids[selectedItem] && <MediaBlock link={block.ids[selectedItem]} object='cover' /> }
                 </div>
             }
             <div className="flex items-center w-full gap-2 shrink-0 h-fit">
                 {
                     block.ids.map((item, index) =>
-                        <div onClick={() => setSelectedItem(index)} key={item} 
-                        className={`relative w-1/4 aspect-[4/3] rounded-xl transition-all cursor-pointer ring-2 ${selectedItem === index ? 'ring-white' : 'ring-transparent hover:ring-neutral-400'} bg-neutral-900`}>
+                        <div onClick={() => setDebouncedItem(index)} key={item} 
+                        className={`relative w-1/4 aspect-[4/3] rounded-xl transition-all cursor-pointer ring-2 ${selectedItem === index ? 'ring-white' : 'ring-transparent scale-95 hover:ring-neutral-400'} bg-neutral-900`}>
                             { !isNotUploaderPage &&  <div className="absolute z-20 top-1 right-1"><Button size='small' onClick={() => deleteImage(index)}><BiTrashAlt size={13} /></Button></div> }
                             { 
                                 !isNotUploaderPage && index !== 0 && <div onClick={() => moveToLeft(index)}
