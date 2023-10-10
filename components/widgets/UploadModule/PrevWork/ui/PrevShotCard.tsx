@@ -36,7 +36,7 @@ const PrevShotCard = ({ block }: Props) => {
     const deleteDraft = async() => {
         if (user) {
             setLoading(true)
-            const res = await fetch(`${getHost()}/shots/shot?userId=${user.uid}&shotId=${block.doc_id}`, { method: "DELETE" })
+            const res = await fetch(`${getHost()}/shots/shot/${block.doc_id}/${user.uid}`, { method: "DELETE" })
             if (res.ok) {
                 setDisabled(true)
                 router.refresh()

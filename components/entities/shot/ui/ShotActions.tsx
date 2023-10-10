@@ -46,9 +46,9 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
     const deleteShot = async() => {
         if (user) {
             setLoading(true)            
-            const res = await fetch(`${getHost()}/shots/shot?userId=${user.uid}&shotId=${shot.doc_id}`, { method: "DELETE" })
+            const res = await fetch(`${getHost()}/shots/shot/${shot.doc_id}/${user.uid}`, { method: "DELETE" })
             const text = await res.text()
-            console.log(text)
+            // console.log(text)
             if (res.ok) router.push('/')
             setLoading(false)
         }
