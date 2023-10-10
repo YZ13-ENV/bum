@@ -4,6 +4,7 @@ import { Input } from 'antd';
 import { useMemo } from 'react'
 import { setTitle } from '@/components/entities/uploader/draft.store';
 import dynamic from 'next/dynamic';
+import ShortGridBlock from '@/components/entities/Blocks/ViewBlocks/ShortGridBlock';
 const UploaderWatcher = dynamic(() => import('@/components/entities/uploader/watcher'));
 const TextBlock = dynamic(() => import('@/components/entities/Blocks/TextBlock'));
 const MediaUploader = dynamic(() => import('@/components/entities/Blocks/MediaBlock/MediaUploader'));
@@ -40,11 +41,11 @@ const UploadBlockView = () => {
                             if (block.type === 'text') {
                                 return <div key={`block#${index}`} className='w-full max-w-2xl mx-auto'><TextBlock block={block} index={index} /></div>
                             }
-                            if (block.type === 'image') {
+                            if (block.type === 'image' || block.type === 'video') {
                                 return <MediaUploader key={`block#${index}`} uploadOnlyImages={isSubscriber ? false : true} index={index} block={block} />
                             }
-                            if (block.type === 'video') {
-                                return <MediaUploader key={`block#${index}`} uploadOnlyImages={false} index={index} block={block} />
+                            if (block.type === 'shotGrid') {
+                                return <ShortGridBlock key={`block#${index}`} index={index} block={block} />
                             }
                             return null
                         })

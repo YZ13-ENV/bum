@@ -19,7 +19,7 @@ const TextBlock = ({ block, index, disabled=false }: Props) => {
     }
     return (
         <div className="flex items-center justify-between w-full h-12 gap-2 p-2 bg-black border rounded-xl group border-neutral-800">
-            <div className="flex items-center h-full gap-2 w-fit">
+            <div className="flex items-center h-full gap-2 shrink-0 w-fit">
                 <div className="w-1 h-full transition-colors bg-transparent rounded-full group-hover:bg-white" />
                 <BiText size={21} />
                 { MdSyntax && <sup className='text-neutral-200'>MD</sup> }

@@ -38,6 +38,10 @@ const FinalTouchModal = () => {
                     if (block.text === '') return false
                     return true
                 }
+                if (block.type === 'shotGrid') {
+                    if (block.ids.length === 0) return false
+                    return true
+                }
                 return false
             }))
             const preparedDraft: ShotData = {

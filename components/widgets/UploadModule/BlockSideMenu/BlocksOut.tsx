@@ -5,9 +5,10 @@ import TextBlock from '@/components/entities/Blocks/MenuBlocks/TextBlock'
 import SortableWrapper from '@/components/shared/SortableWrapper'
 import { DndContext, DragEndEvent, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import MenuMediaBlock from '@/components/entities/Blocks/MediaBlock/MenuMediaBlock'
 // import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { setBlocks } from '@/components/entities/uploader/draft.store'
+import MenuMediaBlock from '@/components/entities/Blocks/MenuBlocks/MediaBlock';
+import ShotsGridBlock from '@/components/entities/Blocks/MenuBlocks/ShotsGridBlock';
 const BlocksOut = () => {
     const draft = useAppSelector(state => state.uploader.draft)
     const dispatch = useAppDispatch()
@@ -63,14 +64,14 @@ const BlocksOut = () => {
                             <TextBlock key={`block#${index}`} index={index} block={block} />
                         )
                     } 
-                    if (block.type === 'image') {
+                    if (block.type === 'image' || block.type === 'video') {
                         return (
                             <MenuMediaBlock key={`block#${index}`} index={index} block={block} />
                         ) 
                     }
-                    if (block.type === 'video') {
+                    if (block.type === 'shotGrid') {
                         return (
-                            <MenuMediaBlock key={`block#${index}`} index={index} block={block} />
+                            <ShotsGridBlock key={`block#${index}`} index={index} block={block} />
                         ) 
                     }
                     return (
