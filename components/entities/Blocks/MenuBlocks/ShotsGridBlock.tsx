@@ -5,6 +5,7 @@ import { BiLock, BiTrashAlt } from 'react-icons/bi'
 import { LuGalleryThumbnails } from 'react-icons/lu'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { setBlocks } from '../../uploader/draft.store'
+import { getHost } from '@/helpers/getHost'
 
 
 type Props = {
@@ -15,9 +16,18 @@ type Props = {
 const ShotsGridBlock = ({ block, index, disabled }: Props) => {
     const dispatch = useAppDispatch()
     const draft = useAppSelector(state => state.uploader.draft)
+    const removeImage = async(index: number) => {
+        if (block.ids) await fetch(`${getHost()}/files/file?link=${block.ids[index]}`, { method: "DELETE" })
+    } 
     const deleteBlock = () => {
-        const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
-        dispatch(setBlocks(filteredBlocks))
+        if (block.ids && block.ids.length !== 0) {
+            block.ids.forEach((_, indexOfId) => removeImage(indexOfId))
+            const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
+            dispatch(setBlocks(filteredBlocks))
+        } else {
+            const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
+            dispatch(setBlocks(filteredBlocks))
+        }
     }
     return (
         <div className="flex items-center justify-between w-full h-12 gap-2 p-2 bg-black border rounded-xl group border-neutral-800">

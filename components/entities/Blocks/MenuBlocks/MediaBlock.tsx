@@ -16,7 +16,7 @@ const MenuMediaBlock = ({ disabled=false, block, index }: Props) => {
     const dispatch = useAppDispatch()
     const draft = useAppSelector(state => state.uploader.draft)
     const deleteBlock = async() => {
-        const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
+    const filteredBlocks = draft.blocks.filter((_, blockIndex) => blockIndex !== index)
         dispatch(setBlocks(filteredBlocks))
         try {
             const url = `${getHost()}/files/file?link=${block.link}`
