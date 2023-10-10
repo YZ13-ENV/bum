@@ -41,14 +41,14 @@ const CategoryAndOrder = ({ integrationMode=false, noCategory=true }: Props) => 
         router.push(newPath + newSegment)
     },[isShotsLayout, orderTab, categoryTab])
     return (
-        <div className="relative flex flex-row items-center justify-center w-full gap-2 shrink-0 h-fit">
+        <div className="relative flex flex-row items-center justify-between w-full gap-2 px-4 shrink-0 h-fit">
             <div className={`flex items-center justify-center ${integrationMode ? 'w-fit' : 'w-full'} gap-2 shrink-0 h-fit`}>
                 {integrationMode && <span className='hidden text-sm md:inline text-neutral-400'>Сортировка: </span>}
                 <Segmented size='large' default defaultValue={detectedSortTab} options={options} value={orderTab} onChange={e => setOrderTab(e.toString())} />
             </div>
             {
                 (noCategory === false || isShotsLayout) &&
-                <div className={isTabletOrMobile ? 'w-full flex justify-end' : 'flex items-center justify-center w-full max-w-4xl h-fit'}>
+                <div className={isTabletOrMobile ? 'w-full flex justify-end' : 'flex items-center justify-center mx-auto w-fit h-fit'}>
                     {
                         isTabletOrMobile
                         ? <Select className='!w-32' size='large' value={categoryTab} onSelect={e => setCategoryTab(e)}
