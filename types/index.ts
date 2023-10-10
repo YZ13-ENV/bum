@@ -20,6 +20,7 @@ export type VideoBlock = {
 
 export type ShotGridBlock = {
     type: 'shotGrid',
+    title: string,
     ids: string[]
 }
 

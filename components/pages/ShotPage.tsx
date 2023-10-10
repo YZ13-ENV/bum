@@ -7,6 +7,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 import ShotPageFooter from '../widgets/ShotPageFooter'
 import ConfettiForNewShot from '../widgets/Confetti'
 import ViewsHistoryWatcher from '../entities/ViewsHistoryWatcher'
+import ShortGridBlock from '../entities/Blocks/ViewBlocks/ShortGridBlock'
 
 type Props = {
     shot: DocShotData | null
@@ -32,8 +33,11 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
                 <div className="flex flex-col w-full px-6 md:px-12 h-fit gap-14">
                 {
                     shot.blocks.map((block, index) => {
-                        if (block.type === 'image') {
+                        if (block.type === 'image' || block.type === 'video') {
                             return <MediaBlock key={`block#${index}`} link={block.link} autoPlay />
+                        }
+                        if (block.type === 'shotGrid') {
+                            return <ShortGridBlock key={`block#${index}`} block={block} />
                         }
                         if (block.type === 'text') {
                             return (

@@ -22,12 +22,12 @@ const UploadBlocksMenu = () => {
     const [blockSegment, setBlockSegment] = useState<string>('')
     const options: SegmentedLabeledOption[] = [
         {
-            icon: <BiGridAlt size={15} className='inline' />,
+            icon: <BiGridAlt size={15} className='inline mb-0.5' />,
             label: 'Блоки',
             value: 'in'
         },
         {
-            icon: <BiListUl size={15} className='inline' />,
+            icon: <BiListUl size={15} className='inline mb-0.5' />,
             label: 'Добавленные',
             value: 'out'
         }
@@ -44,7 +44,7 @@ const UploadBlocksMenu = () => {
                     {/* <UserStatus showDropdown={false} /> */}
                 </div>
                 <div className="flex w-full h-fit">
-                    <Segmented className='!w-full' options={options} block value={blockSegment} onChange={e => setBlockSegment(e.toString())} />
+                    <Segmented className='!w-full' size='large' options={options} block value={blockSegment} onChange={e => setBlockSegment(e.toString())} />
                 </div>
                 {
                     blockSegment === 'in'

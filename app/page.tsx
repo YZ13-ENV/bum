@@ -1,4 +1,5 @@
 import Footer from "@/components/shared/Footer";
+import Pricing from "@/components/widgets/(BumPlusPreviews)/Pricing";
 import FirstView from "@/components/widgets/(HomePagePromo)/FirstView";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -20,6 +21,7 @@ export default function Home() {
         </div>
       </div>
       <FirstView />
+      <Pricing hideAdvantages />
       <div className="flex flex-col w-full gap-4 my-6 h-fit shrink-0 md:my-12">
         <div className="w-full max-w-5xl mx-auto mb-4">
           <h2 className="text-3xl font-semibold text-center md:text-4xl text-neutral-200">Работы на любой вкус</h2>
