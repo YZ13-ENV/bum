@@ -43,6 +43,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout(props: { children: ReactNode, modal: ReactNode }) {
+  // console.log(JSON.stringify(props, null, 2))
   return (
     <StateProvider>
       <LayoutWrapper>
@@ -55,7 +56,7 @@ export default function RootLayout(props: { children: ReactNode, modal: ReactNod
             <CookiesAlert />
             <main className="flex flex-col w-full h-full shrink-0 shot_wrapper">
               {props.children}
-              {/* {props.modal} */}
+              {props.modal ? props.modal : null}
             </main>
             <Analytics />
           </body>

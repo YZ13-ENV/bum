@@ -3,9 +3,11 @@ import { DocShotData } from '@/types'
 import { Suspense, memo } from 'react'
 import GeneratedThumbnail from '../Blocks/MediaBlock/GeneratedThumbnail'
 import { linkToShot } from '@/helpers/linkTo'
-const MediaBlock = dynamic(() => import('../Blocks/MediaBlock')) 
+import ShotWrapper from './ui/ShotWrapper'
+const MediaBlock = dynamic(() => import('../Blocks/MediaBlock'), {
+    loading: () => <div className='w-full aspect-[4/3] rounded-xl bg-neutral-900 animate-pulse'/>
+}) 
 const Link = dynamic(() => import('next/link')) 
-const ShotWrapper = dynamic(() => import('./ui/ShotWrapper'))
 
 type Props = {
     shot: DocShotData

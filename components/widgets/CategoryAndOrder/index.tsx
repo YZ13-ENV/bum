@@ -29,26 +29,26 @@ const CategoryAndOrder = ({ integrationMode=false, noCategory=true }: Props) => 
     const detectedCategoryTab = detectCategoryTab(pathname, detectedSortTab)
     const options = sortTabs(integrationMode) // .filter(opt => pathname.includes('/shots') ? excludeIf(opt.value, false) : excludeIf(opt.value, true))
     const isShotsLayout = useMemo(() => pathname.startsWith('/shots'), [pathname]) 
+    const isShotPage = useMemo(() => pathname.startsWith('/view'), [pathname]) 
     const [orderTab, setOrderTab] = useState<string>(detectedSortTab)
     const [categoryTab, setCategoryTab] = useState<string>(detectedCategoryTab ? detectedCategoryTab : withCustomSortTab(orderTab)[0].value)
     const router = useRouter()
     useLayoutEffect(() => {
-        const newSegment = categoryTab === '/' ? orderTab : `${orderTab}${categoryTab}`
-        const newPath = cleanPathname(pathname, detectedSortTab, detectedCategoryTab)
-        // console.log(detectedSortTab, detectedCategoryTab)
-        // console.log(orderTab, categoryTab)
-        // console.log(pathname, newPath, newSegment)
-        router.push(newPath + newSegment)
-    },[isShotsLayout, orderTab, categoryTab])
+        if (!isShotPage) {
+            const newSegment = categoryTab === '/' ? orderTab : `${orderTab}${categoryTab}`
+            const newPath = cleanPathname(pathname, detectedSortTab, detectedCategoryTab)
+            router.push(newPath + newSegment)
+        }
+    },[isShotsLayout, isShotPage, orderTab, categoryTab])
     return (
-        <div className="relative flex flex-row items-center justify-center w-full gap-2 shrink-0 h-fit">
+        <div className="relative flex flex-row items-center justify-between w-full gap-2 px-4 shrink-0 h-fit">
             <div className={`flex items-center justify-center ${integrationMode ? 'w-fit' : 'w-full'} gap-2 shrink-0 h-fit`}>
                 {integrationMode && <span className='hidden text-sm md:inline text-neutral-400'>Сортировка: </span>}
                 <Segmented size='large' default defaultValue={detectedSortTab} options={options} value={orderTab} onChange={e => setOrderTab(e.toString())} />
             </div>
             {
                 (noCategory === false || isShotsLayout) &&
-                <div className={isTabletOrMobile ? 'w-full flex justify-end' : 'flex items-center justify-center w-full max-w-4xl h-fit'}>
+                <div className={isTabletOrMobile ? 'w-full flex justify-end' : 'flex items-center justify-center mx-auto w-fit h-fit'}>
                     {
                         isTabletOrMobile
                         ? <Select className='!w-32' size='large' value={categoryTab} onSelect={e => setCategoryTab(e)}

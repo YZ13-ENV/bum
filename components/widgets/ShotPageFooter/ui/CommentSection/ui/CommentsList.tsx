@@ -27,7 +27,7 @@ const CommentsList = ({ authorId, shotId, commentsList }: Props) => {
     if (comments.length === 0) {
         return (
             <div className="flex items-center justify-center w-full h-36">
-                <span className='text-sm text-neutral-400'>Пока что никто не оставил комментарий</span>
+                <span className='text-sm text-center text-neutral-400'>Пока что никто не оставил комментарий</span>
             </div>
         )
     }
