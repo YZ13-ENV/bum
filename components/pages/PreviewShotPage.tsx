@@ -14,6 +14,7 @@ import CommentSection from '../widgets/ShotPageFooter/ui/CommentSection'
 import { DateTime } from 'luxon'
 import { largeNumber } from '@/helpers/largeNumbers'
 import ShotActions from '../entities/shot/ui/ShotActions'
+import ViewsAndTags from '../widgets/ShotPageFooter/ui/ViewsAndTags'
 
 type Props = {
     shot: DocShotData | null
@@ -81,26 +82,7 @@ const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
                         <FollowButton profileUID={shot.authorId} />
                         <div className="flex items-center gap-2 w-fit"><ShotActions shot={shot} isOnPage /></div>
                     </div>
-                    <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
-                        <div className="flex items-center justify-between w-full h-fit">
-                            <div className="flex items-center gap-2 w-fit h-fit">
-                                <span className='text-sm text-neutral-300'>{largeNumber(shot.views.length)} просмотров</span>
-                                <span className='text-sm text-neutral-300'>{DateTime.fromSeconds(shot.createdAt).setLocale('ru').toLocaleString(DateTime.DATE_MED)}</span>
-                            </div>
-                            <div className="flex items-center w-fit h-fit">
-                            </div>
-                        </div>
-                        {
-                            shot.tags.length !== 0 &&
-                            <div className="inline-flex flex-wrap w-full gap-1 h-fit">
-                                {
-                                    shot.tags.map((tag, index) => <Link key={tag + index} href={`/tags/${tag}`}
-                                        className='px-2 py-0.5 text-xs rounded-full border border-neutral-700 text-neutral-300 bg-neutral-800'>{tag}</Link>
-                                    )
-                                }
-                            </div>
-                        }
-                    </div>
+                    <ViewsAndTags createdAt={shot.createdAt} tags={shot.tags} views={shot.views} />
                     <div className="flex flex-col w-full h-full gap-2 px-2">
                         <CommentSection shot={shot} />
                     </div>
