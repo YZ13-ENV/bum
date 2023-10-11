@@ -86,7 +86,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
     },[])
 
     return (
-        <div className='relative flex items-center justify-center'>
+        <div className='relative z-10 flex items-center justify-center'>
             <animated.canvas style={springs} ref={canvas} id="ambiLightv2" className='aspect-[4/3]' onLoad={() => repaintAmbientLight()} />
             <video ref={videoBlock} src={link} muted
             className='object-cover w-full h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />

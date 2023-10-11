@@ -1,12 +1,14 @@
 'use client'
 import { getShot, getUser } from '@/app/fetchers'
 import UserStatus from '@/components/entities/user'
+import PreviewShotPage from '@/components/pages/PreviewShotPage'
 import ShotPage from '@/components/pages/ShotPage'
 import { DocShotData, ShortUserData } from '@/types'
 import { Button } from 'antd'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { Suspense, useLayoutEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
+import Loading from './loading'
 
 const ViewModal = () => {
     const searchQueries = useSearchParams()
@@ -41,14 +43,12 @@ const ViewModal = () => {
         }
     }, [s])
     return (
-        <div className='fixed top-0 left-0 z-50 flex flex-col w-full h-full bg-black bg-opacity-50'>
-            <div className="relative flex items-start justify-end w-full max-w-5xl px-10 py-4 mx-auto h-fit shrink-0">
-                <Button size='large' color='white' onClick={jumpBack} >Вернуться</Button>
-            </div>
-            <section className='flex flex-col w-full h-[80vh] max-w-5xl py-12 px-4 mx-auto overflow-x-hidden overflow-y-auto bg-black border-t lg:px-32 md:px-20 border-x border-neutral-900 rounded-xl'>
+        <div className='fixed top-0 left-0 z-50 flex flex-col items-center justify-center w-full h-full bg-black bg-opacity-50'>
+            <section className='flex flex-col w-full h-[80vh] max-w-5xl p-12 mx-auto overflow-x-hidden overflow-y-auto bg-black border border-neutral-900 rounded-xl'>
+                <Suspense fallback={<Loading />}>
                 {
                     loading
-                    ? <div className='flex flex-col items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>
+                    ? <Loading />
                     : (!s || !shot || !user)
                     ?
                     <div className="flex flex-col items-center self-center justify-center w-full h-full max-w-md gap-4 my-auto">
@@ -57,8 +57,9 @@ const ViewModal = () => {
                         <Button size='large' type='primary' color='white' onClick={jumpBack} >Вернуться</Button>
                     </div>
                     :
-                    <ShotPage shot={shot} user={user} />
+                    <PreviewShotPage shot={shot} user={user} />
                 }
+                </Suspense>
             </section>
         </div>
     )
