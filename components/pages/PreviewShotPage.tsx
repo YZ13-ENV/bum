@@ -1,10 +1,10 @@
 'use client'
 import { DocShotData, ShortUserData } from '@/types'
 import { Button } from 'antd'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { BiExpandAlt, BiX } from 'react-icons/bi'
 import MediaBlock from '../entities/Blocks/MediaBlock'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import ShortGridBlock from '../entities/Blocks/ViewBlocks/ShortGridBlock'
 import TextBlock from '../entities/Blocks/ViewBlocks/TextBlock'
 import FollowButton from '../widgets/UserProfileTabs/ui/FollowButton'
@@ -21,6 +21,17 @@ type Props = {
 }
 const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
     const router = useRouter()
+    const searchQueries = useSearchParams()
+    const s = searchQueries.get('s')
+    const jumpBack = () => {
+        const root = document.getElementById("root")
+        root?.classList.remove('overflow-hidden')
+        router.back()
+    }
+    useLayoutEffect(() => {
+        const root = document.getElementById("root")
+        root?.classList.add('overflow-hidden')
+    }, [s])
     if (!shot || !user) return null
     return (
         <div className='flex items-start w-full min-h-full gap-4 h-fit shrink-0'>
@@ -50,7 +61,7 @@ const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
                 <div className="sticky top-0 z-20 flex flex-col w-full gap-4 h-fit">
                     <div className="flex items-center justify-end w-full gap-2 h-fit">
                         <Button onClick={() => router.refresh()} type='text' className='!px-2'><BiExpandAlt size={18} className='text-neutral-400' /></Button>
-                        <Button onClick={() => router.back()} type='text' className='!px-2'><BiX size={21} className='text-neutral-400' /></Button>
+                        <Button onClick={jumpBack} type='text' className='!px-2'><BiX size={21} className='text-neutral-400' /></Button>
                     </div>
                     <div className="flex flex-col w-full gap-2 h-fit">
                         <h1 className='text-xl font-semibold text-neutral-200'>{shot.title}</h1>
