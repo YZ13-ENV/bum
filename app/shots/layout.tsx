@@ -1,13 +1,10 @@
 import Footer from '@/components/shared/Footer'
-import CategoryAndOrder from '@/components/widgets/CategoryAndOrder/index'
+import CategoryAndOrder from '@/components/widgets/CategoryAndOrder'
 import React, { Suspense } from 'react'
 import Loading from './loading'
-// import Categories from '@/components/widgets/Categories'
-// import Tabs from '@/components/widgets/Tabs'
 
 type Props = {
     children: React.ReactNode
-    modal: React.ReactNode
 }
 
 const ShotsLayout = ({ children }: Props) => {
@@ -20,7 +17,7 @@ const ShotsLayout = ({ children }: Props) => {
                     </div>
                 </div>
                 <Suspense fallback={<Loading />}>
-                    {children}
+                    { children }
                 </Suspense>
             </div>
             <Footer />

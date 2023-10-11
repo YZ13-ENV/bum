@@ -16,12 +16,12 @@ const ShotByTagLayout = ({ params, children }: Props) => {
             <div className="flex items-center justify-center w-full h-fit">
                 <h1 className='text-4xl font-bold text-center capitalize text-neutral-300'>{params.tag}</h1>
             </div>
-            <CategoryAndOrder />
-            <section className='flex flex-col w-full h-full p-4 md:py-4 md:px-12'>
+            <div className='flex flex-col w-full h-full gap-6 px-4 md:px-12 lg:px-32'>
+                <CategoryAndOrder />
                 <Suspense fallback={<Loading />}>
                     { children }
                 </Suspense>
-            </section>
+            </div>
             <Footer />
         </div>
     )

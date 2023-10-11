@@ -44,7 +44,7 @@ const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
                 </div>
                 <MediaBlock link={shot.rootBlock.link} autoPlay object='contain' withAmbiLight={user.isSubscriber || false} />
                 {/* <div className="w-full aspect-[4/3] rounded-xl bg-neutral-900 shrink-0" /> */}
-                <div className="flex flex-col w-full h-full gap-4 px-8 shrink-0">
+                <div className="z-20 flex flex-col w-full h-full gap-4 px-8 shrink-0">
                     {
                         shot.blocks.map((block, index) => {
                             if (block.type === 'image' || block.type === 'video') {
