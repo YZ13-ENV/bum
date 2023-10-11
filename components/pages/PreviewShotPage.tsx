@@ -13,6 +13,7 @@ import Avatar from '../shared/Avatar'
 import CommentSection from '../widgets/ShotPageFooter/ui/CommentSection'
 import { DateTime } from 'luxon'
 import { largeNumber } from '@/helpers/largeNumbers'
+import ShotActions from '../entities/shot/ui/ShotActions'
 
 type Props = {
     shot: DocShotData | null
@@ -34,8 +35,12 @@ const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
     }, [s])
     if (!shot || !user) return null
     return (
-        <div className='flex items-start w-full min-h-full gap-4 h-fit shrink-0'>
-            <div className="flex flex-col w-2/3 gap-4 pb-4 pr-2 overflow-x-visible h-fit shrink-0">
+        <div className='flex flex-col items-start w-full min-h-full gap-4 md:flex-row h-fit shrink-0'>
+            <div className="flex flex-col w-full gap-4 pb-4 pr-2 overflow-x-visible md:w-2/3 h-fit shrink-0">
+                <div className="flex items-center justify-between w-full gap-2 md:hidden h-fit">
+                    <h1 className='text-xl font-semibold text-neutral-200'>{shot.title}</h1>
+                    <Button onClick={jumpBack} type='text' className='!px-2'><BiX size={21} className='text-neutral-400' /></Button>
+                </div>
                 <MediaBlock link={shot.rootBlock.link} autoPlay object='contain' withAmbiLight={user.isSubscriber || false} />
                 {/* <div className="w-full aspect-[4/3] rounded-xl bg-neutral-900 shrink-0" /> */}
                 <div className="flex flex-col w-full h-full gap-4 px-8 shrink-0">
@@ -57,21 +62,24 @@ const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
                     }
                 </div>
             </div>
-            <div className="flex flex-col w-1/3 h-full">
+            <div className="flex flex-col w-full h-full md:w-1/3">
                 <div className="sticky top-0 z-20 flex flex-col w-full gap-4 h-fit">
-                    <div className="flex items-center justify-end w-full gap-2 h-fit">
-                        <Button onClick={() => router.refresh()} type='text' className='!px-2'><BiExpandAlt size={18} className='text-neutral-400' /></Button>
+                    <div className="items-center justify-end hidden w-full gap-2 md:flex h-fit">
+                        {/* <Button onClick={() => router.refresh()} type='text' className='!px-2'><BiExpandAlt size={18} className='text-neutral-400' /></Button> */}
                         <Button onClick={jumpBack} type='text' className='!px-2'><BiX size={21} className='text-neutral-400' /></Button>
                     </div>
-                    <div className="flex flex-col w-full gap-2 h-fit">
+                    <div className="flex-col hidden w-full gap-2 md:flex h-fit">
                         <h1 className='text-xl font-semibold text-neutral-200'>{shot.title}</h1>
                     </div>
-                    <div className="flex items-center justify-between w-full gap-2 h-fit">
+                    <div className="flex items-center justify-start w-full gap-2 h-fit">
                         <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
                             <Avatar src={user.photoUrl} size={36} direction='right' isSub={user.isSubscriber || false} />
                             <span className='text-lg font-bold text-neutral-200'>{user.displayName.length <= 30 ? user.displayName : user.displayName.substring(0, 30) + '...' || 'Пользователь'}</span>
                         </Link>
+                    </div>
+                    <div className="flex items-center justify-between w-full gap-2 h-fit">
                         <FollowButton profileUID={shot.authorId} />
+                        <div className="flex items-center gap-2 w-fit"><ShotActions shot={shot} isOnPage /></div>
                     </div>
                     <div className="flex flex-col w-full gap-2 p-2 h-fit rounded-xl bg-neutral-900">
                         <div className="flex items-center justify-between w-full h-fit">
