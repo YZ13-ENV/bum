@@ -10,7 +10,7 @@ type Props = {
     modal: React.ReactNode
 }
 
-const ShotsLayout = ({ children }: Props) => {
+const ShotsLayout = ({ children, modal }: Props) => {
     return (
         <div className='flex flex-col w-full h-full gap-4 shot_wrapper'>
             <div className='flex flex-col w-full h-full gap-6 px-4 md:px-12 lg:px-32'>
@@ -20,7 +20,8 @@ const ShotsLayout = ({ children }: Props) => {
                     </div>
                 </div>
                 <Suspense fallback={<Loading />}>
-                    {children}
+                    { children }
+                    { modal }
                 </Suspense>
             </div>
             <Footer />

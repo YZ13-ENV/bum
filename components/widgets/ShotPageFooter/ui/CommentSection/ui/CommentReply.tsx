@@ -53,7 +53,7 @@ const CommentReply = ({ parentCommentId, comment, authorId, shotId }: Props) => 
         }
     ]
     return (
-        <div className='flex flex-col w-full gap-2 p-2 border h-fit shrink-0 rounded-xl border-neutral-700'>
+        <div className='flex flex-col w-full gap-2 p-2 bg-black border h-fit shrink-0 rounded-xl border-neutral-700'>
             <div className="flex items-center justify-between w-full h-fit">
                 <CommentAuthor mini authorId={comment.authorId} createdAt={comment.createdAt} />
                 <Dropdown menu={{items}}><Button size='small' type='text'><BiDotsVerticalRounded size={15} /></Button></Dropdown>

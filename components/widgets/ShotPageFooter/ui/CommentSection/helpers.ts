@@ -1,6 +1,8 @@
 import { getHost } from "@/helpers/getHost";
 import { CommentBlock, Reaction } from "@/types";
+import { User } from "firebase/auth";
 import { uniq } from "lodash";
+import { DateTime } from "luxon";
 
 export type GroupedReactions = {
     key: string
@@ -38,5 +40,33 @@ export const patchComment = async(comment: CommentBlock, authorId: string, shotI
         return false
     } catch(e) {
         return false
+    }
+}
+export const addReaction = async(
+    user: User | null | undefined,     
+    shotAuthor: string,
+    shotId: string,
+    comment: CommentBlock,
+    emojiMap: { key: string, emoji: string }
+    ) => {
+    if (user) {
+        const reaction: Reaction = {
+            createdAt: DateTime.now().toSeconds(),
+            reaction: emojiMap,
+            uid: user.uid
+        }
+        if (comment.reactions) {
+            const updatedComment = {
+                ...comment,
+                reactions: [...comment.reactions, reaction]
+            }
+            await patchComment(updatedComment, shotAuthor, shotId)
+        } else {
+            const updatedComment = {
+                ...comment,
+                reactions: [reaction]
+            }
+            await patchComment(updatedComment, shotAuthor, shotId)
+        }
     }
 }
