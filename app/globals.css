@@ -119,10 +119,10 @@
   height: 100%;
 }
 #ambiLightv2 {
-  /* aspect-ratio: 4 / 3; */
+  opacity: .5;
   position: absolute;
   align-self: center;
-  filter: blur(100px);
+  filter: blur(150px);
   opacity: 0.5;
   z-index: -1;
   width: 120%;

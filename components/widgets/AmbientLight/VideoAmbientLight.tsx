@@ -8,7 +8,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
     const videoBlock = useRef<ElementRef<'video'>>(null);
     const canvas = useRef<ElementRef<'canvas'>>(null);
     const [run, setRun] = useState<boolean>(false);
-    const FRAMERATE = 30;
+    const FRAMERATE = 24;
     const springs = useSpring({
         from: {
             opacity: 0
@@ -17,8 +17,9 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
             opacity: 1
         },
         config: {
-            duration: 1500,
-            easing: easings.easeInOutCirc
+            
+            duration: 3000,
+            easing: easings.easeInOutSine
         }
     })
     const repaintAmbientLight = useCallback(() => {
@@ -87,7 +88,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
 
     return (
         <div className='relative z-10 flex items-center justify-center'>
-            <animated.canvas style={springs} ref={canvas} id="ambiLightv2" className='aspect-[4/3]' onLoad={() => repaintAmbientLight()} />
+            <animated.canvas style={springs} ref={canvas} id="ambiLightv2" className='aspect-[16/12] bg-blend-luminosity' onLoad={() => repaintAmbientLight()} />
             <video ref={videoBlock} src={link} muted
             className='object-cover w-full h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />
         </div>

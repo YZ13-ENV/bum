@@ -4,7 +4,7 @@ import { BiExpandAlt, BiX } from 'react-icons/bi'
 const Loading = () => {
     return (
         <div className='flex items-start w-full h-full gap-4'>
-            <div className="flex flex-col w-2/3 h-full gap-4 pr-2 overflow-y-auto shrink-0">
+            <div className="flex flex-col w-2/3 h-full gap-4 pb-4 pr-2 overflow-y-auto shrink-0">
                 <div className="w-full aspect-[4/3] rounded-xl bg-neutral-900 animate-pulse shrink-0" />
                 <div className="flex flex-col w-full h-full gap-4 px-8">
                 </div>

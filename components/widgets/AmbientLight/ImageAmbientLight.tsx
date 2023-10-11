@@ -26,8 +26,8 @@ const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'wi
             opacity: 1
         },
         config: {
-            duration: 1500,
-            easing: easings.easeInOutCirc
+            duration: 3000,
+            easing: easings.easeInOutSine
         }
     })
     useLayoutEffect(() => {
