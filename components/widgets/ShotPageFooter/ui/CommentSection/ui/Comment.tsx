@@ -13,6 +13,7 @@ import Reaction from './Reaction'
 import Reactions from './Reactions'
 import { emojiArrayMap } from '../const'
 import { addReaction } from '../helpers'
+import { useAppSelector } from '@/components/entities/store/store'
 
 type Props = {
     shotAuthor: string
@@ -21,6 +22,7 @@ type Props = {
 }
 const Comment = ({ comment, shotAuthor, shotId }: Props) => {
     const [user] = useAuthState(auth)
+    const isSub = useAppSelector(state => state.user.isSubscriber)
     const [wantReply, setWantReply] = useState<boolean>(false)
     const [showAll, setShowAll] = useState<boolean>(false)
     const removeComment = async() => {
@@ -29,10 +31,13 @@ const Comment = ({ comment, shotAuthor, shotId }: Props) => {
     }
     const mainItems = (
         <div className="flex flex-col gap-2 w-52 h-fit">
-            <div className="flex flex-wrap items-center justify-between w-full gap-1 overflow-x-auto h-fit">
-                { emojiArrayMap.map(emoji => <span onClick={() => addReaction(user, shotAuthor, shotId, comment, emoji)} className='px-2 py-1 text-base rounded-md cursor-pointer hover:bg-neutral-900' 
-                key={emoji.key}>{emoji.emoji}</span>) }
-            </div>
+            {
+                !isSub &&
+                <div className="flex flex-wrap items-center justify-between w-full gap-1 overflow-x-auto h-fit">
+                    { emojiArrayMap.map(emoji => <span onClick={() => addReaction(user, shotAuthor, shotId, comment, emoji)} className='px-2 py-1 text-base rounded-md cursor-pointer hover:bg-neutral-900' 
+                    key={emoji.key}>{emoji.emoji}</span>) }
+                </div>
+            }
             <Button onClick={() => setWantReply(!wantReply)} type='text'>Ответить</Button>
             { user && user.uid === shotAuthor && <Button onClick={removeComment} type='text'>Удалить</Button> }
         </div>
