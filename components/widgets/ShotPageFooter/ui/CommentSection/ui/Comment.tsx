@@ -1,15 +1,13 @@
 import { CommentBlock } from '@/types'
 import CommentAuthor from './CommentAuthor'
-import { Button, Dropdown, MenuProps, Popover } from 'antd'
-import { BiChevronDown, BiChevronUp, BiDotsVerticalRounded, BiTrashAlt } from 'react-icons/bi'
+import { Button, Popover } from 'antd'
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 import { getHost } from '@/helpers/getHost'
 import NewReply from './NewReply'
 import CommentReply from './CommentReply'
-import { LuSmilePlus } from 'react-icons/lu'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { useState } from 'react'
-import Reaction from './Reaction'
 import Reactions from './Reactions'
 import { emojiArrayMap } from '../const'
 import { addReaction } from '../helpers'
@@ -55,11 +53,6 @@ const Comment = ({ comment, shotAuthor, shotId }: Props) => {
                 </Popover>
                 <div className="flex flex-col w-full gap-2 h-fit">
                     <Reactions reactions={comment.reactions} comment={comment} shotAuthor={shotAuthor} shotId={shotId} />
-                    {/* <div className="flex items-center w-full gap-2 h-fit"> */}
-                        {/* <Reaction reactions={comment.reactions} comment={comment} shotAuthor={shotAuthor} shotId={shotId} /> */}
-                        {/* <div className="inline-flex gap-1 px-3 py-1.5 rounded-md bg-neutral-900 w-fit h-fit"><span className='text-xs text-neutral-300'>{comment.answers.length} Ответов</span></div> */}
-                        {/* <Button onClick={() => setWantReply(!wantReply)} type={wantReply ? 'default' : 'text'}>{wantReply ? 'Отменить' : 'Ответить'}</Button> */}
-                    {/* </div> */}
                 </div>
             </div>
             <div className={`flex flex-col w-full gap-2 p-2 transition-all border-x h-fit ${showAll ? 'border-neutral-700' : 'border-transparent'} `}>
@@ -88,38 +81,6 @@ const Comment = ({ comment, shotAuthor, shotId }: Props) => {
                     wantReply && <NewReply setWantReply={setWantReply} shotAuthor={shotAuthor} shotId={shotId} comment={comment} />
                 }
             </div>
-            {/* {
-                !showAll
-                ? <div className='flex flex-col w-full gap-2 h-fit'>
-                    {
-                        comment.answers.filter((_, i) => i <= 1).map((reply) => <CommentReply authorId={shotAuthor} 
-                        parentCommentId={comment.id} shotId={shotId} key={reply.id} comment={reply} />)
-                    }
-                    { 
-                        (comment.answers.length - 2) > 0 &&
-                        <div onClick={() => setShowAll(true)} 
-                        className="flex items-center justify-center w-full cursor-pointer h-fit text-neutral-400 hover:text-neutral-200">
-                            <BiChevronDown size={15} className='text-inherit' />
-                            <span className='text-xs text-inherit'>Показать все ({comment.answers.length - 2})</span>
-                        </div>
-                    }
-                </div>
-                :
-                <div className="flex flex-col w-full gap-2 p-2 border-x h-fit border-neutral-700">
-                    <div className="flex flex-col w-full gap-2 h-fit">
-                        {comment.answers.map((reply) => <CommentReply authorId={shotAuthor} 
-                        parentCommentId={comment.id} shotId={shotId} key={reply.id} comment={reply} />)}
-                    </div>
-                    <div onClick={() => setShowAll(false)} 
-                        className="flex items-center justify-center w-full cursor-pointer h-fit text-neutral-400 hover:text-neutral-200">
-                        <BiChevronUp size={15} className='text-inherit' />
-                        <span className='text-xs text-inherit'>Свернуть</span>
-                    </div>
-                    {
-                        wantReply && <NewReply setWantReply={setWantReply} shotAuthor={shotAuthor} shotId={shotId} comment={comment} />
-                    }
-                </div>
-            } */}
         </>
     )
 }
