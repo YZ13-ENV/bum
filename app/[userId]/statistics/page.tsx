@@ -2,9 +2,15 @@ import React from 'react'
 import { getShots, getUserShort } from '../helpers'
 import SubLabel from '@/components/shared/SubLabel'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
-import { BiHeart, BiShow } from 'react-icons/bi'
+import { BiHeart, BiRightArrowAlt, BiShow, BiSolidHeart } from 'react-icons/bi'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
+import { BsActivity } from 'react-icons/bs'
+import { getGroupDateObjects, getShotsViewsAsDateObjects } from '@/helpers/chart'
+import { largeNumber } from '@/helpers/largeNumbers'
+import CommonActivity from './CommonActivity'
+import LikesActivity from './LikesActivity'
+import ViewsActivity from './ViewsActivity'
 
 type Props = {
     params: {
@@ -15,33 +21,27 @@ const UserStatisticsPage = async({ params }: Props) => {
     const shotsData = getShots(params.userId, null)
     const userData = getUserShort(params.userId)
     const [shots, user] = await Promise.all([shotsData, userData])
-    const views = shots && (user?.isSubscriber || false) ? shots.map(shot => shot.views.length).reduce((a, b) => a + b) : 0
-    const likes = shots && (user?.isSubscriber || false) ? shots.map(shot => shot.likes.length).reduce((a, b) => a + b) : 0
-
     const popularShots = shots ? shots.sort((a, b) => b.views.length - a.views.length) : []
     const shotsSlice = popularShots.slice(0, 3)
-    // const popularShot = popularShots.length ? popularShots[0] : null
     if (!(user?.isSubscriber || false)) return (
-        <section className='flex flex-col items-center self-center justify-center w-full max-w-md gap-2 mx-auto h-fit'>
-            <SubLabel/>
+        <section className='flex flex-col-reverse items-center self-center justify-center w-full max-w-md gap-2 p-4 mx-auto md:flex-row h-fit'>
             <h2 className='text-lg font-semibold text-center text-neutral-200'>Статистика доступна с подпиской</h2>
+            <SubLabel/>
         </section>
     )
     return (
-        <section className='flex flex-col w-full h-full max-w-5xl gap-4 mx-auto overflow-y-auto'>
-            <div className="flex flex-col items-center justify-center w-full gap-4 md:flex-row md:h-40 h-fit">
-                <div className="flex flex-col items-center justify-center w-full px-4 py-2 md:w-1/3 md:h-full h-36 rounded-xl bg-neutral-900">
-                    <span className='font-bold text-neutral-400'>Всего работ</span>
-                    <span className='text-3xl font-bold md:text-7xl'>{shots?.length || 0}</span>
+        <section className='flex flex-col w-full h-full max-w-5xl gap-4 pb-4 mx-auto overflow-y-auto'>
+            <div className="flex flex-col items-start w-full gap-2 xl:h-96 h-fit xl:flex-row lg:flex-col">
+                <CommonActivity shots={shots || []} />
+                <div className="flex flex-col w-full h-full gap-2 xl:flex-col lg:flex-row md:flex-col xl:w-1/3">
+                    <LikesActivity shots={shots || []} />
+                    <ViewsActivity shots={shots || []} />
                 </div>
-                <div className="flex flex-col items-center justify-center w-full px-4 py-2 md:w-1/3 md:h-full h-36 rounded-xl bg-neutral-900">
-                    <span className='font-bold text-neutral-400'>Всего просмотров</span>
-                    <span className='text-3xl font-bold md:text-7xl'>{views}</span>
-                </div>
-                <div className="flex flex-col items-center justify-center w-full px-4 py-2 md:w-1/3 md:h-full h-36 rounded-xl bg-neutral-900">
-                    <span className='font-bold text-neutral-400'>Всего лайков</span>
-                    <span className='text-3xl font-bold md:text-7xl'>{likes}</span>
-                </div>
+            </div>
+            <div className="flex items-center justify-center w-full gap-4 h-fit">
+                <hr className='w-full border-neutral-700' />
+                <span className='text-center shrink-0 text-neutral-400'>Ваши самые популярные работы</span>
+                <hr className='w-full border-neutral-700' />
             </div>
             {
                 shotsSlice.length !== 0 &&
@@ -68,7 +68,6 @@ const UserStatisticsPage = async({ params }: Props) => {
                         </div>
                     </Link>
                 )
-
             }
         </section>
     )

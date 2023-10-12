@@ -48,6 +48,11 @@ export type Reaction = {
     createdAt: number
 }
 
+type Views = {
+    createdAt: number
+    uid: string
+}
+
 export type CommentBlock = {
     id: string
     authorId: string
@@ -91,7 +96,7 @@ export type ShotData = {
     blocks: (TextBlock | ImageBlock | VideoBlock | ShotGridBlock)[]
     createdAt: number
     likes: string[]
-    views: string[]
+    views: Views[]
     comments: CommentBlock[]
     needFeedback: boolean
     tags: string[]

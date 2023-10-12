@@ -41,7 +41,7 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
             { delay !== undefined && <span onMouseEnter={() => setDelay(2000)}
             className='absolute px-3 py-1 text-xs rounded-md bottom-14 right-2 bg-neutral-900 text-neutral-400'>Не убирайте указатель, предпросмотр начинается</span> }
             <video ref={videoRef} preload='metadata' loop muted className='w-full h-full hidden aspect-[4/3] rounded-xl'>
-                <source src={(process.env.NODE_ENV === 'development' ? thumbnailLink ? thumbnailLink : videoLink : fetchFile(thumbnailLink ? thumbnailLink : videoLink)) + '#t=0.5'} />
+                <source src={(process.env.NODE_ENV === 'development' ? '/dev-video.mp4' : fetchFile(thumbnailLink ? thumbnailLink : videoLink)) + '#t=0.5'} />
             </video>
             <canvas ref={canvasRef} onMouseEnter={() => setDelay(2000)} onMouseLeave={() => { clear(); setDelay(undefined)}}
             className='w-full h-full z-10 aspect-[4/3] rounded-xl' />

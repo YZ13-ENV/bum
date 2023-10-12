@@ -89,7 +89,7 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
             </>
         )
     }
-    if (!user) return (
+    return (
         <>
             <div className="flex items-center gap-1 w-fit h-fit">
                 <BiHeart />
@@ -108,23 +108,24 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
             </div>
         </>
     )
-    return (
-        <>
-            <Badge count={shot.likes.length} size='small' color='white'>
-                <Button loading={loading} danger={isInclude} type={isInclude ? 'primary' : 'default'}
-                onClick={addOrRemoveLike} size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiHeart /></Button>
-            </Badge>
-            { 
-                shot.needFeedback && 
-                <Badge count={shot.comments.length} size='small' color='white'>
-                    <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidMessageRoundedDots /></Button>
-                </Badge>
-            }
-            <Badge count={shot.views.length} size='small' color='white' overflowCount={999_999}> 
-                <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidShow /></Button>
-            </Badge>
-        </>
-    )
+
+    // return (
+    //     <>
+    //         <Badge count={shot.likes.length} size='small' color='white'>
+    //             <Button loading={loading} danger={isInclude} type={isInclude ? 'primary' : 'default'}
+    //             onClick={addOrRemoveLike} size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiHeart /></Button>
+    //         </Badge>
+    //         { 
+    //             shot.needFeedback && 
+    //             <Badge count={shot.comments.length} size='small' color='white'>
+    //                 <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidMessageRoundedDots /></Button>
+    //             </Badge>
+    //         }
+    //         <Badge count={shot.views.length} size='small' color='white' overflowCount={999_999}> 
+    //             <Button size='small' className='!w-8 !h-8 !flex !items-center !justify-center !rounded-lg'><BiSolidShow /></Button>
+    //         </Badge>
+    //     </>
+    // )
 
 }
 

@@ -30,7 +30,7 @@ const ViewModal = () => {
     }, [shot])
 
     return (
-        <div className='fixed top-0 left-0 z-50 flex flex-col items-center justify-center w-full h-full bg-black bg-opacity-50'>
+        <div className='fixed top-0 left-0 z-50 flex flex-col items-center justify-center w-full h-full bg-black bg-opacity-70'>
             <section className='flex flex-col w-full h-[80vh] max-w-5xl md:p-12 p-4 mx-auto overflow-x-hidden overflow-y-auto bg-black border border-neutral-900 rounded-xl'>
                 <Suspense fallback={<Loading />}>
                 {

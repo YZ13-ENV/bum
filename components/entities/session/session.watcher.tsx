@@ -45,7 +45,7 @@ const SessionWatcher = () => {
   }
   const [debouncedSession, setDebouncedSession] = useState<Session | null>(null)
   useLayoutEffect(() => {
-    process.env.NODE_ENV === 'development' && console.info(session.sid, session?.uid, user?.uid, sid)
+    process.env.NODE_ENV === 'development' && console.info(session, user?.uid, sid)
   },[session, sid, user?.uid])
   const getCatchSession = (): Promise<Session | null> => new Promise(async(res, rej) => {
     if (sid && !tokenParam) {

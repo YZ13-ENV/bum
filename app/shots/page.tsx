@@ -1,5 +1,11 @@
-import { redirect } from "next/navigation";
+import Chunker from '@/components/widgets/ChunkModule/Chunker'
+import { Suspense } from 'react'
+import Loading from './loading'
 
 export default function ShotsPage() {
-  return redirect('/shots/popular')
+    return (
+        <Suspense fallback={<Loading />}>
+            <Chunker countPrefix={`/shots/count/popular/`} shotsPrefix={`/shots/all/popular/`} />
+        </Suspense>
+    )
 }

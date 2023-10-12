@@ -1,7 +1,7 @@
 'use client'
 import { DocShotData, ShortUserData } from '@/types'
 import { Button } from 'antd'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { BiExpandAlt, BiX } from 'react-icons/bi'
 import MediaBlock from '../entities/Blocks/MediaBlock'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -25,6 +25,7 @@ const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
     const router = useRouter()
     const searchQueries = useSearchParams()
     const s = searchQueries.get('s')
+    const [hideSidebar, setHideSidebar] = useState<boolean>(false)
     const jumpBack = () => {
         const root = document.getElementById("root")
         root?.classList.remove('overflow-hidden')
@@ -65,18 +66,15 @@ const PreviewShotPage = ({ shot, user, needConfetti=false }: Props) => {
             </div>
             <div className="flex flex-col w-full h-full md:w-1/3">
                 <div className="sticky top-0 z-20 flex flex-col w-full gap-4 h-fit">
-                    <div className="items-center justify-end hidden w-full gap-2 md:flex h-fit">
-                        {/* <Button onClick={() => router.refresh()} type='text' className='!px-2'><BiExpandAlt size={18} className='text-neutral-400' /></Button> */}
-                        <Button onClick={jumpBack} type='text' className='!px-2'><BiX size={21} className='text-neutral-400' /></Button>
-                    </div>
-                    <div className="flex-col hidden w-full gap-2 md:flex h-fit">
-                        <h1 className='text-xl font-semibold text-neutral-200'>{shot.title}</h1>
-                    </div>
-                    <div className="flex items-center justify-start w-full gap-2 h-fit">
+                    <div className="items-center justify-between hidden w-full gap-2 md:flex h-fit">
                         <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
                             <Avatar src={user.photoUrl} size={36} direction='right' isSub={user.isSubscriber || false} />
                             <span className='text-lg font-bold text-neutral-200'>{user.displayName.length <= 30 ? user.displayName : user.displayName.substring(0, 30) + '...' || 'Пользователь'}</span>
                         </Link>
+                        <Button onClick={jumpBack} type='text' className='!px-2'><BiX size={21} className='text-neutral-400' /></Button>
+                    </div>
+                    <div className="flex-col hidden w-full gap-2 md:flex h-fit">
+                        <h1 className='text-xl font-semibold text-neutral-200'>{shot.title}</h1>
                     </div>
                     <div className="flex items-center justify-between w-full gap-2 h-fit">
                         <FollowButton profileUID={shot.authorId} />

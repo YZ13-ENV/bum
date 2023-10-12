@@ -1,4 +1,5 @@
-import { redirect } from 'next/navigation'
+import { getSearchedShots } from '@/app/fetchers'
+import Shots from '@/components/shared/Shots'
 
 type Props = {
     params: {
@@ -7,7 +8,8 @@ type Props = {
 }
 
 const SearchPage = async({ params }: Props) => {
-    return redirect(`/search/${params.q}/popular`)
+    const shots = await getSearchedShots(params.q, 'popular')
+    return <Shots shots={shots} />
 }
 
 export default SearchPage

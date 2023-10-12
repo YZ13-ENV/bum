@@ -14,7 +14,7 @@ const SessionPicker = () => {
     const session = useAppSelector(state => state.watcher.session)
     const [user, loading] = useAuthState(auth)
     const [forcedClose, setForcedClose] = useState<boolean>(true)
-    const [selectedUser, setSelectedUser] = useState<string | null>(user ? user.uid : null)
+    const [selectedUser, setSelectedUser] = useState<string | null>(session.uid ? session.uid : user ? user.uid : null)
     const dispatch = useAppDispatch()
     const signIn = async() => {
         const updatedSession = {
