@@ -35,9 +35,11 @@ const CategoryAndOrder = ({ integrationMode=false, noCategory=true }: Props) => 
     const router = useRouter()
     useLayoutEffect(() => {
         if (!isShotPage) {
-            const newSegment = categoryTab === '/' ? orderTab : `${orderTab}${categoryTab}`
-            const newPath = cleanPathname(pathname, detectedSortTab, detectedCategoryTab)
-            router.push(newPath + newSegment)
+            if (detectedSortTab !== orderTab || detectedCategoryTab !== categoryTab) {
+                const newSegment = categoryTab === '/' ? orderTab : `${orderTab}${categoryTab}`
+                const newPath = cleanPathname(pathname, detectedSortTab, detectedCategoryTab)
+                router.push(newPath + newSegment)
+            }
         }
     },[isShotsLayout, isShotPage, orderTab, categoryTab])
     return (

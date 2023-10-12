@@ -29,11 +29,6 @@ const ShotCard = ({ shot }: Props) => {
             <Suspense fallback={<div className='w-full h-full rounded-xl bg-neutral-900 animate-pulse'/>}>
                 <Link scroll={false} href={linkToShot(shot.doc_id)} className='relative w-full aspect-[4/3] h-full'>
                     {
-                        process.env.NODE_ENV === 'development'
-                        ? isVideo
-                        ? <GeneratedThumbnail thumbnailLink={'/dev-video.mp4'} videoLink={shot.rootBlock.link} />
-                        : <MediaBlock link='/original-error.png' quality={75} object='cover' autoPlay={false} />
-                        : 
                         isVideo 
                         ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
                         : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />

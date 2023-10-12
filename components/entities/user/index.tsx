@@ -118,7 +118,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
     }
     if (user) {
         if (showDropdown) {
-            return <Dropdown arrow menu={{ items }} trigger={['click']}><div><Avatar isSub={isSub} noLabel={isTabletOrMobile ? true : false} src={user.photoURL} size={36} /></div></Dropdown> 
+            return <Dropdown arrow menu={{ items }} trigger={['click']}><div className='shrink-0'><Avatar isSub={isSub} noLabel={isTabletOrMobile ? true : false} src={user.photoURL} size={36} /></div></Dropdown> 
         } else return <Avatar isSub={isSub} noLabel={isTabletOrMobile ? true : false} src={user.photoURL} size={36} />
     } else return <Button size='large' onClick={() => router.push(`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}${sid ? `&token=${sid}` : ''}`)} 
     loading={loading} type='primary'>Войти</Button>

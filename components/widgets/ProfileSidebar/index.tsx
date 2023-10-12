@@ -27,7 +27,6 @@ const ProfileSidebar = ({ uid }: Props) => {
             }
             if (!isSub) {
                 if (path.endsWith('/recommendations')) redirect(`/${uid}`)
-                if (path.endsWith('/statistics')) redirect(`/${uid}`)
             }
         } else {
             if (path.endsWith('/recommendations')) redirect(`/${uid}`)
@@ -49,9 +48,9 @@ const ProfileSidebar = ({ uid }: Props) => {
                         isSub &&
                         <>
                             <SidebarLink beta active={path.endsWith('/recommendations')} icon={<BsStars className='text-inherit' size={17} />} link={`/${uid}/recommendations`} title='Рекомендации' />
-                            <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
                         </>
                     }
+                    <SidebarLink active={path.endsWith('/statistics')} icon={<BiStats className='text-inherit' size={17} />} link={`/${uid}/statistics`} title='Статистика' />
                     <SidebarLink active={path.endsWith('/history')} icon={<MdHistory className='text-inherit' size={17} />} link={`/${uid}/history`} title='История' />
                 </>
             }

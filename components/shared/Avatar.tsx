@@ -14,7 +14,7 @@ const Avatar = ({ size, src, isSub, direction='left', noLabel=false }: Props) =>
         return <Image src={src ? src : '/EmptyUser.svg'} className="rounded-full shrink-0" width={size} height={size} alt={v4()} />
     }
     return (
-        <div className={`flex items-center ${direction === 'left' ? 'flex-row' : 'flex-row-reverse'} h-full gap-2 w-fit`}>
+        <div className={`flex items-center ${direction === 'left' ? 'flex-row' : 'flex-row-reverse'} h-full shrink-0 gap-2 w-fit`}>
             { isSub && !noLabel && <SubLabel /> }
             <Image src={src ? src : '/EmptyUser.svg'} className={`rounded-full shrink-0 ${isSub && 'border-2 border-white'}`} width={size} height={size} alt={v4()} />
         </div>
