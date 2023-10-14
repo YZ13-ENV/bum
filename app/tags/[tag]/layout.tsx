@@ -16,7 +16,7 @@ const ShotByTagLayout = ({ params, children }: Props) => {
             <div className="flex items-center justify-center w-full h-fit">
                 <h1 className='text-4xl font-bold text-center capitalize text-neutral-300'>{params.tag}</h1>
             </div>
-            <div className='flex flex-col w-full h-full gap-6 px-4 md:px-12 lg:px-32'>
+            <div className='flex flex-col w-full h-full gap-6'>
                 <CategoryAndOrder />
                 <Suspense fallback={<Loading />}>
                     { children }

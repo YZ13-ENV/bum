@@ -3,21 +3,19 @@ import CategoryAndOrder from '@/components/widgets/CategoryAndOrder'
 import React, { Suspense } from 'react'
 import Loading from './loading'
 
-type Props = {
-    children: React.ReactNode
-}
 
-const ShotsLayout = ({ children }: Props) => {
+const ShotsLayout = (props: { children: React.ReactNode, modal: React.ReactNode }) => {
     return (
         <div className='flex flex-col w-full h-full gap-4 shot_wrapper'>
-            <div className='flex flex-col w-full h-full gap-6 px-4 md:px-12 lg:px-32'>
+            <div className='flex flex-col w-full h-full gap-6'>
                 <div className="sticky top-0 z-40 w-full">
                     <div className="w-full max-w-6xl py-2 mx-auto bg-black rounded-md">
                         <CategoryAndOrder integrationMode noCategory={false} />
                     </div>
                 </div>
                 <Suspense fallback={<Loading />}>
-                    { children }
+                    { props.children }
+                    {/* { props.modal ? props.modal : null } */}
                 </Suspense>
             </div>
             <Footer />
