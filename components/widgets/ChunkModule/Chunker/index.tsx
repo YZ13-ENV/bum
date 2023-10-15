@@ -2,16 +2,12 @@ import { generateChunks } from '@/helpers/generateChunks'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
 import dynamic from 'next/dynamic'
-import ChunkWrapper from './ui/ChunkWrapper'
 import { Suspense } from 'react'
-// import { cookies } from 'next/headers'
-const Chunk = dynamic(() => import('./ui/Chunk'))
-const ShotCard = dynamic(() => import('@/components/entities/shot'))
+import ChunkController from './ui/ChunkController'
+import Loader from './ui/Loader'
 
 const getCountOfShots = async(countPrefix: string) => {
     try {
-        // const cookiesList = cookies()
-        // const uid = cookiesList.get('uid')
         const link = `${getHost()}${countPrefix}`
         const res = await fetch(link, {
             method: "GET",
@@ -44,31 +40,17 @@ const getFirstChunk = async(shotsPrefix: string) => {
 type Props = {
     countPrefix: string
     shotsPrefix: string
-    // order: string
 }
 const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
-    // const cookiesList = cookies()
-    // const uid = cookiesList.get('uid')
     const count = await getCountOfShots(countPrefix)
     const firstChunk = await getFirstChunk(shotsPrefix)
     const chunksCount = count <= 16 ? 0 : Math.ceil((count - 1) / 16)
     const chunks = generateChunks(chunksCount, shotsPrefix)
-    // ?  : generateChunks(chunksCount, order, shotsPrefix)
     return (
-        <section id='shots-wrapper' className='flex flex-col gap-9'>
-        <ChunkWrapper predictedValue={true}>
-            {
-                firstChunk && firstChunk.map((shotChunk, index) => 
-                    <Suspense key={`${shotChunk.doc_id}#${index}#shot#${index + 1}`} 
-                    fallback={<div className='w-full h-full rounded-xl bg-neutral-900 animate-pulse'/>}>
-                        <ShotCard shot={shotChunk}  />
-                    </Suspense>
-                )
-            }
-        </ChunkWrapper>
-        {
-            chunks.map((chunk, index) => <Chunk index={index} chunkLink={chunk} key={chunk}/>)
-        }
+        <section id='shots-wrapper' className='grid min-h-fit home_grid gap-9'>
+            <Suspense fallback={<Loader />}>
+                <ChunkController initialChunk={firstChunk} chunks={chunks} lastChunk={chunksCount} />
+            </Suspense>
         </section>
     )
 }

@@ -16,7 +16,7 @@ const SearchLayout = ({ params, children }: Props) => {
             <div className="flex items-center justify-center w-full px-4 h-fit">
                 <SearchBar q={decodeURI(params.q)} />
             </div>
-            <div className='flex flex-col w-full h-full gap-6 px-4 md:px-12 lg:px-32'>
+            <div className='flex flex-col w-full h-full gap-6'>
                 <CategoryAndOrder />
                 <Suspense fallback={<Loading />}>
                     { children }
