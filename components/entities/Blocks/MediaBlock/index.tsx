@@ -17,7 +17,7 @@ const MediaBlock = ({ withAmbiLight=false, forcedType, asBlob=false, link, quali
     const preparedLink = asBlob ? link : fetchFile(link)
     if (process.env.NODE_ENV === 'development') {
         if (type === "image") return <LoadedImage withAmbiLight={withAmbiLight} link={'/original-error.png'} object={object} quality={quality} />
-        if (type === "video") return <LoadedVideo withAmbiLight={withAmbiLight} link={'/dev-video.mp4'} />
+        // if (type === "video") return <LoadedVideo withAmbiLight={withAmbiLight} link={'/dev-video.mp4'} />
     }
     if (link !== '') {
         if (type === "image") {

@@ -23,7 +23,7 @@ const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'wi
             opacity: 0
         },
         to: {
-            opacity: 1
+            opacity: .55
         },
         config: {
             duration: 3000,
