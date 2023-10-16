@@ -30,7 +30,7 @@ const ShotPageFooter = ({ shot, user }: Props) => {
                 <ViewsAndTags createdAt={shot.createdAt} tags={shot.tags} views={shot.views} />
                 <CommentSection shot={shot} />
             </div>
-            <WorksWrapper userId={shot.authorId} shotId={shot.doc_id} />
+            <WorksWrapper userId={user.displayName} shotId={shot.doc_id} />
         </div>
     )
 }

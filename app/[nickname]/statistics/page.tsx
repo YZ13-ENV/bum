@@ -1,25 +1,22 @@
 import React from 'react'
-import { getShots, getUserShort } from '../helpers'
+import { getShots, getShortByNickname } from '../helpers'
 import SubLabel from '@/components/shared/SubLabel'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
-import { BiHeart, BiRightArrowAlt, BiShow, BiSolidHeart } from 'react-icons/bi'
+import { BiHeart, BiShow } from 'react-icons/bi'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
-import { BsActivity } from 'react-icons/bs'
-import { getGroupDateObjects, getShotsViewsAsDateObjects } from '@/helpers/chart'
-import { largeNumber } from '@/helpers/largeNumbers'
 import CommonActivity from './CommonActivity'
 import LikesActivity from './LikesActivity'
 import ViewsActivity from './ViewsActivity'
 
 type Props = {
     params: {
-        userId: string
+        nickname: string
     }
 }
 const UserStatisticsPage = async({ params }: Props) => {
-    const shotsData = getShots(params.userId, null)
-    const userData = getUserShort(params.userId)
+    const shotsData = getShots(params.nickname, null)
+    const userData = getShortByNickname(params.nickname)
     const [shots, user] = await Promise.all([shotsData, userData])
     const popularShots = shots ? shots.sort((a, b) => b.views.length - a.views.length) : []
     const shotsSlice = popularShots.slice(0, 3)

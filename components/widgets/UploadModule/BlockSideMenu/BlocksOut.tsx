@@ -104,6 +104,13 @@ const BlocksOut = () => {
                                         </SortableWrapper>
                                     ) 
                                 }
+                                if (block.type === 'shotGrid') {
+                                    return (
+                                        <SortableWrapper key={`block#${index}`} index={index + 1}>
+                                            <ShotsGridBlock index={index} block={block} />
+                                        </SortableWrapper>
+                                    ) 
+                                }
                                 return (
                                     <SortableWrapper key={`block#${index}`} index={index + 1}>
                                         <div className="flex flex-col items-center justify-center w-full h-56 border rounded-xl border-neutral-800 bg-neutral-950"/>

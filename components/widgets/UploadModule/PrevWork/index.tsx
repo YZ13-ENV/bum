@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { getHost } from '@/helpers/getHost'
 import dynamic from 'next/dynamic'
 import Wrapper from './Wrapper'
+import { getShortByNickname } from '@/app/[nickname]/helpers'
 const PrevShotCard = dynamic(() => import('./ui/PrevShotCard'))
 const Header = dynamic(() => import('./ui/Header'))
 
@@ -11,7 +12,8 @@ const getPrevShots = async() => {
     const uid = cookie.get("uid")
     if (uid) {
         try {
-            const res = await fetch(`${getHost()}/shots/onlyDrafts?userId=${uid.value}&asDoc=true`, {
+            const uidFromNickname = await getShortByNickname(uid.value)
+            const res = await fetch(`${getHost()}/shots/onlyDrafts/${uidFromNickname}&asDoc=true`, {
                 cache: 'no-store'
             })
             const shots: DocDraftShotData[] = await res.json()
@@ -35,7 +37,7 @@ const PrevWorks = async() => {
                         <span className='text-xs text-center text-neutral-400'>Нет последних работ</span>
                     </div>
                     :
-                    <div className="grid w-full h-fit gap-4 search_grid">
+                    <div className="grid w-full gap-4 h-fit search_grid">
                         {
                             works.map((shot, index) => 
                                 <PrevShotCard key={index} block={shot} />

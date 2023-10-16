@@ -38,7 +38,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
                 {
                     user ?
                     user.photoURL ? <Image src={user.photoURL} className='rounded-full' width={36} height={36} alt='photo-url' />
-                    : <div className='flex items-center justify-center rounded-full w-9 h-9 bg-neutral-900'><BiUser size={15} /></div>
+                    : <div className='flex items-center justify-center rounded-full shrink-0 w-9 h-9 bg-neutral-900'><BiUser size={15} /></div>
                     : null
                 }
                 <div className="flex flex-col w-full h-full">
