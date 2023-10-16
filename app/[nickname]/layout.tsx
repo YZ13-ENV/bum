@@ -1,17 +1,17 @@
 import React from 'react'
-import { getUserShort } from './helpers'
+import { getShortByNickname } from './helpers'
 import SubLabel from '@/components/shared/SubLabel'
 import Avatar from '@/components/shared/Avatar'
 import ProfileSidebar from '@/components/widgets/ProfileSidebar'
 
 type Props = {
     params: {
-        userId: string
+        nickname: string
     },
     children: React.ReactNode
 }
 const UserLayout = async({ children, params }: Props) => {
-    const user = await getUserShort(params.userId)
+    const user = await getShortByNickname(params.nickname)
     if (!user) return (
         null
     )
@@ -28,7 +28,7 @@ const UserLayout = async({ children, params }: Props) => {
                         <span className='text-xs text-neutral-400'>{user?.email || ''}</span>
                     </div>
                 </div>
-                <ProfileSidebar uid={params.userId} />
+                <ProfileSidebar uid={params.nickname} />
             </div>
             {children}
         </div>

@@ -37,7 +37,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
                 images: fetchFile(shot.rootBlock.link),
                 title: shot.title,
                 description: `Работа - ${shot.title}`,
-                site: `https://design.darkmaterial.space/${shot.authorId}/${shot.doc_id}`,
+                site: `https://design.darkmaterial.space/view?s=${shot.doc_id}`,
             },
             keywords: ['dey', 'dribbble', 'behance', 'drible', 'dribble']
         }

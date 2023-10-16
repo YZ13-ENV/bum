@@ -44,6 +44,16 @@ export const getShotWithCache = async(userId: string, shotId: string) => {
         return null
     }
 }
+export const getShortByNickname = async(nickname: string) => {
+    try {
+        const userRes = await fetch(`${getHost()}/users/short/nickname/${nickname}`, { method: 'GET', next: { revalidate: 3600 } })
+        const user: { short: ShortUserData } | null = await userRes.json()
+        return user ? user.short : null
+    } catch(e) {
+        console.log(e)
+        return null
+    }
+} 
 export const getUserShort = async(userId: string) => {
     try {
         const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 3600 } })

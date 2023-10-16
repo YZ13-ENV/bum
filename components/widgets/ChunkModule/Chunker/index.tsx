@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import ChunkController from './ui/ChunkController'
 import Loader from './ui/Loader'
+import { Button } from 'antd'
 
 const getCountOfShots = async(countPrefix: string) => {
     try {
@@ -43,15 +44,22 @@ type Props = {
 }
 const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
     const count = await getCountOfShots(countPrefix)
-    const firstChunk = await getFirstChunk(shotsPrefix)
+    console.log(count)
+    const firstChunk = count !== 0 ? await getFirstChunk(shotsPrefix) : null
     const chunksCount = count <= 16 ? 0 : Math.ceil((count - 1) / 16)
     const chunks = generateChunks(chunksCount, shotsPrefix)
+    if (count === 0) return (
+        <div className='flex flex-col items-center justify-center w-full h-full gap-4 shot_wrapper'>
+            <span className='text-sm text-neutral-200'>Нет работ, вы можете быть первым</span>
+            <Button href='/uploads/shot'>Загрузить работу</Button>
+        </div>
+    )
     return (
-        <section id='shots-wrapper' className='grid min-h-fit home_grid gap-9'>
+        <div id='shots-wrapper' className='grid min-h-fit home_grid gap-9'>
             <Suspense fallback={<Loader />}>
                 <ChunkController initialChunk={firstChunk} chunks={chunks} lastChunk={chunksCount} />
             </Suspense>
-        </section>
+        </div>
     )
 }
 

@@ -32,7 +32,7 @@ const ShotInfo = async({ shot }: Props) => {
             <div className="flex items-center gap-2 p-1 pl-3 bg-black rounded-full shrink-0 w-fit h-fit">
                 <ShotActions shot={shot} isSub={isSub} />
                 <Popover content={content} placement='top' trigger={['hover']}>
-                    <Link href={`/${shot.authorId}`}>
+                    <Link href={`/${user?.displayName}`}>
                         <Avatar src={user ? user.photoUrl : null} size={26} noLabel isSub={isSub} direction='left' />
                     </Link>
                 </Popover>

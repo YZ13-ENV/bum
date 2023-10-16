@@ -1,12 +1,10 @@
 import ShotActions from '@/components/entities/shot/ui/ShotActions'
 import { DocShotData, ShortUserData } from '@/types'
-import { DateTime } from 'luxon'
 import Link from 'next/link'
 import CommentSection from './ui/CommentSection'
 import WorksWrapper from './ui/LastWorks/ui/WorksWrapper'
 import Avatar from '@/components/shared/Avatar'
 import FollowButton from '../UserProfileTabs/ui/FollowButton'
-import { largeNumber } from '@/helpers/largeNumbers'
 import ViewsAndTags from './ui/ViewsAndTags'
 
 type Props = {
@@ -19,7 +17,7 @@ const ShotPageFooter = ({ shot, user }: Props) => {
             <div className="flex flex-col w-full h-full gap-2 md:w-8/12">
                 <div className="flex flex-col items-center justify-between w-full gap-2 md:flex-row h-fit">
                     <div className="flex items-center justify-between w-full gap-2 md:justify-start h-fit">
-                        <Link href={`/${shot.authorId}`} className="flex items-center gap-2 w-fit h-fit">
+                        <Link href={`/${user.displayName}`} className="flex items-center gap-2 w-fit h-fit">
                             <Avatar src={user.photoUrl} size={36} direction='right' isSub={user.isSubscriber || false} />
                             <span className='text-lg font-bold text-neutral-200'>{user.displayName.length <= 30 ? user.displayName : user.displayName.substring(0, 30) + '...' || 'Пользователь'}</span>
                         </Link>

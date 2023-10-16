@@ -2,23 +2,19 @@ import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { getUserShort } from './helpers'
+import { getShortByNickname, getUserShort } from './helpers'
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
-// const UserProfileTabs = dynamic(() => import('@/components/widgets/UserProfileTabs')) 
 
 type Props = {
     params: {
-        userId: string
-    },
-    searchParams: {
-        tab: string | null
+        nickname: string
     }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
  
     try {
-        const user = await getUserShort(params.userId)
+        const user = await getShortByNickname(params.nickname)
         if (user) {
             return {
                 title: user?.displayName || 'Пользователь',
@@ -33,12 +29,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 }
 
-const UserPage = async({ params, searchParams }: Props) => {
+const UserPage = async({ params }: Props) => {
     return (
         <section className="w-full h-full">
             <div className="flex flex-col w-full h-full gap-4">
                 <Suspense fallback={<div className='flex items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>}>
-                    <ProfileContent userId={params.userId} />
+                    <ProfileContent userId={params.nickname} />
                 </Suspense>
             </div>
             {/* <Footer></Footer> */}
