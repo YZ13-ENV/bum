@@ -127,11 +127,10 @@
   z-index: -1;
   height: 100%;
 }
-#ambiLightv2 {
-  opacity: .5;
+#ambiLightv2, .ambientLight {
   position: absolute;
   align-self: center;
-  filter: blur(150px);
+  filter: blur(125px);
   opacity: 0.5;
   z-index: -1;
   width: 120%;

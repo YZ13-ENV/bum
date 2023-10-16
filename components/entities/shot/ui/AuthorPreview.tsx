@@ -6,7 +6,6 @@ import { Button } from 'antd'
 import React, { useLayoutEffect, useState } from 'react'
 import { BiRightArrowAlt } from 'react-icons/bi'
 import MediaBlock from '../../Blocks/MediaBlock'
-import { fetchFile } from '@/helpers/fetchFile'
 import Link from 'next/link'
 
 type Props = {
@@ -17,7 +16,7 @@ const AuthorPreview = ({ uid, user }: Props) => {
     const [shots, setShots] = useState<DocShotData[]>([]) 
     const getLastWorks = async(userId: string) => {
         try {
-            const res = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&limit=2&order=new`, { next: { revalidate: 3600 } })
+            const res = await fetch(`${getHost()}/shots/onlyShots/${userId}?limit=2&order=new`, { next: { revalidate: 3600 } })
             const shots: DocShotData[] = await res.json()
             setShots(shots)
         } catch(e) {
@@ -26,19 +25,19 @@ const AuthorPreview = ({ uid, user }: Props) => {
         }
     }
     useLayoutEffect(() => {
-        getLastWorks(uid)
-    },[uid])
+        if (user?.displayName) getLastWorks(user?.displayName)
+    },[user?.displayName])
     return (
         <div className='flex flex-col w-64 gap-2 h-36'>
             <div className="flex items-center justify-between w-full gap-2 shrink-0 h-fit">
-                <div className="flex items-center gap-2 w-fit h-fit">
+                <div className="flex items-center w-full gap-2 h-fit">
                     <Avatar src={user ? user.photoUrl : null} size={32} noLabel isSub={user?.isSubscriber || false} direction='left' />
                     <div className="flex flex-col justify-center w-fit h-fit">
                         <span className='text-base font-medium text-neutral-200'>{user?.displayName || 'Пользователь'}</span>
-                        <span className='text-xs text-neutral-400'>{user?.email}</span>
+                        <span className='text-xs line-clamp-1 text-neutral-400'>{user?.email.slice(0, 25) + '...'}</span>
                     </div>
                 </div>
-                <Button href={`/${uid}`}><BiRightArrowAlt size={17} /></Button>
+                <Button href={`/${user?.displayName}`}><BiRightArrowAlt size={17} /></Button>
             </div>
             {
                 shots.length !== 0 &&

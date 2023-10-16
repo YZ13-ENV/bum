@@ -21,9 +21,9 @@ const TextBlock = ({ block, index, disabled=false }: Props) => {
         <div className="flex items-center justify-between w-full h-12 gap-2 p-2 bg-black border rounded-xl group border-neutral-800">
             <div className="flex items-center h-full gap-2 shrink-0 w-fit">
                 <div className="w-1 h-full transition-colors bg-transparent rounded-full group-hover:bg-white" />
-                <BiText size={21} />
+                <BiText size={21} className='shrink-0' />
                 { MdSyntax && <sup className='text-neutral-200'>MD</sup> }
-                <span className='text-sm select-none line-clamp-1 text-neutral-300'>{ block?.text || 'Текст' }</span>
+                <span className='text-sm select-none line-clamp-1 text-neutral-300'>{ block?.text?.slice(0, 50) || 'Текст' }</span>
             </div>
             {   disabled 
                 ? <BiLock size={17} className='mr-2 text-neutral-400' />

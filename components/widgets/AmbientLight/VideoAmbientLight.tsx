@@ -14,7 +14,7 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
             opacity: 0
         },
         to: {
-            opacity: 1
+            opacity: .55
         },
         config: {
             

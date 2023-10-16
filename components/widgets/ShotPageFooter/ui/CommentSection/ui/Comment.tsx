@@ -30,7 +30,7 @@ const Comment = ({ comment, shotAuthor, shotId }: Props) => {
     const mainItems = (
         <div className="flex flex-col gap-2 w-52 h-fit">
             {
-                !isSub &&
+                isSub &&
                 <div className="flex flex-wrap items-center justify-between w-full gap-1 overflow-x-auto h-fit">
                     { emojiArrayMap.map(emoji => <span onClick={() => addReaction(user, shotAuthor, shotId, comment, emoji)} className='px-2 py-1 text-base rounded-md cursor-pointer hover:bg-neutral-900' 
                     key={emoji.key}>{emoji.emoji}</span>) }

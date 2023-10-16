@@ -1,16 +1,15 @@
 import { db } from '@/utils/app'
 import { collection, getDocs } from 'firebase/firestore'
 import React from 'react'
-import { getShotWithCache } from '../helpers'
+import { getShotWithCache, getUidFromNickname } from '../helpers'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { DateTime } from 'luxon'
 import { BiHeart, BiShow } from 'react-icons/bi'
-import { fetchFile } from '@/helpers/fetchFile'
 import Link from 'next/link'
 
 type Props = {
     params: {
-        userId: string
+        nickname: string
     }
 }
 type HistoryUnit = {
@@ -20,7 +19,8 @@ type HistoryUnit = {
 }
 type HistoryUnitWithId = HistoryUnit & { doc_id: string }
 const UserHistoryPage = async({ params }: Props) => {
-    const collRef = collection(db, 'users', params.userId, 'history', 'views', 'dey')
+    const uid = await getUidFromNickname(params.nickname) as string
+    const collRef = collection(db, 'users', uid, 'history', 'views', 'dey')
     const snaps = await getDocs(collRef)
     const snapsWithDocs = !snaps.empty ? snaps.docs.map(snap => ({...snap.data() as HistoryUnit, doc_id: snap.id} as HistoryUnitWithId)) : []
     return (

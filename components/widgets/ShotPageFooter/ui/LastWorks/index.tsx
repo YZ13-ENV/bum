@@ -17,9 +17,11 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
     const [shots, setShots] = useState<DocShotData[]>([]) 
     const getLastWorks = async(userId: string, exclude: Props['exclude'], order: Props['order']) => {
         try {
-            const res = await fetch(`${getHost()}/shots/onlyShots?userId=${userId}&limit=4&order=${order ? order : 'popular'}${exclude && `&exclude=${exclude}`}`)
-            const shots: DocShotData[] = await res.json()
-            setShots(shots)
+            const res = await fetch(`${getHost()}/shots/onlyShots/${userId}?limit=4&order=${order ? order : 'popular'}${exclude && `&exclude=${exclude}`}`)
+            if (res.ok) {
+                const shots: DocShotData[] = await res.json()
+                setShots(shots)
+            } else setShots([])
         } catch(e) {
             console.log(e)
             setShots([])

@@ -20,7 +20,7 @@ const ProfileSidebar = ({ uid }: Props) => {
     const isSub = useAppSelector(state => state.user.isSubscriber)
     useLayoutEffect(() => {
         if (user) {
-            if (user.uid !== uid) {
+            if (user.displayName !== uid) {
                 if (path.endsWith('/recommendations')) redirect(`/${uid}`)
                 if (path.endsWith('/statistics')) redirect(`/${uid}`)
                 if (path.endsWith('/history')) redirect(`/${uid}`)
@@ -37,12 +37,12 @@ const ProfileSidebar = ({ uid }: Props) => {
     return (
         <div className="flex flex-col h-full gap-2 md:w-72 w-fit shrink-0">
             {
-                user?.uid !== uid && <ProfileActions uid={uid} />
+                user?.displayName !== uid && <ProfileActions uid={uid} />
             }
             <SidebarLink active={path.endsWith(uid)} icon={<MdWork className='text-inherit' size={17} />} link={`/${uid}/`} title='Работы' />
             <SidebarLink active={path.endsWith('/bio')} icon={<RiUser5Line className='text-inherit' size={17} />} link={`/${uid}/bio`} title='Биография' />
             {
-                (!user || (user && user.uid === uid)) &&
+                (!user || (user && user.displayName === uid)) &&
                 <>
                     {
                         isSub &&

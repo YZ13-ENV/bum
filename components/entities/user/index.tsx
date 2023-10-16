@@ -38,7 +38,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
                 {
                     user ?
                     user.photoURL ? <Image src={user.photoURL} className='rounded-full' width={36} height={36} alt='photo-url' />
-                    : <div className='flex items-center justify-center rounded-full w-9 h-9 bg-neutral-900'><BiUser size={15} /></div>
+                    : <div className='flex items-center justify-center rounded-full shrink-0 w-9 h-9 bg-neutral-900'><BiUser size={15} /></div>
                     : null
                 }
                 <div className="flex flex-col w-full h-full">
@@ -54,7 +54,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
             key: 2,
             label: 'Перейти в профиль',
             icon: <BiUserCircle size={17} />,
-            onClick: () => router.push(`/${user?.uid}`),
+            onClick: () => router.push(`/${user?.displayName}`),
             itemIcon: <BiChevronRight size={17} />
         },
         {
@@ -120,7 +120,7 @@ const UserStatus = ({ showDropdown=true }: Props) => {
         if (showDropdown) {
             return <Dropdown arrow menu={{ items }} trigger={['click']}><div className='shrink-0'><Avatar isSub={isSub} noLabel={isTabletOrMobile ? true : false} src={user.photoURL} size={36} /></div></Dropdown> 
         } else return <Avatar isSub={isSub} noLabel={isTabletOrMobile ? true : false} src={user.photoURL} size={36} />
-    } else return <Button size='large' onClick={() => router.push(`https://auth.darkmaterial.space/auth/signin?back_url=${back_url}${sid ? `&token=${sid}` : ''}`)} 
+    } else return <Button size='large' onClick={() => router.push(`https://darkmaterial.space/auth/signin?back_url=${back_url}`)} 
     loading={loading} type='primary'>Войти</Button>
 }
 
