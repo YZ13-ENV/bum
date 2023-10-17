@@ -1,16 +1,13 @@
 'use client'
-import { MotionConfig, motion } from 'framer-motion'
 import Image from 'next/image'
-import React, { ElementRef, useRef } from 'react'
+import { ElementRef, useRef } from 'react'
 
 import { useMediaQuery } from 'react-responsive'
 const AppPreviewBlock = () => {
     const ref = useRef<ElementRef<'div'>>(null)
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' })
     return (
-        <MotionConfig transition={{ duration: 2000 }}>
-            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
-            className="relative w-full max-w-md p-1 my-6 overflow-hidden border border-transparent md:max-w-4xl lg:max-w-7xl group md:my-12 h-fit rounded-xl">
+            <div className="relative w-full max-w-md p-1 my-6 overflow-hidden border border-transparent md:max-w-4xl lg:max-w-7xl group md:my-12 h-fit rounded-xl">
                 <div className="absolute top-0 right-0 w-full h-full bg-neutral-800"></div>
                 <div ref={ref} 
                 className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full cursor-pointer bg-gradient-to-t from-black to-transparent">
@@ -20,8 +17,7 @@ const AppPreviewBlock = () => {
                 </div>
                 <Image src={isTabletOrMobile ? '/bum_preview_mobile.png' : '/bum_preview.png'} priority
                 className={`!relative group-hover:brightness-50 transition-all duration-500 rounded-xl`} fill alt='app-preview' />
-            </motion.div>
-        </MotionConfig>
+            </div>
     )
 }
 
