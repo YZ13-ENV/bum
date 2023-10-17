@@ -24,7 +24,7 @@ const Footer = () => {
         });
     },[])
     return (
-        <footer className="flex flex-col w-full gap-6 p-4 mt-auto md:p-12 h-fit bg-neutral-950 rounded-xl">
+        <footer className="flex flex-col w-full gap-6 p-4 mt-32 md:p-12 h-fit bg-neutral-950 rounded-xl">
             <div className="flex flex-col w-full max-w-5xl gap-4 mx-auto sm:flex-row h-fit">
                 <div className="flex flex-col items-center justify-center w-full h-full gap-4 p-2 border rounded-lg border-neutral-800 sm:w-fit bg-neutral-900">
                     <div className="flex items-center gap-2 w-fit h-fit">

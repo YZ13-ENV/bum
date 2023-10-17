@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { getShortByNickname, getUserShort } from './helpers'
+import { getShortByNickname } from '../fetchers'
 const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
 
 type Props = {

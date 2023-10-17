@@ -21,7 +21,12 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
         if (canvasRef.current && videoRef.current) {
             const context = canvasRef.current.getContext("2d", { alpha: false });
             if (context) {
-                context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+                canvasRef.current.width = canvasRef.current.clientWidth * 1.5;
+                canvasRef.current.height = canvasRef.current.clientHeight * 1.5;
+                context.imageSmoothingEnabled = true;
+                const width = canvasRef.current.width
+                const height = canvasRef.current.height
+                context.drawImage(videoRef.current, 0, 0, width, height);
             }
         }
     }

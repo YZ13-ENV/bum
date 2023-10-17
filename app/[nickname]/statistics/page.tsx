@@ -1,5 +1,5 @@
 import React from 'react'
-import { getShots, getShortByNickname } from '../helpers'
+import { getShots, getShortByNickname } from '../../fetchers'
 import SubLabel from '@/components/shared/SubLabel'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { BiHeart, BiShow } from 'react-icons/bi'

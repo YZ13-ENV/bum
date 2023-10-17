@@ -13,7 +13,7 @@ type Props = {
 const fetchChunk = async(link: string) => {
     try {
         const res = await fetch(link, {
-            next: { revalidate: 3600 }
+            next: { revalidate: 120 }
         })
         if (res.ok) {
             const data: DocShotData[] = await res.json()
@@ -26,6 +26,7 @@ const fetchChunk = async(link: string) => {
     }
 }
 const ChunkController = ({ chunks, initialChunk, lastChunk }: Props) => {
+    console.log(chunks)
     const [items, setItems] = useState<DocShotData[]>(
         initialChunk ? initialChunk : []
     )
@@ -48,7 +49,9 @@ const ChunkController = ({ chunks, initialChunk, lastChunk }: Props) => {
             { items.map(item => <ShotCard key={item.doc_id} shot={item} />) }
             <div className="flex items-center justify-center w-full col-span-full h-fit">
                 {
-                    (lastChunk - 1) === currentIndex
+                    chunks.length === 0
+                    ? null
+                    : (lastChunk - 1) === currentIndex
                     ? <span className='text-sm text-neutral-400'>Вы дошли до конца списка</span>
                     : <Button disabled={(lastChunk - 1) === currentIndex} onClick={loadChunk} loading={loading}>Загрузить ещё</Button>
                 }

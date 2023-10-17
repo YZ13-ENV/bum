@@ -16,7 +16,7 @@ const AuthorPreview = ({ uid, user }: Props) => {
     const [shots, setShots] = useState<DocShotData[]>([]) 
     const getLastWorks = async(userId: string) => {
         try {
-            const res = await fetch(`${getHost()}/shots/onlyShots/${userId}?limit=2&order=new`, { next: { revalidate: 3600 } })
+            const res = await fetch(`${getHost()}/shots/onlyShots/${userId}?limit=2&order=new`, { next: { revalidate: 1800 } })
             const shots: DocShotData[] = await res.json()
             setShots(shots)
         } catch(e) {

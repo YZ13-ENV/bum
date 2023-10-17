@@ -12,7 +12,7 @@ const getCountOfShots = async(countPrefix: string) => {
         const link = `${getHost()}${countPrefix}`
         const res = await fetch(link, {
             method: "GET",
-            next: { revalidate: 3600 }
+            next: { revalidate: 120 }
         })
         if (res.ok) {
             const count = parseInt(await res.json())
@@ -26,7 +26,7 @@ const getCountOfShots = async(countPrefix: string) => {
 const getFirstChunk = async(shotsPrefix: string) => {
     try {
         const res = await fetch(`${getHost()}${shotsPrefix}?skip=0`, {
-            next: { revalidate: 3600 }
+            next: { revalidate: 120 }
         })
         if (res.ok) {
             const data: DocShotData[] = await res.json()
@@ -44,7 +44,7 @@ type Props = {
 }
 const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
     const count = await getCountOfShots(countPrefix)
-    console.log(count)
+    // console.log(count)
     const firstChunk = count !== 0 ? await getFirstChunk(shotsPrefix) : null
     const chunksCount = count <= 16 ? 0 : Math.ceil((count - 1) / 16)
     const chunks = generateChunks(chunksCount, shotsPrefix)

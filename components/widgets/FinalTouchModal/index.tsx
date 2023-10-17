@@ -30,7 +30,7 @@ const FinalTouchModal = () => {
         if (user && draftId) {
             setLoading(true)
             const preparedBlocks = draft.blocks.filter((block => {
-                if (block.type === 'image') {
+                if (block.type === 'image' || block.type === 'video') {
                     if (block.link === '') return false
                     return true
                 }

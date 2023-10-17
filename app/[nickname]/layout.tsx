@@ -1,5 +1,5 @@
 import React from 'react'
-import { getShortByNickname } from './helpers'
+import { getShortByNickname } from '../fetchers'
 import SubLabel from '@/components/shared/SubLabel'
 import Avatar from '@/components/shared/Avatar'
 import ProfileSidebar from '@/components/widgets/ProfileSidebar'
