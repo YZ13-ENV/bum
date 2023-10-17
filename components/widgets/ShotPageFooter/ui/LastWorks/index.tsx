@@ -43,7 +43,7 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
                         key={shot.doc_id + index} className="relative w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
                             {
                                 isVideo 
-                                ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
+                                ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} hideTooltip videoLink={shot.rootBlock.link} />
                                 : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
                             }
                         </Link>
