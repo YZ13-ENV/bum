@@ -1,11 +1,11 @@
 import { db } from '@/utils/app'
 import { collection, getDocs } from 'firebase/firestore'
 import React from 'react'
-import { getShotWithCache, getUidFromNickname } from '../helpers'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { DateTime } from 'luxon'
 import { BiHeart, BiShow } from 'react-icons/bi'
 import Link from 'next/link'
+import { getShotWithCache, getUidFromNickname } from '@/app/fetchers'
 
 type Props = {
     params: {

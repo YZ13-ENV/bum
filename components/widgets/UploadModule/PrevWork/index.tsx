@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { getHost } from '@/helpers/getHost'
 import dynamic from 'next/dynamic'
 import Wrapper from './Wrapper'
-import { getShortByNickname } from '@/app/[nickname]/helpers'
+import { getShortByNickname } from '@/app/fetchers'
 const PrevShotCard = dynamic(() => import('./ui/PrevShotCard'))
 const Header = dynamic(() => import('./ui/Header'))
 

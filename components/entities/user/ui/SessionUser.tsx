@@ -24,7 +24,7 @@ const SessionUser = ({ uid, setExpand }: Props) => {
     }
     const fetchData = async() => {
         try {
-            const userRes = await fetch(`${getHost()}/users/shortData?userId=${uid}`, { method: 'GET', next: { revalidate: 3600 } })
+            const userRes = await fetch(`${getHost()}/users/shortData?userId=${uid}`, { method: 'GET', next: { revalidate: 1800 } })
             const user: { short: ShortUserData } | null = await userRes.json()
             setUserData(user ? user?.short : null)
         } catch(e) {

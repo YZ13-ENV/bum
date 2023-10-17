@@ -8,7 +8,7 @@ import { auth, db } from '@/utils/app'
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { isEqual } from 'lodash'
 import { useDebounceEffect } from 'ahooks'
-import { getUidFromNickname } from '@/app/[nickname]/helpers'
+import { getUidFromNickname } from '@/app/fetchers'
 
 type Props = {
     uid: string

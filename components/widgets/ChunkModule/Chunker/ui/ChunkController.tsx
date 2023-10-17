@@ -13,7 +13,7 @@ type Props = {
 const fetchChunk = async(link: string) => {
     try {
         const res = await fetch(link, {
-            next: { revalidate: 3600 }
+            next: { revalidate: 120 }
         })
         if (res.ok) {
             const data: DocShotData[] = await res.json()
