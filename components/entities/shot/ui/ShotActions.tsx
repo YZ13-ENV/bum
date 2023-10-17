@@ -7,7 +7,6 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { getHost } from '@/helpers/getHost'
 import { useRouter } from 'next/navigation'
-import { largeNumber } from '@/helpers/largeNumbers'
 
 type Props = {
     shot: DocShotData

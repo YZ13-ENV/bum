@@ -42,7 +42,7 @@ const ProfileSidebar = ({ uid }: Props) => {
             <SidebarLink active={path.endsWith(uid)} icon={<MdWork className='text-inherit' size={17} />} link={`/${uid}/`} title='Работы' />
             <SidebarLink active={path.endsWith('/bio')} icon={<RiUser5Line className='text-inherit' size={17} />} link={`/${uid}/bio`} title='Биография' />
             {
-                (!user || (user && user.displayName === uid)) &&
+                (user && user.displayName === uid) &&
                 <>
                     {
                         isSub &&

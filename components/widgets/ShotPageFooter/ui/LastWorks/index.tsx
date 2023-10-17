@@ -40,7 +40,7 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
                     const stableLink = shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link
                     return (
                         <Link href={linkToShot(shot.doc_id)} 
-                        key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
+                        key={shot.doc_id + index} className="relative w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
                             {
                                 isVideo 
                                 ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
