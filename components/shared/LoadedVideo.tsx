@@ -1,7 +1,7 @@
 'use client'
 import { ElementRef, useLayoutEffect, useRef } from "react"
-import { useInViewport } from "ahooks"
 import VideoAmbientLight from "../widgets/AmbientLight/VideoAmbientLight"
+import { useInView } from "framer-motion"
 
 export type LoadedVideoProps = {
     withAmbiLight?: boolean
@@ -10,10 +10,17 @@ export type LoadedVideoProps = {
 }
 const LoadedVideo = ({ withAmbiLight=false, link, autoPlay=false }: LoadedVideoProps) => {
     const videoBlock = useRef<ElementRef<'video'>>(null)
-    const [inViewport] = useInViewport(videoBlock);
+    const isInView = useInView(videoBlock)
     useLayoutEffect(() => {
-        if (videoBlock.current) {}
-    },[videoBlock, inViewport])
+        const video = videoBlock.current
+        if (video) {
+            if (isInView) {
+                video.play()
+            } else {
+                video.pause()
+            }
+        }
+    },[videoBlock, isInView])
     if (withAmbiLight) return <VideoAmbientLight link={link} autoPlay={autoPlay} />
     return (
         <video src={link} ref={videoBlock} loop placeholder="blur" autoPlay={autoPlay} controls={false} muted className='object-cover w-full h-full rounded-xl' />
