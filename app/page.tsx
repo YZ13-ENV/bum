@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 export default function Home() {
   const takenCookies = cookies()
   const uid = takenCookies.get('uid')
-  if (uid && !(process.env.NODE_ENV === 'development')) redirect('/shots/popular')
+  if (uid && uid.value !== '' && !(process.env.NODE_ENV === 'development')) redirect('/shots/popular')
   return (
     <section id='promo-section' className="relative flex flex-col items-center justify-start w-full gap-6 pt-6 h-fit md:gap-12 md:pt-12">
       <div className="absolute top-0 left-0 z-[-1] flex items-center justify-between w-full h-screen -translate-y-32">

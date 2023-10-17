@@ -1,12 +1,13 @@
 'use client'
 import { DocShotData } from '@/types'
-import { Badge, Button, Dropdown, MenuProps, Space } from 'antd'
+import { Button, Dropdown, MenuProps } from 'antd'
 import { useLayoutEffect, useMemo, useState } from 'react'
-import { BiDotsVerticalRounded, BiHeart, BiSolidHeart, BiSolidMessageRoundedDots, BiSolidShow, BiTrashAlt } from 'react-icons/bi'
+import { BiDotsVerticalRounded, BiHeart, BiLoaderAlt, BiSolidHeart, BiSolidMessageRoundedDots, BiSolidShow, BiTrashAlt } from 'react-icons/bi'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
 import { getHost } from '@/helpers/getHost'
 import { useRouter } from 'next/navigation'
+import { DateTime } from 'luxon'
 
 type Props = {
     shot: DocShotData
@@ -17,8 +18,8 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
-    const [likes, setLikes] = useState<string[]>(shot.likes)
-    const isInclude = useMemo(() => user ? likes.includes(user.uid) : false, [user, likes]) 
+    const [likes, setLikes] = useState<DocShotData['likes']>(shot.likes)
+    const isInclude = useMemo(() => user ? likes.findIndex(like => like.uid === user.uid) > -1 : false, [user, likes]) 
     const addOrRemoveLike = async() => {
         if (user) {
             setLoading(true)
@@ -28,11 +29,15 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
                 })
                 if (res.ok) {
                     if (isInclude) {
-                        const updatedLikes = likes.filter(uid => uid !== user.uid)
+                        const updatedLikes = likes.filter(uid => uid.uid !== user.uid)
                         setLikes(updatedLikes)
                     } 
                     if (!isInclude) {
-                        setLikes([...likes, user.uid])
+                        const like = {
+                            uid: user.uid,
+                            createdAt: DateTime.now().toSeconds()
+                        }
+                        setLikes([...likes, like])
                     }
                 }
                 setLoading(false)
@@ -76,9 +81,22 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
     if (isOnPage) {
         return (
             <>
-                <Button onClick={addOrRemoveLike} loading={loading} size='large'
-                danger={isInclude} type={isInclude ? 'primary' : 'default'} 
-                icon={<BiHeart  size={13} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button>
+                <button onClick={() => addOrRemoveLike()} disabled={!user || loading}
+                className={`px-3 py-1 gap-1.5 text-sm rounded-full inline-flex transition-all items-center 
+                disabled:bg-neutral-950 disabled:text-neutral-500
+                ${isInclude ? 'text-black bg-white' : 'text-neutral-200 bg-neutral-900 hover:bg-neutral-800'}`}>
+                    { 
+                        loading 
+                        ? <BiLoaderAlt size={17} className='inline animate-spin text-inherit' /> 
+                        : isInclude 
+                        ? <BiSolidHeart size={17} className='inline text-inherit' /> 
+                        : <BiHeart  size={17} className='inline text-inherit' /> 
+                    }
+                    {likes.length}
+                </button>
+                {/* <Button onClick={addOrRemoveLike} loading={loading}
+                danger={isInclude} type={isInclude ? 'primary' : 'default'}
+                icon={<BiHeart  size={13} className='inline my-auto mb-0.5 mr-1' />}>{likes.length}</Button> */}
                 {
                     (user && user.uid === shot.authorId) && 
                     <Dropdown menu={{items}}>
@@ -90,10 +108,28 @@ const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
     }
     return (
         <>
-            <div className="flex items-center gap-1 w-fit h-fit">
-                <BiHeart />
-                <span className='text-xs text-neutral-300'>{shot.likes.length}</span>
-            </div>
+            {
+                user
+                ?
+                <button onClick={() => addOrRemoveLike()} disabled={!user || loading}
+                className={`text-xs gap-1 rounded-full inline-flex transition-all items-center 
+                disabled:bg-neutral-950 disabled:text-neutral-500
+                ${isInclude ? 'px-1.5 text-black bg-white' : 'text-neutral-200 bg-neutral-900 hover:bg-neutral-800'}`}>
+                        { 
+                            loading 
+                            ? <BiLoaderAlt size={16} className='inline animate-spin text-inherit' /> 
+                            : isInclude 
+                            ? <BiSolidHeart size={16} className='inline text-inherit' /> 
+                            : <BiHeart  size={16} className='inline text-inherit' /> 
+                        }
+                        {likes.length}
+                </button>
+                :
+                <div className="flex items-center gap-1 w-fit h-fit">
+                    <BiHeart />
+                    <span className='text-xs text-neutral-300'>{shot.likes.length}</span>
+                </div>
+            }
             { 
                 shot.needFeedback && 
                 <div className="flex items-center gap-1 w-fit h-fit">

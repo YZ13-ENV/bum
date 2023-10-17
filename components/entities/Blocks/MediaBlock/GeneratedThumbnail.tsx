@@ -6,10 +6,11 @@ import { useRef, ElementRef, useState, useLayoutEffect, memo } from 'react';
 
 interface GenerateThumbnailProps {
     thumbnailLink: string | null
+    hideTooltip?: boolean
     videoLink: string
 }
 
-const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps) => {
+const GeneratedThumbnail = ({ thumbnailLink, videoLink, hideTooltip=false }: GenerateThumbnailProps) => {
     const videoRef = useRef<ElementRef<'video'>>(null);
     const canvasRef = useRef<ElementRef<'canvas'>>(null);
     const [playVideo, setPlayVideo] = useState<boolean>(false)
@@ -43,7 +44,7 @@ const GeneratedThumbnail = ({ thumbnailLink, videoLink }: GenerateThumbnailProps
     if (playVideo) return <div onMouseLeave={() => {setPlayVideo(false); setDelay(undefined)}}><LoadedVideo link={process.env.NODE_ENV === 'development' ? '/dev-video.mp4' :fetchFile(videoLink)} autoPlay /></div>
     return (
         <>
-            { delay !== undefined && <span onMouseEnter={() => setDelay(2000)}
+            {  hideTooltip ? null : delay !== undefined && <span onMouseEnter={() => setDelay(2000)}
             className='absolute px-3 py-1 text-xs rounded-md bottom-14 right-2 bg-neutral-900 text-neutral-400'>Не убирайте указатель, предпросмотр начинается</span> }
             <video ref={videoRef} preload='metadata' loop muted className='w-full h-full hidden aspect-[4/3] rounded-xl'>
                 <source src={(process.env.NODE_ENV === 'development' ? '/dev-video.mp4' : fetchFile(thumbnailLink ? thumbnailLink : videoLink)) + '#t=0.5'} />

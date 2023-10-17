@@ -55,7 +55,7 @@ const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
         </div>
     )
     return (
-        <div id='shots-wrapper' className='grid min-h-fit home_grid gap-9'>
+        <div id='shots-wrapper' className='grid min-h-screen home_grid gap-9'>
             <Suspense fallback={<Loader />}>
                 <ChunkController initialChunk={firstChunk} chunks={chunks} lastChunk={chunksCount} />
             </Suspense>
