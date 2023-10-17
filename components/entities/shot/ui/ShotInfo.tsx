@@ -1,26 +1,17 @@
-import { getHost } from '@/helpers/getHost'
-import { DocShotData, ShortUserData } from '@/types'
+import { DocShotData } from '@/types'
 import ShotActions from './ShotActions'
 import Link from 'next/link'
 import Avatar from '@/components/shared/Avatar'
 import { Popover } from 'antd'
 import AuthorPreview from './AuthorPreview'
+import { getUserShort } from '@/app/fetchers'
 
 type Props = {
     shot: DocShotData
 }
-const getShortData = async(userId: string) => {
-    try {
-        const userRes = await fetch(`${getHost()}/users/shortData?userId=${userId}`, { method: 'GET', next: { revalidate: 1800 } })
-        const user: { short: ShortUserData } | null = await userRes.json()
-        return user ? user.short : null
-    } catch(e) {
-        console.log(e)
-        return null
-    }
-}
+
 const ShotInfo = async({ shot }: Props) => {
-    const user = await getShortData(shot.authorId)
+    const user = await getUserShort(shot.authorId)
     const isSub = user?.isSubscriber || false
     const isVideo = (shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link).includes('.mp4')
     const content = (
