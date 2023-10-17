@@ -137,7 +137,9 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         return checkedFile.link
                     } else return ''
                 } else {
-                    const checkedFile = uploadOnlyImages ? checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file) : checkFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
+                    const checkedFile = uploadOnlyImages 
+                    ? checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file) 
+                    : checkFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
                     if (checkedFile) {
                         setPredictedType(checkedFile.type)
                         const url = URL.createObjectURL(file)
