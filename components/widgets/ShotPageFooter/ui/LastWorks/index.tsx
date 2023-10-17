@@ -1,5 +1,6 @@
 'use client'
 import MediaBlock from '@/components/entities/Blocks/MediaBlock'
+import GeneratedThumbnail from '@/components/entities/Blocks/MediaBlock/GeneratedThumbnail'
 // import { fetchFile } from '@/helpers/fetchFile'
 import { getHost } from '@/helpers/getHost'
 import { linkToShot } from '@/helpers/linkTo'
@@ -34,15 +35,21 @@ const LastWorks = ({ userId, exclude, order }: Props) => {
     return (
         <div className={`grid w-full h-fit gap-2 last_works_grid`}>
             {
-                shots.map((shot, index) => 
-                    <Link href={linkToShot(shot.doc_id)} 
-                    key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
-                        {
-                            shot.thumbnail && shot.thumbnail.link !== ''
-                            ? <MediaBlock link={shot.thumbnail.link}  object='cover' quality={25} />
-                            : shot.rootBlock.link !== '' && <MediaBlock link={shot.rootBlock.link} object='cover' quality={25} />
-                        }
-                    </Link>
+                shots.map((shot, index) => {
+                    const isVideo = (shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link).endsWith('.mp4')
+                    const stableLink = shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link
+                    return (
+                        <Link href={linkToShot(shot.doc_id)} 
+                        key={shot.doc_id + index} className="w-full h-full snap-center aspect-[4/3] rounded-xl bg-neutral-700">
+                            {
+                                isVideo 
+                                ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
+                                : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
+                            }
+                        </Link>
+                    )
+                }
+
                 )
             }
         </div>

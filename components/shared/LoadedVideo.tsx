@@ -13,14 +13,14 @@ const LoadedVideo = ({ withAmbiLight=false, link, autoPlay=false }: LoadedVideoP
     const isInView = useInView(videoBlock)
     useLayoutEffect(() => {
         const video = videoBlock.current
-        if (video) {
+        if (video && autoPlay) {
             if (isInView) {
                 video.play()
             } else {
                 video.pause()
             }
         }
-    },[videoBlock, isInView])
+    },[videoBlock, isInView, autoPlay])
     if (withAmbiLight) return <VideoAmbientLight link={link} autoPlay={autoPlay} />
     return (
         <video src={link} ref={videoBlock} loop placeholder="blur" autoPlay={autoPlay} controls={false} muted className='object-cover w-full h-full rounded-xl' />
