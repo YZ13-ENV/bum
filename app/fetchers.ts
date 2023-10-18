@@ -1,10 +1,22 @@
 import { getHost } from "@/helpers/getHost"
 import { ShotData, DocShotData, ShortUserData } from "@/types"
 import { db } from "@/utils/app"
-import { collectionGroup, getDocs } from "firebase/firestore"
+import { collection, collectionGroup, getDocs, query, where } from "firebase/firestore"
 
 const cacheTime = 120
 
+export const getDrafts = async(uid: string) => {
+    try {
+        const ref = collection(db, 'users', uid, 'shots')
+        const q = query(ref, where('isDraft', '==', true))
+        const snaps = await getDocs(q)
+        const shots = !snaps.empty ? snaps.docs.map(snap => ({ ...snap.data(), doc_id: snap.id }) as DocShotData ) : []
+        return shots
+    } catch(e) {
+        console.log(e);
+        return []
+    }
+}
 export const getAllShot = async() => {
     const collRef = collectionGroup(db, 'shots')
     const snaps = await getDocs(collRef)

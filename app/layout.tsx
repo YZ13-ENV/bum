@@ -54,9 +54,8 @@ export default function RootLayout(props: { children: ReactNode, modal: ReactNod
             <AppHeader />
             <SessionPicker />
             <CookiesAlert />
-            <main className="flex flex-col w-full h-full shrink-0 shot_wrapper">
+            <main className="flex flex-col w-full h-full shrink-0">
               { props.children }
-              {/* { props.modal ? props.modal : null } */}
             </main>
             <Analytics />
           </body>

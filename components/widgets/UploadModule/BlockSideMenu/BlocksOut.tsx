@@ -9,6 +9,7 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { setBlocks } from '@/components/entities/uploader/draft.store'
 import MenuMediaBlock from '@/components/entities/Blocks/MenuBlocks/MediaBlock';
 import ShotsGridBlock from '@/components/entities/Blocks/MenuBlocks/ShotsGridBlock';
+import { BiFolder } from 'react-icons/bi';
 const BlocksOut = () => {
     const draft = useAppSelector(state => state.uploader.draft)
     const dispatch = useAppDispatch()
@@ -47,13 +48,19 @@ const BlocksOut = () => {
     );
     return (
         <div className="flex flex-col w-full h-full gap-2">
-            <TextBlock disabled index={-1} block={{ text: draft.title }} />
-            {
-                draft.thumbnail && draft.thumbnail.link !== '' ?
-                <MenuMediaBlock index={-1} block={draft.thumbnail} disabled />
-                : draft.rootBlock.link !== '' &&
-                <MenuMediaBlock index={-1} block={draft.rootBlock} disabled />
-            }
+            <div className="flex flex-col w-full gap-2 p-4 border h-fit rounded-xl border-neutral-700">
+                <div className="flex items-center w-full gap-2 h-fit">
+                    <BiFolder size={17} />
+                    <span className='text-sm text-neutral-300'>Неизменяемые</span>
+                </div>
+                <TextBlock disabled index={-1} block={{ text: draft.title }} />
+                {
+                    draft.thumbnail && draft.thumbnail.link !== '' ?
+                    <MenuMediaBlock index={-1} block={draft.thumbnail} disabled />
+                    : draft.rootBlock.link !== '' &&
+                    <MenuMediaBlock index={-1} block={draft.rootBlock} disabled />
+                }
+            </div>
             <div className="flex flex-col w-full h-full gap-2">
             {
                 draft.blocks.length <= 1
