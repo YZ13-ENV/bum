@@ -3,7 +3,6 @@ import { MotionConfig, motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { ElementRef, LegacyRef, MutableRefObject, useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useInterval } from 'ahooks';
-import { fetchFile } from '@/helpers/fetchFile';
 
 type Props = {
     link: string
@@ -89,9 +88,9 @@ const Ambient = ({ link }: Props) => {
             {
                 isVideo
                 ? <video ref={mediaBlock as LegacyRef<HTMLVideoElement>} autoPlay muted loop className="z-10 object-cover w-full h-full rounded-2xl">
-                    <source src={fetchFile(link)} />
+                    <source src={link} />
                 </video>
-                : <Image ref={mediaBlock as MutableRefObject<HTMLImageElement>} src={fetchFile(link)} fill className="z-10 object-cover rounded-2xl" alt='img' />
+                : <Image ref={mediaBlock as MutableRefObject<HTMLImageElement>} src={link} fill className="z-10 object-cover rounded-2xl" alt='img' />
             }
         </div>
     )
