@@ -26,12 +26,9 @@ const fetchChunk = async(link: string) => {
     }
 }
 const ChunkController = ({ chunks, initialChunk, lastChunk }: Props) => {
-    console.log(chunks)
     const [items, setItems] = useState<DocShotData[]>([])
     const [loading, setLoading] = useState<boolean>(false)
-    const [currentIndex, setCurrentIndex] = useState<number>(
-        initialChunk ? 1 : 0
-    )
+    const [currentIndex, setCurrentIndex] = useState<number>(0)
     const loadChunk = async() => {
         setLoading(true)
         const chunkLink = chunks[currentIndex]

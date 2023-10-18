@@ -1,41 +1,37 @@
-import dynamic from 'next/dynamic'
 import { DocShotData } from '@/types'
 import { Suspense, memo } from 'react'
-import GeneratedThumbnail from '../Blocks/MediaBlock/GeneratedThumbnail'
+import Image from 'next/image'
+import { fetchFile } from '@/helpers/fetchFile'
+import ShotInfo from './ui/ShotInfo'
+import Link from 'next/link'
 import { linkToShot } from '@/helpers/linkTo'
-import ShotWrapper from './ui/ShotWrapper'
-const MediaBlock = dynamic(() => import('../Blocks/MediaBlock'), {
-    loading: () => <div className='w-full aspect-[4/3] rounded-xl bg-neutral-900 animate-pulse'/>
-}) 
-const Link = dynamic(() => import('next/link')) 
 
 type Props = {
     shot: DocShotData
 }
 const ShotCard = ({ shot }: Props) => {
     const stableLink = shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link
-    const isVideo = stableLink.endsWith('.mp4')
-    if (shot.isDraft) return (
-        <ShotWrapper shot={shot}>
-            {
-                isVideo 
-                ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
-                : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
-            }
-        </ShotWrapper>
-    )
+    if (shot.isDraft) return null
     return (
-        <ShotWrapper shot={shot}>
-            <Suspense fallback={<div className='w-full h-full rounded-xl bg-neutral-900 animate-pulse'/>}>
-                <Link scroll={false} href={linkToShot(shot.doc_id)} className='relative w-full aspect-[4/3] h-full'>
-                    {
-                        isVideo 
-                        ? <GeneratedThumbnail thumbnailLink={shot.thumbnail?.link as string | null} videoLink={shot.rootBlock.link} />
-                        : <MediaBlock link={stableLink} quality={75} object='cover' autoPlay={false} />
-                    }
-                </Link>
-            </Suspense>
-        </ShotWrapper>
+        <Link scroll={false} href={linkToShot(shot.doc_id)} className="relative aspect-[4/3] w-full rounded-xl shrink-0 group transition-transform hover:scale-105 border border-neutral-800">
+                <Suspense fallback={<div className='w-full h-full rounded-2xl bg-neutral-950 animate-pulse' />}>
+                        {
+                            process.env.NODE_ENV === 'development' 
+                            ? null
+                            : stableLink.endsWith('.mp4')
+                            ? <video className="object-cover w-full h-full rounded-xl">
+                                    <source src={fetchFile(stableLink)} />
+                            </video>
+                            : <Image src={fetchFile(stableLink)} fill className="object-cover rounded-xl" alt='img' />
+                        }
+                </Suspense>
+                <Suspense fallback={<div className='absolute bottom-0 left-0 w-full h-8 rounded-xl bg-neutral-800'/>}>
+                {
+                    !shot.isDraft &&
+                        <ShotInfo shot={shot} />
+                }
+                </Suspense>
+        </Link>
     )
 }
 

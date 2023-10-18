@@ -44,8 +44,7 @@ type Props = {
 }
 const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
     const count = await getCountOfShots(countPrefix)
-    // console.log(count)
-    const firstChunk = count !== 0 ? await getFirstChunk(shotsPrefix) : null
+    const firstChunk = await getFirstChunk(shotsPrefix)
     const chunksCount = count <= 16 ? 0 : Math.ceil((count - 1) / 16)
     const chunks = generateChunks(chunksCount, shotsPrefix)
     if (count === 0) return (
@@ -55,11 +54,7 @@ const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
         </div>
     )
     return (
-        <div id='shots-wrapper' className='grid min-h-screen home_grid gap-9'>
-            <Suspense fallback={<Loader />}>
-                <ChunkController initialChunk={firstChunk} chunks={chunks} lastChunk={chunksCount} />
-            </Suspense>
-        </div>
+        <ChunkController initialChunk={firstChunk} chunks={chunks} lastChunk={chunksCount} />
     )
 }
 
