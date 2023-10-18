@@ -6,7 +6,6 @@ import { Button } from 'antd'
 const ShotCard = dynamic(() => import('@/components/entities/shot'))
 
 type Props = {
-    initialChunk: DocShotData[] | null
     chunks: string[]
     lastChunk: number
 }
@@ -25,7 +24,7 @@ const fetchChunk = async(link: string) => {
         return null
     }
 }
-const ChunkController = ({ chunks, initialChunk, lastChunk }: Props) => {
+const ChunkController = ({ chunks, lastChunk }: Props) => {
     const [items, setItems] = useState<DocShotData[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -41,7 +40,7 @@ const ChunkController = ({ chunks, initialChunk, lastChunk }: Props) => {
     }
     return (
         <>
-            { initialChunk && initialChunk.map(item => <ShotCard key={item.doc_id} shot={item} />) }
+            {/* { initialChunk && initialChunk.map(item => <ShotCard key={item.doc_id} shot={item} />) } */}
             { items.map(item => <ShotCard key={item.doc_id} shot={item} />) }
             <div className="flex items-center justify-center w-full col-span-full h-fit">
                 {
