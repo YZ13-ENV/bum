@@ -127,14 +127,15 @@
   z-index: -1;
   height: 100%;
 }
+.light_wrapper {
+  width: 120%;
+  max-width: 100vw;
+}
 #ambiLightv2, .ambientLight {
   position: absolute;
   align-self: center;
-  filter: blur(125px);
-  opacity: 0.5;
+  width: 100%;
   z-index: -1;
-  width: 120%;
-  max-width: 100vw;
 }
 .categories_container {
   width: calc(100% - 160px);

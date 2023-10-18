@@ -81,11 +81,13 @@ const VideoAmbientLight = ({ link, autoPlay }: Omit<LoadedVideoProps, 'withAmbiL
 
     return (
         <div className='relative z-10 flex items-center justify-center'>
-            <MotionConfig transition={{ type: "spring", duration: 3000 }}>
-                <motion.canvas initial={{ opacity: 0 }} animate={{ opacity: .55 }} ref={canvas} id="ambiLightv2" className='aspect-[16/12] bg-blend-luminosity' onLoad={() => repaintAmbientLight()} />
-            </MotionConfig>
+            <div className={'absolute flex items-center justify-center light_wrapper aspect-[16/12] blur-[125px]'}>
+                <MotionConfig transition={{ type: "spring", duration: 3000 }}>
+                    <motion.canvas initial={{ opacity: 0 }} animate={{ opacity: .65 }} ref={canvas} id="ambiLightv2" className='aspect-[16/12]' onLoad={() => repaintAmbientLight()} />
+                </MotionConfig>
+            </div>
             <video ref={videoBlock} src={link} muted
-            className='object-cover w-full h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />
+            className='object-cover w-full z-[5] h-full aspect-[4/3] rounded-xl' loop autoPlay={autoPlay} controls={false} />
         </div>
     )
 }

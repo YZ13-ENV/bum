@@ -35,11 +35,12 @@ const ImageAmbientLight = ({ link, object, quality }: Omit<LoadedImageProps, 'wi
     },[])
     return (
         <div style={hex !== '' ? { backgroundColor: hex } : {}} 
-        className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full aspect-[4/3]'} z-10 flex overflow-visible items-center justify-center shrink-0 rounded-xl`}>
-            <MotionConfig transition={{ type: "spring", duration: 3000 }}>
-                <motion.canvas initial={{ opacity: 0 }} animate={{ opacity: .55 }} ref={canvas} id="ambiLightv2" 
-                className={object === 'contain' ? 'h-full' : 'h-full aspect-[4/3]'} onLoad={() => repaintAmbientLight()} />
-            </MotionConfig>
+        className={`relative w-full ${object === 'contain' ? 'h-fit' : 'h-full aspect-[16/12]'} z-10 flex overflow-visible items-center justify-center shrink-0 rounded-xl`}>
+            <div className={'absolute flex items-center justify-center light_wrapper aspect-[16/12] blur-[125px]'}>
+                <MotionConfig transition={{ type: "spring", duration: 3000 }}>
+                    <motion.canvas initial={{ opacity: 0 }} animate={{ opacity: .65 }} ref={canvas} id="ambiLightv2" className='aspect-[16/12]' onLoad={() => repaintAmbientLight()} />
+                </MotionConfig>
+            </div>
             <Image ref={ImageBlock} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}
             className={`!relative w-full ${object === 'contain' ? '!object-contain !h-fit' : '!h-full object-cover aspect-[4/3]'} rounded-xl`} 
             alt='block-image' quality={quality} />

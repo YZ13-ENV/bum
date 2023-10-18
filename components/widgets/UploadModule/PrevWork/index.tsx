@@ -1,22 +1,21 @@
-import { DocDraftShotData } from '@/types'
+import { DocShotData } from '@/types'
 import { cookies } from 'next/headers'
-import { getHost } from '@/helpers/getHost'
 import dynamic from 'next/dynamic'
 import Wrapper from './Wrapper'
-import { getShortByNickname } from '@/app/fetchers'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { db } from '@/utils/app'
 const PrevShotCard = dynamic(() => import('./ui/PrevShotCard'))
 const Header = dynamic(() => import('./ui/Header'))
 
 const getPrevShots = async() => {
     const cookie = cookies()
     const uid = cookie.get("uid")
-    if (uid) {
+    if (uid && uid.value !== '') {
         try {
-            const uidFromNickname = await getShortByNickname(uid.value)
-            const res = await fetch(`${getHost()}/shots/onlyDrafts/${uidFromNickname}&asDoc=true`, {
-                cache: 'no-store'
-            })
-            const shots: DocDraftShotData[] = await res.json()
+            const ref = collection(db, 'users', uid.value, 'shots')
+            const q = query(ref, where('isDraft', '==', false))
+            const snaps = await getDocs(q)
+            const shots = !snaps.empty ? snaps.docs.map(snap => ({ ...snap.data(), doc_id: snap.id }) as DocShotData ) : []
             return shots
         } catch(e) {
             console.log(e);
