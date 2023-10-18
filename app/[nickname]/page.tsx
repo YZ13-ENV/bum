@@ -1,9 +1,8 @@
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { getShortByNickname } from '../fetchers'
-const ProfileContent = dynamic(() => import('@/components/widgets/Profile')) 
+import Chunker from '@/components/widgets/ChunkModule/Chunker'
 
 type Props = {
     params: {
@@ -34,7 +33,7 @@ const UserPage = async({ params }: Props) => {
         <section className="w-full h-full">
             <div className="flex flex-col w-full h-full gap-4">
                 <Suspense fallback={<div className='flex items-center justify-center w-full h-full'><BiLoaderAlt size={17} className='animate-spin' /></div>}>
-                    <ProfileContent userId={params.nickname} />
+                    <Chunker countPrefix={`/shots/user/count/${params.nickname}/new`} shotsPrefix={`/shots/user/${params.nickname}/new`} />
                 </Suspense>
             </div>
             {/* <Footer></Footer> */}

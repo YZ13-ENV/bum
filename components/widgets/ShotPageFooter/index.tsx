@@ -4,7 +4,7 @@ import Link from 'next/link'
 import CommentSection from './ui/CommentSection'
 import WorksWrapper from './ui/LastWorks/ui/WorksWrapper'
 import Avatar from '@/components/shared/Avatar'
-import FollowButton from '../UserProfileTabs/ui/FollowButton'
+import FollowButton from '../../shared/FollowButton'
 import ViewsAndTags from './ui/ViewsAndTags'
 
 type Props = {

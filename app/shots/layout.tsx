@@ -13,10 +13,12 @@ const ShotsLayout = (props: { children: React.ReactNode, modal: React.ReactNode 
                         <CategoryAndOrder integrationMode noCategory={false} />
                     </div>
                 </div>
-                <Suspense fallback={<Loading />}>
-                    { props.children }
-                    {/* { props.modal ? props.modal : null } */}
-                </Suspense>
+                <div id='shots-wrapper' className='grid min-h-screen home_grid gap-9'>
+                    <Suspense fallback={<Loading />}>
+                        { props.children }
+                        {/* { props.modal ? props.modal : null } */}
+                    </Suspense>
+                </div>
             </div>
             <Footer />
         </div>

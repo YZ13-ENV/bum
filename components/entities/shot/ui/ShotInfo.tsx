@@ -1,35 +1,25 @@
 import { DocShotData } from '@/types'
 import ShotActions from './ShotActions'
-import Link from 'next/link'
-import Avatar from '@/components/shared/Avatar'
-import { Popover } from 'antd'
-import AuthorPreview from './AuthorPreview'
-import { getUserShort } from '@/app/fetchers'
+import AuthorSnippet from './AuthorSnippet'
+import { Suspense, memo } from 'react'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 type Props = {
     shot: DocShotData
 }
 
-const ShotInfo = async({ shot }: Props) => {
-    const user = await getUserShort(shot.authorId)
-    const isSub = user?.isSubscriber || false
-    const isVideo = (shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link).includes('.mp4')
-    const content = (
-        <AuthorPreview uid={shot.authorId} user={user} />
-    )
+const ShotInfo = ({ shot }: Props) => {
     return (
-        <div className={`absolute bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 px-4 py-2 ${isVideo ? 'group-hover:opacity-0 hover:!opacity-100' : ''} rounded-b-xl h-fit bg-gradient-to-t from-black to-transparent`}>
+        <div className={`absolute bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 p-4 rounded-b-xl h-fit bg-gradient-to-t from-black to-transparent`}>
             <h2 className='text-base font-medium text-neutral-200 line-clamp-1'>{shot.title}</h2>
             <div className="flex items-center gap-2 pl-2 bg-black rounded-full shrink-0 w-fit h-fit">
-                <ShotActions shot={shot} isSub={isSub} />
-                <Popover content={content} placement='top' trigger={['hover']}>
-                    <Link href={`/${user?.displayName}`}>
-                        <Avatar src={user ? user.photoUrl : null} size={26} noLabel isSub={isSub} direction='left' />
-                    </Link>
-                </Popover>
+                <div className="flex items-center gap-2 py-1.5 w-fit h-fit"><ShotActions shot={shot} /></div>
+                <Suspense fallback={<BiLoaderAlt className='mr-2 animate-spin' />}>
+                    <AuthorSnippet uid={shot.authorId} />
+                </Suspense>
             </div>
         </div>
     )
 }
 
-export default ShotInfo
+export default memo(ShotInfo)

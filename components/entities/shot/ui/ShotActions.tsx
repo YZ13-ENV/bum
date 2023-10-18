@@ -12,9 +12,8 @@ import { DateTime } from 'luxon'
 type Props = {
     shot: DocShotData
     isOnPage?: boolean
-    isSub?: boolean
 }
-const ShotActions = ({ shot, isSub=false, isOnPage=false }: Props) => {
+const ShotActions = ({ shot, isOnPage=false }: Props) => {
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
