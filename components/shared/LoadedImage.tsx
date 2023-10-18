@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { FastAverageColor } from 'fast-average-color';
 import { useRef, ElementRef, useState, useLayoutEffect, Suspense } from 'react';
-import ImageAmbientLight from '../widgets/AmbientLight/ImageAmbientLight';
+import Ambient from '../widgets/AmbientLight/Ambient';
 
 export type LoadedImageProps = {
     withAmbiLight?: boolean
@@ -26,7 +26,7 @@ const LoadedImage = ({ link, quality=75, object='contain', withAmbiLight }: Load
             }
         }
     },[ImageBlock.current])
-    if (withAmbiLight) return <ImageAmbientLight link={link} object={object} quality={quality} />
+    if (withAmbiLight) return <Ambient link={link} />
     return (
         <Suspense fallback={<div className='aspect-[4/3] bg-neutral-900 animate-pulse rounded-xl' />}>
             <Image ref={ImageBlock} style={ object !== 'cover' || hex !== '' ? { backgroundColor: hex } :{}} priority fill src={link} unoptimized={link.includes('.gif') ? true : false}

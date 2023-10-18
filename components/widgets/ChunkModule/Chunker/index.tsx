@@ -1,10 +1,7 @@
 import { generateChunks } from '@/helpers/generateChunks'
 import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
-import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
 import ChunkController from './ui/ChunkController'
-import Loader from './ui/Loader'
 import { Button } from 'antd'
 
 const getCountOfShots = async(countPrefix: string) => {

@@ -1,7 +1,7 @@
 'use client'
 import { ElementRef, useLayoutEffect, useRef } from "react"
-import VideoAmbientLight from "../widgets/AmbientLight/VideoAmbientLight"
 import { useInView } from "framer-motion"
+import Ambient from "../widgets/AmbientLight/Ambient"
 
 export type LoadedVideoProps = {
     withAmbiLight?: boolean
@@ -21,7 +21,7 @@ const LoadedVideo = ({ withAmbiLight=false, link, autoPlay=false }: LoadedVideoP
             }
         }
     },[videoBlock, isInView, autoPlay])
-    if (withAmbiLight) return <VideoAmbientLight link={link} autoPlay={autoPlay} />
+    if (withAmbiLight) return <Ambient link={link} />
     return (
         <video src={link} ref={videoBlock} loop placeholder="blur" autoPlay={autoPlay} controls={false} muted className='object-cover w-full h-full rounded-xl' />
     )

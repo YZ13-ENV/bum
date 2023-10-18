@@ -13,7 +13,7 @@ const UploadShot = () => {
             [x] - 1 - Для добавления предыдущих работ в рекомендации к текущей публикации
             [x] - 2 - Отображение добавленных блоков
             [x] - 3 - Меню с блоками для добавление 
-        */
+    */
         <section className='flex flex-col w-full h-full shrink-0'>
             <FinalTouchModal />
             <UploadHeader />
