@@ -3,6 +3,9 @@ import { getHost } from '@/helpers/getHost'
 import { DocShotData } from '@/types'
 import ChunkController from './ui/ChunkController'
 import { Button } from 'antd'
+import dynamic from 'next/dynamic'
+const ShotCard = dynamic(() => import('@/components/entities/shot'))
+
 
 const getCountOfShots = async(countPrefix: string) => {
     try {
@@ -45,13 +48,16 @@ const Chunker = async({ countPrefix, shotsPrefix }: Props) => {
     const chunksCount = count <= 16 ? 0 : Math.ceil((count - 1) / 16)
     const chunks = generateChunks(chunksCount, shotsPrefix)
     if (count === 0) return (
-        <div className='flex flex-col items-center justify-center w-full h-full gap-4 shot_wrapper'>
+        <div className='flex flex-col items-center justify-center w-full h-full gap-4 col-span-full shot_wrapper'>
             <span className='text-sm text-neutral-200'>Нет работ, вы можете быть первым</span>
             <Button href='/uploads/shot'>Загрузить работу</Button>
         </div>
     )
     return (
-        <ChunkController initialChunk={firstChunk} chunks={chunks} lastChunk={chunksCount} />
+        <>
+            { firstChunk && firstChunk.map(item => <ShotCard key={item.doc_id} shot={item} />) }
+            <ChunkController chunks={chunks} lastChunk={chunksCount} />
+        </>
     )
 }
 
