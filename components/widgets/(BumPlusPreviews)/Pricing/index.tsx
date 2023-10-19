@@ -64,13 +64,17 @@ const Pricing = ({ hideAdvantages=false }: Props) => {
                                     noSub={<BiX size={19} className='mx-auto text-neutral-400' />} withSub={<BiCheck size={19} className='mx-auto' />} />
                                     <AdvantageRow title={<span className='text-neutral-300'>Большее кол-во медиа блоков</span>} 
                                     noSub={<BiX size={19} className='mx-auto text-neutral-400' />} withSub={<BiCheck size={19} className='mx-auto' />} />
+                                    <AdvantageRow title={<span className='text-neutral-300'>Блок &apos;Галерея&apos;</span>} 
+                                    noSub={<BiX size={19} className='mx-auto text-neutral-400' />} withSub={<BiCheck size={19} className='mx-auto' />} />
                                     <AdvantageRow title={<span className='text-neutral-300'>Ambient подсветка для главного блока</span>} 
                                     noSub={<BiX size={19} className='mx-auto text-neutral-400' />} withSub={<BiCheck size={19} className='mx-auto' />} />
                                     <AdvantageRow title={<span className='text-neutral-300'>Возможность оставлять реакции для комментариев</span>} 
                                     noSub={<BiX size={19} className='mx-auto text-neutral-400' />} withSub={<BiCheck size={19} className='mx-auto' />} />
+                                    <AdvantageRow title={<span className='text-neutral-300'>Статистика по работам</span>} 
+                                    noSub={<BiX size={19} className='mx-auto text-neutral-400' />} withSub={<BiCheck size={19} className='mx-auto' />} />
                                 </tbody>
                             </table>
-                            <table>
+                            {/* <table>
                                 <thead>
                                     <tr className='w-full'>
                                         <th className='w-full h-full'>
@@ -104,7 +108,7 @@ const Pricing = ({ hideAdvantages=false }: Props) => {
                                         </th>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> */}
                         </div>
                     </>
                 }

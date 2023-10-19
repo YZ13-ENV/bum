@@ -27,6 +27,7 @@ const Bio = ({ uid }: Props) => {
             const docSnap = await getDoc(docRef)
             if (docSnap.exists()) {
                 const bioField = docSnap.get('bio')
+                console.log(bioField)
                 if (!bioField) {
                     const bio = bioDoc
                     const entireDoc = { ...docSnap.data(), bio }
@@ -44,20 +45,28 @@ const Bio = ({ uid }: Props) => {
         }
     }
     const getBio = async() => {
-        const fetched = await getUidFromNickname(uid) as string
-        const docRef = doc(db, 'users', fetched)
-        const docSnap = await getDoc(docRef)
-        const bioField = docSnap.get('bio')
-        if (bioField) {
-            setAbout(bioField.about)
-            setSkills(bioField.skills)
+        const fromNickname = await getUidFromNickname(uid)
+        if (fromNickname) {
+            const clearUid = fromNickname.replaceAll('"', '')
+            const docRef = doc(db, 'users', clearUid)
+            const docSnap = await getDoc(docRef)
+            if (docSnap.exists()) {
+                const bioField = docSnap.get('bio')
+                console.log(bioField)
+                if (bioField) {
+                    setAbout(bioField.about)
+                    setSkills(bioField.skills)
+                }
+            }
         }
     }
     useLayoutEffect(() => {
         getBio()
-    },[uid])
+    },[uid, user])
     useDebounceEffect(() => {
-        if (user && user.displayName === uid) updatedBio()
+        if (user && user.displayName === uid) {
+            if (about !== '' || skills.length !==0) updatedBio()
+        } 
     },[user, about, skills], { wait: 2000 })
     return (
         <>
