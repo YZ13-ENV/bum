@@ -2,6 +2,7 @@
 import { Switch } from "antd"
 import { useState } from "react"
 import { BiImage, BiVideo } from "react-icons/bi"
+import { LuGalleryThumbnails } from "react-icons/lu"
 
 const ConstructorGallery = () => {
     const [turnOnSubscription, setTurnOnSubscription] = useState<boolean>(false)
@@ -22,13 +23,25 @@ const ConstructorGallery = () => {
                     </div>
                 </div>
                 {
-                    !turnOnSubscription &&
+                    turnOnSubscription &&
                     <div className="relative aspect-[4/3] w-64 rounded-lg border flex items-center justify-center border-neutral-800 gap-2">
-                        <span className="absolute text-sm top-4 right-4 text-neutral-400">x4</span>
+                        <span className="absolute text-sm top-4 right-4 text-neutral-400">x5</span>
                         <div className="p-3 border rounded-md border-neutral-800">
-                            <BiImage size={30} />
+                            <LuGalleryThumbnails size={30} />
                         </div>
                     </div>
+                }
+                {
+                    !turnOnSubscription &&
+                    <>
+                        <div className="relative aspect-[4/3] w-64 rounded-lg border flex items-center justify-center border-neutral-800 gap-2">
+                            <span className="absolute text-sm top-4 right-4 text-neutral-400">x5</span>
+                            <div className="p-3 border rounded-md border-neutral-800">
+                                <BiImage size={30} />
+                            </div>
+                        </div>
+
+                    </>
                 }
             </div>
         </div>

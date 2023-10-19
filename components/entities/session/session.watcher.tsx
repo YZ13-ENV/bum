@@ -45,7 +45,7 @@ const SessionWatcher = () => {
   }
   const [debouncedSession, setDebouncedSession] = useState<Session | null>(null)
   useLayoutEffect(() => {
-    process.env.NODE_ENV === 'development' && console.info(session, user?.uid, sid)
+    // process.env.NODE_ENV === 'development' && console.info(session, user?.uid, sid)
   },[session, sid, user?.uid])
   const getCatchSession = (): Promise<Session | null> => new Promise(async(res, rej) => {
     if (sid && !tokenParam) {
@@ -90,11 +90,11 @@ const SessionWatcher = () => {
     } else console.log('Session is not need update')
   }, [session], { wait: 1000 })
   useLayoutEffect(() => {
-    manipulateSession()
+    if (!debouncedSession || !isEqual(debouncedSession, session)) manipulateSession()
   }, [session.uid, user])
   useLayoutEffect(() => {
     getCatchSession()
-    .then(session => session && dispatch(setSession(session)))
+    .then(session => (session && !isEqual(debouncedSession, session)) && dispatch(setSession(session)))
   }, [session.sid, sid, tokenParam])
   useLayoutEffect(() => {
     if (session.sid) {
