@@ -1,21 +1,14 @@
-import { Select, Switch } from 'antd'
-import React from 'react'
+'use client'
+import ThumbnailUploader from '@/components/entities/Blocks/MediaBlock/ThumbnailUploader'
+import BlocksGrid from '../BlocksGrid'
 
 const RightSide = () => {
     return (
         <>
-            <div className="w-full aspect-[4/3] rounded-xl bg-neutral-900">
-                <span>Обложка</span>
+            <div className="relative w-full aspect-[4/3] flex flex-col gap-2 items-center justify-center rounded-xl bg-neutral-900">
+                <ThumbnailUploader />
             </div>
-            <Select mode="tags" size='large' placeholder="По каким тэгам можно найти" />
-            <div className="flex items-center w-full gap-2 h-fit">
-                <Switch defaultChecked />
-                <span className='text-sm font-semibold text-neutral-300'>Нужны комментарии?</span>
-            </div>
-            <div className="flex items-center w-full gap-2 h-fit">
-                <Switch defaultChecked />
-                <span className='text-sm font-semibold text-neutral-300'>Включить MarkDown? <sup>Beta</sup></span>
-            </div>
+            <BlocksGrid />
         </>
     )
 }

@@ -4,7 +4,7 @@ import UploadHeader from "@/components/entities/uploader/ui/UploadHeader"
 import FinalTouchModal from "@/components/widgets/FinalTouchModal"
 // import UploadBlocksMenu from "@/components/widgets/UploadModule/BlockSideMenu"
 // import PrevWorks from "@/components/widgets/UploadModule/PrevWork"
-import UploadBlockView from "@/components/widgets/UploadModule/UploadView"
+import UploadBlockView from "@/components/widgets/UploadModule"
 
 const UploadShotPage = () => {
     return (
@@ -16,7 +16,7 @@ const UploadShotPage = () => {
                     <LeftSide />
                 </div>
                 <UploadBlockView />
-                <div className="flex flex-col h-full gap-4 p-4 w-96 shrink-0">
+                <div className="sticky flex flex-col h-full gap-2 p-4 top-4 w-96 shrink-0">
                     <RightSide />
                 </div>
             </div>

@@ -1,5 +1,5 @@
 'use client'
-import BlocksOut from '@/components/widgets/UploadModule/BlockSideMenu/BlocksOut'
+import BlocksOut from '@/components/entities/uploader/ui/LeftSide/BlocksOut'
 import { Segmented } from 'antd'
 import { useState } from 'react'
 import PrevWorks from './PrevWorks'
