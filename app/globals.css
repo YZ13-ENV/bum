@@ -134,7 +134,7 @@
 #ambiLightv2, .ambientLight {
   position: absolute;
   align-self: center;
-  width: 100%;
+  /* width: 100%; */
   z-index: -1;
 }
 .categories_container {

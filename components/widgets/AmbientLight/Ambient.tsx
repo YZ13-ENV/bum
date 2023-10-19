@@ -1,8 +1,8 @@
 'use client'
 import { MotionConfig, motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { ElementRef, LegacyRef, MutableRefObject, useCallback, useLayoutEffect, useRef, useState } from 'react'
-import { useInterval } from 'ahooks';
+import { ElementRef, LegacyRef, MutableRefObject, memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useDebounceEffect, useInterval } from 'ahooks';
 
 type Props = {
     link: string
@@ -12,14 +12,15 @@ const Ambient = ({ link }: Props) => {
     const mediaBlock = useRef<ElementRef<'video' | 'img'>>(null)
     const canvas = useRef<ElementRef<'canvas'>>(null);
     const isInView = useInView(mediaBlock)
-    const FRAMERATE = 24;
-    const [run, setRun] = useState<boolean>(false);
+    const [run, setRun] = useState<boolean>(true);
     
     const repaintAmbientLight = () => {
         if (canvas.current) {
             const context = canvas.current.getContext("2d");
             if (context && mediaBlock.current) {
-                context.drawImage(mediaBlock.current, 0, 0, canvas.current.width, canvas.current.height);
+                context.imageSmoothingEnabled = true
+                context.imageSmoothingQuality = 'low'
+                    context.drawImage(mediaBlock.current, 0, 0, canvas.current.width, canvas.current.height);
             }
         }
     }
@@ -31,7 +32,25 @@ const Ambient = ({ link }: Props) => {
 
     const stopAmbientLightRepaint = useInterval(() => {
         repaintAmbientLight()
-    }, run ? 1000 / FRAMERATE : undefined);
+    }, run ? 1000 / 10 : undefined);
+    useDebounceEffect(() => {
+        if (mediaBlock.current && isVideo) {
+            const video = mediaBlock.current as HTMLVideoElement
+            if (run) {
+                video.play()
+            } else {
+                video.pause()
+            }
+        }
+    },[run, mediaBlock], { wait: 750 })
+    useDebounceEffect(() => {
+        if (isInView) {
+            setRun(true)
+        } else {
+            setRun(false)
+        }
+    },[isInView], { wait: 750 })
+
     useLayoutEffect(() => {
         const block = mediaBlock.current
         if (block) {
@@ -45,28 +64,24 @@ const Ambient = ({ link }: Props) => {
                 const handleEnded = handlePause;
                 const handleSeeked = () => repaintAmbientLight();
                 const handleLoad = handleSeeked;
-                if (isInView) {
-                    video.addEventListener('loadeddata', () => {
-                        video.play();
-                    });
-                    video.play();
-                    video.addEventListener("play", handlePlay);
-                    video.addEventListener("pause", handlePause);
-                    video.addEventListener("ended", handleEnded);
-                    video.addEventListener("seeked", handleSeeked);
-                    video.addEventListener("load", handleLoad);
-                    
-                    return () => {
-                        video.removeEventListener("play", handlePlay);
-                        video.removeEventListener("pause", handlePause);
-                        video.removeEventListener("ended", handleEnded);
-                        video.removeEventListener("seeked", handleSeeked);
-                        video.removeEventListener("load", handleLoad);
-                    };
-                } else {
-                    video.pause()
-                    handlePause()
-                }
+                setRun(true)
+                handlePlay()
+                video.addEventListener('loadeddata', () => {
+                    setRun(true)
+                });
+                video.addEventListener("play", handlePlay);
+                video.addEventListener("pause", handlePause);
+                video.addEventListener("ended", handleEnded);
+                video.addEventListener("seeked", handleSeeked);
+                video.addEventListener("load", handleLoad);
+
+                return () => {
+                    video.removeEventListener("play", handlePlay);
+                    video.removeEventListener("pause", handlePause);
+                    video.removeEventListener("ended", handleEnded);
+                    video.removeEventListener("seeked", handleSeeked);
+                    video.removeEventListener("load", handleLoad);
+                };
             } else {
                 repaintAmbientLight()
                 block.addEventListener("load", () => repaintAmbientLight());
@@ -79,10 +94,11 @@ const Ambient = ({ link }: Props) => {
         }
     },[])
     return (
-        <div className='relative w-full aspect-[4/3] flex items-center justify-center'>
+        <div className='relative w-full z-20 aspect-[4/3] flex items-center justify-center'>
             <div className={'absolute flex items-center justify-center light_wrapper aspect-[16/12] blur-[125px]'}>
-                <MotionConfig transition={{ type: "spring", duration: 3000 }}>
-                    <motion.canvas initial={{ opacity: 0 }} animate={{ opacity: .65 }} ref={canvas} id="ambiLightv2" className='aspect-[16/12]' onLoad={() => repaintAmbientLight()} />
+                <MotionConfig transition={{ type: 'spring', duration: 400 }}>
+                    <motion.canvas initial={{ opacity: .25 }} animate={{ opacity: .6 }} 
+                    ref={canvas} className={`ambientLight aspect-[4/3] ${isVideo && 'animate-pulse duration-1000'} transition-all w-full`} onLoad={() => repaintAmbientLight()} />
                 </MotionConfig>
             </div>
             {
@@ -96,4 +112,4 @@ const Ambient = ({ link }: Props) => {
     )
 }
 
-export default Ambient
+export default memo(Ambient)
