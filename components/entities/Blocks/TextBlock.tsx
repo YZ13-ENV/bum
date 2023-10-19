@@ -25,41 +25,6 @@ const TextBlock = ({ block, index }: Props) => {
         if (align === 'center') return isImportant ? '!text-center' : 'text-center'
         if (align === 'right') return isImportant ? '!text-right' : 'text-right'
     }
-    const changeSize = (action: 'plus' | 'minus') => {
-        if (block.size >= 1 && action === 'minus') {
-            const updatedSize: TextBlock = {
-                ...block,
-                size: block.size - 1 as TextBlock['size']
-            }
-            const updatedBlocks = draft.blocks.map((_, blockIndex) => {
-            if (blockIndex === index) return updatedSize
-                return _   
-            })
-            dispatch(setBlocks(updatedBlocks))
-        }
-        if (block.size <= 2 && action === 'plus') {
-            const updatedSize: TextBlock = {
-                ...block,
-                size: block.size + 1 as TextBlock['size']
-            }
-            const updatedBlocks = draft.blocks.map((_, blockIndex) => {
-            if (blockIndex === index) return updatedSize
-                return _   
-            })
-            dispatch(setBlocks(updatedBlocks))
-        }
-    }
-    const updateIsBold = () => {
-        const updatedIsBold: TextBlock = {
-            ...block,
-            isBold: !block.isBold
-        }
-        const updatedBlocks = draft.blocks.map((_, blockIndex) => {
-        if (blockIndex === index) return updatedIsBold
-            return _   
-        })
-        dispatch(setBlocks(updatedBlocks))
-    }
     const updateAlign = (align: TextBlock['align']) => {
         const updatedAlign: TextBlock = {
             ...block,
@@ -67,17 +32,6 @@ const TextBlock = ({ block, index }: Props) => {
         }
         const updatedBlocks = draft.blocks.map((_, blockIndex) => {
         if (blockIndex === index) return updatedAlign
-            return _   
-        })
-        dispatch(setBlocks(updatedBlocks))
-    }
-    const updateIsItalic = () => {
-        const updatedIsItalic: TextBlock = {
-            ...block,
-            isItalic: !block.isItalic
-        }
-        const updatedBlocks = draft.blocks.map((_, blockIndex) => {
-        if (blockIndex === index) return updatedIsItalic
             return _   
         })
         dispatch(setBlocks(updatedBlocks))
@@ -120,20 +74,6 @@ const TextBlock = ({ block, index }: Props) => {
                 <Button onClick={() => setPreview(!preview)} type={preview ? 'primary' : 'default'} disabled={!enableSyntax}><BiSolidMagicWand /></Button>
                 <Button type={enableSyntax ? 'primary' : 'default'} 
                 onClick={() => dispatch(setMDSyntax(!enableSyntax))}>{ enableSyntax ? <BsMarkdownFill size={15}/> : <BsMarkdown size={15}/> }</Button>
-                {
-                    !enableSyntax &&
-                    <>
-                    <Space.Compact>
-                        <Button onClick={() => changeSize('minus')}><MdTextDecrease size={15} /></Button>
-                        <Button>{block.size}</Button>
-                        <Button onClick={() => changeSize('plus')}><MdTextIncrease size={15} /></Button>
-                    </Space.Compact>
-                    <Space.Compact>
-                        <Button onClick={() => updateIsBold()} type={block.isBold ? 'primary' : 'default'} ><BiBold size={15} /></Button>
-                        <Button onClick={() => updateIsItalic()} type={block.isItalic ? 'primary' : 'default'} ><BiItalic size={15} /></Button>
-                    </Space.Compact>
-                    </>
-                }
                 <Space.Compact>
                     <Button type={ block.align === 'left' ? 'primary' : 'default' } 
                     onClick={() => updateAlign('left')}>

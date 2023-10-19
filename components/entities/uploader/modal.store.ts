@@ -12,7 +12,7 @@ type InitState = {
 
 const initialState: InitState = {
     fullScreenMediaLink: null,
-    enableMDSyntax: false,
+    enableMDSyntax: true,
     draftId: null,
     blocksSidebar: false,
     prevWorkSidebar: false,

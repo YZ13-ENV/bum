@@ -3,7 +3,7 @@ import { MdFiberNew } from 'react-icons/md'
 import { PiVideo } from 'react-icons/pi'
 import { RiVerifiedBadgeFill } from 'react-icons/ri'
 import PricingColumn from './PricingColumn'
-
+import { TbMultiplier2X } from 'react-icons/tb'
 type Props = {
     forYear: boolean
     isSub?: boolean
@@ -45,8 +45,14 @@ const PricingPool = ({ forYear, isSub=false }: Props) => {
                 </li>
                 <li className='my-2 list-none'>
                     <div className="flex items-center w-full gap-3 h-fit">
+                        <TbMultiplier2X size={21} className='shrink-0' />
+                        <span className='text-sm text-neutral-300'>В два раза больше медиа-блоков</span>
+                    </div>
+                </li>
+                <li className='my-2 list-none'>
+                    <div className="flex items-center w-full gap-3 h-fit">
                         <BsMagic size={21} />
-                        <span className='text-sm text-neutral-300'>Ambient подсветка для главного блока</span>
+                        <span className='text-sm text-neutral-300'>Ambient подсветка для главного медиа-блока</span>
                     </div>
                 </li>
                 <li className='my-2 list-none'>

@@ -1,8 +1,7 @@
 import { useAppSelector } from '@/components/entities/store/store'
-import ShotCard from '@/components/entities/shot'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/app'
-import { DateTime } from 'luxon'
+import ThumbnailUploader from '@/components/entities/Blocks/MediaBlock/ThumbnailUploader'
 
 const PreviewSide = () => {
     const uploaderDraft = useAppSelector(state => state.uploader.draft)
@@ -11,9 +10,8 @@ const PreviewSide = () => {
     return (
         <div className="flex flex-col w-full gap-2 md:w-2/6 md:h-full h-fit">
             <span className='text-sm font-semibold text-neutral-200'>Предпросмотр обложки</span>
-            <div className="grid w-full h-fit preview_grid">
-                <ShotCard shot={{ ...uploaderDraft, comments: [], needFeedback: false, tags: [], createdAt: DateTime.now().toSeconds(), likes: [],
-                doc_id: uploader.modals.draftId as string, isDraft: true, authorId: user?.uid || '',  views: [] }} />
+            <div className="relative w-full aspect-[4/3] flex flex-col gap-2 items-center justify-center rounded-xl bg-neutral-900">
+                <ThumbnailUploader />
             </div>
         </div>
     )

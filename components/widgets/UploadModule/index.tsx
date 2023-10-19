@@ -26,9 +26,9 @@ const UploadBlockView = () => {
     const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     // console.log(draft.blocks)
     return (
-        <>
+        <div className="w-full h-full max-w-6xl p-8 mx-auto overflow-y-auto bg-black rounded-3xl">
             <UploaderWatcher />
-            <div className="flex flex-col w-full h-full max-w-4xl max-h-full px-4 py-4 mx-auto overflow-y-auto gap-14 md:px-0 md:py-4">
+            <div className="flex flex-col w-full h-full max-w-4xl max-h-full px-4 py-4 mx-auto rounded-2xl gap-14 md:px-0 md:py-4">
                 <div className="w-full max-w-2xl mx-auto">
                     <Input size='large' disabled={draft.rootBlock.link === ''} className='!rounded-none !p-0 !text-4xl !font-extrabold !text-center !text-neutral-200'
                     value={draft.title} onChange={e => dispatch(setTitle(e.target.value))}
@@ -52,7 +52,7 @@ const UploadBlockView = () => {
                     }
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

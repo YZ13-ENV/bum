@@ -68,7 +68,7 @@ const Footer = () => {
                     <div className="flex flex-col items-start justify-center gap-3 w-fit h-fit">
                         <span className="font-medium text-neutral-200">Подписка</span>
                         <Link className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-200" 
-                        href='/redirect/app/darkmaterial.space'>
+                        href='/redirect/app/darkmaterial.space?path=/plus'>
                             <Image src='/dm+.svg' width={20} height={20} alt='dm-logo' />
                             DM+
                         </Link>

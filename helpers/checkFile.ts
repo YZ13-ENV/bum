@@ -7,7 +7,6 @@ export const checkFile = (
     userId: string, draftId: string, file: RcFile
     ): ImageBlock | VideoBlock | null => {
     const checkedSize = checkSize(file.size)
-    // console.log(checkedSize, file.type)
     if (file.type === 'video/mp4' && ((checkedSize.size <= 20 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
         return { type: 'video', link: `/users/${userId}/${draftId}/${v4()}.mp4`}
     }
@@ -22,6 +21,25 @@ export const checkFile = (
     }
     return null
 }
+
+export const checkThumbnail = (
+    userId: string, draftId: string, file: RcFile
+    ): ImageBlock | VideoBlock | null => {
+        const checkedSize = checkSize(file.size)
+        if (file.type === 'video/mp4' && ((checkedSize.size <= 2 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+            return { type: 'video', link: `/users/${userId}/${draftId}/${v4()}.mp4`}
+        }
+        if (file.type.includes('image') && ((checkedSize.size <= 2 && checkedSize.scale === 'MiB') || checkedSize.scale === 'KiB' || checkedSize.scale === 'Bytes')) {
+            if (file.type === 'image/jpg' || file.type === 'image/jpeg') {
+                return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.jpg`}
+            } else if (file.type === 'image/png') {
+                return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.png`}
+            } else if (file.type === 'image/gif') {
+                return { type: 'image', link: `/users/${userId}/${draftId}/${v4()}.gif`}
+            } else return null
+        }
+        return null
+    }
 
 export const checkOnlyImageFile = (
     userId: string, draftId: string, file: RcFile
