@@ -17,6 +17,7 @@ import { uploadShot_POST } from '@/helpers/shot'
 import { uploadedFile, uploadedThumbnail } from './helper'
 import { useDebounceEffect } from 'ahooks'
 import UploaderConditions from './UploaderConditions'
+import { setForcedType, setPreviewLink, setSavedFile } from '../../uploader/thumbnail.store'
 
 type Props = {
     block: ImageBlock | VideoBlock
@@ -28,8 +29,11 @@ type Props = {
 const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false }: Props) => {
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
-    const [previewLink, setPreviewLink] = useState<string>('')
-    const [predictedType, setPredictedType] = useState<'image' | 'video'>('image')
+    const thumbnail = useAppSelector(state => state.uploader.thumbnail)
+    const previewLink = thumbnail.previewLink
+    const predictedType = thumbnail.forcedType
+    // const [previewLink, setPreviewLink] = useState<string>('')
+    // const [predictedType, setPredictedType] = useState<'image' | 'video'>('image')
     const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     const dispatch = useAppDispatch()
     const modals = useAppSelector(state => state.uploader.modals)
@@ -131,9 +135,9 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     if (checkedFile) {
                         !modals.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${modals.draftId}`) 
                         dispatch(setRootBlock({ type: checkedFile.type, link: '' }))
-                        setPredictedType(checkedFile.type)
+                        dispatch(setForcedType(checkedFile.type))
                         const url = URL.createObjectURL(file)
-                        setPreviewLink(url)
+                        dispatch(setPreviewLink(url))
                         return checkedFile.link
                     } else return ''
                 } else {
@@ -141,9 +145,9 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     ? checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file) 
                     : checkFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
                     if (checkedFile) {
-                        setPredictedType(checkedFile.type)
+                        dispatch(setForcedType(checkedFile.type))
                         const url = URL.createObjectURL(file)
-                        setPreviewLink(url)
+                        dispatch(setPreviewLink(url))
                         const updatedBlocks = draft.blocks.map((_, blockIndex) => {
                             if (blockIndex === index) {
                                 if (checkedFile.type === 'video') {
@@ -175,8 +179,10 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
             const res = await fetch(`${getHost()}/files/file?link=${block.link}`, { method: "DELETE" })
             if (res.ok) {
                 message.info('Файл был удалён')
-                URL.revokeObjectURL(previewLink)
-                setPreviewLink('')
+                if (previewLink) {
+                    URL.revokeObjectURL(previewLink)
+                    dispatch(setPreviewLink(''))
+                }
                 if (isRootBlock) {
                     dispatch(setRootBlock({ type: 'image', link: '' }))
                     if (draft.thumbnail) {
@@ -184,6 +190,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         if (thumbRes.ok) {
                             message.info('Обложка была удалена')
                             dispatch(setThumbnail(null))
+                            dispatch(setSavedFile(null))
                             setLoading(false)
                         } else setLoading(false)
                     } else setLoading(false)
