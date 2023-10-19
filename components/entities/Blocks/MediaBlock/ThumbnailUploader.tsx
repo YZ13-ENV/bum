@@ -1,4 +1,5 @@
 'use client'
+import { motion } from 'framer-motion'
 import { useLayoutEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Button, message } from 'antd'
@@ -92,7 +93,7 @@ const ThumbnailUploader = () => {
         if (previewLink && !thumbnail?.link && !loading) {
             setLoading(true)
             setTimeout(() => {
-                setLoading(true)
+                setLoading(false)
                 URL.revokeObjectURL(previewLink)
                 setPreviewLink('')
             }, 10 * 1000);
@@ -108,20 +109,31 @@ const ThumbnailUploader = () => {
     return (
         <div className={`relative w-full aspect-[4/3]`}>
             {
-                (previewLink || thumbnail && thumbnail.link) &&
+                loading && previewLink
+                ?
+                <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
+                    <motion.div initial={{ scale: 1 }} animate={{ scale: .85, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '200ms' }}>
+                        <MediaBlock asBlob={true} autoPlay={false} forcedType={predictedType}
+                        link={previewLink} object='contain' quality={75} />
+                    </motion.div>
+                </div>
+                : thumbnail ?
                 <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
                     <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                         {
                             (!loading && previewLink && !thumbnail && savedFile) &&
                             <Button className='!px-2' loading={loading} disabled={!savedFile}
                             onClick={() => user && draftId && uploadThumb(user.uid, draftId, savedFile)}
-                            ><BiRefresh size={15} className='inline-block mb-1' /></Button>
+                            ><BiRefresh size={15} className='inline-block mb-1 transition-all' /></Button>
                         }
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
-                    <MediaBlock asBlob={previewLink ? true : false} autoPlay={false} forcedType={previewLink ? predictedType: undefined}
-                    link={previewLink ? previewLink : thumbnail ? thumbnail.link : ''} object='contain' quality={75} />
+                    <motion.div initial={{ scale: .85 }} animate={{ scale: 1, transitionProperty: 'all', transitionDuration: '1500ms', transitionDelay: '500ms' }}>
+                        <MediaBlock asBlob={false} autoPlay={false} forcedType={undefined}
+                        link={thumbnail ? thumbnail.link : previewLink ? previewLink : '/original-error.png'} object='contain' quality={75} />
+                    </motion.div>
                 </div>
+                : null
             }
             {
                 !thumbnail?.link &&
