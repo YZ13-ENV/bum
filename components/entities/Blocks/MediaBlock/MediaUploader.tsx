@@ -86,15 +86,11 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     .catch(why => {
                         message.error('Что-то пошло не так и обложка не загрузилась')
                         message.loading('Пробуем снова загрузить')
-                        setLoading(true)
-                        uploadedThumbnail(user.uid, targetDraft, opt.file as RcFile)
-                        .then((link) => {
-                            if (link) {
-                                dispatch(setThumbnail({ link: link, width: '400', height: '300' }))
-                                uploadShot_POST(user.uid, targetDraft, draft)
-                                message.success('Обложка загружена')
-                            } 
-                        })
+                        dispatch(setThumbnail(null))
+                        if (previewLink) {
+                            URL.revokeObjectURL(previewLink)
+                            dispatch(setPreviewLink(''))
+                        }
                     })
                 } else {
                         setLoading(true)
@@ -219,13 +215,19 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
     return (
         <div className={`relative w-full ${previewLink ? '' : 'aspect-[4/3]'}`}>
             {
-                (previewLink || block.link) &&
+                loading && previewLink
+                ?
+                <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
+                    <MediaBlock asBlob={true} autoPlay forcedType={predictedType}
+                    link={previewLink} object='contain' quality={75} />
+                </div>
+                :
                 <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
                     <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
-                    <MediaBlock asBlob={previewLink ? true : false} autoPlay forcedType={predictedType}
-                    link={previewLink ? previewLink : block.link} object='contain' quality={75} />
+                    <MediaBlock asBlob={false} autoPlay forcedType={undefined}
+                    link={block.link} object='contain' quality={75} />
                 </div>
             }
             {

@@ -89,7 +89,14 @@ const ThumbnailUploader = () => {
         }
     }
     useLayoutEffect(() => {
-        if (previewLink && !thumbnail?.link && !loading) setLoading(true)
+        if (previewLink && !thumbnail?.link && !loading) {
+            setLoading(true)
+            setTimeout(() => {
+                setLoading(true)
+                URL.revokeObjectURL(previewLink)
+                setPreviewLink('')
+            }, 10 * 1000);
+        }
         if (previewLink && thumbnail?.link && loading) setLoading(false)
     },[previewLink, thumbnail, loading])
     useDebounceEffect(() => {
@@ -106,7 +113,8 @@ const ThumbnailUploader = () => {
                     <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                         {
                             (!loading && previewLink && !thumbnail && savedFile) &&
-                            <Button className='!px-2' loading={loading} onClick={() => user && draftId && uploadThumb(user.uid, draftId, savedFile)}
+                            <Button className='!px-2' loading={loading} disabled={!savedFile}
+                            onClick={() => user && draftId && uploadThumb(user.uid, draftId, savedFile)}
                             ><BiRefresh size={15} className='inline-block mb-1' /></Button>
                         }
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
@@ -117,8 +125,16 @@ const ThumbnailUploader = () => {
             }
             {
                 !thumbnail?.link &&
-                <Dragger disabled={loading} className={`!aspect-[4/3] !rounded-xl !shrink-0 ${previewLink ? '!absolute !left-0 !top-0 !opacity-0' : '!opacity-100'}`} {...props} defaultFileList={[]}>
-                    <div className="flex flex-col items-center justify-center w-full max-w-lg gap-6 p-4 mx-auto h-fit">
+                <Dragger disabled={loading} className={`!aspect-[4/3] !rounded-xl !shrink-0 
+                ${previewLink ? '!absolute !left-0 !top-0 !opacity-0' : '!opacity-100'}`} {...props} defaultFileList={[]}>
+                    <div className="relative flex flex-col items-center justify-center w-full h-full max-w-lg gap-6 p-4 mx-auto">
+                        {
+                            savedFile &&
+                            <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
+                                <Button className='!px-2' disabled={!savedFile} loading={loading} onClick={() => user && draftId && savedFile && uploadThumb(user.uid, draftId, savedFile)}
+                                ><BiRefresh size={15} className='inline-block mb-1' /></Button>
+                            </div>
+                        }
                         <span className='text-sm font-medium text-center text-neutral-300'>Обложка</span>
                         <span className='text-xs text-center text-neutral-400'>
                             После загрузки файла в главный блок, обложка будет создана из главного блока,
