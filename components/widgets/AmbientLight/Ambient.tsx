@@ -95,10 +95,10 @@ const Ambient = ({ link }: Props) => {
     },[])
     return (
         <div className='relative w-full z-20 aspect-[4/3] flex items-center justify-center'>
-            <div className={'absolute flex items-center justify-center light_wrapper aspect-[16/12] blur-[125px]'}>
+            <div className={'absolute flex items-center justify-center light_wrapper aspect-[4/3] blur-[125px]'}>
                 <MotionConfig transition={{ type: 'spring', duration: 400 }}>
                     <motion.canvas initial={{ opacity: .25 }} animate={{ opacity: .6 }} 
-                    ref={canvas} className={`ambientLight aspect-[4/3] ${isVideo && 'animate-pulse duration-1000'} transition-all w-full`} onLoad={() => repaintAmbientLight()} />
+                    ref={canvas} className={`ambientLight aspect-[4/3] ${isVideo && 'animate-pulse duration-1000'} w-full`} onLoad={() => repaintAmbientLight()} />
                 </MotionConfig>
             </div>
             {
