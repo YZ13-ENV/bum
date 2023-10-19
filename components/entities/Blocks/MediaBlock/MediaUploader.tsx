@@ -31,10 +31,9 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
     const [user] = useAuthState(auth)
     const [loading, setLoading] = useState<boolean>(false)
     const thumbnail = useAppSelector(state => state.uploader.thumbnail)
-    const previewLink = thumbnail.previewLink
-    const predictedType = thumbnail.forcedType
-    // const [previewLink, setPreviewLink] = useState<string>('')
-    // const [predictedType, setPredictedType] = useState<'image' | 'video'>('image')
+    const draftThumbnail = useAppSelector(state => state.uploader.draft.thumbnail)
+    const [previewLink, setNewPreviewLink] = useState<string>('')
+    const [predictedType, setPredictedType] = useState<'image' | 'video'>('image')
     const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     const dispatch = useAppDispatch()
     const modals = useAppSelector(state => state.uploader.modals)
@@ -76,7 +75,8 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                             } 
                         })
                     })
-                    uploadedThumbnail(user.uid, targetDraft, opt.file as RcFile)
+                    
+                    !draftThumbnail && uploadedThumbnail(user.uid, targetDraft, opt.file as RcFile)
                     .then((link) => {
                         if (link) {
                             dispatch(setThumbnail({ link: link, width: '400', height: '300' }))
@@ -88,7 +88,7 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         message.error('Что-то пошло не так и обложка не загрузилась')
                         message.loading('Пробуем снова загрузить')
                         dispatch(setThumbnail(null))
-                        if (previewLink) {
+                        if (thumbnail.previewLink) {
                             URL.revokeObjectURL(previewLink)
                             dispatch(setPreviewLink(''))
                         }
@@ -133,8 +133,10 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                         !modals.draftId ? message.info(`Текущий драфт ${generatedId}`) : message.info(`Текущий драфт ${modals.draftId}`) 
                         dispatch(setRootBlock({ type: checkedFile.type, link: '' }))
                         dispatch(setForcedType(checkedFile.type))
+                        setPredictedType(checkedFile.type)
                         const url = URL.createObjectURL(file)
                         dispatch(setPreviewLink(url))
+                        setNewPreviewLink(url)
                         return checkedFile.link
                     } else return ''
                 } else {
@@ -142,9 +144,9 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                     ? checkOnlyImageFile(user.uid, modals.draftId ? modals.draftId : generatedId, file) 
                     : checkFile(user.uid, modals.draftId ? modals.draftId : generatedId, file)
                     if (checkedFile) {
-                        dispatch(setForcedType(checkedFile.type))
+                        setPredictedType(checkedFile.type)
                         const url = URL.createObjectURL(file)
-                        dispatch(setPreviewLink(url))
+                        setNewPreviewLink(url)
                         const updatedBlocks = draft.blocks.map((_, blockIndex) => {
                             if (blockIndex === index) {
                                 if (checkedFile.type === 'video') {
@@ -176,7 +178,8 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
             const res = await fetch(`${getHost()}/files/file?link=${block.link}`, { method: "DELETE" })
             if (res.ok) {
                 message.info('Файл был удалён')
-                if (previewLink) {
+                setNewPreviewLink('')
+                if (thumbnail.previewLink) {
                     URL.revokeObjectURL(previewLink)
                     dispatch(setPreviewLink(''))
                 }
@@ -210,31 +213,27 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
     useDebounceEffect(() => {
         if (finalTouch && previewLink && block.link) {
             URL.revokeObjectURL(previewLink)
-            setPreviewLink('')
+            setNewPreviewLink('')
         }
     },[finalTouch, previewLink, block.link], { wait: 2000 })
     return (
-        <div className={`relative w-full ${previewLink ? '' : 'aspect-[4/3]'}`}>
+        <div className={`relative w-full shrink-0 ${previewLink ? '' : 'aspect-[4/3]'}`}>
             {
-                loading && previewLink
-                ?
+                (previewLink || block.link) &&
                 <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
-                    <motion.div initial={{ scale: 1 }} animate={{ scale: .85, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '200ms' }}>
-                        <MediaBlock asBlob={true} autoPlay forcedType={predictedType}
-                        link={previewLink} object='contain' quality={75} />
+                    <motion.div initial={ loading ? { scale: 1 } : { scale: .85 } } 
+                    animate={
+                        loading 
+                        ? { scale: .85, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '200ms' }
+                        : { scale: 1, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '750ms' }
+                    }>
+                        <MediaBlock asBlob={previewLink ? true : false} autoPlay forcedType={previewLink ? predictedType : undefined}
+                        link={previewLink ? previewLink : block.link} object='contain' quality={75} />
                     </motion.div>
-                </div>
-                : block.link ?
-                <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
                     <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
-                    <motion.div initial={{ scale: .85 }} animate={{ scale: 1, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '750ms' }}>
-                        <MediaBlock asBlob={false} autoPlay forcedType={undefined}
-                        link={block.link} object='contain' quality={75} />
-                    </motion.div>
                 </div> 
-                : null
             }
             {
                 !block.link &&

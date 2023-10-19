@@ -26,7 +26,7 @@ const UploadBlockView = () => {
     const isSubscriber = useAppSelector(state => state.user.isSubscriber)
     // console.log(draft.blocks)
     return (
-        <div className="w-full h-full max-w-6xl p-8 mx-auto overflow-y-auto bg-black rounded-3xl">
+        <div className="w-full max-w-6xl p-8 mx-auto overflow-y-visible bg-black h-fit rounded-3xl">
             <UploaderWatcher />
             <div className="flex flex-col w-full h-full max-w-4xl max-h-full px-4 py-4 mx-auto rounded-2xl gap-14 md:px-0 md:py-4">
                 <div className="w-full max-w-2xl mx-auto">
