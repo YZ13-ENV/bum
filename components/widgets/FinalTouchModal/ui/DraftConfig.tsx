@@ -1,10 +1,7 @@
-import { useAppDispatch, useAppSelector } from '@/components/entities/store/store'
-import { setMDSyntax } from '@/components/entities/uploader/modal.store'
 import { auth } from '@/utils/app'
 import { Button, Select, Switch } from 'antd'
 import { Dispatch, SetStateAction } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { BsMarkdown, BsMarkdownFill } from 'react-icons/bs'
 
 type Props = {
     loading: boolean
@@ -16,8 +13,6 @@ type Props = {
 }
 const DraftConfig = ({ loading, uploadDraft, needFeedback, setNeedFeedback, setTags, tags }: Props) => {
     const [user] = useAuthState(auth)
-    const enableSyntax = useAppSelector(state => state.uploader.modals.enableMDSyntax)
-    const dispatch = useAppDispatch()
     return (
         <div className="flex flex-col w-full h-full gap-8 md:w-4/6">
             <div className="flex flex-col w-full gap-2 h-fit">

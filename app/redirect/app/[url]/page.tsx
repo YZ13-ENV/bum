@@ -7,14 +7,22 @@ import { BiLoaderAlt } from 'react-icons/bi'
 type Props = {
     params: {
         url: string
+    },
+    searchParams: {
+        path: string | undefined
     }
 }
-const RedirectToApp = ({ params }: Props) => {
+const RedirectToApp = ({ params, searchParams }: Props) => {
     const [sid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     useEffect(() => {
         if (params.url.includes('darkmaterial.space')) {
-            const url = `https://${params.url}${sid ? `?token=${sid}` : ''}`
-            redirect(url)
+            if (searchParams) {
+                const url = `https://${params.url}${searchParams.path}${sid ? `?token=${sid}` : ''}`
+                redirect(url)
+            } else {
+                const url = `https://${params.url}${sid ? `?token=${sid}` : ''}`
+                redirect(url)
+            }
         }
     },[sid, params])
     return (
