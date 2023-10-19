@@ -5,7 +5,7 @@ import MediaBlock from '@/components/entities/Blocks/MediaBlock'
 import { DateTime } from 'luxon'
 import { BiHeart, BiShow } from 'react-icons/bi'
 import Link from 'next/link'
-import { getShotWithCache, getUidFromNickname } from '@/app/fetchers'
+import { getShot, getShotWithCache, getUidFromNickname } from '@/app/fetchers'
 
 type Props = {
     params: {
@@ -19,21 +19,38 @@ type HistoryUnit = {
 }
 type HistoryUnitWithId = HistoryUnit & { doc_id: string }
 const UserHistoryPage = async({ params }: Props) => {
-    const uid = await getUidFromNickname(params.nickname) as string
-    const collRef = collection(db, 'users', uid, 'history', 'views', 'dey')
-    const snaps = await getDocs(collRef)
-    const snapsWithDocs = !snaps.empty ? snaps.docs.map(snap => ({...snap.data() as HistoryUnit, doc_id: snap.id} as HistoryUnitWithId)) : []
+    const uid = await getUidFromNickname(params.nickname)
     return (
         <section className='flex flex-col w-full h-full max-w-5xl gap-4 mx-auto overflow-y-auto'>
             <div className="flex items-center justify-center w-full h-fit">
                 <h1 className='text-2xl font-semibold text-neutral-200'>История просмотров</h1>
             </div>
             {
-                snapsWithDocs.sort((a, b) => b.createdAt - a.createdAt).map(unit =>
-                    <HistoryCard key={unit.doc_id} historyUnit={unit} />
-                )
+                uid
+                ? <HistoryList uid={uid} />
+                : <div className='flex flex-col items-center justify-center w-full h-full'>
+                    Что-то пошло не так!
+                </div>
             }
         </section>
+    )
+}
+
+type HistoryListProps = {
+    uid: string
+}
+const HistoryList = async({ uid }: HistoryListProps) => {
+    const fixed = uid.replaceAll('"', '')
+    const collRef = collection(db, 'users', fixed, 'history', 'views', 'dey')
+    const snaps = await getDocs(collRef)
+    const snapsWithDocs = snaps.empty === false ? snaps.docs.map(snap => ({...snap.data() as HistoryUnit, doc_id: snap.id} as HistoryUnitWithId)) : []
+    if (snaps.empty) return (
+        <div className='flex flex-col items-center justify-center w-full h-full'>
+            Ваша история просмотров пуста!
+        </div>
+    )
+    return snapsWithDocs.sort((a, b) => b.createdAt - a.createdAt).map(unit =>
+        <HistoryCard key={unit.doc_id} historyUnit={unit} />
     )
 }
 
@@ -41,7 +58,7 @@ type CardProps = {
     historyUnit: HistoryUnitWithId
 }
 const HistoryCard = async({ historyUnit }: CardProps) => {
-    const shot = await getShotWithCache(historyUnit.authorId, historyUnit.shotId)
+    const shot = await getShot(historyUnit.shotId)
     const stableLink = shot?.thumbnail ? shot?.thumbnail.link : shot?.rootBlock.link
     if (!shot) return (
         <div className="flex items-center justify-center w-full h-48">
@@ -57,7 +74,7 @@ const HistoryCard = async({ historyUnit }: CardProps) => {
             <div className="flex flex-col w-full h-full gap-2 p-4">
                 { process.env.NODE_ENV === 'development' ? DateTime.fromSeconds(historyUnit.createdAt).toISO() : null }
                 <span className='text-lg font-medium text-neutral-200'>{shot.title}</span>
-                <span className='text-xs text-neutral-400'>{DateTime.fromSeconds(shot.createdAt).toRelativeCalendar()}</span>
+                <span className='text-xs text-neutral-400'>Опубликовано: {DateTime.fromSeconds(shot.createdAt).setLocale('ru').toRelativeCalendar()}</span>
                 <div className="flex items-center gap-2 mt-auto w-fit h-fit">
                     <div className="flex items-center gap-1 px-3 py-1 border rounded-md w-fit border-neutral-800 text-neutral-400 bg-neutral-900 h-fit">
                         <BiShow size={15} />
