@@ -32,11 +32,11 @@ const DraftConfig = ({ loading, uploadDraft, needFeedback, setNeedFeedback, setT
                 <Switch defaultChecked checked={needFeedback} onChange={e => setNeedFeedback(e)} />
                 <span className='text-sm font-semibold text-neutral-200'>Нужны комментарии?</span>
             </div>
-            <div className="flex items-center w-full gap-2 h-fit">
+            {/* <div className="flex items-center w-full gap-2 h-fit">
                 <Button type={enableSyntax ? 'primary' : 'default'} 
                 onClick={() => dispatch(setMDSyntax(!enableSyntax))}>{ enableSyntax ? <BsMarkdownFill size={15}/> : <BsMarkdown size={15}/> }</Button>
                 <span className='text-sm font-semibold text-neutral-200'>Включить MarkDown? <sup>Beta</sup></span>
-            </div>
+            </div> */}
             <div className="flex items-center justify-end w-full gap-2 mt-auto h-fit">
                 {/* <Button size='large'>Оставить в черновиках</Button> */}
                 <Button disabled={!user} loading={loading} onClick={uploadDraft} size='large' type='primary'>Опубликовать</Button>
