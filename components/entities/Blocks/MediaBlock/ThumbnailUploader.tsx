@@ -128,7 +128,7 @@ const ThumbnailUploader = () => {
                         }
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
-                    <motion.div initial={{ scale: .85 }} animate={{ scale: 1, transitionProperty: 'all', transitionDuration: '1500ms', transitionDelay: '500ms' }}>
+                    <motion.div initial={{ scale: .85 }} animate={{ scale: 1, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '750ms' }}>
                         <MediaBlock asBlob={false} autoPlay={false} forcedType={undefined}
                         link={thumbnail ? thumbnail.link : previewLink ? previewLink : '/original-error.png'} object='contain' quality={75} />
                     </motion.div>

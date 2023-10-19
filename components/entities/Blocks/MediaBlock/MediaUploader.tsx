@@ -18,6 +18,7 @@ import { uploadedFile, uploadedThumbnail } from './helper'
 import { useDebounceEffect } from 'ahooks'
 import UploaderConditions from './UploaderConditions'
 import { setForcedType, setPreviewLink, setSavedFile } from '../../uploader/thumbnail.store'
+import { motion } from 'framer-motion'
 
 type Props = {
     block: ImageBlock | VideoBlock
@@ -218,17 +219,22 @@ const MediaUploader = ({ block, uploadOnlyImages=true, index, isRootBlock=false 
                 loading && previewLink
                 ?
                 <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
-                    <MediaBlock asBlob={true} autoPlay forcedType={predictedType}
-                    link={previewLink} object='contain' quality={75} />
+                    <motion.div initial={{ scale: 1 }} animate={{ scale: .85, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '200ms' }}>
+                        <MediaBlock asBlob={true} autoPlay forcedType={predictedType}
+                        link={previewLink} object='contain' quality={75} />
+                    </motion.div>
                 </div>
-                :
+                : block.link ?
                 <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
                     <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
-                    <MediaBlock asBlob={false} autoPlay forcedType={undefined}
-                    link={block.link} object='contain' quality={75} />
-                </div>
+                    <motion.div initial={{ scale: .85 }} animate={{ scale: 1, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '750ms' }}>
+                        <MediaBlock asBlob={false} autoPlay forcedType={undefined}
+                        link={block.link} object='contain' quality={75} />
+                    </motion.div>
+                </div> 
+                : null
             }
             {
                 !block.link &&
