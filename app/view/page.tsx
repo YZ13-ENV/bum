@@ -9,10 +9,9 @@ import Footer from '@/components/shared/Footer'
 
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-    const shotId = { userId: '', shotId: '' }
-    if (process.env.NODE_ENV === 'development' || !shotId) return {}
+    if (process.env.NODE_ENV === 'development' || !searchParams.s) return {}
     try {
-        const shotData = shotId ? getShot(shotId.shotId) : null
+        const shotData = searchParams.s ? getShot(searchParams.s) : null
         const [shot] = await Promise.all([shotData])
         const user = shot ? await getUser(shot.authorId) : null
         if (!shot || !user) return {}

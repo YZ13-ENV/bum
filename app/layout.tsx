@@ -15,31 +15,31 @@ const rubik = Rubik({ subsets: ['latin', 'cyrillic'], variable: '--root-font' })
 const spectral = Spectral({ subsets: ['latin', 'cyrillic'], weight: ['600', '400'], variable: '--second-font' })
 
 export const metadata: Metadata = {
-  title: 'bum',
-  description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',
-  authors: { name:"DM-Team", url: 'https://github.com/yz13-env'},
-  themeColor: '#000000',
-  colorScheme: 'dark',
-  keywords: ['dey', 'dm', 'dark', 'material', 'dark material', 'dribbble', 'behance', 'drible', 'dribble'],
-  icons: [ 'https://cdn.darkmaterial.space/dm/icons/dm-dey.svg' ],
-  robots: 'index, follow',
-  alternates: { canonical: 'https://design.darkmaterial.space' },
-  applicationName: 'Dark Material',
-  viewport: 'width=device-width, initial-scale=1',
-  twitter: {
-      card: 'summary',
-      title: 'bum',
-      description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',    
-      images: 'https://cdn.darkmaterial.space/dm/cover/dm-dey-cover.png',
-  },
-  openGraph: {
-    type: 'website',
     title: 'bum',
     description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',
-    siteName: 'bum',
-    url: 'https://design.darkmaterial.space',
-    images: [ { url: 'https://cdn.darkmaterial.space/dm/cover/dm-dey-cover.png' } ],
-},
+    authors: { name:"DM-Team", url: 'https://github.com/yz13-env'},
+    themeColor: '#000000',
+    colorScheme: 'dark',
+    keywords: ['dey', 'dm', 'dark', 'material', 'dark material', 'dribbble', 'behance', 'drible', 'dribble'],
+    icons: [ 'https://cdn.darkmaterial.space/dm/icons/dm-dey.svg' ],
+    robots: 'index, follow',
+    alternates: { canonical: 'https://design.darkmaterial.space' },
+    applicationName: 'Dark Material',
+    viewport: 'width=device-width, initial-scale=1',
+    twitter: {
+        card: 'summary',
+        title: 'bum',
+        description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',    
+        images: 'https://cdn.darkmaterial.space/dm/cover/dm-dey-cover.png',
+    },
+    openGraph: {
+      type: 'website',
+      title: 'bum',
+      description: 'Добро пожаловать в bum, начните исследовать мир дизайна уже сегодня',
+      siteName: 'bum',
+      url: 'https://design.darkmaterial.space',
+      images: [ { url: 'https://cdn.darkmaterial.space/dm/cover/dm-dey-cover.png' } ],
+  },
 };
 
 export default function RootLayout(props: { children: ReactNode, modal: ReactNode }) {

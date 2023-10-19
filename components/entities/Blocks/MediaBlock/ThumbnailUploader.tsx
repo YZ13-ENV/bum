@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { useLayoutEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Button, message } from 'antd'
 import MediaBlock from '.'
@@ -13,20 +14,25 @@ import { setThumbnail } from '../../uploader/draft.store'
 import { RcFile } from 'antd/es/upload'
 import { uploadShot_POST } from '@/helpers/shot'
 import { UploadProps } from 'antd/lib'
-import { checkFile, checkThumbnail } from '@/helpers/checkFile'
+import { checkThumbnail } from '@/helpers/checkFile'
 import { uploadedThumbnail } from './helper'
+import { setForcedType, setPreviewLink, setSavedFile } from '../../uploader/thumbnail.store'
 
 
 const ThumbnailUploader = () => {
     const [user] = useAuthState(auth)
+    const thumbnailConfig = useAppSelector(state => state.uploader.thumbnail)
+    const previewLink = thumbnailConfig.previewLink
+    const predictedType = thumbnailConfig.forcedType
+    const savedFile = thumbnailConfig.savedFile
     const thumbnail = useAppSelector(state => state.uploader.draft.thumbnail)
-    const [previewLink, setPreviewLink] = useState<string>('')
-    const [predictedType, setPredictedType] = useState<'image' | 'video'>('image')
+    // const [previewLink, setPreviewLink] = useState<string>('')
+    // const [predictedType, setPredictedType] = useState<'image' | 'video'>('image')
     const [loading, setLoading] = useState<boolean>(false)
     const modals = useAppSelector(state => state.uploader.modals)
     const draftId = useAppSelector(state => state.uploader.modals.draftId)
     const draft = useAppSelector(state => state.uploader.draft)
-    const [savedFile, setSavedFile] = useState<RcFile | null>(null)
+    // const [savedFile, setSavedFile] = useState<RcFile | null>(null)
     const finalTouch = modals.finalTouchModal
     const dispatch = useAppDispatch()
     const props: UploadProps = {
@@ -48,10 +54,10 @@ const ThumbnailUploader = () => {
             if (user && draftId) {
                 const checkedFile = checkThumbnail(user.uid, draftId, file)
                 if (checkedFile) {
-                    setSavedFile(file)
-                    setPredictedType(checkedFile.type)
+                    dispatch(setSavedFile(file))
+                    dispatch(setForcedType(checkedFile.type))
                     const url = URL.createObjectURL(file)
-                    setPreviewLink(url)
+                    dispatch(setPreviewLink(url))
                     return checkedFile.link
                 } else return ''
             } return ''
@@ -74,12 +80,26 @@ const ThumbnailUploader = () => {
             const res = await fetch(`${getHost()}/files/file?link=${thumbnail.link}`, { method: "DELETE" })
             if (res.ok) {
                 message.info('Файл был удалён')
-                URL.revokeObjectURL(previewLink)
-                setPreviewLink('')
                 dispatch(setThumbnail(null))
+                dispatch(setSavedFile(null))
+                if (previewLink) {
+                    URL.revokeObjectURL(previewLink)
+                    dispatch(setPreviewLink(''))
+                }
             }
         }
     }
+    useLayoutEffect(() => {
+        if (previewLink && !thumbnail?.link && !loading) {
+            setLoading(true)
+            setTimeout(() => {
+                setLoading(false)
+                URL.revokeObjectURL(previewLink)
+                setPreviewLink('')
+            }, 10 * 1000);
+        }
+        if (previewLink && thumbnail?.link && loading) setLoading(false)
+    },[previewLink, thumbnail, loading])
     useDebounceEffect(() => {
         if (finalTouch && previewLink && thumbnail) {
             URL.revokeObjectURL(previewLink)
@@ -89,24 +109,44 @@ const ThumbnailUploader = () => {
     return (
         <div className={`relative w-full aspect-[4/3]`}>
             {
-                (previewLink || thumbnail && thumbnail.link) &&
+                loading && previewLink
+                ?
+                <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
+                    <motion.div initial={{ scale: 1 }} animate={{ scale: .85, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '200ms' }}>
+                        <MediaBlock asBlob={true} autoPlay={false} forcedType={predictedType}
+                        link={previewLink} object='contain' quality={75} />
+                    </motion.div>
+                </div>
+                : thumbnail ?
                 <div className={`relative w-full z-20 h-fit !shrink-0 transition-all ${loading ? 'brightness-50' : ''}`}>
                     <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
                         {
                             (!loading && previewLink && !thumbnail && savedFile) &&
-                            <Button className='!px-2' loading={loading} onClick={() => user && draftId && uploadThumb(user.uid, draftId, savedFile)}
-                            ><BiRefresh size={15} className='inline-block mb-1' /></Button>
+                            <Button className='!px-2' loading={loading} disabled={!savedFile}
+                            onClick={() => user && draftId && uploadThumb(user.uid, draftId, savedFile)}
+                            ><BiRefresh size={15} className='inline-block mb-1 transition-all' /></Button>
                         }
                         <Button className='!px-2' loading={loading} onClick={deleteImage}><BiTrashAlt size={15} className='inline-block mb-1' /></Button>
                     </div>
-                    <MediaBlock asBlob={previewLink ? true : false} autoPlay forcedType={predictedType}
-                    link={previewLink ? previewLink : thumbnail ? thumbnail.link : ''} object='contain' quality={75} />
+                    <motion.div initial={{ scale: .85 }} animate={{ scale: 1, transitionProperty: 'all', transitionDuration: '600ms', transitionDelay: '750ms' }}>
+                        <MediaBlock asBlob={false} autoPlay={false} forcedType={undefined}
+                        link={thumbnail ? thumbnail.link : previewLink ? previewLink : '/original-error.png'} object='contain' quality={75} />
+                    </motion.div>
                 </div>
+                : null
             }
             {
                 !thumbnail?.link &&
-                <Dragger disabled={loading} className={`!aspect-[4/3] !rounded-xl !shrink-0 ${previewLink ? '!absolute !left-0 !top-0 !opacity-0' : '!opacity-100'}`} {...props} defaultFileList={[]}>
-                    <div className="flex flex-col items-center justify-center w-full max-w-lg gap-6 p-4 mx-auto h-fit">
+                <Dragger disabled={loading} className={`!aspect-[4/3] !rounded-xl !shrink-0 
+                ${previewLink ? '!absolute !left-0 !top-0 !opacity-0' : '!opacity-100'}`} {...props} defaultFileList={[]}>
+                    <div className="relative flex flex-col items-center justify-center w-full h-full max-w-lg gap-6 p-4 mx-auto">
+                        {
+                            savedFile &&
+                            <div className="absolute top-0 left-0 z-10 flex items-center justify-end w-full p-3 h-fit">
+                                <Button className='!px-2' disabled={!savedFile} loading={loading} onClick={() => user && draftId && savedFile && uploadThumb(user.uid, draftId, savedFile)}
+                                ><BiRefresh size={15} className='inline-block mb-1' /></Button>
+                            </div>
+                        }
                         <span className='text-sm font-medium text-center text-neutral-300'>Обложка</span>
                         <span className='text-xs text-center text-neutral-400'>
                             После загрузки файла в главный блок, обложка будет создана из главного блока,

@@ -72,8 +72,7 @@ const TextBlock = ({ block, index }: Props) => {
             className={`${getDecorators(block.isBold, block.isItalic)} ${getBlockAlign(block.align)} ${getSize(block.size)}`}/>
             <div onClick={e => e.preventDefault()} className="flex items-center gap-2 w-fit h-fit">
                 <Button onClick={() => setPreview(!preview)} type={preview ? 'primary' : 'default'} disabled={!enableSyntax}><BiSolidMagicWand /></Button>
-                <Button type={enableSyntax ? 'primary' : 'default'} 
-                onClick={() => dispatch(setMDSyntax(!enableSyntax))}>{ enableSyntax ? <BsMarkdownFill size={15}/> : <BsMarkdown size={15}/> }</Button>
+                {/* <Button type={enableSyntax ? 'primary' : 'default'} onClick={() => dispatch(setMDSyntax(!enableSyntax))}>{ enableSyntax ? <BsMarkdownFill size={15}/> : <BsMarkdown size={15}/> }</Button> */}
                 <Space.Compact>
                     <Button type={ block.align === 'left' ? 'primary' : 'default' } 
                     onClick={() => updateAlign('left')}>

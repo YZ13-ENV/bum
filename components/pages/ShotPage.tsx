@@ -15,7 +15,7 @@ type Props = {
     needConfetti?: boolean
 }
 const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
-    const isVideo = (shot?.thumbnail ? shot?.thumbnail.link : shot?.rootBlock.link)?.endsWith('.mp4')
+    const isVideo = (shot?.rootBlock.link)?.endsWith('.mp4')
     if (!shot || !user) return (
         <div className="flex flex-col items-center self-center justify-center w-full h-full max-w-md gap-4 my-auto">
             <h3 className='text-3xl font-bold text-neutral-200'>Такой работы нет</h3>
@@ -49,7 +49,7 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
                 }
                 </div>
             </div>
-            { needConfetti || isVideo === false && <ConfettiForNewShot views={shot.views.length} /> }
+            { needConfetti && isVideo === false && <ConfettiForNewShot views={shot.views.length} /> }
             <Suspense fallback={<div className='flex items-center justify-center w-full h-96'><BiLoaderAlt size={17} className='animate-spin'/></div>}>
                 <ShotPageFooter shot={shot} user={user} />
             </Suspense>
