@@ -112,8 +112,7 @@ const ShotActions = ({ shot, isOnPage=false }: Props) => {
                 ?
                 <button onClick={() => addOrRemoveLike()} disabled={!user || loading}
                 className={`text-xs gap-1 rounded-full inline-flex transition-all items-center 
-                disabled:bg-neutral-950 disabled:text-neutral-500
-                ${isInclude ? 'px-1.5 text-black bg-white' : 'text-neutral-200 bg-neutral-900 hover:bg-neutral-800'}`}>
+                disabled:text-neutral-500 ${isInclude ? 'px-1.5 text-black bg-white' : 'text-neutral-200'}`}>
                         { 
                             loading 
                             ? <BiLoaderAlt size={16} className='inline animate-spin text-inherit' /> 
