@@ -16,7 +16,7 @@ const RedirectToApp = ({ params, searchParams }: Props) => {
     const [sid] = useLocalStorageState<string | null>( 'sid', { defaultValue: null } );
     useEffect(() => {
         if (params.url.includes('darkmaterial.space')) {
-            if (searchParams) {
+            if (searchParams.path) {
                 const url = `https://${params.url}${searchParams.path}${sid ? `?token=${sid}` : ''}`
                 redirect(url)
             } else {
