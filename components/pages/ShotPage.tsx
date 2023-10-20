@@ -30,7 +30,7 @@ const ShotPage = ({ shot, user, needConfetti=false }: Props) => {
                     <h1 className='text-4xl font-extrabold text-center text-neutral-200'>{shot.title}</h1>
                 </div>
                 <MediaBlock withAmbiLight={user.isSubscriber || false} link={shot.rootBlock.link} autoPlay />
-                <div className="flex flex-col w-full px-6 md:px-12 h-fit gap-14">
+                <div className="flex flex-col w-full px-6 mt-28 md:px-12 h-fit gap-14">
                 {
                     shot.blocks.map((block, index) => {
                         if (block.type === 'image' || block.type === 'video') {
