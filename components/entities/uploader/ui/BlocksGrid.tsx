@@ -65,13 +65,16 @@ const BlocksGrid = () => {
                     {onlyMedia.length}/{isSubscriber ? 10 : 5}
                 </span>
             </div>
-            <div onClick={() => !gridLimit && addBlock('shotGrid')}
-            className="flex flex-col items-center justify-center h-full gap-2 border rounded-lg aspect-square border-neutral-700 hover:bg-neutral-900">
-                <LuGalleryThumbnails size={22} />
-                <span className='text-xs text-center text-neutral-300'>
-                    {onlyGrid.length}/{isSubscriber ? 5 : 0}
-                </span>
-            </div>
+            {
+                isSubscriber &&
+                <div onClick={() => !gridLimit && addBlock('shotGrid')}
+                className="flex flex-col items-center justify-center h-full gap-2 border rounded-lg aspect-square border-neutral-700 hover:bg-neutral-900">
+                    <LuGalleryThumbnails size={22} />
+                    <span className='text-xs text-center text-neutral-300'>
+                        {onlyGrid.length}/{isSubscriber ? 5 : 0}
+                    </span>
+                </div>
+            }
         </div>
     )
 }
