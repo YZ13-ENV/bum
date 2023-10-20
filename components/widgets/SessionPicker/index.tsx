@@ -42,13 +42,13 @@ const SessionPicker = () => {
     },[user, forcedClose, loading], { wait: 2000 })
     if (forcedClose || session.uids.length === 0) return null
     return (
-        <div className='absolute z-50 flex flex-col w-full max-w-sm border top-3 right-3 h-fit rounded-xl border-neutral-700 bg-neutral-900'>
+        <div className='fixed z-50 flex flex-col w-full max-w-sm border top-3 right-3 h-fit rounded-xl border-neutral-700 bg-neutral-900'>
             <div className="relative flex items-center justify-between w-full gap-2 px-4 py-2 border-b h-fit border-neutral-700">
-                <div className="flex items-center gap-2 w-fit h-fit">
+                <div className="flex items-center w-full gap-2 h-fit">
                     <Image src='/DM.svg' width={28} height={28} className='shrink-0' alt='root-logo' />
-                    <span className='text-sm text-neutral-200'>Войдите в аккаунт bum с помощью DarkMaterial</span>
+                    <span className='w-full text-sm text-neutral-200'>Войдите в аккаунт bum с помощью DarkMaterial</span>
                 </div>
-                <Button onClick={() => setForcedClose(true)} className='!absolute !right-0 !px-2' type='text'><BiX size={20} /></Button>
+                <Button onClick={() => setForcedClose(true)} className='!px-1' type='text'><BiX size={20} /></Button>
             </div>
             <div className="flex flex-col w-full h-fit">
                 <div className="flex flex-col w-full px-3 py-2 h-fit">

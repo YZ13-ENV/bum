@@ -3,7 +3,11 @@ import dynamic from 'next/dynamic'
 import { DocShotData } from '@/types'
 import { memo, useState } from 'react'
 import { Button } from 'antd'
-const ShotCard = dynamic(() => import('@/components/entities/shot'))
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '@/utils/app'
+const ShotCard = dynamic(() => import('@/components/entities/shot'), {
+    loading: () => <div className='w-full aspect-[4/3] rounded-xl bg-neutral-900 animate-pulse' />
+})
 
 type Props = {
     chunks: string[]
@@ -25,6 +29,7 @@ const fetchChunk = async(link: string) => {
     }
 }
 const ChunkController = ({ chunks, lastChunk }: Props) => {
+    const [user] = useAuthState(auth)
     const [items, setItems] = useState<DocShotData[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -42,15 +47,29 @@ const ChunkController = ({ chunks, lastChunk }: Props) => {
         <>
             {/* { initialChunk && initialChunk.map(item => <ShotCard key={item.doc_id} shot={item} />) } */}
             { items.map(item => <ShotCard key={item.doc_id} shot={item} />) }
-            <div className="flex items-center justify-center w-full col-span-full h-fit">
-                {
+            <div className="flex items-center justify-center w-full mb-32 col-span-full h-fit">
+            {
+                user
+                ?
                     chunks.length === 0
                     ? null
                     : (lastChunk - 1) === currentIndex
                     ? <span className='text-sm text-neutral-400'>Вы дошли до конца списка</span>
                     : <Button disabled={(lastChunk - 1) === currentIndex} onClick={loadChunk} loading={loading}>Загрузить ещё</Button>
-                }
+                :
+                    chunks.length === 0
+                    ? null
+                    : currentIndex === 1
+                    ? <div className="flex items-center h-full gap-4 w-fit">
+                        <Button href='https://darkmaterial.space/auth/signin?back_url=https://bum.darkmaterial.space'
+                        size='large' type='text'>Войти</Button>
+                        <Button href='https://darkmaterial.space/auth/signup?back_url=https://bum.darkmaterial.space'
+                        size='large' type='default'>Регистрация</Button>
+                    </div>
+                    : <Button disabled={loading || currentIndex === 1} onClick={loadChunk} loading={loading}>Загрузить ещё</Button>
+            }
             </div>
+
         </>
         
     )
