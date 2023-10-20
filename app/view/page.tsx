@@ -6,6 +6,7 @@ import { DateTime } from 'luxon'
 import ShotPage from '@/components/pages/ShotPage'
 import { getShot, getUser } from '../fetchers'
 import Footer from '@/components/shared/Footer'
+import AppHeader from '@/components/widgets/AppHeader'
 
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
@@ -65,6 +66,7 @@ const ShotPageV2 = async({ searchParams }: Props) => {
     )
     return (
         <>
+            <AppHeader />
             <ShotPage shot={shot} user={user} needConfetti />
             <Footer />
         </>

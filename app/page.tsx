@@ -1,6 +1,7 @@
 import Footer from "@/components/shared/Footer";
 import Pricing from "@/components/widgets/(BumPlusPreviews)/Pricing";
 import FirstView from "@/components/widgets/(HomePagePromo)/FirstView";
+import HomeHeader from "@/components/widgets/HomeHeader";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,7 @@ export default function Home() {
   if (uid && uid.value !== '' && !(process.env.NODE_ENV === 'development')) redirect('/shots/popular')
   return (
     <section id='promo-section' className="relative flex flex-col items-center justify-start w-full gap-6 px-4 pt-6 h-fit md:gap-12 md:pt-12">
+      <HomeHeader />
       <div className="absolute top-0 left-0 z-[-1] flex items-center justify-between w-full h-screen -translate-y-32">
         <div className="relative w-1/2 h-full md:w-1/4">
           <Image src='/left-gradient.webp' fill alt='gradient' />

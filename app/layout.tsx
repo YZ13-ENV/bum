@@ -6,7 +6,7 @@ import StateProvider from '@/components/StateProvider'
 import SessionWatcher from '@/components/entities/session/session.watcher'
 import TokenWatcher from '@/components/entities/session/token.watcher'
 import LayoutWrapper from '@/components/LayoutWrapper';
-import AppHeader from '@/components/widgets/AppHeader';
+// import AppHeader from '@/components/widgets/AppHeader';
 import dynamic from 'next/dynamic';
 import { ReactNode } from 'react'
 import CookiesAlert from '@/components/widgets/CookiesAlert';
@@ -51,7 +51,7 @@ export default function RootLayout(props: { children: ReactNode, modal: ReactNod
           <body id='root' className='flex flex-col overflow-x-hidden body_wrapper'>
             <SessionWatcher />
             <TokenWatcher />
-            <AppHeader />
+            {/* <AppHeader /> */}
             <SessionPicker />
             <CookiesAlert />
             <main className="flex flex-col w-full h-full shrink-0">
