@@ -10,8 +10,7 @@ type Props = {
 
 const ShotInfo = ({ shot }: Props) => {
     return (
-        <div onClick={e => e.stopPropagation()}
-        className={`absolute bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 p-4 rounded-b-xl h-fit bg-gradient-to-t from-black to-transparent`}>
+        <div className={`absolute bottom-0 left-0 z-20 flex items-center justify-between w-full gap-2 p-4 rounded-b-xl h-fit bg-gradient-to-t from-black to-transparent`}>
             <h2 className='text-base font-medium text-neutral-200 line-clamp-1'>{shot.title}</h2>
             <div className="flex items-center gap-2 pl-2 bg-black rounded-full shrink-0 w-fit h-fit">
                 <div className="flex items-center gap-2 py-1.5 w-fit h-fit"><ShotActions shot={shot} /></div>
