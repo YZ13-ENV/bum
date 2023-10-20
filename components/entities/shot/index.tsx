@@ -13,7 +13,8 @@ const ShotCard = ({ shot }: Props) => {
     const stableLink = shot.thumbnail ? shot.thumbnail.link : shot.rootBlock.link
     if (shot.isDraft) return null
     return (
-        <Link scroll={false} href={linkToShot(shot.doc_id)} className="relative aspect-[4/3] w-full rounded-xl shrink-0 group transition-transform hover:scale-105 border border-neutral-800">
+        <div className="relative aspect-[4/3] w-full rounded-xl shrink-0 group transition-transform hover:scale-105 border border-neutral-800">
+                <Link scroll={false} href={linkToShot(shot.doc_id)} className='absolute z-10 w-full aspect-[4/3]' />    
                 <Suspense fallback={<div className='w-full h-full rounded-2xl bg-neutral-950 animate-pulse' />}>
                         {
                             process.env.NODE_ENV === 'development' 
@@ -31,7 +32,7 @@ const ShotCard = ({ shot }: Props) => {
                         <ShotInfo shot={shot} />
                 }
                 </Suspense>
-        </Link>
+        </div>
     )
 }
 
